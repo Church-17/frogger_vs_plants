@@ -10,7 +10,7 @@
 typedef struct {
     int y;
     int x;
-}position;
+} Position;
 
 int xBeg, yBeg, xMax, yMax;
 
@@ -64,7 +64,7 @@ int main(void){
 
 void* mov(void* args){
 
-    position oggetto = {yMax/2, xMax/2};
+    Position oggetto = {yMax/2, xMax/2};
 
     char* avatar = (char*) args;
     int ava_len = strlen(avatar);
@@ -125,11 +125,12 @@ void* shot(void* args){
 
     char bullet = *(char*) args;
 
-    position bul_pos;
+    Position bul_pos;
 
     int command;
 
     while(true){
+        
         command = getch();
         if (command == 'e'){
 
@@ -156,7 +157,7 @@ void* raid(void* args){
 
     char* sprite = (char*) args;
 
-    position enemy;
+    Position enemy;
     enemy.y = 1;
 
     while (true){
