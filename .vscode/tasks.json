@@ -3,8 +3,8 @@
 	"tasks": [
 		{
 			"type": "cppbuild",
-			"label": "C/C++: gcc compila il file attivo",
-			"command": "/usr/bin/gcc",
+			"label": "C/C++: GCC",
+			"command": "/usr/bin/gcc-12",
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
@@ -23,7 +23,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compilatore: /usr/bin/gcc"
+			"detail": "gcc-12"
 		}
 	]
 }
