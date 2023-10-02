@@ -22,7 +22,7 @@ typedef struct {
 int main(void) {
     Position scr_beg, scr_max;
     initscr(); // Initialize window
-    noecho();
+    noecho(); // Hide character typed
     curs_set(0); //Remove cursor
     getbegyx(stdscr, scr_beg.y, scr_beg.x);
     getmaxyx(stdscr, scr_max.y, scr_max.x); //Get screen dimension
