@@ -5,14 +5,9 @@
 #include <pthread.h>
 #include <time.h>
 #include <string.h>
+#include "struct.h"
 
 // Define constant
-
-// Define type and struct
-typedef struct {
-    int y;
-    int x;
-} Position;
 
 // Define global vars
 
