@@ -6,7 +6,7 @@
 #include <time.h>
 #include <string.h>
 //#include "struct.h"
-#include "home_menu.h"
+#include "menu.h"
 
 // Define constant
 
