@@ -29,7 +29,7 @@ int main(void) {
 
     pthread_t t1, t2, t3; // Initilize threads
 
-
+    getch();
     endwin(); // End window
     return 0;
 }
