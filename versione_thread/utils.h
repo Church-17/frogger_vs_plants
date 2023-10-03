@@ -1,3 +1,6 @@
+// Include libs
+#include <curses.h>
+
 // Define constant
 #define ENTER 10
 #define mod(x, y) ((x%y + y) % y)

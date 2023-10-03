@@ -17,8 +17,8 @@ int home_menu(Point scr_max) {
     WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (scr_max.y - Y_DIM_HOME)/2, (scr_max.x - X_DIM_HOME)/2);
 
     // Window settings
-    box(home_win, 0, 0); // Box the window
     keypad(home_win, TRUE); // Enable function keys listener
+    box(home_win, 0, 0); // Box the window
 
     // Main loop
     while(TRUE) {
