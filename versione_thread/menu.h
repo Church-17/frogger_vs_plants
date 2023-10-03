@@ -12,7 +12,7 @@
 int home_menu(Point scr_max) {
     // Define variables
     int i, key, highlight = 0;
-    char* options[N_OPT_HOME] = {"New game", "Settings", "Cretits", "Quit"};
+    char* options[N_OPT_HOME] = {"New game", "Game Settings", "Cretits", "Quit"};
     WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (scr_max.y - Y_DIM_HOME)/2, (scr_max.x - X_DIM_HOME)/2);
 
     // Window settings
@@ -38,29 +38,41 @@ int home_menu(Point scr_max) {
         switch (key) {
             case KEY_UP:
             case KEY_LEFT:
+            case 'w':
+            case 'a':
+            case 'W':
+            case 'A':
                 if (--highlight == -1)
                     highlight = N_OPT_HOME - 1;
                 break;
             
             case KEY_DOWN:
             case KEY_RIGHT:
+            case 's':
+            case 'd':
+            case 'S':
+            case 'D':
                 if (++highlight == N_OPT_HOME)
                     highlight = 0;
                 break;
 
             case 'n':
+            case 'N':
                 highlight = 0;
                 break;
 
-            case 's':
+            case 'g':
+            case 'G':
                 highlight = 1;
                 break;
             
             case 'c':
+            case 'C':
                 highlight = 2;
                 break;
 
             case 'q':
+            case 'Q':
                 highlight = 3;
                 break;
 
