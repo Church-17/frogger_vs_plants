@@ -10,8 +10,6 @@
 
 // Define constant
 
-// Define global vars
-
 // Prototypes
 
 // Main
@@ -25,7 +23,7 @@ int main(void) {
 
     pthread_t t1, t2, t3; // Initilize threads
 
-    int chosen = home_menu(scr_max);
+    int chosen = home_menu(scr_max); // Call Home Menu
     printw("Your choiche is %d\n", chosen);
     
     getch();
