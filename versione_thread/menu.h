@@ -1,10 +1,11 @@
 // Include libs
 #include <curses.h>
 #include <string.h>
-#include "struct.h"
+#include "utils.h"
 
 // Define constant
 #define N_OPT_HOME 4
+#define OPTS_HOME {"New game", "Game settings", "Credits", "Quit"}
 #define Y_DIM_HOME (N_OPT_HOME+2)
 #define X_DIM_HOME 20
 
@@ -12,7 +13,7 @@
 int home_menu(Point scr_max) {
     // Define variables
     int i, key, highlight = 0;
-    char* options[N_OPT_HOME] = {"New game", "Game Settings", "Cretits", "Quit"};
+    char* options[N_OPT_HOME] = OPTS_HOME;
     WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (scr_max.y - Y_DIM_HOME)/2, (scr_max.x - X_DIM_HOME)/2);
 
     // Window settings

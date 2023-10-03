@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <time.h>
 #include <string.h>
-//#include "struct.h"
+//#include "utils.h"
 #include "menu.h"
 
 // Define constant
