@@ -1,5 +1,4 @@
 // Include libs
-#include <stdlib.h>
 #include <curses.h>
 
 // Define constant
