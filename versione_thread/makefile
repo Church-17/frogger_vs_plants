@@ -1,6 +1,6 @@
 CC = gcc -Wall -lncurses -lpthread
 
-sopr_proj: struct.h
+sopr_proj:
 	${CC} -o sopr_proj
 
 clean:
