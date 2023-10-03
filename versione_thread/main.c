@@ -23,7 +23,7 @@ int main(void) {
     pthread_t t1, t2, t3; // Initilize threads
 
     int chosen = home_menu(scr_max); // Call Home Menu
-    if(chosen == 3) {
+    if(chosen == 4) {
         endwin();
         return 0;
     }

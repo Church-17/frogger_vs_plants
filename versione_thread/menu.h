@@ -4,8 +4,8 @@
 #include "utils.h"
 
 // Define constant
-#define N_OPT_HOME 4
-#define OPTS_HOME {"New game", "Game settings", "Credits", "Quit"}
+#define N_OPT_HOME 5
+#define OPTS_HOME {"New game", "Best scores", "Game settings", "Credits", "Quit"}
 #define Y_DIM_HOME (N_OPT_HOME+2)
 #define X_DIM_HOME 20
 
@@ -43,6 +43,8 @@ int home_menu(Point scr_max) {
         switch (key) {
             case KEY_UP:
             case KEY_LEFT:
+            case KEY_PPAGE:
+            case KEY_BACKSPACE:
             case 'w':
             case 'a':
             case 'W':
@@ -53,6 +55,7 @@ int home_menu(Point scr_max) {
             
             case KEY_DOWN:
             case KEY_RIGHT:
+            case KEY_NPAGE:
             case 's':
             case 'd':
             case 'S':
@@ -61,24 +64,31 @@ int home_menu(Point scr_max) {
                     highlight = 0;
                 break;
 
+            case KEY_HOME:
             case 'n':
             case 'N':
                 highlight = 0;
                 break;
 
+            case 'b':
+            case 'B':
+                highlight = 1;
+                break;
+
             case 'g':
             case 'G':
-                highlight = 1;
+                highlight = 2;
                 break;
             
             case 'c':
             case 'C':
-                highlight = 2;
+                highlight = 3;
                 break;
 
+            case KEY_END:
             case 'q':
             case 'Q':
-                highlight = 3;
+                highlight = 4;
                 break;
 
             case ENTER:
