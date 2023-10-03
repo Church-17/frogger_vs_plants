@@ -1,7 +1,7 @@
-CC = gcc -Wall -lncurses -lpthread
+CC = gcc main.c -Wall -lncurses -lpthread
 
 sopr_proj:
-	${CC} -o sopr_proj
+	${CC} -o main
 
 clean:
 	rm *.o
