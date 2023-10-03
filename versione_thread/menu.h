@@ -5,9 +5,9 @@
 
 // Define constant
 #define TITLE "PAC-MAN"
-#define BOX_PADN 2
-#define BOX_PADW 2
-#define BOX_PADS 1
+#define BOX_PADN 2 // North padding of the box
+#define BOX_PADW 2 // West padding of the box
+#define BOX_PADS 1 // South padding of the box
 #define N_OPT_HOME 5
 #define OPTS_HOME {"New game", "Best scores", "Game settings", "Credits", "Quit"}
 #define Y_DIM_HOME (N_OPT_HOME + BOX_PADN + BOX_PADS)
@@ -16,7 +16,7 @@
 // Home Menu function
 int home_menu(Point scr_max) {
     // Define variables
-    int i, key, hl = 0, old_hl;
+    int key, hl = 0, old_hl;
     char* options[N_OPT_HOME] = OPTS_HOME;
     WINDOW* home_menu_win = newwin(Y_DIM_HOME, X_DIM_HOME, (scr_max.y - Y_DIM_HOME)/2, (scr_max.x - X_DIM_HOME)/2);
 
@@ -24,18 +24,16 @@ int home_menu(Point scr_max) {
     keypad(home_menu_win, TRUE); // Enable function keys listener
     box(home_menu_win, 0, 0); // Box the window
     wctrprintw(home_menu_win, 0, TITLE);
-    for (i = 0; i < N_OPT_HOME; i++) {
+    mvwprintw(home_menu_win, hl+BOX_PADN, BOX_PADW, " ");
+    wattrprintw(home_menu_win, A_STANDOUT, "%s", options[hl]);
+    for (int i = 1; i < N_OPT_HOME; i++) {
         wmvattrprintw(home_menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
         wprintw(home_menu_win, "%s", &(options[i][1]));
     }
 
     // Main loop
     while(TRUE) {
-        // Update highlighted option
-        mvwprintw(home_menu_win, hl+BOX_PADN, BOX_PADW, " ");
-        wattrprintw(home_menu_win, A_STANDOUT, "%s", options[hl]);
-        
-        old_hl = hl;
+        old_hl = hl; // Track old highlight
 
         // Get the typed key and select the right option
         key = wgetch(home_menu_win);
@@ -91,6 +89,9 @@ int home_menu(Point scr_max) {
                 hl = 4;
                 break;
 
+            case ESC:
+                return 4;
+
             case ENTER:
                 return hl;
 
@@ -98,8 +99,12 @@ int home_menu(Point scr_max) {
                 break;
         }
 
-        // Update non-highlighted option
-        wmvattrprintw(home_menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
-        wprintw(home_menu_win, "%s ", &(options[old_hl][1]));
+        // Update highlighted & non-highlighted option
+        mvwprintw(home_menu_win, hl+BOX_PADN, BOX_PADW, " ");
+        wattrprintw(home_menu_win, A_STANDOUT, "%s", options[hl]);
+        if(hl != old_hl) {
+            wmvattrprintw(home_menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
+            wprintw(home_menu_win, "%s ", &(options[old_hl][1]));
+        }
     }
 }

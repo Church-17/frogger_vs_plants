@@ -4,6 +4,7 @@
 
 // Define constant
 #define ENTER 10
+#define ESC 27
 
 // Define macros
 #define mod(x, y) ((x%y + y) % y)
