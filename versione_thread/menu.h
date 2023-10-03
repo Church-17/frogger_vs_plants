@@ -4,53 +4,52 @@
 #include "utils.h"
 
 // Define constant
+#define TITLE "PAC-MAN"
+#define BOX_PADN 2
+#define BOX_PADW 2
+#define BOX_PADS 1
 #define N_OPT_HOME 5
 #define OPTS_HOME {"New game", "Best scores", "Game settings", "Credits", "Quit"}
-#define Y_DIM_HOME (N_OPT_HOME+2)
+#define Y_DIM_HOME (N_OPT_HOME + BOX_PADN + BOX_PADS)
 #define X_DIM_HOME 20
 
 // Home Menu function
 int home_menu(Point scr_max) {
     // Define variables
-    int i, key, highlight = 0;
+    int i, key, hl = 0, old_hl;
     char* options[N_OPT_HOME] = OPTS_HOME;
-    WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (scr_max.y - Y_DIM_HOME)/2, (scr_max.x - X_DIM_HOME)/2);
+    WINDOW* home_menu_win = newwin(Y_DIM_HOME, X_DIM_HOME, (scr_max.y - Y_DIM_HOME)/2, (scr_max.x - X_DIM_HOME)/2);
 
-    // Window settings
-    keypad(home_win, TRUE); // Enable function keys listener
+    // Window setup
+    keypad(home_menu_win, TRUE); // Enable function keys listener
+    box(home_menu_win, 0, 0); // Box the window
+    wctrprintw(home_menu_win, 0, TITLE);
+    for (i = 0; i < N_OPT_HOME; i++) {
+        wmvattrprintw(home_menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
+        wprintw(home_menu_win, "%s", &(options[i][1]));
+    }
 
     // Main loop
     while(TRUE) {
-        // Update the option view
-        wclear(home_win);
-        box(home_win, 0, 0); // Box the window
-        for (i = 0; i < N_OPT_HOME; i++) {
-            if (highlight == i) {
-                wattron(home_win, A_STANDOUT); // Enable highlight for the selection
-                wmove(home_win, i+1, 2);
-            } else {
-                wmove(home_win, i+1, 1);
-            }
-            wattron(home_win, A_UNDERLINE); // Enable underline for first letter
-            wprintw(home_win, "%c", options[i][0]); // Print first letter
-            wattroff(home_win, A_UNDERLINE); // Disable underline
-            wprintw(home_win, "%s", &(options[i][1])); // Print option
-            wattroff(home_win, A_STANDOUT); // Disable highlight
-        }
+        // Update highlighted option
+        mvwprintw(home_menu_win, hl+BOX_PADN, BOX_PADW, " ");
+        wattrprintw(home_menu_win, A_STANDOUT, "%s", options[hl]);
+        
+        old_hl = hl;
 
         // Get the typed key and select the right option
-        key = wgetch(home_win);
+        key = wgetch(home_menu_win);
         switch (key) {
             case KEY_UP:
             case KEY_LEFT:
             case KEY_PPAGE:
-            case KEY_BACKSPACE:
             case 'w':
             case 'a':
             case 'W':
             case 'A':
-                if (--highlight == -1)
-                    highlight = N_OPT_HOME - 1;
+                if (--hl == -1) {
+                    hl = N_OPT_HOME - 1;
+                }
                 break;
             
             case KEY_DOWN:
@@ -60,42 +59,47 @@ int home_menu(Point scr_max) {
             case 'd':
             case 'S':
             case 'D':
-                if (++highlight == N_OPT_HOME)
-                    highlight = 0;
+                if (++hl == N_OPT_HOME) {
+                    hl = 0;
+                }
                 break;
 
             case KEY_HOME:
             case 'n':
             case 'N':
-                highlight = 0;
+                hl = 0;
                 break;
 
             case 'b':
             case 'B':
-                highlight = 1;
+                hl = 1;
                 break;
 
             case 'g':
             case 'G':
-                highlight = 2;
+                hl = 2;
                 break;
             
             case 'c':
             case 'C':
-                highlight = 3;
+                hl = 3;
                 break;
 
             case KEY_END:
             case 'q':
             case 'Q':
-                highlight = 4;
+                hl = 4;
                 break;
 
             case ENTER:
-                return highlight;
+                return hl;
 
             default:
                 break;
         }
+
+        // Update non-highlighted option
+        wmvattrprintw(home_menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
+        wprintw(home_menu_win, "%s ", &(options[old_hl][1]));
     }
 }
