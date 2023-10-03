@@ -14,11 +14,10 @@
 
 // Main
 int main(void) {
-    Point scr_beg, scr_max;
+    Point scr_max;
     initscr(); // Initialize window
     noecho(); // Hide character typed
     curs_set(0); //Remove cursor
-    getbegyx(stdscr, scr_beg.y, scr_beg.x);
     getmaxyx(stdscr, scr_max.y, scr_max.x); //Get screen dimension
 
     pthread_t t1, t2, t3; // Initilize threads

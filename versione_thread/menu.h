@@ -18,20 +18,24 @@ int home_menu(Point scr_max) {
 
     // Window settings
     keypad(home_win, TRUE); // Enable function keys listener
-    box(home_win, 0, 0); // Box the window
 
     // Main loop
     while(TRUE) {
         // Update the option view
+        wclear(home_win);
+        box(home_win, 0, 0); // Box the window
         for (i = 0; i < N_OPT_HOME; i++) {
             if (highlight == i) {
-                wattron(home_win, A_REVERSE); // Enable highlight for the selection
+                wattron(home_win, A_STANDOUT); // Enable highlight for the selection
+                wmove(home_win, i+1, 2);
+            } else {
+                wmove(home_win, i+1, 1);
             }
             wattron(home_win, A_UNDERLINE); // Enable underline for first letter
-            mvwprintw(home_win, i+1, 1, "%c", options[i][0]); // Print first letter
+            wprintw(home_win, "%c", options[i][0]); // Print first letter
             wattroff(home_win, A_UNDERLINE); // Disable underline
             wprintw(home_win, "%s", &(options[i][1])); // Print option
-            wattroff(home_win, A_REVERSE); // Disable highlight
+            wattroff(home_win, A_STANDOUT); // Disable highlight
         }
 
         // Get the typed key and select the right option
