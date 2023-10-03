@@ -14,21 +14,21 @@
 #define X_DIM_HOME 20
 
 // Home Menu function
-int home_menu(Point scr_max) {
+int home_menu(Point win_dim) {
     // Define variables
     int key, hl = 0, old_hl;
     char* options[N_OPT_HOME] = OPTS_HOME;
-    WINDOW* home_menu_win = newwin(Y_DIM_HOME, X_DIM_HOME, (scr_max.y - Y_DIM_HOME)/2, (scr_max.x - X_DIM_HOME)/2);
+    WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (win_dim.y - Y_DIM_HOME)/2, (win_dim.x - X_DIM_HOME)/2);
 
     // Window setup
-    keypad(home_menu_win, TRUE); // Enable function keys listener
-    box(home_menu_win, 0, 0); // Box the window
-    wctrprintw(home_menu_win, 0, TITLE);
-    mvwprintw(home_menu_win, hl+BOX_PADN, BOX_PADW, " ");
-    wattrprintw(home_menu_win, A_STANDOUT, "%s", options[hl]);
+    keypad(home_win, TRUE); // Enable function keys listener
+    box(home_win, 0, 0); // Box the window
+    wctrprintw(home_win, 0, TITLE);
+    mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " ");
+    wattrprintw(home_win, A_STANDOUT, "%s", options[hl]);
     for (int i = 1; i < N_OPT_HOME; i++) {
-        wmvattrprintw(home_menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
-        wprintw(home_menu_win, "%s", &(options[i][1]));
+        wmvattrprintw(home_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
+        wprintw(home_win, "%s", &(options[i][1]));
     }
 
     // Main loop
@@ -36,7 +36,7 @@ int home_menu(Point scr_max) {
         old_hl = hl; // Track old highlight
 
         // Get the typed key and select the right option
-        key = wgetch(home_menu_win);
+        key = wgetch(home_win);
         switch (key) {
             case KEY_UP:
             case KEY_LEFT:
@@ -90,9 +90,13 @@ int home_menu(Point scr_max) {
                 break;
 
             case ESC:
+                erase();
+                delwin(home_win);
                 return 4;
 
             case ENTER:
+                erase();
+                delwin(home_win);
                 return hl;
 
             default:
@@ -100,11 +104,26 @@ int home_menu(Point scr_max) {
         }
 
         // Update highlighted & non-highlighted option
-        mvwprintw(home_menu_win, hl+BOX_PADN, BOX_PADW, " ");
-        wattrprintw(home_menu_win, A_STANDOUT, "%s", options[hl]);
+        mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " ");
+        wattrprintw(home_win, A_STANDOUT, "%s", options[hl]);
         if(hl != old_hl) {
-            wmvattrprintw(home_menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
-            wprintw(home_menu_win, "%s ", &(options[old_hl][1]));
+            wmvattrprintw(home_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
+            wprintw(home_win, "%s ", &(options[old_hl][1]));
         }
     }
+}
+
+void best_scores(Point win_dim) {
+    
+    getch();
+}
+
+void game_settings(Point scr_dim) {
+
+    getch();
+}
+
+void credits_menu(Point win_dim) {
+
+    getch();
 }
