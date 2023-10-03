@@ -4,6 +4,8 @@
 
 // Define constant
 #define ENTER 10
+
+// Define macros
 #define mod(x, y) ((x%y + y) % y)
 
 // Define type and struct
