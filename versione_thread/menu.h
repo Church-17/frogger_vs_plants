@@ -116,14 +116,17 @@ int home_menu(Point win_dim) {
 void best_scores(Point win_dim) {
     
     getch();
+    erase();
 }
 
 void game_settings(Point scr_dim) {
 
     getch();
+    erase();
 }
 
 void credits_menu(Point win_dim) {
 
     getch();
+    erase();
 }
