@@ -108,18 +108,21 @@ int home_menu() {
     }
 }
 
+// Best scores screen
 void best_scores() {
     
     getch();
     erase();
 }
 
+// Game settings screen
 void game_settings() {
 
     getch();
     erase();
 }
 
+// Credits screen
 void credits_menu() {
 
     getch();
