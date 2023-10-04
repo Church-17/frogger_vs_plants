@@ -27,7 +27,7 @@ int home_menu(Point win_dim) {
     mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " ");
     wattrprintw(home_win, A_STANDOUT, "%s", options[hl]);
     for (int i = 1; i < N_OPT_HOME; i++) {
-        wmvattrprintw(home_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
+        mvwattrprintw(home_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
         wprintw(home_win, "%s", &(options[i][1]));
     }
 
@@ -89,11 +89,6 @@ int home_menu(Point win_dim) {
                 hl = 4;
                 break;
 
-            case ESC:
-                erase();
-                delwin(home_win);
-                return 4;
-
             case ENTER:
                 erase();
                 delwin(home_win);
@@ -107,7 +102,7 @@ int home_menu(Point win_dim) {
         mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " ");
         wattrprintw(home_win, A_STANDOUT, "%s", options[hl]);
         if(hl != old_hl) {
-            wmvattrprintw(home_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
+            mvwattrprintw(home_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
             wprintw(home_win, "%s ", &(options[old_hl][1]));
         }
     }
