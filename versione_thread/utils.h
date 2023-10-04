@@ -12,7 +12,14 @@
 #define wctrattrprintw(win, row, attr, str) wmvattrprintw(win, row, (win->_maxx - strlen(str))/2, attr, "%s", str) // Prints string centered with attribute
 
 // Define type and struct
+typedef char* str;
+
 typedef struct {
     int y;
     int x;
 } Point;
+
+typedef struct {
+    str* list;
+    int len;
+} List_str;
