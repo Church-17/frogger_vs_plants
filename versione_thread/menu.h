@@ -10,121 +10,104 @@
 #define BOX_PADS 1 // South padding of the box
 #define N_OPT_HOME 5
 #define OPTS_HOME {"New game", "Best scores", "Game settings", "Credits", "Quit"}
-#define Y_DIM_HOME (N_OPT_HOME + BOX_PADN + BOX_PADS)
 #define X_DIM_HOME 20
+
+int menu(str title, List_str opts, bool nav) {
+    int i;
+    WINDOW* menu_win = newwin((opts.len + BOX_PADN + BOX_PADS), X_DIM_HOME, (LINES - (opts.len + BOX_PADN + BOX_PADS))/2, (COLS - X_DIM_HOME)/2);
+    keypad(menu_win, TRUE); // Enable function keys listener
+    box(menu_win, 0, 0); // Box the window
+    wctrprintw(menu_win, 0, title); // Print title
+    for (i = 0; i < opts.len; i++) { // Print other option
+        mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts.list[i][0]);
+        wprintw(menu_win, "%s", &(opts.list[i][1]));
+    }
+    if(nav) {
+        int key, hl = 0, old_hl = 0;
+        while(TRUE) {
+            // Update highlighted & non-highlighted option
+            mvwattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts.list[old_hl][0]);
+            wprintw(menu_win, "%s ", &(opts.list[old_hl][1]));
+            mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, " ");
+            wattrprintw(menu_win, A_STANDOUT, "%s", opts.list[hl]);
+
+            old_hl = hl;
+
+            key = wgetch(menu_win);
+            switch (key) {
+                case KEY_UP:
+                case KEY_LEFT:
+                case KEY_PPAGE:
+                    if (--hl == -1) {
+                        hl = N_OPT_HOME - 1;
+                    }
+                    break;
+                
+                case KEY_DOWN:
+                case KEY_RIGHT:
+                case KEY_NPAGE:
+                    if (++hl == N_OPT_HOME) {
+                        hl = 0;
+                    }
+                    break;
+
+                case KEY_HOME:
+                    hl = 0;
+                    break;
+
+                case KEY_END:
+                    hl = opts.len-1;
+                    break;
+
+                case ENTER:
+                    werase(menu_win);
+                    wrefresh(menu_win);
+                    delwin(menu_win);
+                    return hl;
+
+                default:
+                    for(i = 0; i < opts.len; i++) {
+                        if(key == opts.list[i][0] || key == opts.list[i][0]+32) {
+                            hl = i;
+                            break;
+                        }
+                    }
+                    break;
+            }
+        }
+    } else {
+        wgetch(menu_win);
+        werase(menu_win);
+        wrefresh(menu_win);
+        delwin(menu_win);
+        return 0;
+    }
+}
 
 // Home Menu function
 int home_menu() {
-    // Define variables
-    int key, hl = 0, old_hl;
-    char* options[N_OPT_HOME] = OPTS_HOME;
-    WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (LINES - Y_DIM_HOME)/2, (COLS - X_DIM_HOME)/2);
-
-    // Window setup
-    keypad(home_win, TRUE); // Enable function keys listener
-    box(home_win, 0, 0); // Box the window
-    wctrprintw(home_win, 0, TITLE); // Print title
-    mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " "); // Pad of highlighted option
-    wattrprintw(home_win, A_STANDOUT, "%s", options[hl]); // Print highlighted option
-    for (int i = 1; i < N_OPT_HOME; i++) { // Print other option
-        mvwattrprintw(home_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
-        wprintw(home_win, "%s", &(options[i][1]));
-    }
-
-    // Main loop
-    while(TRUE) {
-        old_hl = hl; // Track old highlight
-
-        // Get the typed key and select the right option
-        key = wgetch(home_win);
-        switch (key) {
-            case KEY_UP:
-            case KEY_LEFT:
-            case KEY_PPAGE:
-            case 'w':
-            case 'a':
-            case 'W':
-            case 'A':
-                if (--hl == -1) {
-                    hl = N_OPT_HOME - 1;
-                }
-                break;
-            
-            case KEY_DOWN:
-            case KEY_RIGHT:
-            case KEY_NPAGE:
-            case 's':
-            case 'd':
-            case 'S':
-            case 'D':
-                if (++hl == N_OPT_HOME) {
-                    hl = 0;
-                }
-                break;
-
-            case KEY_HOME:
-            case 'n':
-            case 'N':
-                hl = 0;
-                break;
-
-            case 'b':
-            case 'B':
-                hl = 1;
-                break;
-
-            case 'g':
-            case 'G':
-                hl = 2;
-                break;
-            
-            case 'c':
-            case 'C':
-                hl = 3;
-                break;
-
-            case KEY_END:
-            case 'q':
-            case 'Q':
-                hl = 4;
-                break;
-
-            case ENTER:
-                erase();
-                delwin(home_win);
-                return hl;
-
-            default:
-                break;
-        }
-
-        // Update highlighted & non-highlighted option
-        mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " ");
-        wattrprintw(home_win, A_STANDOUT, "%s", options[hl]);
-        if(hl != old_hl) {
-            mvwattrprintw(home_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[old_hl][0]);
-            wprintw(home_win, "%s ", &(options[old_hl][1]));
-        }
-    }
+    str list[N_OPT_HOME] = OPTS_HOME;
+    List_str opts;
+    opts.list = list;
+    opts.len = N_OPT_HOME;
+    return menu(TITLE, opts, TRUE);
 }
 
 // Best scores screen
 void best_scores() {
     
-    getch();
-    erase();
 }
 
-// Game settings screen
+// Game settings menu
 void game_settings() {
 
-    getch();
-    erase();
 }
 
 // Credits screen
 void credits_menu() {
-
-    getch();
-    erase();
+    str list[2] = {"Matteo", "Francesco"};
+    List_str opts;
+    opts.list = list;
+    opts.len = 2;
+    menu(TITLE, opts, FALSE);
 }
