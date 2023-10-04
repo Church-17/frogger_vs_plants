@@ -23,10 +23,10 @@ int home_menu() {
     // Window setup
     keypad(home_win, TRUE); // Enable function keys listener
     box(home_win, 0, 0); // Box the window
-    wctrprintw(home_win, 0, TITLE);
-    mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " ");
-    wattrprintw(home_win, A_STANDOUT, "%s", options[hl]);
-    for (int i = 1; i < N_OPT_HOME; i++) {
+    wctrprintw(home_win, 0, TITLE); // Print title
+    mvwprintw(home_win, hl+BOX_PADN, BOX_PADW, " "); // Pad of highlighted option
+    wattrprintw(home_win, A_STANDOUT, "%s", options[hl]); // Print highlighted option
+    for (int i = 1; i < N_OPT_HOME; i++) { // Print other option
         mvwattrprintw(home_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", options[i][0]);
         wprintw(home_win, "%s", &(options[i][1]));
     }
