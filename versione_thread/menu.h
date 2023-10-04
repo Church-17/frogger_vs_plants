@@ -14,11 +14,11 @@
 #define X_DIM_HOME 20
 
 // Home Menu function
-int home_menu(Point win_dim) {
+int home_menu() {
     // Define variables
     int key, hl = 0, old_hl;
     char* options[N_OPT_HOME] = OPTS_HOME;
-    WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (win_dim.y - Y_DIM_HOME)/2, (win_dim.x - X_DIM_HOME)/2);
+    WINDOW* home_win = newwin(Y_DIM_HOME, X_DIM_HOME, (LINES - Y_DIM_HOME)/2, (COLS - X_DIM_HOME)/2);
 
     // Window setup
     keypad(home_win, TRUE); // Enable function keys listener
@@ -108,19 +108,19 @@ int home_menu(Point win_dim) {
     }
 }
 
-void best_scores(Point win_dim) {
+void best_scores() {
     
     getch();
     erase();
 }
 
-void game_settings(Point scr_dim) {
+void game_settings() {
 
     getch();
     erase();
 }
 
-void credits_menu(Point win_dim) {
+void credits_menu() {
 
     getch();
     erase();

@@ -12,27 +12,26 @@
 // Main
 int main(void) {
     int chosen;
-    Point scr_dim;
 
     initscr(); // Initialize window
     noecho(); // Hide character typed
     curs_set(0); // Remove cursor
-    getmaxyx(stdscr, scr_dim.y, scr_dim.x); // Get screen dimension
-
+    keypad(stdscr, TRUE); // Enable function keys listener
+    
     while(TRUE) {
-        chosen = home_menu(scr_dim); // Call Home Menu
+        chosen = home_menu(); // Call Home Menu
         switch(chosen) {
             case 0:
                 getch();
                 break;
             case 1:
-                best_scores(scr_dim);
+                best_scores();
                 break;
             case 2:
-                game_settings(scr_dim);
+                game_settings();
                 break;
             case 3:
-                credits_menu(scr_dim);
+                credits_menu();
                 break;
             case 4:
                 endwin();
