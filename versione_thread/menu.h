@@ -9,7 +9,7 @@
 #define BOX_PADW 2 // West padding of the box
 #define BOX_PADS 1 // South padding of the box
 #define N_OPT_HOME 5
-#define OPTS_HOME {"New game", "Best scores", "Game settings", "Credits", "Quit"}
+#define OPTS_HOME {"New game", "Best scores", "Settings", "Credits", "Quit"}
 #define X_DIM_HOME 20
 
 int menu(str title, List_str opts, bool nav) {
