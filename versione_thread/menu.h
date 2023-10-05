@@ -4,13 +4,16 @@
 #include "utils.h"
 
 // Define constant
-#define TITLE "PAC-MAN"
+#define TITLE " PAC-MAN "
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADE 5 // East padding of the box
 #define BOX_PADW 2 // West padding of the box
 #define BOX_PADS 1 // South padding of the box
-#define N_OPT_HOME 5
+#define N_OPTS_HOME 5
 #define OPTS_HOME {"New game", "Best scores", "Settings", "Credits", "Quit"}
+#define CREDITS " Credits "
+#define N_OPTS_CREDS 4
+#define OPTS_CREDS {"SOPR Project 23-24:", "", "Francesco Cardia", "Matteo Chiesa"}
 
 int menu(str title, List_str opts, bool nav) {
     int i, max_optlen = strlen(title);
@@ -45,14 +48,14 @@ int menu(str title, List_str opts, bool nav) {
                 case KEY_LEFT:
                 case KEY_PPAGE:
                     if (--hl == -1) {
-                        hl = N_OPT_HOME - 1;
+                        hl = opts.len - 1;
                     }
                     break;
                 
                 case KEY_DOWN:
                 case KEY_RIGHT:
                 case KEY_NPAGE:
-                    if (++hl == N_OPT_HOME) {
+                    if (++hl == opts.len) {
                         hl = 0;
                     }
                     break;
@@ -95,10 +98,10 @@ int menu(str title, List_str opts, bool nav) {
 
 // Home Menu function
 int home_menu() {
-    str list[N_OPT_HOME] = OPTS_HOME;
+    str list[N_OPTS_HOME] = OPTS_HOME;
     List_str opts;
     opts.list = list;
-    opts.len = N_OPT_HOME;
+    opts.len = N_OPTS_HOME;
     return menu(TITLE, opts, TRUE);
 }
 
@@ -114,11 +117,11 @@ void game_settings() {
 
 // Credits screen
 void credits_menu() {
-    str list[2] = {"Matteo", "Francesco"};
+    str list[N_OPTS_CREDS] = OPTS_CREDS;
     List_str opts;
     opts.list = list;
-    opts.len = 2;
-    menu("Credits", opts, FALSE);
+    opts.len = N_OPTS_CREDS;
+    menu(CREDITS, opts, FALSE);
 }
 
 void endgame_menu(int score) {
