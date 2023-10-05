@@ -6,15 +6,20 @@
 // Define constant
 #define TITLE "PAC-MAN"
 #define BOX_PADN 2 // North padding of the box
+#define BOX_PADE 5 // East padding of the box
 #define BOX_PADW 2 // West padding of the box
 #define BOX_PADS 1 // South padding of the box
 #define N_OPT_HOME 5
 #define OPTS_HOME {"New game", "Best scores", "Settings", "Credits", "Quit"}
-#define X_DIM_HOME 20
 
 int menu(str title, List_str opts, bool nav) {
-    int i;
-    WINDOW* menu_win = newwin((opts.len + BOX_PADN + BOX_PADS), X_DIM_HOME, (LINES - (opts.len + BOX_PADN + BOX_PADS))/2, (COLS - X_DIM_HOME)/2);
+    int i, max_strlen = 0;
+    for(i = 0; i < opts.len; i++) {
+        if(strlen(opts.list[i]) > max_strlen) {
+            max_strlen = strlen(opts.list[i]);
+        }
+    }
+    WINDOW* menu_win = newwin(opts.len + BOX_PADN + BOX_PADS, max_strlen + BOX_PADE + BOX_PADW, (LINES - (opts.len + BOX_PADN + BOX_PADS))/2, (COLS - (max_strlen + BOX_PADE + BOX_PADW))/2);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box the window
     wctrprintw(menu_win, 0, title); // Print title
