@@ -23,12 +23,13 @@ int menu(str title, List_str opts, bool nav) {
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box the window
     wctrprintw(menu_win, 0, title); // Print title
-    for (i = 0; i < opts.len; i++) { // Print other option
-        mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts.list[i][0]);
-        wprintw(menu_win, "%s", &(opts.list[i][1]));
-    }
+
     if(nav) {
         int key, hl = 0, old_hl = 0;
+        for (i = 0; i < opts.len; i++) { // Print other option
+            mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts.list[i][0]);
+            wprintw(menu_win, "%s", &(opts.list[i][1]));
+        }
         while(TRUE) {
             // Update highlighted & non-highlighted option
             mvwattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts.list[old_hl][0]);
@@ -81,6 +82,9 @@ int menu(str title, List_str opts, bool nav) {
             }
         }
     } else {
+        for (i = 0; i < opts.len; i++) { // Print other option
+            mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", opts.list[i]);
+        }
         wgetch(menu_win);
         werase(menu_win);
         wrefresh(menu_win);
