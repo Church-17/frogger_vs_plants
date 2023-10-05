@@ -10,6 +10,7 @@
 #define mvwattrprintw(win, row, col, attr, fs, args...) wmove(win, row, col); wattrprintw(win, attr, fs, args) // Move & print string with attribute
 #define wctrprintw(win, row, fs) mvwprintw(win, row, (win->_maxx - strlen(fs))/2, "%s", fs) // Print string centered
 #define wctrattrprintw(win, row, attr, fs) wmvattrprintw(win, row, (win->_maxx - strlen(fs))/2, attr, "%s", fs) // Prints string centered with attribute
+#define unwin(win) werase(win); wrefresh(win); delwin(win); clear(); refresh()
 
 // Define type and struct
 typedef char* str;

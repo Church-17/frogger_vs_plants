@@ -69,9 +69,7 @@ int menu(str title, List_str opts, bool nav) {
                     break;
 
                 case ENTER:
-                    werase(menu_win);
-                    wrefresh(menu_win);
-                    delwin(menu_win);
+                    unwin(menu_win);
                     return hl;
 
                 default:
@@ -89,9 +87,7 @@ int menu(str title, List_str opts, bool nav) {
             mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", opts.list[i]);
         }
         wgetch(menu_win);
-        werase(menu_win);
-        wrefresh(menu_win);
-        delwin(menu_win);
+        unwin(menu_win);
         return 0;
     }
 }
