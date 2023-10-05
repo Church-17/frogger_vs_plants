@@ -13,13 +13,13 @@
 #define OPTS_HOME {"New game", "Best scores", "Settings", "Credits", "Quit"}
 
 int menu(str title, List_str opts, bool nav) {
-    int i, max_strlen = 0;
+    int i, max_optlen = 0;
     for(i = 0; i < opts.len; i++) {
-        if(strlen(opts.list[i]) > max_strlen) {
-            max_strlen = strlen(opts.list[i]);
+        if(strlen(opts.list[i]) > max_optlen) {
+            max_optlen = strlen(opts.list[i]);
         }
     }
-    WINDOW* menu_win = newwin(opts.len + BOX_PADN + BOX_PADS, max_strlen + BOX_PADE + BOX_PADW, (LINES - (opts.len + BOX_PADN + BOX_PADS))/2, (COLS - (max_strlen + BOX_PADE + BOX_PADW))/2);
+    WINDOW* menu_win = newwin(opts.len + BOX_PADN + BOX_PADS, max_optlen + BOX_PADE + BOX_PADW, (LINES - (opts.len + BOX_PADN + BOX_PADS))/2, (COLS - (max_optlen + BOX_PADE + BOX_PADW))/2);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box the window
     wctrprintw(menu_win, 0, title); // Print title
