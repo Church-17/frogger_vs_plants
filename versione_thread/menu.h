@@ -120,3 +120,7 @@ void credits_menu() {
     opts.len = 2;
     menu(TITLE, opts, FALSE);
 }
+
+void endgame_menu(int score) {
+    
+}
