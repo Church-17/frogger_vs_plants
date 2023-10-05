@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <locale.h>
 #include <time.h>
 #include <string.h>
 #include "menu.h"
@@ -13,6 +14,7 @@
 int main(void) {
     int chosen;
 
+    setlocale(LC_ALL, "");
     initscr(); // Initialize window
     noecho(); // Hide character typed
     curs_set(0); // Remove cursor

@@ -1,5 +1,5 @@
 CC = gcc 
-CARGS = -Wall -lcurses -lpthread
+CARGS = -Wall -lncursesw -lpthread
 
 sopr_proj:
 	${CC} main.c ${CARGS} -o sopr_proj
