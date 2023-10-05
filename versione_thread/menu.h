@@ -13,7 +13,7 @@
 #define OPTS_HOME {"New game", "Best scores", "Settings", "Credits", "Quit"}
 
 int menu(str title, List_str opts, bool nav) {
-    int i, max_optlen = 0;
+    int i, max_optlen = strlen(title);
     for(i = 0; i < opts.len; i++) {
         if(strlen(opts.list[i]) > max_optlen) {
             max_optlen = strlen(opts.list[i]);
