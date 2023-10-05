@@ -118,7 +118,7 @@ void credits_menu() {
     List_str opts;
     opts.list = list;
     opts.len = 2;
-    menu(TITLE, opts, FALSE);
+    menu("Credits", opts, FALSE);
 }
 
 void endgame_menu(int score) {
