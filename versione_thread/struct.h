@@ -1,13 +1,8 @@
-// Include types
-#include "utils.h"
+// Structs prototypes
+struct Point;
+struct List_str;
 
-// Define structs
-struct Point {
-    int y;
-    int x;
-};
-
-struct List_str {
-    str* list;
-    int len;
-};
+// Define types
+typedef char* str;
+typedef struct Point Point;
+typedef struct List_str List_str;

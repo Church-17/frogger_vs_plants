@@ -1,3 +1,6 @@
+// Include libs
+#include "struct.h"
+
 // Define constant
 #define ENTER 10
 
@@ -12,14 +15,15 @@
 // - Delete window
 #define unwin(win) werase(win); wrefresh(win); delwin(win); clear(); refresh()
 
-// Structs prototypes
-struct Point;
-struct List_str;
-
-// Define types
-typedef char* str;
-typedef struct Point Point;
-typedef struct List_str List_str;
+// Define structs
+struct Point {
+    int y;
+    int x;
+};
+struct List_str {
+    str* list;
+    int len;
+};
 
 // Function prototypes
 int max_strlen(List_str strings, int min_len);
