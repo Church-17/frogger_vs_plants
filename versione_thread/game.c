@@ -3,7 +3,7 @@
 #include <string.h>
 #include "game.h"
 #include "menu.h"
-#include "struct.h"
+#include "utils.h"
 
 // Define constant
 
