@@ -1,3 +1,7 @@
+// Include libs
+#include "utils.h"
+
+// Define constants
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADE 5 // East padding of the box
 #define BOX_PADW 2 // West padding of the box
@@ -7,6 +11,8 @@
 #define N_OPTS_HOME 5
 #define N_OPTS_CREDS 4
 #define N_OPTS_PAUSE 5
+
+// Prototypes
 
 int menu(str title, List_str opts, bool nav);
 

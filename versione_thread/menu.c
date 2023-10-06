@@ -3,7 +3,6 @@
 #include <string.h>
 #include "menu.h"
 #include "game.h"
-#include "utils.h"
 
 int menu(str title, List_str opts, bool nav) {
     int i, max_optlen = max_strlen(opts, strlen(title));

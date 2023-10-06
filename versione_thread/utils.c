@@ -1,5 +1,6 @@
 // Include libs
 #include <curses.h>
+#include <string.h>
 #include "utils.h"
 
 // - Find max length of a strings list

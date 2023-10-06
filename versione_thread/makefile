@@ -1,7 +1,7 @@
 CC = gcc
 CARGS = -Wall -lncursesw -lpthread
 
-sopr_proj: main.o menu.o game.o utils.o:
+sopr_proj: main.o menu.o game.o utils.o
 	${CC} main.o menu.o game.o utils.o -o sopr_proj ${CARGS}
 
 main.o: utils.h game.h menu.h main.c
