@@ -4,24 +4,18 @@
 #include "utils.h"
 
 // Define constant
-#define TITLE " PAC-MAN "
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADE 5 // East padding of the box
 #define BOX_PADW 2 // West padding of the box
 #define BOX_PADS 1 // South padding of the box
-#define N_OPTS_HOME 5
-#define OPTS_HOME {"New game", "Best scores", "Settings", "Credits", "Quit"}
 #define CREDITS " Credits "
+#define PAUSE " Pause "
+#define N_OPTS_HOME 5
 #define N_OPTS_CREDS 4
-#define OPTS_CREDS {"SOPR Project 23-24:", "", "Francesco Cardia", "Matteo Chiesa"}
+#define N_OPTS_PAUSE 5
 
 int menu(str title, List_str opts, bool nav) {
-    int i, max_optlen = strlen(title);
-    for(i = 0; i < opts.len; i++) {
-        if(strlen(opts.list[i]) > max_optlen) {
-            max_optlen = strlen(opts.list[i]);
-        }
-    }
+    int i, max_optlen = max_strlen(opts, strlen(title));
     WINDOW* menu_win = newwin(opts.len + BOX_PADN + BOX_PADS, max_optlen + BOX_PADE + BOX_PADW, (LINES - (opts.len + BOX_PADN + BOX_PADS))/2, (COLS - (max_optlen + BOX_PADE + BOX_PADW))/2);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box the window
@@ -92,15 +86,6 @@ int menu(str title, List_str opts, bool nav) {
     }
 }
 
-// Home Menu function
-int home_menu() {
-    str list[N_OPTS_HOME] = OPTS_HOME;
-    List_str opts;
-    opts.list = list;
-    opts.len = N_OPTS_HOME;
-    return menu(TITLE, opts, TRUE);
-}
-
 // Best scores screen
 void best_scores() {
     
@@ -113,11 +98,24 @@ void game_settings() {
 
 // Credits screen
 void credits_menu() {
-    str list[N_OPTS_CREDS] = OPTS_CREDS;
+    str list[N_OPTS_CREDS] = {"SOPR Project 23-24:", "", "Francesco Cardia", "Matteo Chiesa"};
     List_str opts;
     opts.list = list;
     opts.len = N_OPTS_CREDS;
-    menu(CREDITS, opts, FALSE);
+    menu(" Credits ", opts, FALSE);
+}
+
+int pause_menu() {
+    str list[N_OPTS_PAUSE] = {"Resume", "New game", "Settings", "Home menu", "Quit"};
+    List_str opts;
+    opts.list = list;
+    opts.len = N_OPTS_PAUSE;
+    int chosen = menu(" Pause ", opts, TRUE);
+    switch(chosen) {
+        default:
+            break;
+    }
+    return 0;
 }
 
 void endgame_menu(int score) {
