@@ -1,6 +1,4 @@
 // Include libs
-#include <stdlib.h>
-#include <stdio.h>
 #include <curses.h>
 #include <string.h>
 #include "menu.h"
@@ -180,6 +178,7 @@ int double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav) 
             }
         }
     }
+    return 0;
 }
 
 // Home Menu function
