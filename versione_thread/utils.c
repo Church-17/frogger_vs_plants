@@ -2,6 +2,7 @@
 #include <curses.h>
 #include <string.h>
 #include "utils.h"
+#include "struct.h"
 
 // - Find max length of a strings list
 int max_strlen(List_str strings, int min_len) {

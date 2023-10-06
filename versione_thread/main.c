@@ -8,6 +8,7 @@
 #include <string.h>
 #include "game.h"
 #include "menu.h"
+#include "struct.h"
 
 // Define constant
 #define TITLE " PAC-MAN "

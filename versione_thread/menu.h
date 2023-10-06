@@ -13,15 +13,9 @@
 #define N_OPTS_PAUSE 5
 
 // Prototypes
-
 int menu(str title, List_str opts, bool nav);
-
 void best_scores(void);
-
 void game_settings(void);
-
 void credits_menu(void);
-
 int pause_menu(void);
-
 void endgame_menu(int score);

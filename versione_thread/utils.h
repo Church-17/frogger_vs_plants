@@ -12,17 +12,14 @@
 // - Delete window
 #define unwin(win) werase(win); wrefresh(win); delwin(win); clear(); refresh()
 
-// Define types and structs
+// Structs prototypes
+struct Point;
+struct List_str;
+
+// Define types
 typedef char* str;
+typedef struct Point Point;
+typedef struct List_str List_str;
 
-typedef struct Point {
-    int y;
-    int x;
-} Point;
-
-typedef struct List_str {
-    str* list;
-    int len;
-} List_str;
-
+// Function prototypes
 int max_strlen(List_str strings, int min_len);
