@@ -5,8 +5,6 @@
 #define ENTER 10
 
 // Define macros
-// - Math
-#define mod(x, y) ((x%y + y) % y)
 // - Print
 #define wattrprintw(win, attr, fs, args...) wattron(win, attr); wprintw(win, fs, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, fs, args...) wmove(win, row, col); wattrprintw(win, attr, fs, args) // Move & print string with attribute
