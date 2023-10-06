@@ -77,7 +77,7 @@ int menu(str title, List_str opts, bool nav) {
     }
 }
 
-int double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav) {
+int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav) {
     int i, max_optlen = strlen(title);
     for(i = 0; i < opts_len; i++) {
         max_optlen = max_strlen(opts[i], max_optlen);
@@ -163,7 +163,7 @@ int double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav) 
                 case ENTER:
                     if(hl == opts_len) {
                         unwin(menu_win);
-                        return hl;
+                        return setted;
                     }
                     break;
 
@@ -177,8 +177,16 @@ int double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav) 
                     break;
             }
         }
+    } else {
+        for (i = 0; i < opts_len; i++) { // Print other option
+            mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", opts[i].list[0]);
+            mvwprintw(menu_win, i+BOX_PADN, max_optlen+BOX_PADW+BOX_PADE-2-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
+        }
+        mvwattrprintw(menu_win, i+BOX_PADN+1, BOX_PADW, A_STANDOUT, " %s", "Back");
+        while(wgetch(menu_win) == ENTER) {;}
+        unwin(menu_win);
+        return NULL;
     }
-    return 0;
 }
 
 // Home Menu function

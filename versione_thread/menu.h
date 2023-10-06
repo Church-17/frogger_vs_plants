@@ -15,7 +15,7 @@
 
 // Prototypes
 int menu(str title, List_str opts, bool nav);
-int double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav);
+int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav);
 void home_menu(void);
 void best_scores(void);
 void settings(void);
