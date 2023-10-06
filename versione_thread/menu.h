@@ -1,5 +1,5 @@
 // Include libs
-#include "utils.h"
+#include "struct.h"
 
 // Define constants
 #define TITLE " PAC-MAN "

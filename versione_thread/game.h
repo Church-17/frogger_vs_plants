@@ -1,4 +1,4 @@
 // Include libs
-#include "utils.h"
+#include "struct.h"
 
 void game(void);
