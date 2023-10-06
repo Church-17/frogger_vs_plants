@@ -77,6 +77,34 @@ int menu(str title, List_str opts, bool nav) {
     }
 }
 
+// Home Menu function
+void home_menu() {
+    int chosen;
+    str list[N_OPTS_HOME] = {"New game", "Best scores", "Settings", "Credits", "Quit"};
+    List_str opts;
+    opts.list = list;
+    opts.len = N_OPTS_HOME;
+    while(TRUE) {
+        chosen = menu(TITLE, opts, TRUE);
+        switch(chosen) {
+            case 0:
+                game();
+                break;
+            case 1:
+                best_scores();
+                break;
+            case 2:
+                game_settings();
+                break;
+            case 3:
+                credits_menu();
+                break;
+            default:
+                return;
+        }
+    }
+}
+
 // Best scores screen
 void best_scores() {
     

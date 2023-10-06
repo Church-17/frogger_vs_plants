@@ -10,12 +10,6 @@
 #include "menu.h"
 #include "struct.h"
 
-// Define constant
-#define TITLE " PAC-MAN "
-
-// Prototypes
-void home_menu();
-
 // Main
 int main(void) {
     setlocale(LC_ALL, ""); // Enable UTF-8 chars
@@ -29,32 +23,4 @@ int main(void) {
 
     endwin(); // End window
     return 0;
-}
-
-// Home Menu function
-void home_menu() {
-    int chosen;
-    str list[N_OPTS_HOME] = {"New game", "Best scores", "Settings", "Credits", "Quit"};
-    List_str opts;
-    opts.list = list;
-    opts.len = N_OPTS_HOME;
-    while(TRUE) {
-        chosen = menu(TITLE, opts, TRUE);
-        switch(chosen) {
-            case 0:
-                game();
-                break;
-            case 1:
-                best_scores();
-                break;
-            case 2:
-                game_settings();
-                break;
-            case 3:
-                credits_menu();
-                break;
-            default:
-                return;
-        }
-    }
 }

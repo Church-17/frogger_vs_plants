@@ -2,6 +2,7 @@
 #include "utils.h"
 
 // Define constants
+#define TITLE " PAC-MAN "
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADE 5 // East padding of the box
 #define BOX_PADW 2 // West padding of the box
@@ -14,6 +15,7 @@
 
 // Prototypes
 int menu(str title, List_str opts, bool nav);
+void home_menu(void);
 void best_scores(void);
 void game_settings(void);
 void credits_menu(void);
