@@ -3,7 +3,7 @@
 #include <string.h>
 #include "utils.h"
 
-// - Find max length of a strings list
+// Find max length of a strings list
 int max_strlen(List_str strings, int min_len) {
     int max_len = min_len;
     for(int i = 0; i < strings.len; i++) {
