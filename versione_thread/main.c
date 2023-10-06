@@ -6,26 +6,41 @@
 #include <locale.h>
 #include <time.h>
 #include <string.h>
-#include "menu.h"
+#include "game.h"
 
 // Define constant
+#define TITLE " PAC-MAN "
+
+// Prototypes
+void home_menu();
 
 // Main
 int main(void) {
-    int chosen;
-
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, ""); // Enable UTF-8 chars
     initscr(); // Initialize window
     noecho(); // Hide character typed
     curs_set(0); // Remove cursor
     keypad(stdscr, TRUE); // Enable function keys listener
     start_color(); // Enable colors
     
+    home_menu(); // Call Home Menu
+
+    endwin(); // End window
+    return 0;
+}
+
+// Home Menu function
+void home_menu() {
+    int chosen;
+    str list[N_OPTS_HOME] = {"New game", "Best scores", "Settings", "Credits", "Quit"};
+    List_str opts;
+    opts.list = list;
+    opts.len = N_OPTS_HOME;
     while(TRUE) {
-        chosen = home_menu(); // Call Home Menu
+        chosen = menu(TITLE, opts, TRUE);
         switch(chosen) {
             case 0:
-                getch();
+                game();
                 break;
             case 1:
                 best_scores();
@@ -36,12 +51,8 @@ int main(void) {
             case 3:
                 credits_menu();
                 break;
-            case 4:
-                endwin();
-                return 0;
+            default:
+                return;
         }
     }
-
-    endwin(); // End window
-    return 0;
 }
