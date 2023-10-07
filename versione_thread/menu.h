@@ -9,6 +9,7 @@
 #define BOX_PADE 5 // East padding of the box
 #define BOX_PADW 2 // West padding of the box
 #define BOX_PADS 1 // South padding of the box
+#define BOX_DIM 2
 #define LR_ARROWS 4
 #define N_OPTS_HOME 5
 #define N_OPTS_CREDS 4
