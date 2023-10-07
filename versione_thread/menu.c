@@ -7,7 +7,7 @@
 
 int menu(str title, List_str opts, bool nav) {
     int i, max_optlen = max_strlen(opts, strlen(title));
-    WINDOW* menu_win = newwin(opts.len + BOX_PADN + BOX_PADS, max_optlen + BOX_PADE + BOX_PADW, (LINES - (opts.len + BOX_PADN + BOX_PADS))/2, (COLS - (max_optlen + BOX_PADE + BOX_PADW))/2);
+    WINDOW* menu_win = newwin(opts.len+BOX_PADN+BOX_PADS, max_optlen+BOX_PADE+BOX_PADW, (LINES - (opts.len+BOX_PADN+BOX_PADS))/2, (COLS - (max_optlen+BOX_PADE+BOX_PADW))/2);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box the window
     wctrprintw(menu_win, 0, title); // Print title
@@ -82,10 +82,9 @@ int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav)
     for(i = 0; i < opts_len; i++) {
         max_optlen = max_strlen(opts[i], max_optlen);
     }
-    max_optlen *= 2;
-    printf("%d", max_optlen);
+    max_optlen += max_optlen + LR_ARROWS;
 
-    WINDOW* menu_win = newwin(opts_len+BOX_PADN+BOX_PADS+2, max_optlen+BOX_PADE+BOX_PADW, (LINES - (opts_len+BOX_PADN+BOX_PADS+2))/2, (COLS - (max_optlen+BOX_PADE+BOX_PADW))/2);
+    WINDOW* menu_win = newwin(opts_len+BOX_PADN+BOX_PADS+(2*nav), max_optlen+BOX_PADE+BOX_PADW, (LINES - (opts_len+BOX_PADN+BOX_PADS+2))/2, (COLS - (max_optlen+BOX_PADE+BOX_PADW))/2);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box the window
     wctrprintw(menu_win, 0, title); // Print title
@@ -95,7 +94,7 @@ int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav)
         for (i = 0; i < opts_len; i++) { // Print other option
             mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts[i].list[0][0]);
             wprintw(menu_win, "%s", &(opts[i].list[0][1]));
-            mvwprintw(menu_win, i+BOX_PADN, max_optlen+BOX_PADW+BOX_PADE-2-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
+            mvwprintw(menu_win, i+BOX_PADN, max_optlen+BOX_PADE-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
         }
         mvwattrprintw(menu_win, i+BOX_PADN+1, BOX_PADW, A_UNDERLINE, "%c", 'B');
         wprintw(menu_win, "%s", "ack");
@@ -107,15 +106,16 @@ int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav)
                 wprintw(menu_win, "ack ");
             } else {
                 mvwattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts[old_hl].list[0][0]);
-                wprintw(menu_win, "%s", &(opts[old_hl].list[0][1]));
-                mvwprintw(menu_win, old_hl+BOX_PADN, max_optlen+BOX_PADW+BOX_PADE-2-strlen(opts[old_hl].list[setted[old_hl]]), "%s", opts[old_hl].list[setted[old_hl]]);
+                wprintw(menu_win, "%s ", &(opts[old_hl].list[0][1]));
+                mvwprintw(menu_win, old_hl+BOX_PADN, max_optlen+BOX_PADE-LR_ARROWS-strlen(opts[old_hl].list[setted[old_hl]]), "    %s", opts[old_hl].list[setted[old_hl]]);
             }
             if(hl == opts_len) {
                 mvwprintw(menu_win, hl+BOX_PADN+1, BOX_PADW, " ");
                 wattrprintw(menu_win, A_STANDOUT, "%s", "Back");
             } else {
-                mvwattrprintw(menu_win, hl+BOX_PADN, BOX_PADW, A_STANDOUT, "%s", opts[hl].list[0]);
-                mvwattrprintw(menu_win, hl+BOX_PADN, max_optlen+BOX_PADW+BOX_PADE-2-strlen(opts[hl].list[setted[hl]]), A_STANDOUT, "%s", opts[hl].list[setted[hl]]);
+                mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, " ");
+                wattrprintw(menu_win, A_STANDOUT, "%s", opts[hl].list[0]);
+                mvwattrprintw(menu_win, hl+BOX_PADN, max_optlen+BOX_PADE-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), A_STANDOUT, "◄ %s ►", opts[hl].list[setted[hl]]);
             }
 
             old_hl = hl;
@@ -137,14 +137,14 @@ int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav)
                     break;
 
                 case KEY_LEFT:
-                    mvwprintw(menu_win, hl+BOX_PADN, max_optlen+BOX_PADW+BOX_PADE-2-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]]), "");
+                    mvwprintw(menu_win, hl+BOX_PADN, max_optlen+BOX_PADE-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]])+LR_ARROWS, "");
                     if(--setted[hl] <= 0) {
                         setted[hl] = opts[hl].len - 1;
                     }
                     break;
 
                 case KEY_RIGHT:
-                    mvwprintw(menu_win, hl+BOX_PADN, max_optlen+BOX_PADW+BOX_PADE-2-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]]), "");
+                    mvwprintw(menu_win, hl+BOX_PADN, max_optlen+BOX_PADE-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]])+LR_ARROWS, "");
                     if(++setted[hl] >= opts[hl].len) {
                         setted[hl] = 1;
                     }
@@ -169,7 +169,7 @@ int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav)
 
                 default:
                     for(i = 0; i < opts_len; i++) {
-                        if(key == opts[i].list[0][0] || key == opts[i].list[0][0]+32) {
+                        if(key == opts[i].list[0][0] || key == opts[i].list[0][0]+DIFF_CAPITAL) {
                             hl = i;
                             break;
                         }
@@ -180,17 +180,16 @@ int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav)
     } else {
         for (i = 0; i < opts_len; i++) { // Print other option
             mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", opts[i].list[0]);
-            mvwprintw(menu_win, i+BOX_PADN, max_optlen+BOX_PADW+BOX_PADE-2-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
+            mvwprintw(menu_win, i+BOX_PADN, max_optlen+BOX_PADE-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
         }
-        mvwattrprintw(menu_win, i+BOX_PADN+1, BOX_PADW, A_STANDOUT, " %s", "Back");
-        while(wgetch(menu_win) == ENTER) {;}
+        wgetch(menu_win);
         unwin(menu_win);
         return NULL;
     }
 }
 
 // Home Menu function
-void home_menu() {
+void home_menu(void) {
     int chosen;
     str list[N_OPTS_HOME] = {"New game", "Best scores", "Settings", "Credits", "Quit"};
     List_str opts;
