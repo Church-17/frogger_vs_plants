@@ -3,15 +3,11 @@
 
 // Define constant
 #define ENTER 10
+#define DIFF_CAPITAL 32
 
-// Define macros
-// - Print
+// Define variadic macros
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col); wattrprintw(win, attr, args) // Move & print string with attribute
-#define wctrprintw(win, row, fs) mvwprintw(win, row, (win->_maxx - strlen(fs))/2, "%s", fs) // Print string centered
-#define wctrattrprintw(win, row, attr, fs) wmvattrprintw(win, row, (win->_maxx - strlen(fs))/2, attr, "%s", fs) // Prints string centered with attribute
-// - Delete window
-#define unwin(win) werase(win); wrefresh(win); delwin(win); clear(); refresh()
 
 // Define structs
 struct Point {
@@ -25,3 +21,6 @@ struct List_str {
 
 // Function prototypes
 int max_strlen(List_str strings, int min_len);
+void wctrprintw(WINDOW* win, int row, str fstr);
+void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr);
+void unwin(WINDOW* win);
