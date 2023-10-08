@@ -96,7 +96,7 @@ int* double_menu(str title, List_str* opts, int* setted, int opts_len, bool nav)
             wprintw(menu_win, "%s", &(opts[i].list[0][1]));
             mvwprintw(menu_win, i+BOX_PADN, win_width-BOX_DIM-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
         }
-        mvwattrprintw(menu_win, i+BOX_PADN+1, BOX_PADW, A_UNDERLINE, "%c", 'B');
+        mvwattrprintw(menu_win, opts_len+BOX_PADN+1, BOX_PADW, A_UNDERLINE, "%c", 'B');
         wprintw(menu_win, "%s", "ack");
         
         while(TRUE) {
