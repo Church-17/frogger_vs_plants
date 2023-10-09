@@ -223,7 +223,7 @@ void best_scores() {
 
 // Game settings menu
 void settings() {
-    str set[2] = {"Difficoulty", "Skin"};
+    str set[2] = {"Difficulty", "Skin"};
     List_str sets;
     sets.list = set;
     sets.len = 2;
