@@ -106,7 +106,7 @@ int* double_menu(str title, List_str sets, List_str* opts, int* setted, bool nav
         while(TRUE) {
             // Update highlighted & non-highlighted option
             if(old_hl == sets.len) {
-                mvwfattrprintw(menu_win, sets.len+BOX_PADN+1, BOX_PADW, A_UNDERLINE, last);
+                mvwfattrprintw(menu_win, old_hl+BOX_PADN+1, BOX_PADW, A_UNDERLINE, last);
             } else {
                 mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, sets.list[old_hl]);
                 mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_DIM-LR_ARROWS-strlen(opts[old_hl].list[setted[old_hl]]), "    %s", opts[old_hl].list[setted[old_hl]]);
