@@ -6,33 +6,33 @@
 #include "utils.h"
 
 int menu(str title, List_str opts, bool nav) {
-    int i, win_width = max_strlen(opts, strlen(title)) + BOX_PADW + BOX_PADE;
-    WINDOW* menu_win = newwin(opts.len+BOX_PADN+BOX_PADS, win_width, (LINES - (opts.len+BOX_PADN+BOX_PADS))/2, (COLS - win_width)/2);
+    int i, win_width = max_strlen(opts, strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
+    WINDOW* menu_win = newctrwin(opts.len+BOX_PADN+BOX_PADS, win_width); // Centered win
     keypad(menu_win, TRUE); // Enable function keys listener
-    box(menu_win, 0, 0); // Box the window
+    box(menu_win, 0, 0); // Box win
     wctrprintw(menu_win, 0, title); // Print title
 
     if(nav) {
-        int key, hl = 0, old_hl = 0;
-        for (i = 0; i < opts.len; i++) { // Print other option
-            mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts.list[i][0]);
-            wprintw(menu_win, "%s", &(opts.list[i][1]));
+        int key, hl = 0, old_hl = 0; // Init vars
+
+        // Print options with first letter underlined
+        for (i = 0; i < opts.len; i++) {
+            mvwfattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, opts.list[i]);
         }
         while(TRUE) {
             // Update highlighted & non-highlighted option
-            mvwattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", opts.list[old_hl][0]);
-            wprintw(menu_win, "%s ", &(opts.list[old_hl][1]));
+            mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, opts.list[old_hl]);
             mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, " ");
             wattrprintw(menu_win, A_STANDOUT, "%s", opts.list[hl]);
 
-            old_hl = hl;
+            old_hl = hl; // Track old hl
 
             key = wgetch(menu_win);
             switch (key) {
                 case KEY_UP:
                 case KEY_LEFT:
                 case KEY_PPAGE:
-                    if (--hl == -1) {
+                    if (--hl < 0) {
                         hl = opts.len - 1;
                     }
                     break;
@@ -40,7 +40,7 @@ int menu(str title, List_str opts, bool nav) {
                 case KEY_DOWN:
                 case KEY_RIGHT:
                 case KEY_NPAGE:
-                    if (++hl == opts.len) {
+                    if (++hl >= opts.len) {
                         hl = 0;
                     }
                     break;
@@ -58,8 +58,9 @@ int menu(str title, List_str opts, bool nav) {
                     return hl;
 
                 default:
+                    // Check first letters
                     for(i = 0; i < opts.len; i++) {
-                        if(key == opts.list[i][0] || key == opts.list[i][0]+32) {
+                        if(key == opts.list[i][0] || key == opts.list[i][0]+DIFF_CAPITAL) {
                             hl = i;
                             break;
                         }
@@ -68,7 +69,8 @@ int menu(str title, List_str opts, bool nav) {
             }
         }
     } else {
-        for (i = 0; i < opts.len; i++) { // Print other option
+        // Prints options
+        for (i = 0; i < opts.len; i++) {
             mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", opts.list[i]);
         }
         wgetch(menu_win);
@@ -79,39 +81,39 @@ int menu(str title, List_str opts, bool nav) {
 
 int* double_menu(str title, List_str sets, List_str* opts, int* setted, bool nav) {
     int i, win_width = max_strlen(sets, strlen(title));
+    // Calc window width
     for(i = 0; i < sets.len; i++) {
         win_width = max_strlen(opts[i], win_width);
     }
     win_width += win_width + LR_ARROWS + BOX_PADW + BOX_PADE;
 
-    WINDOW* menu_win = newwin(sets.len+BOX_PADN+BOX_PADS+(2*nav), win_width, (LINES - (sets.len+BOX_PADN+BOX_PADS+2))/2, (COLS - win_width)/2);
+    WINDOW* menu_win = newctrwin(sets.len+BOX_PADN+BOX_PADS+(2*nav), win_width); // 2*nav create space for last button if nav
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box the window
     wctrprintw(menu_win, 0, title); // Print title
 
     if(nav) {
         int key, hl = 0, old_hl = 0;
-        for (i = 0; i < sets.len; i++) { // Print other option
-            mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", sets.list[i][0]);
-            wprintw(menu_win, "%s", &(sets.list[i][1]));
+        str last = "Back";
+        // Print sets and opts
+        for (i = 0; i < sets.len; i++) {
+            mvwfattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, sets.list[i]);
             mvwprintw(menu_win, i+BOX_PADN, win_width-BOX_DIM-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
         }
-        mvwattrprintw(menu_win, sets.len+BOX_PADN+1, BOX_PADW, A_UNDERLINE, "%c", 'B');
-        wprintw(menu_win, "%s", "ack");
+        // Print last button
+        mvwfattrprintw(menu_win, sets.len+BOX_PADN+1, BOX_PADW, A_UNDERLINE, last);
         
         while(TRUE) {
             // Update highlighted & non-highlighted option
             if(old_hl == sets.len) {
-                mvwattrprintw(menu_win, old_hl+BOX_PADN+1, BOX_PADW, A_UNDERLINE, "%c", 'B');
-                wprintw(menu_win, "ack ");
+                mvwfattrprintw(menu_win, sets.len+BOX_PADN+1, BOX_PADW, A_UNDERLINE, last);
             } else {
-                mvwattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, "%c", sets.list[old_hl][0]);
-                wprintw(menu_win, "%s ", &(sets.list[old_hl][1]));
+                mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, sets.list[old_hl]);
                 mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_DIM-LR_ARROWS-strlen(opts[old_hl].list[setted[old_hl]]), "    %s", opts[old_hl].list[setted[old_hl]]);
             }
             if(hl == sets.len) {
                 mvwprintw(menu_win, hl+BOX_PADN+1, BOX_PADW, " ");
-                wattrprintw(menu_win, A_STANDOUT, "%s", "Back");
+                wattrprintw(menu_win, A_STANDOUT, "%s", last);
             } else {
                 mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, " ");
                 wattrprintw(menu_win, A_STANDOUT, "%s", sets.list[hl]);
@@ -155,8 +157,6 @@ int* double_menu(str title, List_str sets, List_str* opts, int* setted, bool nav
                     break;
 
                 case KEY_END:
-                case 'B':
-                case 'b':
                     hl = sets.len;
                     break;
 
@@ -168,17 +168,22 @@ int* double_menu(str title, List_str sets, List_str* opts, int* setted, bool nav
                     break;
 
                 default:
+                    // Check first letters
                     for(i = 0; i < sets.len; i++) {
                         if(key == sets.list[i][0] || key == sets.list[i][0]+DIFF_CAPITAL) {
                             hl = i;
                             break;
                         }
                     }
+                    if(key == last[0] || key == last[0]+DIFF_CAPITAL) {
+                        hl = sets.len;
+                    }
                     break;
             }
         }
     } else {
-        for (i = 0; i < sets.len; i++) { // Print other option
+        // Print sets & opts
+        for (i = 0; i < sets.len; i++) {
             mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", sets.list[i]);
             mvwprintw(menu_win, i+BOX_PADN, win_width+BOX_PADE-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
         }
