@@ -5,9 +5,9 @@
 #include "game.h"
 #include "utils.h"
 
-int menu(str title, List_str opts, bool nav) {
-    int i, win_width = max_strlen(opts, strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
-    WINDOW* menu_win = newctrwin(opts.len+BOX_PADN+BOX_PADS, win_width); // Centered win
+int menu(str title, List_str sets, bool nav) {
+    int i, win_width = max_strlen(sets, strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
+    WINDOW* menu_win = newctrwin(sets.len+BOX_PADN+BOX_PADS, win_width); // Centered win
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box win
     wctrprintw(menu_win, 0, title); // Print title
@@ -16,14 +16,15 @@ int menu(str title, List_str opts, bool nav) {
         int key, hl = 0, old_hl = 0; // Init vars
 
         // Print options with first letter underlined
-        for (i = 0; i < opts.len; i++) {
-            mvwfattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, opts.list[i]);
+        for (i = 0; i < sets.len; i++) {
+            mvwfattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, sets.list[i]);
         }
         while(TRUE) {
             // Update highlighted & non-highlighted option
-            mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, opts.list[old_hl]);
-            mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, " ");
-            wattrprintw(menu_win, A_STANDOUT, "%s", opts.list[hl]);
+            mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, sets.list[old_hl]);
+            wprintw(menu_win, "%*s", PAD_HL, "");
+            mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", PAD_HL, "");
+            wattrprintw(menu_win, A_STANDOUT, "%s", sets.list[hl]);
 
             old_hl = hl; // Track old hl
 
@@ -33,14 +34,14 @@ int menu(str title, List_str opts, bool nav) {
                 case KEY_LEFT:
                 case KEY_PPAGE:
                     if (--hl < 0) {
-                        hl = opts.len - 1;
+                        hl = sets.len - 1;
                     }
                     break;
                 
                 case KEY_DOWN:
                 case KEY_RIGHT:
                 case KEY_NPAGE:
-                    if (++hl >= opts.len) {
+                    if (++hl >= sets.len) {
                         hl = 0;
                     }
                     break;
@@ -50,7 +51,7 @@ int menu(str title, List_str opts, bool nav) {
                     break;
 
                 case KEY_END:
-                    hl = opts.len-1;
+                    hl = sets.len-1;
                     break;
 
                 case ENTER:
@@ -59,8 +60,8 @@ int menu(str title, List_str opts, bool nav) {
 
                 default:
                     // Check first letters
-                    for(i = 0; i < opts.len; i++) {
-                        if(key == opts.list[i][0] || key == opts.list[i][0]+DIFF_CAPITAL) {
+                    for(i = 0; i < sets.len; i++) {
+                        if(key == sets.list[i][0] || key == sets.list[i][0]+DIFF_CAPITAL) {
                             hl = i;
                             break;
                         }
@@ -70,8 +71,8 @@ int menu(str title, List_str opts, bool nav) {
         }
     } else {
         // Prints options
-        for (i = 0; i < opts.len; i++) {
-            mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", opts.list[i]);
+        for (i = 0; i < sets.len; i++) {
+            mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", sets.list[i]);
         }
         wgetch(menu_win);
         unwin(menu_win);
@@ -107,15 +108,17 @@ int* double_menu(str title, List_str sets, List_str* opts, int* setted, bool nav
             // Update highlighted & non-highlighted option
             if(old_hl == sets.len) {
                 mvwfattrprintw(menu_win, old_hl+BOX_PADN+1, BOX_PADW, A_UNDERLINE, last);
+                wprintw(menu_win, "%*s", PAD_HL, "");
             } else {
                 mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, sets.list[old_hl]);
+                wprintw(menu_win, "%*s", PAD_HL, "");
                 mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_DIM-LR_ARROWS-strlen(opts[old_hl].list[setted[old_hl]]), "    %s", opts[old_hl].list[setted[old_hl]]);
             }
             if(hl == sets.len) {
-                mvwprintw(menu_win, hl+BOX_PADN+1, BOX_PADW, " ");
+                mvwprintw(menu_win, hl+BOX_PADN+1, BOX_PADW, "%*s", PAD_HL, "");
                 wattrprintw(menu_win, A_STANDOUT, "%s", last);
             } else {
-                mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, " ");
+                mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", PAD_HL, "");
                 wattrprintw(menu_win, A_STANDOUT, "%s", sets.list[hl]);
                 mvwattrprintw(menu_win, hl+BOX_PADN, win_width-BOX_DIM-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), A_STANDOUT, "◄ %s ►", opts[hl].list[setted[hl]]);
             }
@@ -197,11 +200,11 @@ int* double_menu(str title, List_str sets, List_str* opts, int* setted, bool nav
 void home_menu(void) {
     int chosen;
     str list[N_OPTS_HOME] = {"New game", "Best scores", "Settings", "Credits", "Quit"};
-    List_str opts;
-    opts.list = list;
-    opts.len = N_OPTS_HOME;
+    List_str sets;
+    sets.list = list;
+    sets.len = N_OPTS_HOME;
     while(TRUE) {
-        chosen = menu(TITLE, opts, TRUE);
+        chosen = menu(TITLE, sets, TRUE);
         switch(chosen) {
             case 0:
                 game();
@@ -246,18 +249,18 @@ void settings() {
 // Credits screen
 void credits_menu() {
     str list[N_OPTS_CREDS] = {"SOPR Project 23-24:", "", "Francesco Cardia", "Matteo Chiesa"};
-    List_str opts;
-    opts.list = list;
-    opts.len = N_OPTS_CREDS;
-    menu(" Credits ", opts, FALSE);
+    List_str sets;
+    sets.list = list;
+    sets.len = N_OPTS_CREDS;
+    menu(" Credits ", sets, FALSE);
 }
 
 int pause_menu() {
     str list[N_OPTS_PAUSE] = {"Resume", "New game", "Settings", "Home menu", "Quit"};
-    List_str opts;
-    opts.list = list;
-    opts.len = N_OPTS_PAUSE;
-    int chosen = menu(" Pause ", opts, TRUE);
+    List_str sets;
+    sets.list = list;
+    sets.len = N_OPTS_PAUSE;
+    int chosen = menu(" Pause ", sets, TRUE);
     switch(chosen) {
         default:
             break;
