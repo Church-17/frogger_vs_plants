@@ -11,11 +11,11 @@
 #define LR_ARROWS 4
 
 // Prototypes
-int menu(str title, List_str opts, bool nav);
-int* double_menu(str title, List_str sets, List_str* opts, int* setted, bool nav);
+void view(str title, List_str sx, List_str dx);
+str menu(str title, List_str opts);
+void settings(void);
 void home_menu(void);
 void best_scores(void);
-void settings(void);
-void credits_menu(void);
-int pause_menu(void);
-void endgame_menu(int score);
+void credits(void);
+int pause(void);
+void endgame(int score);
