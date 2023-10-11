@@ -7,13 +7,13 @@
 #include "strings.h"
 
 void view(str title, List_str sx, List_str dx) {
-    if(sx.len != dx.len) {
+    if(sx.len != dx.len) { // Check equal length
         return;
     }
     int i, win_width = max_strlen(sx, strlen(title)) + max_strlen(dx, 0) + BOX_PADW + BOX_PADE; // Calc window width
-    WINDOW* menu_win = newctrwin(sx.len+BOX_PADN+BOX_PADS, win_width); // Centered win
+    WINDOW* menu_win = newctrwin(sx.len+BOX_PADN+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
-    box(menu_win, 0, 0); // Box win
+    box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
 
     // Prints options
@@ -27,9 +27,9 @@ void view(str title, List_str sx, List_str dx) {
 
 str menu(str title, List_str set) {
     int i, key, hl = 0, old_hl = 0, win_width = max_strlen(set, strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
-    WINDOW* menu_win = newctrwin(set.len+BOX_PADN+BOX_PADS, win_width); // Centered win
+    WINDOW* menu_win = newctrwin(set.len+BOX_PADN+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
-    box(menu_win, 0, 0); // Box win
+    box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
 
     // Print options with first letter underlined
@@ -39,8 +39,8 @@ str menu(str title, List_str set) {
     while(TRUE) {
         // Update highlighted & non-highlighted option
         mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[old_hl]);
-        wprintw(menu_win, "%*s", PAD_HL, "");
-        mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", PAD_HL, "");
+        wprintw(menu_win, "%*s", PAD_HL, ""); // Delete old_hl padding
+        mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", PAD_HL, ""); // Print hl padding
         wattrprintw(menu_win, A_STANDOUT, "%s", set.list[hl]);
 
         old_hl = hl; // Track old hl
@@ -80,7 +80,6 @@ str menu(str title, List_str set) {
                 for(i = 0; i < set.len; i++) {
                     if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
                         hl = i;
-                        break;
                     }
                 }
                 break;
@@ -88,20 +87,22 @@ str menu(str title, List_str set) {
     }
 }
 
+// Settings Menu
 void settings(void) {
+    // Init vars, settings, options
     int i, set_width, opts_width = 0, win_width, key, hl = 0, old_hl = 0;
     int setted[] = {1, 2}; // PREDEFINED SETTINGS
-    str list_set[] = {DIFFICULTY, SKIN};
-    str list_sel[] = {APPLY, CANCEL};
+    str set0[] = {DIFFICULTY, SKIN};
+    str sel0[] = {APPLY, CANCEL};
     str opt1[] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
     str opt2[] = {SKIN_0, SKIN_1, SKIN_2};
     List_str set;
     List_str sel;
     List_str opts[N_SETTINGS_SET];
 
-    set.list = list_set;
+    set.list = set0;
     set.len = N_SETTINGS_SET;
-    sel.list = list_sel;
+    sel.list = sel0;
     sel.len = N_SETTINGS_SEL;
     opts[0].list = opt1;
     opts[0].len = N_DIFFICULTY_SET;
@@ -109,18 +110,18 @@ void settings(void) {
     opts[1].len = N_SKIN_SET;
 
     // Calc window width
-    set_width = max_strlen(set, strlen(SETTINGS));
+    set_width = max_strlen(set, max_strlen(sel, strlen(SETTINGS)));
     for(i = 0; i < set.len; i++) {
         opts_width = max_strlen(opts[i], opts_width);
     }
     win_width = set_width + opts_width + LR_ARROWS + BOX_PADW + BOX_PADE;
 
-    WINDOW* menu_win = newctrwin(set.len+sel.len+BOX_PADN+BOX_PADS+PAD_SEL, win_width);
+    WINDOW* menu_win = newctrwin(set.len+sel.len+BOX_PADN+BOX_PADS+PAD_SEL, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
-    box(menu_win, 0, 0); // Box the window
+    box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, SETTINGS); // Print title
 
-    // Print set and opts
+    // Print set, opts, selectables
     for(i = 0; i < set.len; i++) {
         mvwfattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[i]);
         mvwprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
@@ -131,7 +132,7 @@ void settings(void) {
     
     while(TRUE) {
         // Update highlighted & non-highlighted option
-        if(old_hl >= set.len) {
+        if(old_hl >= set.len) { // If old_hl referes to a selectable...
             mvwfattrprintw(menu_win, old_hl+BOX_PADN+PAD_SEL, BOX_PADW, A_UNDERLINE, sel.list[old_hl-set.len]);
             wprintw(menu_win, "%*s", PAD_HL, "");
         } else {
@@ -139,7 +140,7 @@ void settings(void) {
             wprintw(menu_win, "%*s", PAD_HL, "");
             mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[old_hl].list[setted[old_hl]]), "%*s%s", LR_ARROWS, "", opts[old_hl].list[setted[old_hl]]);
         }
-        if(hl >= set.len) {
+        if(hl >= set.len) { // If hl referes to a selectable...
             mvwprintw(menu_win, hl+BOX_PADN+PAD_SEL, BOX_PADW, "%*s", PAD_HL, "");
             wattrprintw(menu_win, A_STANDOUT, "%s", sel.list[hl-set.len]);
         } else {
@@ -148,7 +149,7 @@ void settings(void) {
             mvwattrprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), A_STANDOUT, "◄ %s ►", opts[hl].list[setted[hl]]);
         }
 
-        old_hl = hl;
+        old_hl = hl; // Track old hl
 
         key = wgetch(menu_win);
         switch (key) {
@@ -167,7 +168,7 @@ void settings(void) {
                 break;
 
             case KEY_LEFT:
-                if(hl < set.len) {
+                if(hl < set.len) { // If hl is a selectable delete old option highlighted
                     mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]])+LR_ARROWS, "");
                 }
                 if(--setted[hl] < 0) {
@@ -176,7 +177,7 @@ void settings(void) {
                 break;
 
             case KEY_RIGHT:
-                if(hl < set.len) {
+                if(hl < set.len) { // If hl is a selectable delete old option highlighted
                     mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]])+LR_ARROWS, "");
                 }
                 if(++setted[hl] >= opts[hl].len) {
@@ -193,7 +194,7 @@ void settings(void) {
                 break;
 
             case ENTER:
-                if(hl >= set.len) {
+                if(hl >= set.len) { // If hl is a selectable check which one
                     if(strcmp(sel.list[hl-set.len], APPLY) == 0) {
                         // Save new settings
                     } else if(strcmp(sel.list[hl-set.len], CANCEL) == 0) {
@@ -221,7 +222,7 @@ void settings(void) {
     }
 }
 
-// Home Menu function
+// Home Menu
 void home_menu(void) {
     str chosen;
     str list[] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
