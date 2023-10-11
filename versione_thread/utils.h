@@ -1,11 +1,14 @@
 // Include libs
+#include <stdlib.h>
+#include <curses.h>
 #include "struct.h"
 
 // Define constant
 #define ENTER 10
 #define DIFF_CAPITAL 32
 
-// Define variadic macros
+// Define macros
+#define alloc(type, var, n) type* var = (type*) malloc((n)*sizeof(type))
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col); wattrprintw(win, attr, args) // Move & print string with attribute
 #define newctrwin(n_rows, n_cols) newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2) // New centered window

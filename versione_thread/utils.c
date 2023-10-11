@@ -17,23 +17,23 @@ int max_strlen(List_str strings, int min_len) {
 
 // Print in center
 void wctrprintw(WINDOW* win, int row, str fstr) {
-    mvwprintw(win, row, (win->_maxx - strlen(fstr))/2, "%s", fstr);
+    mvwprintw(win, row, (win->_maxx - strlen(fstr))/2, " %s ", fstr);
 }
 
 // Print with attribute in center
 void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr) {
-    mvwattrprintw(win, row, (win->_maxx - strlen(fstr))/2, attr, "%s", fstr);
+    mvwattrprintw(win, row, (win->_maxx - strlen(fstr))/2, attr, " %s ", fstr);
 }
 
 // Print string with first letter attrihbuted
 void wfattrprintw(WINDOW* win, attr_t attr, str fstr) {
     wattrprintw(win, attr, "%c", fstr[0]);
-    wprintw(win, "%s ", &(fstr[1]));
+    wprintw(win, "%s", &(fstr[1]));
 }
 
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {
     mvwattrprintw(win, row, col, attr, "%c", fstr[0]);
-    wprintw(win, "%s ", &(fstr[1]));
+    wprintw(win, "%s", &(fstr[1]));
 }
 
 // Delete a window
