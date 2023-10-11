@@ -1,6 +1,5 @@
 // Include libs
 #include "struct.h"
-#include "strings.h"
 
 // Define constants
 #define BOX_DIM 2

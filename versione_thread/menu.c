@@ -4,6 +4,7 @@
 #include "menu.h"
 #include "game.h"
 #include "utils.h"
+#include "strings.h"
 
 int menu(str title, List_str sets, bool nav) {
     int i, win_width = max_strlen(sets, strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
