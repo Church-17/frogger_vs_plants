@@ -39,8 +39,8 @@ str menu(str title, List_str set) {
     while(TRUE) {
         // Update highlighted & non-highlighted option
         mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[old_hl]);
-        wprintw(menu_win, "%*s", PAD_HL, ""); // Delete old_hl padding
-        mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", PAD_HL, ""); // Print hl padding
+        wprintw(menu_win, "%*s", HL_PADX, ""); // Delete old_hl padding
+        mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", HL_PADX, ""); // Print hl padding
         wattrprintw(menu_win, A_STANDOUT, "%s", set.list[hl]);
 
         old_hl = hl; // Track old hl
@@ -116,7 +116,7 @@ void settings(void) {
     }
     win_width = set_width + opts_width + LR_ARROWS + BOX_PADW + BOX_PADE;
 
-    WINDOW* menu_win = newctrwin(set.len+sel.len+BOX_PADN+BOX_PADS+PAD_SEL, win_width); // Centered window
+    WINDOW* menu_win = newctrwin(set.len+sel.len+BOX_PADN+BOX_PADS+SEL_PADY, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, SETTINGS); // Print title
@@ -127,24 +127,24 @@ void settings(void) {
         mvwprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
     }
     for(i = 0; i < sel.len; i++) {
-        mvwfattrprintw(menu_win, i+set.len+BOX_PADN+PAD_SEL, BOX_PADW, A_UNDERLINE, sel.list[i]);
+        mvwfattrprintw(menu_win, i+set.len+BOX_PADN+SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[i]);
     }
     
     while(TRUE) {
         // Update highlighted & non-highlighted option
         if(old_hl >= set.len) { // If old_hl referes to a selectable...
-            mvwfattrprintw(menu_win, old_hl+BOX_PADN+PAD_SEL, BOX_PADW, A_UNDERLINE, sel.list[old_hl-set.len]);
-            wprintw(menu_win, "%*s", PAD_HL, "");
+            mvwfattrprintw(menu_win, old_hl+BOX_PADN+SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[old_hl-set.len]);
+            wprintw(menu_win, "%*s", HL_PADX, "");
         } else {
             mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[old_hl]);
-            wprintw(menu_win, "%*s", PAD_HL, "");
+            wprintw(menu_win, "%*s", HL_PADX, "");
             mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[old_hl].list[setted[old_hl]]), "%*s%s", LR_ARROWS, "", opts[old_hl].list[setted[old_hl]]);
         }
         if(hl >= set.len) { // If hl referes to a selectable...
-            mvwprintw(menu_win, hl+BOX_PADN+PAD_SEL, BOX_PADW, "%*s", PAD_HL, "");
+            mvwprintw(menu_win, hl+BOX_PADN+SEL_PADY, BOX_PADW, "%*s", HL_PADX, "");
             wattrprintw(menu_win, A_STANDOUT, "%s", sel.list[hl-set.len]);
         } else {
-            mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", PAD_HL, "");
+            mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", HL_PADX, "");
             wattrprintw(menu_win, A_STANDOUT, "%s", set.list[hl]);
             mvwattrprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), A_STANDOUT, "◄ %s ►", opts[hl].list[setted[hl]]);
         }

@@ -6,8 +6,8 @@
 #define BOX_PADE 5 // East padding of the box
 #define BOX_PADW 2 // West padding of the box
 #define BOX_PADS 1 // South padding of the box
-#define PAD_HL 1 // Highlight padding
-#define PAD_SEL 1 // Empty lines in settings
+#define HL_PADX 1 // Highlight padding
+#define SEL_PADY 1 // Empty lines in settings
 #define LR_ARROWS 4 // N chars occupied by arrows in settings
 
 // Prototypes
