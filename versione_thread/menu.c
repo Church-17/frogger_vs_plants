@@ -25,7 +25,7 @@ void view(str title, List_str sx, List_str dx) {
     unwin(menu_win);
 }
 
-str menu(str title, List_str set) {
+int menu(str title, List_str set) {
     int i, key, hl = 0, old_hl = 0, win_width = max_strlen(set, strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
     WINDOW* menu_win = newctrwin(set.len+BOX_PADN+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
@@ -73,7 +73,7 @@ str menu(str title, List_str set) {
 
             case ENTER:
                 unwin(menu_win);
-                return set.list[hl];
+                return hl;
 
             default:
                 // Check first letters
@@ -194,12 +194,12 @@ void settings(void) {
                 break;
 
             case ENTER:
-                if(hl >= set.len) { // If hl is a selectable check which one
-                    if(strcmp(sel.list[hl-set.len], APPLY) == 0) {
-                        // Save new settings
-                    } else if(strcmp(sel.list[hl-set.len], CANCEL) == 0) {
-                        // Restore old settings
-                    }
+                if(hl == set.len) {
+                    // Save new settings
+                    unwin(menu_win);
+                    return;
+                } else if (hl == set.len+1) {
+                    // Restore old settings
                     unwin(menu_win);
                     return;
                 }
@@ -224,24 +224,32 @@ void settings(void) {
 
 // Home Menu
 void home_menu(void) {
-    str chosen;
     str list[] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
     List_str set;
     set.list = list;
     set.len = N_HOME_SET;
 
-    chosen = menu(TITLE, set);
-    if(strcmp(chosen, NEW_GAME) == 0) {
-        game();
-    } else if(strcmp(chosen, BEST_SCORES) == 0) {
-        best_scores();
-    } else if(strcmp(chosen, SETTINGS) == 0) {
-        settings();
-    } else if(strcmp(chosen, CREDITS) == 0) {
-        credits();
-    } else {
-        endwin();
-        exit(0);
+    int chosen = menu(TITLE, set);
+    switch(chosen) {
+        case 0:
+            game();
+            break;
+
+        case 1:
+            best_scores();
+            break;
+
+        case 2:
+            settings();
+            break;
+
+        case 3:
+            credits();
+            break;
+            
+        default:
+            endwin();
+            exit(0);            
     }
 }
 
