@@ -19,7 +19,9 @@ int main(void) {
     keypad(stdscr, TRUE); // Enable function keys listener
     start_color(); // Enable colors
     
-    home_menu(); // Call Home Menu
+    while(TRUE) {
+        home_menu(); // Call Home Menu
+    }
 
     endwin(); // End window
     return 0;

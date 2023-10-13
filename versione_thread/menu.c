@@ -230,19 +230,18 @@ void home_menu(void) {
     set.list = list;
     set.len = N_HOME_SET;
 
-    while(TRUE) {
-        chosen = menu(TITLE, set);
-        if(strcmp(chosen, NEW_GAME) == 0) {
-            game();
-        } else if(strcmp(chosen, BEST_SCORES) == 0) {
-            best_scores();
-        } else if(strcmp(chosen, SETTINGS) == 0) {
-            settings();
-        } else if(strcmp(chosen, CREDITS) == 0) {
-            credits();
-        } else {
-            return;
-        }
+    chosen = menu(TITLE, set);
+    if(strcmp(chosen, NEW_GAME) == 0) {
+        game();
+    } else if(strcmp(chosen, BEST_SCORES) == 0) {
+        best_scores();
+    } else if(strcmp(chosen, SETTINGS) == 0) {
+        settings();
+    } else if(strcmp(chosen, CREDITS) == 0) {
+        credits();
+    } else {
+        endwin();
+        exit(0);
     }
 }
 
