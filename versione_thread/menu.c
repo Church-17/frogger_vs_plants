@@ -91,23 +91,31 @@ int menu(str title, List_str set) {
 void settings(void) {
     // Init vars, settings, options
     int i, set_width, opts_width = 0, win_width, key, hl = 0, old_hl = 0;
-    int setted[] = {1, 2}; // PREDEFINED SETTINGS
-    str set0[] = {DIFFICULTY, SKIN};
+    str set0[] = {LANGUAGE, DIFFICULTY, SKIN};
     str sel0[] = {APPLY, CANCEL};
-    str opt1[] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
-    str opt2[] = {SKIN_0, SKIN_1, SKIN_2};
-    List_str set;
-    List_str sel;
-    List_str opts[N_SETTINGS_SET];
+    str language[] = {ENGLISH, ITALIAN};
+    str difficulty[] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
+    str skin[] = {SKIN_0, SKIN_1, SKIN_2};
 
+    List_str set;
     set.list = set0;
     set.len = N_SETTINGS_SET;
+    List_str sel;
     sel.list = sel0;
     sel.len = N_SETTINGS_SEL;
-    opts[0].list = opt1;
-    opts[0].len = N_DIFFICULTY_SET;
-    opts[1].list = opt2;
-    opts[1].len = N_SKIN_SET;
+
+    List_str opts[N_SETTINGS_SET];
+    opts[0].list = language;
+    opts[0].len = N_LANG;
+    opts[1].list = difficulty;
+    opts[1].len = N_DIFFICULTY_SET;
+    opts[2].list = skin;
+    opts[2].len = N_SKIN_SET;
+
+    int setted[N_SETTINGS_SET];
+    for(i = 0; i < N_SETTINGS_SET; i++) {
+        setted[i] = game_params[i];
+    }
 
     // Calc window width
     set_width = max_strlen(set, max_strlen(sel, strlen(SETTINGS)));
@@ -195,15 +203,12 @@ void settings(void) {
 
             case ENTER:
                 if(hl == set.len) {
-                    // Save new settings
-                    unwin(menu_win);
-                    return;
-                } else if (hl == set.len+1) {
-                    // Restore old settings
-                    unwin(menu_win);
-                    return;
+                    for(i = 0; i < N_SETTINGS_SET; i++) {
+                        game_params[i] = setted[i];
+                    }
                 }
-                break;
+                unwin(menu_win);
+                return;
 
             default:
                 // Check first letters

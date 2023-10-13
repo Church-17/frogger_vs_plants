@@ -1,7 +1,7 @@
 CC = gcc
 CARGS = -fdiagnostics-color=always -Wall -lncursesw -lpthread
 
-sopr_proj: main.o menu.o game.o utils.o
+sopr_proj: main.o menu.o game.o utils.o strings.o
 	${CC} $^ -o $@ ${CARGS}
 
 main.o: game.h menu.h utils.h main.c
@@ -14,6 +14,9 @@ game.o: game.h menu.h utils.h game.c
 	${CC} -c $*.c -o $@ ${CARGS}
 
 utils.o: utils.h utils.c
+	${CC} -c $*.c -o $@ ${CARGS}
+
+strings.o: utils.h strings.c
 	${CC} -c $*.c -o $@ ${CARGS}
 
 clean:
