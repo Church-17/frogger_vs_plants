@@ -8,7 +8,7 @@
 #define N_HOME_SET 5
 
 // Settings
-#define DIFFICULTY "Difficoulty"
+#define DIFFICULTY "Difficulty"
 #define SKIN "Skin"
 #define APPLY "Apply"
 #define CANCEL "Cancel"
