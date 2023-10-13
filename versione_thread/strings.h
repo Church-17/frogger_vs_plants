@@ -10,7 +10,7 @@
 // Settings
 #define DIFFICULTY "Difficulty"
 #define SKIN "Skin"
-#define APPLY "Apply"
+#define APPLY "Ok"
 #define CANCEL "Cancel"
 #define N_SETTINGS_SET 2
 #define N_SETTINGS_SEL 2
