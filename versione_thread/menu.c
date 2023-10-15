@@ -77,9 +77,10 @@ int menu(str title, List_str set) {
 
             default:
                 // Check first letters
-                for(i = 0; i < set.len; i++) {
+                for(i = (hl+1)%set.len; i != hl; i = (i+1)%set.len) {
                     if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
                         hl = i;
+                        break;
                     }
                 }
                 break;
@@ -202,24 +203,29 @@ void settings(void) {
                 break;
 
             case ENTER:
-                if(hl == set.len) {
-                    for(i = 0; i < N_SETTINGS_SET; i++) {
-                        game_params[i] = newly_setted[i];
+                if(hl >= set.len) {
+                    if(hl == set.len) {
+                        for(i = 0; i < N_SETTINGS_SET; i++) {
+                            game_params[i] = newly_setted[i];
+                        }
                     }
+                    unwin(menu_win);
+                    return;
                 }
-                unwin(menu_win);
-                return;
 
             default:
                 // Check first letters
-                for(i = 0; i < set.len; i++) {
-                    if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
-                        hl = i;
-                    }
-                }
-                for(i = 0; i < sel.len; i++) {
-                    if(key == sel.list[i][0] || key == sel.list[i][0]+DIFF_CAPITAL) {
-                        hl = i + set.len;
+                for(i = (hl+1)%(set.len+sel.len); i != hl; i = (i+1)%(set.len+sel.len)) {
+                    if(i < set.len) {
+                        if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
+                            hl = i;
+                            break;
+                        }
+                    } else {
+                        if(key == sel.list[i][0] || key == sel.list[i][0]+DIFF_CAPITAL) {
+                            hl = i;
+                            break;
+                        }
                     }
                 }
                 break;
