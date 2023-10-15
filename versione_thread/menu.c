@@ -112,9 +112,9 @@ void settings(void) {
     opts[2].list = skin;
     opts[2].len = N_SKIN_SET;
 
-    int setted[N_SETTINGS_SET];
+    int newly_setted[N_SETTINGS_SET];
     for(i = 0; i < N_SETTINGS_SET; i++) {
-        setted[i] = game_params[i];
+        newly_setted[i] = game_params[i];
     }
 
     // Calc window width
@@ -132,7 +132,7 @@ void settings(void) {
     // Print set, opts, selectables
     for(i = 0; i < set.len; i++) {
         mvwfattrprintw(menu_win, i+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[i]);
-        mvwprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(opts[i].list[setted[i]]), "%s", opts[i].list[setted[i]]);
+        mvwprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(opts[i].list[newly_setted[i]]), "%s", opts[i].list[newly_setted[i]]);
     }
     for(i = 0; i < sel.len; i++) {
         mvwfattrprintw(menu_win, i+set.len+BOX_PADN+SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[i]);
@@ -146,7 +146,7 @@ void settings(void) {
         } else {
             mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
-            mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[old_hl].list[setted[old_hl]]), "%*s%s", LR_ARROWS, "", opts[old_hl].list[setted[old_hl]]);
+            mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[old_hl].list[newly_setted[old_hl]]), "%*s%s", LR_ARROWS, "", opts[old_hl].list[newly_setted[old_hl]]);
         }
         if(hl >= set.len) { // If hl referes to a selectable...
             mvwprintw(menu_win, hl+BOX_PADN+SEL_PADY, BOX_PADW, "%*s", HL_PADX, "");
@@ -154,7 +154,7 @@ void settings(void) {
         } else {
             mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", HL_PADX, "");
             wattrprintw(menu_win, A_STANDOUT, "%s", set.list[hl]);
-            mvwattrprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), A_STANDOUT, "◄ %s ►", opts[hl].list[setted[hl]]);
+            mvwattrprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), A_STANDOUT, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
         }
 
         old_hl = hl; // Track old hl
@@ -177,19 +177,19 @@ void settings(void) {
 
             case KEY_LEFT:
                 if(hl < set.len) { // If hl is a selectable delete old option highlighted
-                    mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]])+LR_ARROWS, "");
+                    mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), "%*s", (int) strlen(opts[hl].list[newly_setted[hl]])+LR_ARROWS, "");
                 }
-                if(--setted[hl] < 0) {
-                    setted[hl] = opts[hl].len - 1;
+                if(--newly_setted[hl] < 0) {
+                    newly_setted[hl] = opts[hl].len - 1;
                 }
                 break;
 
             case KEY_RIGHT:
                 if(hl < set.len) { // If hl is a selectable delete old option highlighted
-                    mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[setted[hl]]), "%*s", (int) strlen(opts[hl].list[setted[hl]])+LR_ARROWS, "");
+                    mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), "%*s", (int) strlen(opts[hl].list[newly_setted[hl]])+LR_ARROWS, "");
                 }
-                if(++setted[hl] >= opts[hl].len) {
-                    setted[hl] = 0;
+                if(++newly_setted[hl] >= opts[hl].len) {
+                    newly_setted[hl] = 0;
                 }
                 break;
 
@@ -204,7 +204,7 @@ void settings(void) {
             case ENTER:
                 if(hl == set.len) {
                     for(i = 0; i < N_SETTINGS_SET; i++) {
-                        game_params[i] = setted[i];
+                        game_params[i] = newly_setted[i];
                     }
                 }
                 unwin(menu_win);
