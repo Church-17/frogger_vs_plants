@@ -9,6 +9,7 @@
 #include "game.h"
 #include "menu.h"
 #include "utils.h"
+#include "resources.h"
 
 // Main
 int main(void) {

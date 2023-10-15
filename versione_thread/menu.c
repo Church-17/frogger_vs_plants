@@ -4,7 +4,7 @@
 #include "menu.h"
 #include "game.h"
 #include "utils.h"
-#include "strings.h"
+#include "resources.h"
 
 void view(str title, List_str sx, List_str dx) {
     if(sx.len != dx.len) { // Check equal length
