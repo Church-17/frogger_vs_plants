@@ -1,6 +1,4 @@
 #include "struct.h"
-#define EN 0
-#define IT 1
 
 extern int game_params[];
 extern str strContainer[][2];
