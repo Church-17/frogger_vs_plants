@@ -109,9 +109,9 @@ void settings(void) {
     opts[0].list = language;
     opts[0].len = N_LANG;
     opts[1].list = difficulty;
-    opts[1].len = N_DIFFICULTY_SET;
+    opts[1].len = N_DIFFICULTY;
     opts[2].list = skin;
-    opts[2].len = N_SKIN_SET;
+    opts[2].len = N_SKIN;
 
     int newly_setted[N_SETTINGS_SET];
     for(i = 0; i < N_SETTINGS_SET; i++) {

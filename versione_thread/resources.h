@@ -28,12 +28,12 @@ extern str strContainer[][2];
 #define DIFFICULTY_0 strContainer[8][game_params[0]]
 #define DIFFICULTY_1 strContainer[9][game_params[0]]
 #define DIFFICULTY_2 strContainer[10][game_params[0]]
-#define N_DIFFICULTY_SET 3
+#define N_DIFFICULTY 3
 // - Skin
 #define SKIN_0 strContainer[11][game_params[0]]
 #define SKIN_1 strContainer[12][game_params[0]]
 #define SKIN_2 strContainer[13][game_params[0]]
-#define N_SKIN_SET 3
+#define N_SKIN 3
 
 // Credits
 #define PROJECT strContainer[14][game_params[0]]
