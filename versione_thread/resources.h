@@ -1,7 +1,7 @@
 #include "struct.h"
 
-extern int game_params[];
-extern str strContainer[][2];
+extern int game_params[];   
+extern str strContainer[][2];   // extern allows to load a global variable from another object file
 
 // Home
 #define TITLE "PAC-MAN"
