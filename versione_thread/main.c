@@ -1,15 +1,8 @@
 // Include libs
 #include <curses.h>
-#include <stdlib.h>
-#include <unistd.h>
 #include <pthread.h>
 #include <locale.h>
-#include <time.h>
-#include <string.h>
-#include "game.h"
 #include "menu.h"
-#include "utils.h"
-#include "resources.h"
 
 // Main
 int main(void) {
