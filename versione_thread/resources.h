@@ -10,7 +10,7 @@ extern str strContainer[][2];   // extern allows to load a global variable from 
 #define SETTINGS strContainer[2][game_params[0]]
 #define CREDITS strContainer[3][game_params[0]]
 #define QUIT strContainer[4][game_params[0]]
-#define N_HOME_SET 5
+#define N_HOME 5
 
 // Settings
 #define LANGUAGE strContainer[5][game_params[0]]
@@ -18,7 +18,7 @@ extern str strContainer[][2];   // extern allows to load a global variable from 
 #define SKIN "Skin"
 #define APPLY "Ok"
 #define CANCEL strContainer[7][game_params[0]]
-#define N_SETTINGS_SET 3
+#define N_SETTINGS 3
 #define N_SETTINGS_SEL 2
 // - Language
 #define LANGUAGE_0 "English"
@@ -39,10 +39,10 @@ extern str strContainer[][2];   // extern allows to load a global variable from 
 #define PROJECT strContainer[14][game_params[0]]
 #define FRANCESCO "Francesco Cardia"
 #define MATTEO "Matteo Chiesa"
-#define N_CREDITS_SET 4
+#define N_CREDITS 4
 
 // Pause
 #define PAUSE strContainer[15][game_params[0]]
 #define RESUME strContainer[16][game_params[0]]
 #define HOME strContainer[17][game_params[0]]
-#define N_PAUSE_SET 5
+#define N_PAUSE 5

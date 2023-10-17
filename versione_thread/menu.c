@@ -100,12 +100,12 @@ void settings(void) {
 
     List_str set;
     set.list = set0;
-    set.len = N_SETTINGS_SET;
+    set.len = N_SETTINGS;
     List_str sel;
     sel.list = sel0;
     sel.len = N_SETTINGS_SEL;
 
-    List_str opts[N_SETTINGS_SET];
+    List_str opts[N_SETTINGS];
     opts[0].list = language;
     opts[0].len = N_LANGUAGE;
     opts[1].list = difficulty;
@@ -113,8 +113,8 @@ void settings(void) {
     opts[2].list = skin;
     opts[2].len = N_SKIN;
 
-    int newly_setted[N_SETTINGS_SET];
-    for(i = 0; i < N_SETTINGS_SET; i++) {
+    int newly_setted[N_SETTINGS];
+    for(i = 0; i < N_SETTINGS; i++) {
         newly_setted[i] = game_params[i];
     }
 
@@ -205,7 +205,7 @@ void settings(void) {
             case ENTER:
                 if(hl >= set.len) {
                     if(hl == set.len) {
-                        for(i = 0; i < N_SETTINGS_SET; i++) {
+                        for(i = 0; i < N_SETTINGS; i++) {
                             game_params[i] = newly_setted[i];
                         }
                     }
@@ -238,7 +238,7 @@ void home_menu(void) {
     str list[] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
     List_str set;
     set.list = list;
-    set.len = N_HOME_SET;
+    set.len = N_HOME;
 
     int chosen = menu(TITLE, set);
     switch(chosen) {
@@ -275,10 +275,10 @@ void credits(void) {
     str list1[] = {"", "", "", ""};
     List_str sx;
     sx.list = list0;
-    sx.len = N_CREDITS_SET;
+    sx.len = N_CREDITS;
     List_str dx;
     dx.list = list1;
-    dx.len = N_CREDITS_SET;
+    dx.len = N_CREDITS;
     view(CREDITS, sx, dx);
 }
 
@@ -286,7 +286,7 @@ int pause(void) {
     str list[] = {RESUME, NEW_GAME, SETTINGS, HOME, QUIT};
     List_str set;
     set.list = list;
-    set.len = N_PAUSE_SET;
+    set.len = N_PAUSE;
     menu(PAUSE, set);
     return 0;
 }
