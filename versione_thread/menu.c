@@ -222,7 +222,7 @@ void settings(void) {
                             break;
                         }
                     } else {
-                        if(key == sel.list[i][0] || key == sel.list[i][0]+DIFF_CAPITAL) {
+                        if(key == sel.list[i-set.len][0] || key == sel.list[i-set.len][0]+DIFF_CAPITAL) {
                             hl = i;
                             break;
                         }
