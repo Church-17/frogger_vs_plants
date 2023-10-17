@@ -1,5 +1,4 @@
 // Include libs
-#include <stdarg.h>
 #include <curses.h>
 #include <string.h>
 #include "utils.h"
