@@ -1,7 +1,8 @@
+#include <stdlib.h>
 #include "utils.h"
 #include "resources.h"
 
-int game_params[] = {0, 1, 2}; // DEFAULT SETTTINGS
+int game_params[N_SETTINGS] = {0, 1, 2}; // DEFAULT SETTTINGS
 str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
@@ -22,3 +23,28 @@ str strContainer[][N_LANGUAGE] = {
     {"Resume", "Continua"},
     {"Home menu", "Torna al menu"}
 };
+
+void rd_params(str path) {
+    FILE* fptr = fopen(path, "r");
+    if(fptr == NULL) {
+        wr_params(path);
+    } else { // BISOGNA CONTROLLARE LA CONFORMITA' DEL FILE
+        for(int i = 0; i < N_SETTINGS; i++) {
+            fscanf(fptr, "%*s = %d", &(game_params[i]));
+        }
+        fclose(fptr);
+    }
+}
+
+void wr_params(str path) {
+    FILE* fptr = fopen(path, "w");
+    str var_params[N_SETTINGS] = {"language", "difficulty", "skin"};
+    if(fptr == NULL) {
+        fprintf(stderr, "ERROR: Impossibile to create game settings file");
+        return;
+    }
+    for(int i = 0; i < N_SETTINGS; i++) {
+        fprintf(fptr, "%s = %d\n", var_params[i], game_params[i]);
+    }
+    fclose(fptr);
+}

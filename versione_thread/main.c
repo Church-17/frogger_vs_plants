@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <locale.h>
 #include "menu.h"
+#include "resources.h"
 
 // Main
 int main(void) {
@@ -13,6 +14,7 @@ int main(void) {
     keypad(stdscr, TRUE); // Enable function keys listener
     start_color(); // Enable colors
     
+    rd_params(PATH);
     while(TRUE) {
         home_menu(); // Call Home Menu
     }
