@@ -4,7 +4,7 @@ CARGS = -fdiagnostics-color=always -Wall -lncursesw -lpthread
 sopr_proj: main.o menu.o game.o resources.o utils.o
 	${CC} $^ -o $@ ${CARGS}
 
-main.o: menu.h main.c
+main.o: menu.h resources.h main.c
 	${CC} -c $*.c -o $@ ${CARGS}
 
 menu.o: menu.h game.h resources.h utils.h menu.c
