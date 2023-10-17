@@ -21,9 +21,9 @@ extern str strContainer[][2];   // extern allows to load a global variable from 
 #define N_SETTINGS_SET 3
 #define N_SETTINGS_SEL 2
 // - Language
-#define ITALIAN "Italiano"
-#define ENGLISH "English"
-#define N_LANG 2
+#define LANGUAGE_0 "English"
+#define LANGUAGE_1 "Italiano"
+#define N_LANGUAGE 2
 // - Difficulty
 #define DIFFICULTY_0 strContainer[8][game_params[0]]
 #define DIFFICULTY_1 strContainer[9][game_params[0]]

@@ -2,7 +2,7 @@
 #include "resources.h"
 
 int game_params[] = {0, 1, 2}; // DEFAULT SETTTINGS
-str strContainer[][N_LANG] = {
+str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
     {"Settings", "Impostazioni"},

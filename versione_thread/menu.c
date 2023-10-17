@@ -94,7 +94,7 @@ void settings(void) {
     int i, set_width, opts_width = 0, win_width, key, hl = 0, old_hl = 0;
     str set0[] = {LANGUAGE, DIFFICULTY, SKIN};
     str sel0[] = {APPLY, CANCEL};
-    str language[] = {ENGLISH, ITALIAN};
+    str language[] = {LANGUAGE_0, LANGUAGE_1};
     str difficulty[] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
     str skin[] = {SKIN_0, SKIN_1, SKIN_2};
 
@@ -107,7 +107,7 @@ void settings(void) {
 
     List_str opts[N_SETTINGS_SET];
     opts[0].list = language;
-    opts[0].len = N_LANG;
+    opts[0].len = N_LANGUAGE;
     opts[1].list = difficulty;
     opts[1].len = N_DIFFICULTY;
     opts[2].list = skin;
