@@ -1,6 +1,6 @@
 #include "struct.h"
 
-#define PATH "/home/matte/game_settings.ini"
+#define SETTINGS_PATH "/home/matte/.game_settings.ini"
 
 extern int game_params[];   
 extern str strContainer[][2];   // extern allows to load a global variable from another object file

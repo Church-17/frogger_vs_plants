@@ -208,7 +208,7 @@ void settings(void) {
                         for(i = 0; i < N_SETTINGS; i++) {
                             game_params[i] = newly_setted[i];
                         }
-                        wr_params(PATH);
+                        wr_params(SETTINGS_PATH);
                     }
                     unwin(menu_win);
                     return;
