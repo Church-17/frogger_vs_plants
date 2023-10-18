@@ -24,10 +24,10 @@ str strContainer[][N_LANGUAGE] = {
     {"Home menu", "Torna al menu"}
 };
 
-void rd_params(str path) {
-    FILE* fptr = fopen(path, "r");
+void rd_params() {
+    FILE* fptr = fopen(SETTINGS_PATH, "r");
     if(fptr == NULL) {
-        wr_params(path);
+        wr_params();
     } else { // BISOGNA CONTROLLARE LA CONFORMITA' DEL FILE
         for(int i = 0; i < N_SETTINGS; i++) {
             fscanf(fptr, "%*s = %d", &(game_params[i]));
@@ -36,8 +36,8 @@ void rd_params(str path) {
     }
 }
 
-void wr_params(str path) {
-    FILE* fptr = fopen(path, "w");
+void wr_params() {
+    FILE* fptr = fopen(SETTINGS_PATH, "w");
     str var_params[N_SETTINGS] = {"language", "difficulty", "skin"};
     if(fptr == NULL) {
         fprintf(stderr, "ERROR: Impossibile to create game settings file");

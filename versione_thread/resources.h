@@ -5,8 +5,8 @@
 extern int game_params[];   
 extern str strContainer[][2];   // extern allows to load a global variable from another object file
 
-void rd_params(str path);
-void wr_params(str path);
+void rd_params();
+void wr_params();
 
 // Home
 #define TITLE "PAC-MAN"

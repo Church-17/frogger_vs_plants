@@ -14,7 +14,7 @@ int main(void) {
     keypad(stdscr, TRUE); // Enable function keys listener
     start_color(); // Enable colors
     
-    rd_params(SETTINGS_PATH);
+    rd_params();
     while(TRUE) {
         home_menu(); // Call Home Menu
     }
