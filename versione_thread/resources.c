@@ -32,14 +32,17 @@ void rd_params() {
     FILE* fptr = fopen(SETTINGS_PATH, "r");
     str var_params[N_SETTINGS] = LIST_SETTINGS;
     char tmp_buff[LIM_TMP_BUFF];
-    int tmp_int;
+    int tmp_int, j;
     if(fptr == NULL) {
         wr_params();
-    } else { // BISOGNA CONTROLLARE LA CONFORMITA' DEL FILE
-        for(int i = 0; i < N_SETTINGS; i++) {
+    } else {
+        for(int i = 0; !feof(fptr); i++) {
             fscanf(fptr, "%s = %d", tmp_buff, &tmp_int);
-            if(strcmp(tmp_buff, var_params[i]) == 0) {
-                game_params[i] = tmp_int;
+            for(j = 0; j < N_SETTINGS; j++) {
+                if(strcmp(tmp_buff, var_params[j]) == 0) {
+                    game_params[j] = tmp_int;
+                    break;
+                }
             }
         }
         fclose(fptr);
