@@ -14,6 +14,12 @@ int max_strlen(List_str strings, int min_len) {
     return max_len;
 }
 
+str int_to_str(int num) {
+    dalloc(char, numstr, (int)((ceil(log10(num))+1)*sizeof(char)));
+    sprintf(numstr, "%d", num);
+    return numstr;
+}
+
 // Print in center
 void wctrprintw(WINDOW* win, int row, str fstr) {
     mvwprintw(win, row, (win->_maxx - strlen(fstr))/2, " %s ", fstr);

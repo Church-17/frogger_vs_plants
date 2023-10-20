@@ -267,17 +267,37 @@ void home_menu(void) {
 
 // Best scores screen
 void best_scores(void) {
-    
+    int i;
+    UserScore* best = rd_best();
+    dalloc(str, users, N_BEST);
+    dalloc(str, scores, N_BEST);
+    List_str sx, dx;
+    sx.list = users;
+    dx.list = scores;
+    sx.len = N_BEST;
+    dx.len = N_BEST;
+    for(i = 0; i < N_BEST; i++) {
+        if(best[i].score >= 0) {
+            sx.list[i] = best->user;
+            dx.list[i] = int_to_str(best[i].score);
+        } else {
+            sx.list[i] = alloc(char, 10);
+            dx.list[i] = alloc(char, 10);
+            sx.list[i] = "";
+            dx.list[i] = "";
+        }
+    }
+    view(BEST_SCORES, sx, dx);
+    // FREE MEMORY
 }
 
 // Credits screen
 void credits(void) {
     str list0[] = {PROJECT, "", FRANCESCO, MATTEO};
     str list1[] = {"", "", "", ""};
-    List_str sx;
+    List_str sx, dx;
     sx.list = list0;
     sx.len = N_CREDITS;
-    List_str dx;
     dx.list = list1;
     dx.len = N_CREDITS;
     view(CREDITS, sx, dx);

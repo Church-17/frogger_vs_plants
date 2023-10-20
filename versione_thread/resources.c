@@ -3,7 +3,6 @@
 #include "utils.h"
 #include "resources.h"
 
-#define LIM_TMP_BUFF 100
 #define LIST_SETTINGS {"language", "difficulty", "skin"}
 
 int game_params[N_SETTINGS] = {0, 1, 2}; // DEFAULT SETTTINGS
@@ -28,35 +27,64 @@ str strContainer[][N_LANGUAGE] = {
     {"Home menu", "Torna al menu"}
 };
 
-void rd_params() {
-    FILE* fptr = fopen(SETTINGS_PATH, "r");
+void rd_params(void) {
+    int tmp_int;
+    char tmp_buff[LIM_STR_BUFF];
     str var_params[N_SETTINGS] = LIST_SETTINGS;
-    char tmp_buff[LIM_TMP_BUFF];
-    int tmp_int, j;
+    FILE* fptr = fopen(SETTINGS_PATH, "r");
     if(fptr == NULL) {
         wr_params();
     } else {
-        for(int i = 0; !feof(fptr); i++) {
+        for(int i = 0; !feof(fptr) && i < N_SETTINGS; i++) {
             fscanf(fptr, "%s = %d", tmp_buff, &tmp_int);
-            for(j = 0; j < N_SETTINGS; j++) {
-                if(strcmp(tmp_buff, var_params[j]) == 0) {
-                    game_params[j] = tmp_int;
-                    break;
-                }
+            if(strcmp(tmp_buff, var_params[i]) == 0) {
+                game_params[i] = tmp_int;
+                break;
             }
         }
         fclose(fptr);
     }
 }
 
-void wr_params() {
-    FILE* fptr = fopen(SETTINGS_PATH, "w");
+void wr_params(void) {
     str var_params[N_SETTINGS] = LIST_SETTINGS;
+    FILE* fptr = fopen(SETTINGS_PATH, "w");
     if(fptr == NULL) {
         return;
     }
     for(int i = 0; i < N_SETTINGS; i++) {
         fprintf(fptr, "%s = %d\n", var_params[i], game_params[i]);
+    }
+    fclose(fptr);
+}
+
+UserScore* rd_best(void) {
+    int i;
+    dalloc(UserScore, best, N_BEST);
+    for(i = 0; i < N_BEST; i++) {
+        best[i].user = alloc(char, LIM_STR_BUFF);
+        sprintf(best[i].user, "NULL");
+        best[i].score = -1;
+    }
+    FILE* fptr = fopen(BEST_PATH, "r");
+    if(fptr == NULL) {
+        wr_best(best);
+    } else {
+        for(i = 0; !feof(fptr) && i < N_BEST; i++) {
+            fscanf(fptr, "%s = %d", best[i].user, &(best[i].score));
+        }
+        fclose(fptr);
+    }
+    return best;
+}
+
+void wr_best(UserScore* best) {
+    FILE* fptr = fopen(BEST_PATH, "w");
+    if(fptr == NULL) {
+        return;
+    }
+    for(int i = 0; i < N_BEST; i++) {
+        fprintf(fptr, "%s = %d\n", best[i].user, best[i].score);
     }
     fclose(fptr);
 }

@@ -1,12 +1,16 @@
 #include "struct.h"
 
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
+#define BEST_PATH "/home/matte/.game_best.dat"
+#define LIM_STR_BUFF 100
 
 extern int game_params[];   
 extern str strContainer[][2];   // extern allows to load a global variable from another object file
 
-void rd_params();
-void wr_params();
+void rd_params(void);
+void wr_params(void);
+UserScore* rd_best(void);
+void wr_best(UserScore* best);
 
 // Home
 #define TITLE "PAC-MAN"
@@ -16,6 +20,10 @@ void wr_params();
 #define CREDITS strContainer[3][game_params[0]]
 #define QUIT strContainer[4][game_params[0]]
 #define N_HOME 5
+
+// Best
+#define N_BEST 3
+#define LIM_SCORE 6
 
 // Settings
 #define LANGUAGE strContainer[5][game_params[0]]
@@ -51,3 +59,5 @@ void wr_params();
 #define RESUME strContainer[16][game_params[0]]
 #define HOME strContainer[17][game_params[0]]
 #define N_PAUSE 5
+
+// Endgame
