@@ -62,7 +62,7 @@ UserScore* rd_best(void) {
     int i;
     dalloc(UserScore, best, N_BEST);
     for(i = 0; i < N_BEST; i++) {
-        best[i].user = alloc(char, LIM_STR_BUFF);
+        alloc(char, best[i].user, LIM_STR_BUFF);
         sprintf(best[i].user, "NULL");
         best[i].score = -1;
     }

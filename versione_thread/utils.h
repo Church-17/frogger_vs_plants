@@ -9,8 +9,8 @@
 #define DIFF_CAPITAL 32
 
 // Define macros
-#define dalloc(type, var, n) type* var = (type*) malloc((n)*sizeof(type))
-#define alloc(type, n) (type*) malloc((n)*sizeof(type))
+#define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type))
+#define dalloc(type, var, n) type* alloc(type, var, n)
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col); wattrprintw(win, attr, args) // Move & print string with attribute
 #define newctrwin(n_rows, n_cols) newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2) // New centered window
