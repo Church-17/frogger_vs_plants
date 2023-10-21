@@ -3,6 +3,13 @@
 #include <string.h>
 #include "utils.h"
 
+int max(int n1, int n2) {
+    if(n1 > n2) {
+        return n1;
+    }
+    return n2;
+}
+
 // Find max length of a strings list
 int max_strlen(List_str strings, int min_len) {
     int max_len = min_len;
@@ -14,6 +21,7 @@ int max_strlen(List_str strings, int min_len) {
     return max_len;
 }
 
+// Convert int to string
 str int_to_str(int num) {
     dalloc(char, numstr, (int)((ceil(log10(num))+1)*sizeof(char)));
     sprintf(numstr, "%d", num);

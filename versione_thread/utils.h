@@ -30,6 +30,7 @@ struct UserScore {
 };
 
 // Function prototypes
+int max(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
 str int_to_str(int num);
 void wctrprintw(WINDOW* win, int row, str fstr);
