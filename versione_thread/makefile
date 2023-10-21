@@ -1,5 +1,5 @@
 CC = gcc
-CARGS = -fdiagnostics-color=always -Wall -lm -lncursesw -lpthread
+CARGS = -fdiagnostics-color=always -Wall -lncursesw -lpthread
 
 sopr_proj: main.o menu.o game.o resources.o utils.o
 	${CC} $^ -o $@ ${CARGS}

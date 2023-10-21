@@ -3,6 +3,8 @@
 #include <string.h>
 #include "utils.h"
 
+#define LEN_INTSTR 12
+
 int max(int n1, int n2) {
     if(n1 > n2) {
         return n1;
@@ -23,7 +25,7 @@ int max_strlen(List_str strings, int min_len) {
 
 // Convert int to string
 str int_to_str(int num) {
-    dalloc(char, numstr, (int)((ceil(log10(num))+1)*sizeof(char)));
+    dalloc(char, numstr, LEN_INTSTR);
     sprintf(numstr, "%d", num);
     return numstr;
 }
