@@ -98,7 +98,7 @@ int menu(str title, List_str set) {
 }
 
 // Settings Menu
-void settings(void) {
+void settings_menu(void) {
     // Init vars, settings, options
     int i, set_width, opts_width = 0, win_width, key, hl = 0, old_hl = 0;
     str set0[] = {LANGUAGE, DIFFICULTY, SKIN};
@@ -124,7 +124,7 @@ void settings(void) {
 
     int newly_setted[N_SETTINGS]; // Settings before apply
     for(i = 0; i < N_SETTINGS; i++) {
-        newly_setted[i] = game_params[i];
+        newly_setted[i] = game_settings[i];
     }
 
     // Calc window width
@@ -214,9 +214,9 @@ void settings(void) {
                 if(hl >= set.len) { // If hl is a selectable...
                     if(hl == set.len) {
                         for(i = 0; i < N_SETTINGS; i++) {
-                            game_params[i] = newly_setted[i];
+                            game_settings[i] = newly_setted[i];
                         }
-                        wr_params();
+                        wr_settings();
                     }
                     unwin(menu_win);
                     return;
@@ -257,15 +257,15 @@ void home_menu(void) {
             break;
 
         case 1:
-            best_scores();
+            best_scores_menu();
             break;
 
         case 2:
-            settings();
+            settings_menu();
             break;
 
         case 3:
-            credits();
+            credits_menu();
             break;
             
         default:
@@ -275,7 +275,7 @@ void home_menu(void) {
 }
 
 // Best scores screen
-void best_scores(void) {
+void best_scores_menu(void) {
     int i;
     UserScore* best = rd_best(); // Retreive best scores
     str users[N_BEST], scores[N_BEST];
@@ -301,7 +301,7 @@ void best_scores(void) {
 }
 
 // Credits screen
-void credits(void) {
+void credits_menu(void) {
     str list0[] = {PROJECT, "", FRANCESCO, MATTEO};
     str list1[] = {"", "", "", ""};
     List_str sx, dx;
@@ -311,7 +311,7 @@ void credits(void) {
     view(CREDITS, sx, dx);
 }
 
-int pause(void) {
+int pause_menu(void) {
     str list[] = {RESUME, NEW_GAME, SETTINGS, HOME, QUIT};
     List_str set;
     set.list = list;
@@ -320,6 +320,6 @@ int pause(void) {
     return 0;
 }
 
-void endgame(int score) {
+void endgame_menu(int score) {
     
 }

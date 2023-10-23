@@ -5,7 +5,7 @@
 
 #define LIST_SETTINGS {"language", "difficulty", "skin"}
 
-int game_params[N_SETTINGS] = {0, 1, 2}; // DEFAULT SETTTINGS
+int game_settings[N_SETTINGS] = {0, 1, 2}; // DEFAULT SETTTINGS
 str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
@@ -27,18 +27,18 @@ str strContainer[][N_LANGUAGE] = {
     {"Home menu", "Torna al menu"}
 };
 
-void rd_params(void) {
+void rd_settings(void) {
     int tmp_int;
     char tmp_buff[LIM_STR_BUFF];
-    str var_params[N_SETTINGS] = LIST_SETTINGS;
+    str str_settings[N_SETTINGS] = LIST_SETTINGS;
     FILE* fptr = fopen(SETTINGS_PATH, "r");
     if(fptr == NULL) {
-        wr_params();
+        wr_settings();
     } else {
         for(int i = 0; !feof(fptr) && i < N_SETTINGS; i++) {
             fscanf(fptr, "%s = %d", tmp_buff, &tmp_int);
-            if(strcmp(tmp_buff, var_params[i]) == 0) {
-                game_params[i] = tmp_int;
+            if(strcmp(tmp_buff, str_settings[i]) == 0) {
+                game_settings[i] = tmp_int;
                 break;
             }
         }
@@ -46,14 +46,14 @@ void rd_params(void) {
     }
 }
 
-void wr_params(void) {
-    str var_params[N_SETTINGS] = LIST_SETTINGS;
+void wr_settings(void) {
+    str str_settings[N_SETTINGS] = LIST_SETTINGS;
     FILE* fptr = fopen(SETTINGS_PATH, "w");
     if(fptr == NULL) {
         return;
     }
     for(int i = 0; i < N_SETTINGS; i++) {
-        fprintf(fptr, "%s = %d\n", var_params[i], game_params[i]);
+        fprintf(fptr, "%s = %d\n", str_settings[i], game_settings[i]);
     }
     fclose(fptr);
 }
