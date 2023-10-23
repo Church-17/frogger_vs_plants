@@ -34,7 +34,6 @@ void rd_settings(void) {
     } else {
         for(int i = 0; !feof(fptr) && i < N_SETTINGS; i++) {
             fscanf(fptr, "%*s = %d\n", &(game_settings[i]));
-            printf("%d ", game_settings[i]);
         }
         fclose(fptr);
     }
