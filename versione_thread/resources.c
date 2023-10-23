@@ -28,19 +28,13 @@ str strContainer[][N_LANGUAGE] = {
 };
 
 void rd_settings(void) {
-    int tmp_int;
-    char tmp_buff[LIM_STR_BUFF];
-    str str_settings[N_SETTINGS] = LIST_SETTINGS;
     FILE* fptr = fopen(SETTINGS_PATH, "r");
     if(fptr == NULL) {
         wr_settings();
     } else {
         for(int i = 0; !feof(fptr) && i < N_SETTINGS; i++) {
-            fscanf(fptr, "%s = %d", tmp_buff, &tmp_int);
-            if(strcmp(tmp_buff, str_settings[i]) == 0) {
-                game_settings[i] = tmp_int;
-                break;
-            }
+            fscanf(fptr, "%*s = %d\n", &(game_settings[i]));
+            printf("%d ", game_settings[i]);
         }
         fclose(fptr);
     }
