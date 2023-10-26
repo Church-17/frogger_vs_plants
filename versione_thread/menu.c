@@ -94,6 +94,64 @@ int menu(str title, List_str set) {
     }
 }
 
+// Home Menu
+void home_menu(void) {
+    str list[] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
+    List_str set;
+    set.list = list;
+    set.len = N_HOME;
+
+    int chosen = menu(TITLE, set);
+    switch(chosen) {
+        case 0:
+            game();
+            break;
+
+        case 1:
+            best_scores_menu();
+            break;
+
+        case 2:
+            settings_menu();
+            break;
+
+        case 3:
+            credits_menu();
+            break;
+            
+        default:
+            endwin();
+            exit(0);            
+    }
+}
+
+// Best scores screen
+void best_scores_menu(void) {
+    int i;
+    int cols[] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
+    UserScore* best = rd_best(); // Retreive best scores
+    List_str sx, dx;
+    str users[N_BEST], scores[N_BEST];
+    sx.list = users;
+    dx.list = scores;
+    sx.len = dx.len = N_BEST;
+    for(i = 0; i < N_BEST; i++) {
+        if(best[i].score >= 0) {
+            sx.list[i] = best[i].user;
+            dx.list[i] = int_to_str(best[i].score);
+        } else {
+            sx.list[i] = dx.list[i] = "";
+        }
+    }
+    view(BEST_SCORES, sx, dx, cols);
+
+    // Free memory
+    for(i = 0; i < N_BEST; i++) {
+        free(best[i].user);
+    }
+    free(best);
+}
+
 // Settings Menu
 void settings_menu(void) {
     // Init vars
@@ -243,64 +301,6 @@ void settings_menu(void) {
                 break;
         }
     }
-}
-
-// Home Menu
-void home_menu(void) {
-    str list[] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
-    List_str set;
-    set.list = list;
-    set.len = N_HOME;
-
-    int chosen = menu(TITLE, set);
-    switch(chosen) {
-        case 0:
-            game();
-            break;
-
-        case 1:
-            best_scores_menu();
-            break;
-
-        case 2:
-            settings_menu();
-            break;
-
-        case 3:
-            credits_menu();
-            break;
-            
-        default:
-            endwin();
-            exit(0);            
-    }
-}
-
-// Best scores screen
-void best_scores_menu(void) {
-    int i;
-    int cols[] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
-    UserScore* best = rd_best(); // Retreive best scores
-    List_str sx, dx;
-    str users[N_BEST], scores[N_BEST];
-    sx.list = users;
-    dx.list = scores;
-    sx.len = dx.len = N_BEST;
-    for(i = 0; i < N_BEST; i++) {
-        if(best[i].score >= 0) {
-            sx.list[i] = best[i].user;
-            dx.list[i] = int_to_str(best[i].score);
-        } else {
-            sx.list[i] = dx.list[i] = "";
-        }
-    }
-    view(BEST_SCORES, sx, dx, cols);
-
-    // Free memory
-    for(i = 0; i < N_BEST; i++) {
-        free(best[i].user);
-    }
-    free(best);
 }
 
 // Credits screen
