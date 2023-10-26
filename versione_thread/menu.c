@@ -133,11 +133,11 @@ void settings_menu(void) {
     }
 
     // Calc window width
-    int set_width = max_strlen(set, max_strlen(sel, strlen(SETTINGS))), opts_width = 0;
+    int set_width = max_strlen(set, max_strlen(sel, 0)), opts_width = 0;
     for(i = 0; i < set.len; i++) {
         opts_width = max_strlen(opts[i], opts_width);
     }
-    int win_width = set_width + opts_width + LR_ARROWS + BOX_PADW + BOX_PADE;
+    int win_width = max(set_width+opts_width, strlen(SETTINGS)) + LR_ARROWS + BOX_PADW + BOX_PADE;
 
     WINDOW* menu_win = newctrwin(set.len+sel.len+BOX_PADN+BOX_PADS+SEL_PADY, win_width); // Create centered window
     keypad(menu_win, TRUE); // Enable function keys listener
