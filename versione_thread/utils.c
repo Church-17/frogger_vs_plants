@@ -40,12 +40,13 @@ void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr) {
     mvwattrprintw(win, row, (win->_maxx - strlen(fstr))/2, attr, " %s ", fstr);
 }
 
-// Print string with first letter attrihbuted
+// Print string with first letter attributed
 void wfattrprintw(WINDOW* win, attr_t attr, str fstr) {
     wattrprintw(win, attr, "%c", fstr[0]);
     wprintw(win, "%s", &(fstr[1]));
 }
 
+// Move & print string with first letter attributed
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {
     mvwattrprintw(win, row, col, attr, "%c", fstr[0]);
     wprintw(win, "%s", &(fstr[1]));
