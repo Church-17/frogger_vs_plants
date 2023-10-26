@@ -99,40 +99,45 @@ int menu(str title, List_str set) {
 
 // Settings Menu
 void settings_menu(void) {
-    // Init vars, settings, options
-    int i, set_width, opts_width = 0, win_width, key, hl = 0, old_hl = 0;
-    str set0[] = {LANGUAGE, DIFFICULTY, SKIN};
-    str sel0[] = {APPLY, CANCEL};
-    str language[] = {LANGUAGE_0, LANGUAGE_1};
-    str difficulty[] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
-    str skin[] = {SKIN_0, SKIN_1, SKIN_2};
+    // Init vars
+    int i, key, hl = 0, old_hl = 0;
 
-    List_str set; // Settings
+    // Settings
+    List_str set;
+    str set0[] = {LANGUAGE, DIFFICULTY, SKIN};
     set.list = set0;
     set.len = N_SETTINGS;
-    List_str sel; // Selectables
+
+    // Selectables
+    List_str sel; 
+    str sel0[] = {APPLY, CANCEL};
     sel.list = sel0;
     sel.len = N_SETTINGS_SEL;
 
-    List_str opts[N_SETTINGS]; // Options for each settings
+    // Options for each settings
+    List_str opts[N_SETTINGS];
+    str language[] = {LANGUAGE_0, LANGUAGE_1};
     opts[0].list = language;
     opts[0].len = N_LANGUAGE;
+    str difficulty[] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
     opts[1].list = difficulty;
     opts[1].len = N_DIFFICULTY;
+    str skin[] = {SKIN_0, SKIN_1, SKIN_2};
     opts[2].list = skin;
     opts[2].len = N_SKIN;
 
-    int newly_setted[N_SETTINGS]; // Settings before apply
+    // Settings before apply
+    int newly_setted[N_SETTINGS];
     for(i = 0; i < N_SETTINGS; i++) {
         newly_setted[i] = game_settings[i];
     }
 
     // Calc window width
-    set_width = max_strlen(set, max_strlen(sel, strlen(SETTINGS)));
+    int set_width = max_strlen(set, max_strlen(sel, strlen(SETTINGS))), opts_width = 0;
     for(i = 0; i < set.len; i++) {
         opts_width = max_strlen(opts[i], opts_width);
     }
-    win_width = set_width + opts_width + LR_ARROWS + BOX_PADW + BOX_PADE;
+    int win_width = set_width + opts_width + LR_ARROWS + BOX_PADW + BOX_PADE;
 
     WINDOW* menu_win = newctrwin(set.len+sel.len+BOX_PADN+BOX_PADS+SEL_PADY, win_width); // Create centered window
     keypad(menu_win, TRUE); // Enable function keys listener
