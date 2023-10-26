@@ -12,7 +12,6 @@
 #define dalloc(type, var, n) type* alloc(type, var, n)
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col); wattrprintw(win, attr, args) // Move & print string with attribute
-#define newctrwin(n_rows, n_cols) newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2) // New centered window
 
 // Define structs
 struct Point {
@@ -32,6 +31,7 @@ struct UserScore {
 int max(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
 str int_to_str(int num);
+WINDOW* newctrwin(int n_rows, int n_cols);
 void wctrprintw(WINDOW* win, int row, str fstr);
 void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr);
 void wfattrprintw(WINDOW* win, attr_t attr, str fstr);
