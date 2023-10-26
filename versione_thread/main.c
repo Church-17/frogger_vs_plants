@@ -3,7 +3,7 @@
 #include <pthread.h>
 #include <locale.h>
 #include "menu.h"
-#include "resources.h"
+#include "res.h"
 #include "utils.h"
 
 // Main

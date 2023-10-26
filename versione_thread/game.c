@@ -4,7 +4,7 @@
 #include "game.h"
 #include "menu.h"
 #include "utils.h"
-#include "resources.h"
+#include "res.h"
 
 // Define constant
 

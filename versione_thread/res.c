@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "utils.h"
-#include "resources.h"
+#include "res.h"
 
 #define LIST_SETTINGS {"language", "difficulty", "skin"}
 

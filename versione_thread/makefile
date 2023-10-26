@@ -1,19 +1,19 @@
 CC = gcc
 CARGS = -fdiagnostics-color=always -Wall -lncursesw -lpthread
 
-sopr_proj: main.o menu.o game.o resources.o utils.o
+sopr_proj: main.o menu.o game.o res.o utils.o
 	${CC} $^ -o $@ ${CARGS}
 
-main.o: menu.h resources.h main.c
+main.o: menu.h res.h main.c
 	${CC} -c $*.c -o $@ ${CARGS}
 
-menu.o: menu.h game.h resources.h utils.h menu.c
+menu.o: menu.h game.h res.h utils.h menu.c
 	${CC} -c $*.c -o $@ ${CARGS}
 
-game.o: game.h menu.h resources.h utils.h game.c
+game.o: game.h menu.h res.h utils.h game.c
 	${CC} -c $*.c -o $@ ${CARGS}
 
-resources.o: resources.h utils.h resources.c
+res.o: res.h utils.h res.c
 	${CC} -c $*.c -o $@ ${CARGS}
 
 utils.o: utils.h utils.c

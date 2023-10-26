@@ -4,7 +4,7 @@
 #include "menu.h"
 #include "game.h"
 #include "utils.h"
-#include "resources.h"
+#include "res.h"
 
 // Define constants
 #define BOX_PADN 2 // North padding of the box
