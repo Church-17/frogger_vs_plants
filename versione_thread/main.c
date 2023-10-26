@@ -4,6 +4,7 @@
 #include <locale.h>
 #include "menu.h"
 #include "resources.h"
+#include "utils.h"
 
 // Main
 int main(void) {
@@ -12,7 +13,7 @@ int main(void) {
     noecho(); // Hide character typed
     curs_set(0); // Remove cursor
     keypad(stdscr, TRUE); // Enable function keys listener
-    start_color(); // Enable colors
+    enable_colors(); // Initialize colors
     
     rd_settings();
     while(TRUE) {

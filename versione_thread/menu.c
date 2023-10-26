@@ -1,5 +1,5 @@
 // Include libs
-#include <curses.h>
+#include <ncurses.h>
 #include <string.h>
 #include "menu.h"
 #include "game.h"
@@ -15,10 +15,7 @@
 #define SEL_PADY 1 // Empty lines in settings
 #define LR_ARROWS 4 // N chars occupied by arrows in settings
 
-void view(str title, List_str sx, List_str dx) {
-    if(sx.len != dx.len) { // Check equal length
-        return;
-    }
+void view(str title, List_str sx, List_str dx, int* cols) {
     int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
     WINDOW* menu_win = newctrwin(sx.len+BOX_PADN+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
@@ -27,8 +24,8 @@ void view(str title, List_str sx, List_str dx) {
 
     // Prints options
     for(i = 0; i < sx.len; i++) {
-        mvwprintw(menu_win, i+BOX_PADN, BOX_PADW, "%s", sx.list[i]);
-        mvwprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), "%s", dx.list[i]);
+        mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, COLOR_PAIR(cols[i]), "%s", sx.list[i]);
+        mvwattrprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), COLOR_PAIR(cols[i]), "%s", dx.list[i]);
     }
     wgetch(menu_win);
     unwin(menu_win);
@@ -282,9 +279,10 @@ void home_menu(void) {
 // Best scores screen
 void best_scores_menu(void) {
     int i;
+    int cols[] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
     UserScore* best = rd_best(); // Retreive best scores
-    str users[N_BEST], scores[N_BEST];
     List_str sx, dx;
+    str users[N_BEST], scores[N_BEST];
     sx.list = users;
     dx.list = scores;
     sx.len = dx.len = N_BEST;
@@ -296,7 +294,7 @@ void best_scores_menu(void) {
             sx.list[i] = dx.list[i] = "";
         }
     }
-    view(BEST_SCORES, sx, dx);
+    view(BEST_SCORES, sx, dx, cols);
 
     // Free memory
     for(i = 0; i < N_BEST; i++) {
@@ -307,13 +305,14 @@ void best_scores_menu(void) {
 
 // Credits screen
 void credits_menu(void) {
+    int cols[N_CREDITS] = {0};
     str list0[] = {PROJECT, "", FRANCESCO, MATTEO};
     str list1[] = {"", "", "", ""};
     List_str sx, dx;
     sx.list = list0;
     dx.list = list1;
     sx.len = dx.len = N_CREDITS;
-    view(CREDITS, sx, dx);
+    view(CREDITS, sx, dx, cols);
 }
 
 int pause_menu(void) {

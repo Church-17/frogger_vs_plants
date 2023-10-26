@@ -6,6 +6,9 @@
 // Define constant
 #define ENTER 10
 #define DIFF_CAPITAL 32
+#define GOLD_PAIR 1
+#define SILVER_PAIR 2
+#define BRONZE_PAIR 3
 
 // Define macros
 #define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type))
@@ -31,6 +34,7 @@ struct UserScore {
 int max(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
 str int_to_str(int num);
+void enable_colors(void);
 WINDOW* newctrwin(int n_rows, int n_cols);
 void wctrprintw(WINDOW* win, int row, str fstr);
 void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr);

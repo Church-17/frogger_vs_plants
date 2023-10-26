@@ -5,6 +5,8 @@
 
 #define LEN_INTSTR 12
 #define N_SPACES 2
+#define COLOR_SILVER 8
+#define COLOR_BRONZE 9
 
 int max(int n1, int n2) {
     if(n1 > n2) {
@@ -29,6 +31,22 @@ str int_to_str(int num) {
     dalloc(char, numstr, LEN_INTSTR);
     sprintf(numstr, "%d", num);
     return numstr;
+}
+
+// Init colors
+void enable_colors(void) {
+    if(has_colors() == FALSE) {	// Check color support
+        endwin();
+		printf("Your terminal does not support color\n");
+        getchar();
+		exit(1);
+	}
+    start_color(); // Enable colors
+    init_pair(GOLD_PAIR, COLOR_YELLOW, COLOR_BLACK);
+    init_color(COLOR_SILVER, 700, 700, 700);
+    init_pair(SILVER_PAIR, COLOR_SILVER, COLOR_BLACK);
+    init_color(COLOR_BRONZE, 820, 600, 200);
+    init_pair(BRONZE_PAIR, COLOR_BRONZE, COLOR_BLACK);
 }
 
 WINDOW* newctrwin(int n_rows, int n_cols) {
