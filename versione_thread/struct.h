@@ -1,14 +1,9 @@
-// Structs prototypes
-struct Point;
-struct UserScore;
-struct List_int;
-struct List_str;
-struct List_UserScore;
+#define typestructdef(datatype) struct datatype; typedef struct datatype datatype;
 
-// Define types
+// Define types & scruct prototypes
 typedef char* str;
-typedef struct Point Point;
-typedef struct UserScore UserScore;
-typedef struct List_int List_int;
-typedef struct List_str List_str;
-typedef struct List_UserScore List_UserScore;
+typestructdef(Point);
+typestructdef(UserScore);
+typestructdef(List_int);
+typestructdef(List_str);
+typestructdef(List_UserScore);
