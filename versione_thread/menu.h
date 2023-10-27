@@ -2,7 +2,7 @@
 #include "struct.h"
 
 // Prototypes
-void view(str title, List_str sx, List_str dx, int* cols);
+void view(str title, List_str sx, List_str dx, List_int cols);
 int menu(str title, List_str opts);
 void home_menu(void);
 void best_scores_menu(void);

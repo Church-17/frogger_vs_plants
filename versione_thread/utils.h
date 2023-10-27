@@ -21,13 +21,21 @@ struct Point {
     int y;
     int x;
 };
+struct UserScore {
+    str user;
+    int score;
+};
+struct List_int {
+    int* list;
+    int len;
+};
 struct List_str {
     str* list;
     int len;
 };
-struct UserScore {
-    str user;
-    int score;
+struct List_UserScore {
+    UserScore* list;
+    int len;
 };
 
 // Function prototypes

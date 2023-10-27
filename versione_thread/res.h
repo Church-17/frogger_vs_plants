@@ -9,8 +9,8 @@ extern str strContainer[][2];   // extern allows to load a global variable from 
 
 void rd_settings(void);
 void wr_settings(void);
-UserScore* rd_best(void);
-void wr_best(UserScore* best);
+List_UserScore rd_best(void);
+void wr_best(List_UserScore best);
 
 // Home
 #define TITLE "PAC-MAN"

@@ -51,33 +51,34 @@ void wr_settings(void) {
     fclose(fptr);
 }
 
-UserScore* rd_best(void) {
+List_UserScore rd_best(void) {
     int i;
-    dalloc(UserScore, best, N_BEST);
+    List_UserScore best;
+    alloc(UserScore, best.list, N_BEST);
     for(i = 0; i < N_BEST; i++) {
-        alloc(char, best[i].user, LIM_STR_BUFF);
-        sprintf(best[i].user, "NULL");
-        best[i].score = -1;
+        alloc(char, best.list[i].user, LIM_STR_BUFF);
+        sprintf(best.list[i].user, "NULL");
+        best.list[i].score = -1;
     }
     FILE* fptr = fopen(BEST_PATH, "r");
     if(fptr == NULL) {
         wr_best(best);
     } else {
         for(i = 0; i < N_BEST; i++) {
-            fscanf(fptr, "%s = %d", best[i].user, &(best[i].score));
+            fscanf(fptr, "%s = %d", best.list[i].user, &(best.list[i].score));
         }
         fclose(fptr);
     }
     return best;
 }
 
-void wr_best(UserScore* best) {
+void wr_best(List_UserScore best) {
     FILE* fptr = fopen(BEST_PATH, "w");
     if(fptr == NULL) {
         return;
     }
     for(int i = 0; i < N_BEST; i++) {
-        fprintf(fptr, "%s = %d\n", best[i].user, best[i].score);
+        fprintf(fptr, "%s = %d\n", best.list[i].user, best.list[i].score);
     }
     fclose(fptr);
 }

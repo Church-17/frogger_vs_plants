@@ -15,7 +15,7 @@
 #define SEL_PADY 1 // Empty lines in settings
 #define LR_ARROWS 4 // N chars occupied by arrows in settings
 
-void view(str title, List_str sx, List_str dx, int* cols) {
+void view(str title, List_str sx, List_str dx, List_int cols) {
     int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
     WINDOW* menu_win = newctrwin(sx.len+BOX_PADN+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
@@ -24,8 +24,8 @@ void view(str title, List_str sx, List_str dx, int* cols) {
 
     // Prints options
     for(i = 0; i < sx.len; i++) {
-        mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, COLOR_PAIR(cols[i]), "%s", sx.list[i]);
-        mvwattrprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), COLOR_PAIR(cols[i]), "%s", dx.list[i]);
+        mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, COLOR_PAIR(cols.list[i]), "%s", sx.list[i]);
+        mvwattrprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), COLOR_PAIR(cols.list[i]), "%s", dx.list[i]);
     }
     wgetch(menu_win);
     unwin(menu_win);
@@ -127,18 +127,22 @@ void home_menu(void) {
 
 // Best scores screen
 void best_scores_menu(void) {
-    int i;
-    int cols[] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
-    UserScore* best = rd_best(); // Retreive best scores
-    List_str sx, dx;
+    // Init vars
+    int i, col_arr[] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
     str users[N_BEST], scores[N_BEST];
+    List_str sx, dx;
+    List_int cols;
     sx.list = users;
     dx.list = scores;
-    sx.len = dx.len = N_BEST;
+    cols.list = col_arr;
+    cols.len = sx.len = dx.len = N_BEST;
+
+    // Pass best scores ignoring negative scores
+    List_UserScore best = rd_best(); // Retreive best scores
     for(i = 0; i < N_BEST; i++) {
-        if(best[i].score >= 0) {
-            sx.list[i] = best[i].user;
-            dx.list[i] = int_to_str(best[i].score);
+        if(best.list[i].score >= 0) {
+            sx.list[i] = best.list[i].user;
+            dx.list[i] = int_to_str(best.list[i].score);
         } else {
             sx.list[i] = dx.list[i] = "";
         }
@@ -147,9 +151,9 @@ void best_scores_menu(void) {
 
     // Free memory
     for(i = 0; i < N_BEST; i++) {
-        free(best[i].user);
+        free(best.list[i].user);
     }
-    free(best);
+    free(best.list);
 }
 
 // Settings Menu
@@ -305,13 +309,15 @@ void settings_menu(void) {
 
 // Credits screen
 void credits_menu(void) {
-    int cols[N_CREDITS] = {0};
     str list0[] = {PROJECT, "", FRANCESCO, MATTEO};
     str list1[] = {"", "", "", ""};
+    int list2[N_CREDITS] = {0};
     List_str sx, dx;
+    List_int cols;
     sx.list = list0;
     dx.list = list1;
-    sx.len = dx.len = N_CREDITS;
+    cols.list = list2;
+    cols.len = sx.len = dx.len = N_CREDITS;
     view(CREDITS, sx, dx, cols);
 }
 
