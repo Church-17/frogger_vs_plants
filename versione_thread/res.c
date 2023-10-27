@@ -63,7 +63,7 @@ UserScore* rd_best(void) {
     if(fptr == NULL) {
         wr_best(best);
     } else {
-        for(i = 0; !feof(fptr) && i < N_BEST; i++) {
+        for(i = 0; i < N_BEST; i++) {
             fscanf(fptr, "%s = %d", best[i].user, &(best[i].score));
         }
         fclose(fptr);
