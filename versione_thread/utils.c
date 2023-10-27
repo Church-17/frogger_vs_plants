@@ -15,6 +15,15 @@ int max(int n1, int n2) {
     return n2;
 }
 
+// Mod function
+int mod(int n1, int n2) {
+    if(n1 >= 0) {
+        return n1 % n2;
+    } else {
+        return (n1 % n2) + n2;
+    }
+}
+
 // Find max length of a strings list
 int max_strlen(List_str strings, int min_len) {
     int max_len = min_len;

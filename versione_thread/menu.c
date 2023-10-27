@@ -64,18 +64,14 @@ int menu(str title, List_str set) {
             case KEY_UP:
             case KEY_LEFT:
             case KEY_PPAGE:
-                if (--hl < 0) {
-                    hl = set.len - 1;
-                }
+                hl = mod(hl-1, set.len);
                 break;
             
             // Increase hl
             case KEY_DOWN:
             case KEY_RIGHT:
             case KEY_NPAGE:
-                if (++hl >= set.len) {
-                    hl = 0;
-                }
+                hl = mod(hl+1, set.len);
                 break;
 
             // Highlight first option
@@ -95,7 +91,7 @@ int menu(str title, List_str set) {
 
             default:
                 // Check first letters of options
-                for(i = (hl+1)%set.len; i != hl; i = (i+1)%set.len) {
+                for(i = mod(hl+1, set.len); i != hl; i = mod(i+1, set.len)) {
                     if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
                         hl = i;
                         break;
@@ -254,17 +250,13 @@ void settings_menu(void) {
             // Decrease hl
             case KEY_UP:
             case KEY_PPAGE:
-                if (--hl < 0) {
-                    hl = set.len + sel.len - 1;
-                }
+                hl = mod(hl-1, set.len+sel.len);
                 break;
             
             // Increase hl
             case KEY_DOWN:
             case KEY_NPAGE:
-                if (++hl >= set.len + sel.len) {
-                    hl = 0;
-                }
+                hl = mod(hl+1, set.len+sel.len);
                 break;
 
             // Change selected option
@@ -273,9 +265,7 @@ void settings_menu(void) {
                     // Delete old corrispondent option
                     mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), "%*s", (int) strlen(opts[hl].list[newly_setted[hl]])+LR_ARROWS, "");
                     // Deacrease index option
-                    if(--newly_setted[hl] < 0) {
-                        newly_setted[hl] = opts[hl].len - 1;
-                    }
+                    newly_setted[hl] = mod(newly_setted[hl]-1, opts[hl].len);
                 }
                 break;
 
@@ -284,9 +274,7 @@ void settings_menu(void) {
                     // Delete old corrispondent option
                     mvwprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), "%*s", (int) strlen(opts[hl].list[newly_setted[hl]])+LR_ARROWS, "");
                     // Increase index option
-                    if(++newly_setted[hl] >= opts[hl].len) {
-                        newly_setted[hl] = 0;
-                    }
+                    newly_setted[hl] = mod(newly_setted[hl]+1, opts[hl].len);
                 }
                 break;
 
@@ -316,7 +304,7 @@ void settings_menu(void) {
 
             default:
                 // Check first letters from hl
-                for(i = (hl+1)%(set.len+sel.len); i != hl; i = (i+1)%(set.len+sel.len)) {
+                for(i = mod(hl+1, set.len+sel.len); i != hl; i = mod(i+1, set.len+sel.len)) {
                     if(i < set.len) {
                         if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
                             hl = i;
