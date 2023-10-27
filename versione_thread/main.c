@@ -8,6 +8,7 @@
 
 // Main
 int main(void) {
+    // Setup screen
     setlocale(LC_ALL, ""); // Enable UTF-8 chars
     initscr(); // Initialize window
     noecho(); // Hide character typed
@@ -15,6 +16,7 @@ int main(void) {
     keypad(stdscr, TRUE); // Enable function keys listener
     enable_colors(); // Initialize colors
     
+    // Read settings from file
     rd_settings();
     while(TRUE) {
         home_menu(); // Call Home Menu

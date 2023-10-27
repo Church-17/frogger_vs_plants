@@ -1,16 +1,22 @@
+// Include libs
 #include "struct.h"
 
+// Define constant
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
 #define BEST_PATH "/home/matte/.game_best.dat"
 #define LIM_STR_BUFF 100
 
+// Inter-object variables
 extern int game_settings[];
-extern str strContainer[][2];   // extern allows to load a global variable from another object file
+extern str strContainer[][2];
 
+// Function prototypes
 void rd_settings(void);
 void wr_settings(void);
 List_UserScore rd_best(void);
 void wr_best(List_UserScore best);
+
+// --- STRINGS ---
 
 // Home
 #define TITLE "PAC-MAN"
