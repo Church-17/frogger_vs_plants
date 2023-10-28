@@ -51,6 +51,7 @@ void enable_colors(void) {
 		exit(1);
 	}
     start_color(); // Enable colors
+    init_color(COLOR_YELLOW, 1000, 1000, 0);
     init_pair(GOLD_PAIR, COLOR_YELLOW, COLOR_BLACK);
     init_color(COLOR_SILVER, 700, 700, 700);
     init_pair(SILVER_PAIR, COLOR_SILVER, COLOR_BLACK);
