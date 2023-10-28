@@ -1,23 +1,24 @@
 CC = gcc
-CARGS = -fdiagnostics-color=always -Wall -lncursesw -lpthread
+CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread
+COBJ = ${CC} -c $*.c ${CARGS}
 
 sopr_proj: main.o menu.o game.o res.o utils.o
-	${CC} $^ -o $@ ${CARGS}
+	${CC} $^ ${CARGS}
 
 main.o: menu.h res.h utils.h main.c
-	${CC} -c $*.c -o $@ ${CARGS}
+	${COBJ}
 
 menu.o: menu.h game.h res.h utils.h menu.c
-	${CC} -c $*.c -o $@ ${CARGS}
+	${COBJ}
 
 game.o: game.h menu.h res.h utils.h game.c
-	${CC} -c $*.c -o $@ ${CARGS}
+	${COBJ}
 
 res.o: res.h utils.h res.c
-	${CC} -c $*.c -o $@ ${CARGS}
+	${COBJ}
 
 utils.o: utils.h utils.c
-	${CC} -c $*.c -o $@ ${CARGS}
+	${COBJ}
 
 clean:
 	rm *.o
