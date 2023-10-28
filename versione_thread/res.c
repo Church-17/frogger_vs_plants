@@ -4,7 +4,7 @@
 #include "utils.h"
 #include "res.h"
 
-// Define macros
+// Define constant
 #define LIST_SETTINGS {"language", "difficulty", "skin"}
 
 // Define inter-object variables
