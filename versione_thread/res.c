@@ -8,7 +8,7 @@
 #define LIST_SETTINGS {"language", "difficulty", "skin"}
 
 // Define inter-object variables
-int game_settings[] = {0, 1, 2}; // DEFAULT SETTTINGS
+int game_settings[N_SETTINGS] = {0, 1, 2}; // DEFAULT SETTTINGS
 str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},

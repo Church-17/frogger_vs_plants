@@ -106,7 +106,7 @@ int menu(str title, List_str set) {
 void home_menu(void) {
     // Init vars
     List_str set;
-    str list[] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
+    str list[N_HOME] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
     set.list = list;
     set.len = N_HOME;
 
@@ -137,7 +137,7 @@ void home_menu(void) {
 // Best scores screen
 void best_scores_menu(void) {
     // Init vars
-    int i, col_arr[] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
+    int i, col_arr[N_BEST] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
     str users[N_BEST], scores[N_BEST];
     List_str sx, dx;
     List_int cols;
@@ -160,6 +160,9 @@ void best_scores_menu(void) {
 
     // Free memory
     for(i = 0; i < N_BEST; i++) {
+        if(best.list[i].score >= 0) {
+            free(dx.list[i]);
+        }
         free(best.list[i].user);
     }
     free(best.list);
@@ -169,28 +172,25 @@ void best_scores_menu(void) {
 void settings_menu(void) {
     // Init vars
     int i, key, hl = 0, old_hl = 0;
-
     // Settings
     List_str set;
-    str set0[] = {LANGUAGE, DIFFICULTY, SKIN};
+    str set0[N_SETTINGS] = {LANGUAGE, DIFFICULTY, SKIN};
     set.list = set0;
     set.len = N_SETTINGS;
-
     // Selectables
     List_str sel; 
-    str sel0[] = {APPLY, CANCEL};
+    str sel0[N_SETTINGS_SEL] = {APPLY, CANCEL};
     sel.list = sel0;
     sel.len = N_SETTINGS_SEL;
-
     // Options for each settings
     List_str opts[N_SETTINGS];
-    str language[] = {LANGUAGE_0, LANGUAGE_1};
+    str language[N_LANGUAGE] = {LANGUAGE_0, LANGUAGE_1};
     opts[0].list = language;
     opts[0].len = N_LANGUAGE;
-    str difficulty[] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
+    str difficulty[N_DIFFICULTY] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
     opts[1].list = difficulty;
     opts[1].len = N_DIFFICULTY;
-    str skin[] = {SKIN_0, SKIN_1, SKIN_2};
+    str skin[N_SKIN] = {SKIN_0, SKIN_1, SKIN_2};
     opts[2].list = skin;
     opts[2].len = N_SKIN;
 
@@ -325,8 +325,8 @@ void settings_menu(void) {
 // Credits screen
 void credits_menu(void) {
     // Init vars
-    str list0[] = {PROJECT, "", FRANCESCO, MATTEO};
-    str list1[] = {"", "", "", ""};
+    str list0[N_CREDITS] = {PROJECT, "", FRANCESCO, MATTEO};
+    str list1[N_CREDITS] = {"", "", "", ""};
     int list2[N_CREDITS] = {0};
     List_str sx, dx;
     List_int cols;
@@ -340,7 +340,7 @@ void credits_menu(void) {
 
 int pause_menu(void) {
     // Init vars
-    str list[] = {RESUME, NEW_GAME, SETTINGS, HOME, QUIT};
+    str list[N_PAUSE] = {RESUME, NEW_GAME, SETTINGS, HOME, QUIT};
     List_str set;
     set.list = list;
     set.len = N_PAUSE;
