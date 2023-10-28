@@ -151,7 +151,7 @@ void best_scores_menu(void) {
     for(i = 0; i < N_BEST; i++) {
         if(best.list[i].score >= 0) {
             sx.list[i] = best.list[i].user;
-            dx.list[i] = int_to_str(best.list[i].score);
+            dx.list[i] = itos(best.list[i].score);
         } else { // If a score is negative, it's a non-existing record
             sx.list[i] = dx.list[i] = ""; // Print empty line
         }
