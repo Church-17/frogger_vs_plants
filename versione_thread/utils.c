@@ -58,6 +58,7 @@ void enable_colors(void) {
     init_pair(BRONZE_PAIR, COLOR_BRONZE, COLOR_BLACK);
 }
 
+// Create new centred window
 WINDOW* newctrwin(int n_rows, int n_cols) {
     return newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2);
 }
