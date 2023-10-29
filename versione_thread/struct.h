@@ -4,6 +4,6 @@
 typedef char* str;
 typestructdef(Point);
 typestructdef(UserScore);
-typestructdef(List_int);
 typestructdef(List_str);
+typestructdef(List_attr);
 typestructdef(List_UserScore);

@@ -7,8 +7,8 @@
 #include "utils.h"
 
 // Define constant
-#define COLOR_SILVER 8
-#define COLOR_BRONZE 9
+#define COLOR_GREY 8
+#define COLOR_BROWN 9
 
 // Main
 int main(void) {
@@ -27,12 +27,13 @@ int main(void) {
 		exit(1);
 	}
     start_color(); // Enable colors
+    init_color(COLOR_BLACK, 0, 0, 0);
     init_color(COLOR_YELLOW, 1000, 1000, 0);
-    init_pair(GOLD_PAIR, COLOR_YELLOW, COLOR_BLACK);
-    init_color(COLOR_SILVER, 700, 700, 700);
-    init_pair(SILVER_PAIR, COLOR_SILVER, COLOR_BLACK);
-    init_color(COLOR_BRONZE, 820, 600, 200);
-    init_pair(BRONZE_PAIR, COLOR_BRONZE, COLOR_BLACK);
+    init_pair(INDEX_YELLOW_BLACK, COLOR_YELLOW, COLOR_BLACK);
+    init_color(COLOR_GREY, 700, 700, 700);
+    init_pair(INDEX_GREY_BLACK, COLOR_GREY, COLOR_BLACK);
+    init_color(COLOR_BROWN, 820, 600, 200);
+    init_pair(INDEX_BROWN_BLACK, COLOR_BROWN, COLOR_BLACK);
     
     // Read settings from file
     rd_settings();

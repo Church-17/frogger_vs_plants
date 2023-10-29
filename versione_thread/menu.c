@@ -15,18 +15,18 @@
 #define SEL_PADY 1 // Empty lines in settings
 #define LR_ARROWS 4 // # chars occupied by arrows in settings
 
-// General function for colored double column view
-void view(str title, List_str sx, List_str dx, List_int cols) {
+// General function for styled double column view
+void view(str title, List_str sx, List_str dx, List_attr attrs) {
     int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
     WINDOW* menu_win = newctrwin(sx.len+BOX_PADN+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
 
-    // Print lists with colors
+    // Print lists with attributes
     for(i = 0; i < sx.len; i++) {
-        mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, COLOR_PAIR(cols.list[i]), "%s", sx.list[i]);
-        mvwattrprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), COLOR_PAIR(cols.list[i]), "%s", dx.list[i]);
+        mvwattrprintw(menu_win, i+BOX_PADN, BOX_PADW, attrs.list[i], "%s", sx.list[i]);
+        mvwattrprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), attrs.list[i], "%s", dx.list[i]);
     }
     wgetch(menu_win); // Press any key to exit
     unwin(menu_win);
@@ -137,13 +137,14 @@ void home_menu(void) {
 // Best scores screen
 void best_scores_menu(void) {
     // Init vars
-    int i, col_arr[N_BEST] = {GOLD_PAIR, SILVER_PAIR, BRONZE_PAIR};
+    int i;
     str users[N_BEST], scores[N_BEST];
+    attr_t list0[N_BEST] = {YELLOW_BLACK, GREY_BLACK, BROWN_BLACK};
     List_str sx, dx;
-    List_int cols;
+    List_attr cols;
     sx.list = users;
     dx.list = scores;
-    cols.list = col_arr;
+    cols.list = list0;
     cols.len = sx.len = dx.len = N_BEST;
 
     // Pass best scores ignoring empty scores
@@ -327,9 +328,9 @@ void credits_menu(void) {
     // Init vars
     str list0[N_CREDITS] = {PROJECT, "", FRANCESCO, MATTEO};
     str list1[N_CREDITS] = {"", "", "", ""};
-    int list2[N_CREDITS] = {0};
+    attr_t list2[N_CREDITS] = {WHITE_BLACK, WHITE_BLACK, WHITE_BLACK, WHITE_BLACK};
     List_str sx, dx;
-    List_int cols;
+    List_attr cols;
     sx.list = list0;
     dx.list = list1;
     cols.list = list2;
