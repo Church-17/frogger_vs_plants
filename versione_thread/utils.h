@@ -43,7 +43,6 @@ int max(int n1, int n2);
 int mod(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
 str dtos(int num);
-void enable_colors(void);
 WINDOW* newctrwin(int n_rows, int n_cols);
 void wctrprintw(WINDOW* win, int row, str fstr);
 void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr);
