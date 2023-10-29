@@ -28,12 +28,14 @@ int main(void) {
 	}
     start_color(); // Enable colors
     init_color(COLOR_BLACK, 0, 0, 0);
-    init_color(COLOR_YELLOW, 1000, 1000, 0);
-    init_pair(INDEX_YELLOW_BLACK, COLOR_YELLOW, COLOR_BLACK);
-    init_color(COLOR_GREY, 700, 700, 700);
-    init_pair(INDEX_GREY_BLACK, COLOR_GREY, COLOR_BLACK);
-    init_color(COLOR_BROWN, 820, 600, 200);
-    init_pair(INDEX_BROWN_BLACK, COLOR_BROWN, COLOR_BLACK);
+    init_color(COLOR_WHITE, 800, 800, 800);
+    init_color(COLOR_YELLOW, 900, 900, 0);
+    init_color(COLOR_GREY, 600, 600, 600);
+    init_color(COLOR_BROWN, 800, 600, 200);
+    init_pair(0, COLOR_WHITE, COLOR_BLACK);
+    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(2, COLOR_GREY, COLOR_BLACK);
+    init_pair(3, COLOR_BROWN, COLOR_BLACK);
     
     // Read settings from file
     rd_settings();

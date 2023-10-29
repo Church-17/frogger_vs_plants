@@ -7,14 +7,10 @@
 #define ENTER 10
 #define DIFF_CAPITAL 32
 // Colors
-#define INDEX_WHITE_BLACK 0
-#define WHITE_BLACK COLOR_PAIR(INDEX_WHITE_BLACK)
-#define INDEX_YELLOW_BLACK 1
-#define YELLOW_BLACK COLOR_PAIR(INDEX_YELLOW_BLACK)
-#define INDEX_GREY_BLACK 2
-#define GREY_BLACK COLOR_PAIR(INDEX_GREY_BLACK)
-#define INDEX_BROWN_BLACK 3
-#define BROWN_BLACK COLOR_PAIR(INDEX_BROWN_BLACK)
+#define WHITE_BLACK COLOR_PAIR(0)
+#define YELLOW_BLACK COLOR_PAIR(1)
+#define GREY_BLACK COLOR_PAIR(2)
+#define BROWN_BLACK COLOR_PAIR(3)
 
 // Define macros
 #define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type))
