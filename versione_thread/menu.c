@@ -19,6 +19,7 @@
 void view(str title, List_str sx, List_str dx, List_attr attrs) {
     int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
     WINDOW* menu_win = newctrwin(sx.len+BOX_PADN+BOX_PADS, win_width); // Centered window
+    wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
@@ -29,6 +30,7 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
         mvwattrprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), attrs.list[i], "%s", dx.list[i]);
     }
     wgetch(menu_win); // Press any key to exit
+    wattroff(menu_win, COLS1);
     unwin(menu_win);
 }
 
@@ -39,6 +41,7 @@ int menu(str title, List_str set) {
     WINDOW* menu_win = newctrwin(set.len+BOX_PADN+BOX_PADS, win_width); // Create centered window
 
     // Setup window
+    wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
@@ -54,7 +57,9 @@ int menu(str title, List_str set) {
         mvwfattrprintw(menu_win, old_hl+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[old_hl]);
         wprintw(menu_win, "%*s", HL_PADX, ""); // Delete old_hl padding
         mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", HL_PADX, ""); // Print hl padding
-        wattrprintw(menu_win, A_STANDOUT, "%s", set.list[hl]);
+        wattroff(menu_win, COLS1);
+        wattrprintw(menu_win, A_STANDOUT | COLS2, "%s", set.list[hl]);
+        wattron(menu_win, COLS1);
 
         old_hl = hl; // Track old hl
 
@@ -86,6 +91,7 @@ int menu(str title, List_str set) {
 
             // Select the highlighted option
             case ENTER:
+                wattroff(menu_win, COLS1);
                 unwin(menu_win);
                 return hl;
 
@@ -175,7 +181,7 @@ void settings_menu(void) {
     int i, key, hl = 0, old_hl = 0;
     // Settings
     List_str set;
-    str set0[N_SETTINGS] = {LANGUAGE, DIFFICULTY, SKIN};
+    str set0[N_SETTINGS] = {LANGUAGE, DIFFICULTY, SKIN, FIRST_COLOR, SECOND_COLOR};
     set.list = set0;
     set.len = N_SETTINGS;
     // Selectables
@@ -194,6 +200,11 @@ void settings_menu(void) {
     str skin[N_SKIN] = {SKIN_0, SKIN_1, SKIN_2};
     opts[2].list = skin;
     opts[2].len = N_SKIN;
+    str color[N_COLOR] = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6};
+    opts[3].list = color;
+    opts[3].len = N_COLOR;
+    opts[4].list = color;
+    opts[4].len = N_COLOR;
 
     // Sync newly setted to settings
     int newly_setted[N_SETTINGS];
@@ -210,6 +221,7 @@ void settings_menu(void) {
 
     // Setup window 
     WINDOW* menu_win = newctrwin(set.len+sel.len+BOX_PADN+BOX_PADS+SEL_PADY, win_width); // Create centered window
+    wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, SETTINGS); // Print title
@@ -235,14 +247,16 @@ void settings_menu(void) {
             mvwprintw(menu_win, old_hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[old_hl].list[newly_setted[old_hl]]), "%*s%s", LR_ARROWS, "", opts[old_hl].list[newly_setted[old_hl]]);
         }
         // Update hl to become highlighted or to update corrispondent option
+        wattroff(menu_win, COLS1);
         if(hl >= set.len) { // If hl referes to a selectable...
             mvwprintw(menu_win, hl+BOX_PADN+SEL_PADY, BOX_PADW, "%*s", HL_PADX, ""); // Print HL_PADX
-            wattrprintw(menu_win, A_STANDOUT, "%s", sel.list[hl-set.len]);
+            wattrprintw(menu_win, A_STANDOUT | COLS2, "%s", sel.list[hl-set.len]);
         } else { // If hl referes to a setting...
             mvwprintw(menu_win, hl+BOX_PADN, BOX_PADW, "%*s", HL_PADX, ""); // Print HL_PADX
-            wattrprintw(menu_win, A_STANDOUT, "%s", set.list[hl]);
-            mvwattrprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), A_STANDOUT, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
+            wattrprintw(menu_win, A_STANDOUT | COLS2, "%s", set.list[hl]);
+            mvwattrprintw(menu_win, hl+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), A_STANDOUT | COLS2, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
         }
+        wattron(menu_win, COLS1);
 
         old_hl = hl; // Track old hl
 
@@ -298,6 +312,7 @@ void settings_menu(void) {
                         }
                         wr_settings();
                     }
+                    wattroff(menu_win, COLS1);
                     unwin(menu_win);
                     return;
                 }
@@ -328,7 +343,7 @@ void credits_menu(void) {
     // Init vars
     str list0[N_CREDITS] = {PROJECT, "", FRANCESCO, MATTEO};
     str list1[N_CREDITS] = {"", "", "", ""};
-    attr_t list2[N_CREDITS] = {WHITE_BLACK, WHITE_BLACK, WHITE_BLACK, WHITE_BLACK};
+    attr_t list2[N_CREDITS] = {COLS1, COLS1, COLS1, COLS1};
     List_str sx, dx;
     List_attr cols;
     sx.list = list0;

@@ -5,10 +5,13 @@
 #include "res.h"
 
 // Define constant
-#define LIST_SETTINGS {"language", "difficulty", "skin"}
+#define LIST_SETTINGS {"language", "difficulty", "skin", "main_color"}
+#define SETTINGS_PATH "/home/matte/.game_settings.ini"
+#define BEST_PATH "/home/matte/.game_best.dat"
+#define LIM_STR_BUFF 100
 
 // Define inter-object variables
-int game_settings[N_SETTINGS] = {0, 1, 2}; // Default settings
+int game_settings[N_SETTINGS] = {0, 1, 2, 0, 0}; // Default settings
 str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
@@ -27,7 +30,15 @@ str strContainer[][N_LANGUAGE] = {
     {"SOPR Project 23-24", "Progetto SOPR 23-24"},
     {"Pause", "Pausa"},
     {"Resume", "Continua"},
-    {"Home menu", "Torna al menu"}
+    {"Home menu", "Torna al menu"},
+    {"Main color","Colore principale"},
+    {"Secondary color", "Colore secondario"},
+    {"White","Bianco"},
+    {"Red","Rosso"},
+    {"Green","Verde"},
+    {"Yellow","Giallo"},
+    {"Blue","Blu"},
+    {"Cyan","Ciano"}
 };
 
 // Read settings from settings file

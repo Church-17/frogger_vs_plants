@@ -29,13 +29,23 @@ int main(void) {
     start_color(); // Enable colors
     init_color(COLOR_BLACK, 0, 0, 0);
     init_color(COLOR_WHITE, 800, 800, 800);
-    init_color(COLOR_YELLOW, 900, 900, 0);
+    init_color(COLOR_RED, 800, 0, 0);
+    init_color(COLOR_GREEN, 0, 700, 200);
+    init_color(COLOR_YELLOW, 800, 800, 0);
+    init_color(COLOR_BLUE, 0, 300, 900);
+    init_color(COLOR_MAGENTA, 600, 0, 600);
+    init_color(COLOR_CYAN, 200, 600, 900);
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
     init_pair(0, COLOR_WHITE, COLOR_BLACK);
-    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(2, COLOR_GREY, COLOR_BLACK);
-    init_pair(3, COLOR_BROWN, COLOR_BLACK);
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(2, COLOR_GREEN, COLOR_BLACK);
+    init_pair(3, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(4, COLOR_BLUE, COLOR_BLACK);
+    init_pair(5, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(6, COLOR_CYAN, COLOR_BLACK);
+    init_pair(7, COLOR_GREY, COLOR_BLACK);
+    init_pair(8, COLOR_BROWN, COLOR_BLACK);
     
     // Read settings from file
     rd_settings();

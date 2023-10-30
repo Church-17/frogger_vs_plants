@@ -6,11 +6,6 @@
 // Define constant
 #define ENTER 10
 #define DIFF_CAPITAL 32
-// Colors
-#define WHITE_BLACK COLOR_PAIR(0)
-#define YELLOW_BLACK COLOR_PAIR(1)
-#define GREY_BLACK COLOR_PAIR(2)
-#define BROWN_BLACK COLOR_PAIR(3)
 
 // Define macros
 #define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type))
