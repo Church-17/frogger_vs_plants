@@ -30,7 +30,6 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
         mvwattrprintw(menu_win, i+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), attrs.list[i], "%s", dx.list[i]);
     }
     wgetch(menu_win); // Press any key to exit
-    wattroff(menu_win, COLS1);
     unwin(menu_win);
 }
 
@@ -91,7 +90,6 @@ int menu(str title, List_str set) {
 
             // Select the highlighted option
             case ENTER:
-                wattroff(menu_win, COLS1);
                 unwin(menu_win);
                 return hl;
 
@@ -312,7 +310,6 @@ void settings_menu(void) {
                         }
                         wr_settings();
                     }
-                    wattroff(menu_win, COLS1);
                     unwin(menu_win);
                     return;
                 }
