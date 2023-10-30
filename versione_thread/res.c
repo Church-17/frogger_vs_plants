@@ -5,7 +5,7 @@
 #include "res.h"
 
 // Define constant
-#define LIST_SETTINGS {"language", "difficulty", "skin", "main_color"}
+#define LIST_SETTINGS {"language", "difficulty", "skin", "first_color", "second_color"}
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
 #define BEST_PATH "/home/matte/.game_best.dat"
 #define LIM_STR_BUFF 100
