@@ -19,6 +19,11 @@ extern int game_settings[];
 #define SKIN_SET game_settings[SKIN_ID]
 #define COL1_SET game_settings[COL1_ID]
 #define COL2_SET game_settings[COL2_ID]
+#define LANG_STR "language"
+#define DIFF_STR "difficulty"
+#define SKIN_STR "skin"
+#define COL1_STR "color_1"
+#define COL2_STR "color_2"
 
 // --- COLORS ---
 #define COLS1 COLOR_PAIR(COL1_SET)
