@@ -1,20 +1,24 @@
 // Include libs
 #include "struct.h"
 
-// Inter-object variables
-extern int game_settings[];
-#define LANG_SET game_settings[0]
-#define SKIN_SET game_settings[1]
-#define DIFF_SET game_settings[2]
-#define COL1_SET game_settings[3]
-#define COL2_SET game_settings[4]
-extern str strContainer[][2];
-
 // Function prototypes
 void rd_settings(void);
 void wr_settings(void);
 List_UserScore rd_best(void);
 void wr_best(List_UserScore best);
+
+// --- SETTINGS ---
+extern int game_settings[];
+#define LANG_ID 0
+#define DIFF_ID 1
+#define SKIN_ID 2
+#define COL1_ID 3
+#define COL2_ID 4
+#define LANG_SET game_settings[LANG_ID]
+#define DIFF_SET game_settings[DIFF_ID]
+#define SKIN_SET game_settings[SKIN_ID]
+#define COL1_SET game_settings[COL1_ID]
+#define COL2_SET game_settings[COL2_ID]
 
 // --- COLORS ---
 #define COLS1 COLOR_PAIR(COL1_SET)
@@ -24,6 +28,7 @@ void wr_best(List_UserScore best);
 #define BROWN_BLACK COLOR_PAIR(8)
 
 // --- STRINGS ---
+extern str strContainer[][2];
 
 // Home
 #define TITLE "PAC-MAN"
@@ -40,12 +45,12 @@ void wr_best(List_UserScore best);
 // Settings
 #define LANGUAGE strContainer[5][LANG_SET]
 #define DIFFICULTY strContainer[6][LANG_SET]
+#define SKIN "Skin"
 #define FIRST_COLOR strContainer[18][LANG_SET]
 #define SECOND_COLOR strContainer[19][LANG_SET]
-#define SKIN "Skin"
+#define N_SETTINGS 5
 #define APPLY "Ok"
 #define CANCEL strContainer[7][LANG_SET]
-#define N_SETTINGS 5
 #define N_SETTINGS_SEL 2
 // - Language
 #define LANGUAGE_0 "English"
