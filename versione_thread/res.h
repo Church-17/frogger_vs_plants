@@ -9,21 +9,11 @@ void wr_best(List_UserScore best);
 
 // --- SETTINGS ---
 extern int game_settings[];
-#define LANG_ID 0
-#define DIFF_ID 1
-#define SKIN_ID 2
-#define COL1_ID 3
-#define COL2_ID 4
-#define LANG_SET game_settings[LANG_ID]
-#define DIFF_SET game_settings[DIFF_ID]
-#define SKIN_SET game_settings[SKIN_ID]
-#define COL1_SET game_settings[COL1_ID]
-#define COL2_SET game_settings[COL2_ID]
-#define LANG_STR "language"
-#define DIFF_STR "difficulty"
-#define SKIN_STR "skin"
-#define COL1_STR "color_1"
-#define COL2_STR "color_2"
+#define LANG_SET game_settings[0]
+#define DIFF_SET game_settings[1]
+#define SKIN_SET game_settings[2]
+#define COL1_SET game_settings[3]
+#define COL2_SET game_settings[4]
 
 // --- COLORS ---
 #define COLS1 COLOR_PAIR(COL1_SET)

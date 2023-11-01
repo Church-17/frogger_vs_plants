@@ -5,6 +5,7 @@
 #include "res.h"
 
 // Define constant
+#define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"}
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
 #define BEST_PATH "/home/matte/.game_best.dat"
 #define LIM_STR_BUFF 100
@@ -57,12 +58,7 @@ void rd_settings(void) {
 // Write updated settings in settings file
 void wr_settings(void) {
     // Init vars & open settings file
-    str str_settings[N_SETTINGS];
-    str_settings[LANG_ID] = LANG_STR;
-    str_settings[DIFF_ID] = DIFF_STR;
-    str_settings[SKIN_ID] = SKIN_STR;
-    str_settings[COL1_ID] = COL1_STR;
-    str_settings[COL2_ID] = COL2_STR;
+    str str_settings[N_SETTINGS] = LIST_SETTINGS;
     FILE* fptr = fopen(SETTINGS_PATH, "w");
 
     if(fptr == NULL) { // If settings file cannot be created...
