@@ -6,9 +6,9 @@
 
 // Define constant
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"}
+#define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR}
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
 #define BEST_PATH "/home/matte/.game_best.dat"
-#define LIM_STR_BUFF 100
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {0}; // Default settings
@@ -45,26 +45,37 @@ str strContainer[][N_LANGUAGE] = {
 void rd_settings(void) {
     int i, j;
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
+    int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
     FILE* fptr = fopen(SETTINGS_PATH, "r"); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
         wr_settings(); // Write new default settings file
-    } else {
-        // Read settings file and overwrite game_settings
-        Dict_str_int dict = check_conf_file(fptr, N_SETTINGS, LIM_STR_BUFF);
-        for(i = 0; i < dict.len; i++) {
-            for(j = 0; j < N_SETTINGS; j++) {
-                if(!strcmp(dict.key[i], str_settings[j])) {
-                    game_settings[j] = dict.val[i];
+        return;
+    }
+    // Read settings file
+    Dict_str_int dict = check_conf_file(fptr, N_SETTINGS, LIM_STR_BUFF);
+    fclose(fptr); // Close settings file
+    if(dict.len != N_SETTINGS) { // If settings file integrity is compromised...
+        wr_settings();
+        return;
+    }
+    // Overwrite game_settings
+    bool used[N_SETTINGS] = {0};
+    for(i = 0; i < dict.len; i++) {
+        for(j = 0; j < N_SETTINGS; j++) {
+            if(!strcmp(dict.key[i], str_settings[j])) { // Check which settings is
+                if(used[j] || dict.val[i] >= len_opts[j]) { // If is already used or the value is too high...
+                    wr_settings(); // Restore default for the other settings 
+                    return;
                 }
+                game_settings[j] = dict.val[i];
+                used[j] = 1; // Mark settings as used
             }
         }
-        for(i = 0; i < dict.len; i++) {
-            free(dict.key[i]);
-        }
-        free(dict.key);
-        free(dict.val);
-        fclose(fptr); // Close settings file
+        free(dict.key[i]);
     }
+    // Free memory
+    free(dict.key);
+    free(dict.val);
 }
 
 // Write updated settings in settings file
@@ -72,9 +83,8 @@ void wr_settings(void) {
     // Init vars & open settings file
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
     FILE* fptr = fopen(SETTINGS_PATH, "w");
-
     if(fptr == NULL) { // If settings file cannot be created...
-        return; // Use default settings without save them
+        return; // Use previous settings
     }
     // Write settings file
     for(int i = 0; i < N_SETTINGS; i++) {
@@ -98,13 +108,24 @@ List_UserScore rd_best(void) {
 
     if(fptr == NULL) { // If best scores file cannot be opened...
         wr_best(best); // Write new empty best scores file
-    } else {
-        // Read best scores and fill the UserScore list
-        for(i = 0; i < N_BEST; i++) {
-            fscanf(fptr, "%s = %d", best.list[i].user, &(best.list[i].score));
-        }
-        fclose(fptr); // Close best scores file
+        return best;
     }
+    // Read best scores
+    Dict_str_int dict = check_conf_file(fptr, N_BEST, LIM_STR_BUFF);
+    fclose(fptr); // Close best scores file
+    if(dict.len != N_BEST) { // If settings file integrity is compromised...
+        wr_best(best);
+        return best;
+    }
+    // Fill the UserScore list
+    for(i = 0; i < N_BEST; i++) {
+        free(best.list[i].user);
+        best.list[i].user = dict.key[i];
+        best.list[i].score = dict.val[i];
+    }
+    // Free memory
+    free(dict.key);
+    free(dict.val);
     return best;
 }
 

@@ -21,10 +21,7 @@ int main(void) {
     
     // Setup colors
     if(has_colors() == FALSE) {	// Check color support
-        endwin();
-		printf("Your terminal does not support color\n");
-        getchar();
-		exit(1);
+		error("Color unsupported");
 	}
     start_color(); // Enable colors
     init_color(COLOR_BLACK, 0, 0, 0);

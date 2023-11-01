@@ -67,9 +67,6 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
         for(col = 0; col < lim; col++) {
             achar = getc(fptr);
             if(achar == EOF) {
-                if(col == 0) {
-                    return dict;
-                }
                 dict.len = -1; // ERROR in file
                 return dict;
             }
@@ -94,7 +91,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
             return dict;
         }
 
-        // Check values
+        // Check value
         char numstr[LEN_INTSTR];
         for(col = 0; col < LEN_INTSTR; col++) {
             achar = getc(fptr);
@@ -111,6 +108,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
             }
             numstr[col] = (char)achar;
         }
+        numstr[col] = '\0';
         dict.val[line] = atoi(numstr);
     }
     return dict;
@@ -149,4 +147,11 @@ void unwin(WINDOW* win) {
     wrefresh(win);
     delwin(win);
     refresh();
+}
+
+void error(str err_str) {
+    endwin();
+    printf("%s\n", err_str);
+    getchar();
+    exit(1);
 }
