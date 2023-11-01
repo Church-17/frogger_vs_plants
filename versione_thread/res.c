@@ -58,7 +58,7 @@ void rd_settings(void) {
                 }
             }
         }
-        for(i = 0; i < dict.val; i++) {
+        for(i = 0; i < dict.len; i++) {
             free(dict.key[i]);
         }
         free(dict.key);
