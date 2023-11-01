@@ -11,7 +11,7 @@
 #define LIM_STR_BUFF 100
 
 // Define inter-object variables
-int game_settings[N_SETTINGS]; // Default settings
+int game_settings[N_SETTINGS] = {0}; // Default settings
 str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
