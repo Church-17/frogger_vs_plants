@@ -43,14 +43,26 @@ str strContainer[][N_LANGUAGE] = {
 
 // Read settings from settings file
 void rd_settings(void) {
+    int i, j;
+    str str_settings[N_SETTINGS] = LIST_SETTINGS;
     FILE* fptr = fopen(SETTINGS_PATH, "r"); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
         wr_settings(); // Write new default settings file
     } else {
-        // Read settings file and overwrite settings variable
-        for(int i = 0; !feof(fptr) && i < N_SETTINGS; i++) {
-            fscanf(fptr, "%*s = %d\n", &(game_settings[i]));
+        // Read settings file and overwrite game_settings
+        Dict_str_int dict = check_conf_file(fptr, N_SETTINGS, LIM_STR_BUFF);
+        for(i = 0; i < dict.len; i++) {
+            for(j = 0; j < N_SETTINGS; j++) {
+                if(!strcmp(dict.key[i], str_settings[j])) {
+                    game_settings[j] = dict.val[i];
+                }
+            }
         }
+        for(i = 0; i < dict.val; i++) {
+            free(dict.key[i]);
+        }
+        free(dict.key);
+        free(dict.val);
         fclose(fptr); // Close settings file
     }
 }
