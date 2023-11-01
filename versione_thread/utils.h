@@ -8,7 +8,7 @@
 #define DIFF_CAPITAL 32
 
 // Define macros
-#define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) error("Allocated NULL");
+#define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) error("Allocated NULL"); // malloc with error-handle
 #define dalloc(type, var, n) type* alloc(type, var, n)
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col); wattrprintw(win, attr, args) // Move & print string with attribute
