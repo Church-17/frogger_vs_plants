@@ -68,12 +68,27 @@ void rd_settings(void) {
         for(j = 0; j < N_SETTINGS; j++) {
             if(!strcmp(dict.key[i], str_settings[j])) { // Check which settings is
                 if(used[j] || dict.val[i] >= len_opts[j]) { // If is already used or the value is too high...
-                    wr_settings(); // Restore default for the other settings 
+                    for(; i < dict.len; i++) {
+                        free(dict.key[i]);
+                    }
+                    free(dict.key);
+                    free(dict.val);
+                    wr_settings(); // Restore default for the other settings
                     return;
                 }
                 game_settings[j] = dict.val[i];
                 used[j] = 1; // Mark settings as used
+                break;
             }
+        }
+        if(!used[j]) {
+            for(; i < dict.len; i++) {
+                free(dict.key[i]);
+            }
+            free(dict.key);
+            free(dict.val);
+            wr_settings(); // Restore default for the other settings 
+            return;
         }
         free(dict.key[i]);
     }
