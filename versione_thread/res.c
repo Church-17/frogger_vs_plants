@@ -50,6 +50,7 @@ str strContainer[][N_LANGUAGE] = {
 
 // Read settings from settings file
 void rd_settings(void) {
+    // Init vars & open settings file
     int i, j;
     str str_settings[N_SETTINGS];
     int len_opts[N_SETTINGS];
