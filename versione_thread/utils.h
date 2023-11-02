@@ -5,7 +5,7 @@
 
 // Define constant
 #define ENTER 10
-#define DIFF_CAPITAL 32
+#define CAPITAL_SHIFT 32
 
 // Define macros
 #define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) error("Allocated NULL"); // malloc with error-handle

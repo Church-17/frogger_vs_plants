@@ -11,7 +11,7 @@
 #define BEST_PATH "/home/matte/.game_best.dat"
 #define FIRST_ALLOWED_CHAR '!'
 #define LAST_ALLOWED_CHAR '~'
-#define LEN_INTSTR 12
+#define LEN_STR_INT 12
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {0}; // Default settings
@@ -25,7 +25,7 @@ str strContainer[][N_LANGUAGE] = {
     {"Difficulty", "Difficoltà"},
     {"Cancel", "Annula"},
     {"Easy", "Facile"},
-    {"Normal", "Normale"},
+    {"Medium", "Medio"},
     {"Difficult", "Difficile"},
     {"Common", "Comune"},
     {"Rare", "Rara"},
@@ -151,7 +151,7 @@ void wr_best(List_UserScore best) {
 Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
     // Init vars
     int line, col, achar;
-    char numstr[LEN_INTSTR];
+    char numstr[LEN_STR_INT];
     Dict_str_int dict;
     alloc(str, dict.key, lines);
     for(line = 0; line < lines; line++) {
@@ -192,7 +192,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
         }
 
         // Check value
-        for(col = 0; col < LEN_INTSTR; col++) {
+        for(col = 0; col < LEN_STR_INT; col++) {
             achar = getc(fptr);
             if(achar == EOF || achar == '\n') { // Handle EOF or \n
                 if(col == 0) { // In first col

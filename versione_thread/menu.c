@@ -96,7 +96,7 @@ int menu(str title, List_str set) {
             default:
                 // Check first letters of options
                 for(i = mod(hl+1, set.len); i != hl; i = mod(i+1, set.len)) {
-                    if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
+                    if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
                         hl = i;
                         break;
                     }
@@ -319,12 +319,12 @@ void settings_menu(void) {
                 // Check first letters from hl
                 for(i = mod(hl+1, set.len+sel.len); i != hl; i = mod(i+1, set.len+sel.len)) {
                     if(i < set.len) {
-                        if(key == set.list[i][0] || key == set.list[i][0]+DIFF_CAPITAL) {
+                        if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
                             hl = i;
                             break;
                         }
                     } else {
-                        if(key == sel.list[i-set.len][0] || key == sel.list[i-set.len][0]+DIFF_CAPITAL) {
+                        if(key == sel.list[i-set.len][0] || key == sel.list[i-set.len][0]+CAPITAL_SHIFT) {
                             hl = i;
                             break;
                         }
