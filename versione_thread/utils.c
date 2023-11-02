@@ -6,8 +6,6 @@
 
 #define LEN_INTSTR 12
 #define N_SPACES 2
-#define FIRST_ALLOWED_CHAR '!'
-#define LAST_ALLOWED_CHAR '~'
 
 int max(int n1, int n2) {
     if(n1 > n2) {
@@ -49,72 +47,6 @@ bool is_char_in(char ch, char first, char last) {
         return 1;
     }
     return 0;
-}
-
-// Check file format
-Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
-    // Init vars
-    int line, col, achar;
-    char numstr[LEN_INTSTR];
-    Dict_str_int dict;
-    alloc(str, dict.key, lines);
-    for(line = 0; line < lines; line++) {
-        alloc(char, dict.key[line], lim);
-    }
-    alloc(int, dict.val, lines);
-    dict.len = lines;
-    rewind(fptr); // Restore fptr start position
-
-    // For each line...
-    for(line = 0; line < lines; line++) {
-        // Check string
-        for(col = 0; col < lim; col++) {
-            achar = getc(fptr);
-            if(achar == EOF) { // Handle EOF
-                dict.len = -1; // ERROR in file
-                return dict;
-            }
-            if(achar == ' ') { // Handle space
-                if(col == 0) { // In first col error
-                    dict.len = -1; // ERROR in file
-                    return dict;
-                }
-                break; // Otherwise string ended
-            }
-            if(!is_char_in((char)achar, FIRST_ALLOWED_CHAR, LAST_ALLOWED_CHAR)) { // Check allowed char
-                dict.len = -1; // ERROR in file
-                return dict;
-            }
-            dict.key[line][col] = (char)achar;
-        }
-        dict.key[line][col] = '\0'; // End string
-
-        // Check ' = '
-        if((achar = getc(fptr)) != '=' || (achar = getc(fptr)) != ' ') {
-            dict.len = -1; // ERROR in file
-            return dict;
-        }
-
-        // Check value
-        for(col = 0; col < LEN_INTSTR; col++) {
-            achar = getc(fptr);
-            if(achar == EOF || achar == '\n') { // Handle EOF or \n
-                if(col == 0) { // In first col
-                    dict.len = -1; // ERROR in file
-                    return dict;
-                }
-                break; // Otherwise end of line or file
-            }
-            if(!is_char_in((char)achar, '0', '9')) { // Check number char
-                dict.len = -1; // ERROR in file
-                return dict;
-            }
-            numstr[col] = (char)achar;
-        }
-        numstr[col] = '\0'; // End string
-        dict.val[line] = atoi(numstr); // Convert string to number
-    }
-    return dict;
 }
 
 // Create new centred window

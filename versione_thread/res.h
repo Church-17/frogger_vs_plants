@@ -9,6 +9,7 @@ void rd_settings(void);
 void wr_settings(void);
 List_UserScore rd_best(void);
 void wr_best(List_UserScore best);
+Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
 
 // --- SETTINGS ---
 extern int game_settings[];

@@ -46,7 +46,6 @@ int mod(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
 str dtos(int num);
 bool is_char_in(char ch, char first, char last);
-Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
 WINDOW* newctrwin(int n_rows, int n_cols);
 void wctrprintw(WINDOW* win, int row, str fstr);
 void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr);

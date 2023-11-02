@@ -9,6 +9,9 @@
 #define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR}
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
 #define BEST_PATH "/home/matte/.game_best.dat"
+#define FIRST_ALLOWED_CHAR '!'
+#define LAST_ALLOWED_CHAR '~'
+#define LEN_INTSTR 12
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {0}; // Default settings
@@ -142,4 +145,70 @@ void wr_best(List_UserScore best) {
         fprintf(fptr, "%s = %d\n", best.list[i].user, best.list[i].score);
     }
     fclose(fptr); // Close best scores file
+}
+
+// Check file format
+Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
+    // Init vars
+    int line, col, achar;
+    char numstr[LEN_INTSTR];
+    Dict_str_int dict;
+    alloc(str, dict.key, lines);
+    for(line = 0; line < lines; line++) {
+        alloc(char, dict.key[line], lim);
+    }
+    alloc(int, dict.val, lines);
+    dict.len = lines;
+    rewind(fptr); // Restore fptr start position
+
+    // For each line...
+    for(line = 0; line < lines; line++) {
+        // Check string
+        for(col = 0; col < lim; col++) {
+            achar = getc(fptr);
+            if(achar == EOF) { // Handle EOF
+                dict.len = -1; // ERROR in file
+                return dict;
+            }
+            if(achar == ' ') { // Handle space
+                if(col == 0) { // In first col error
+                    dict.len = -1; // ERROR in file
+                    return dict;
+                }
+                break; // Otherwise string ended
+            }
+            if(!is_char_in((char)achar, FIRST_ALLOWED_CHAR, LAST_ALLOWED_CHAR)) { // Check allowed char
+                dict.len = -1; // ERROR in file
+                return dict;
+            }
+            dict.key[line][col] = (char)achar;
+        }
+        dict.key[line][col] = '\0'; // End string
+
+        // Check ' = '
+        if((achar = getc(fptr)) != '=' || (achar = getc(fptr)) != ' ') {
+            dict.len = -1; // ERROR in file
+            return dict;
+        }
+
+        // Check value
+        for(col = 0; col < LEN_INTSTR; col++) {
+            achar = getc(fptr);
+            if(achar == EOF || achar == '\n') { // Handle EOF or \n
+                if(col == 0) { // In first col
+                    dict.len = -1; // ERROR in file
+                    return dict;
+                }
+                break; // Otherwise end of line or file
+            }
+            if(!is_char_in((char)achar, '0', '9')) { // Check number char
+                dict.len = -1; // ERROR in file
+                return dict;
+            }
+            numstr[col] = (char)achar;
+        }
+        numstr[col] = '\0'; // End string
+        dict.val[line] = atoi(numstr); // Convert string to number
+    }
+    return dict;
 }
