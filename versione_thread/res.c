@@ -5,11 +5,8 @@
 #include "res.h"
 
 // Define constant
-#define LANG_STR "language"
-#define DIFF_STR "difficulty"
-#define SKIN_STR "skin"
-#define COL1_STR "color_1"
-#define COL2_STR "color_2"
+#define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"}
+#define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR}
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
 #define BEST_PATH "/home/matte/.game_best.dat"
 #define FIRST_ALLOWED_CHAR '!'
@@ -52,13 +49,8 @@ str strContainer[][N_LANGUAGE] = {
 void rd_settings(void) {
     // Init vars & open settings file
     int i, j;
-    str str_settings[N_SETTINGS];
-    int len_opts[N_SETTINGS];
-    str_settings[LANG_ID] = LANG_STR; len_opts[LANG_ID] = N_LANGUAGE;
-    str_settings[DIFF_ID] = DIFF_STR; len_opts[DIFF_ID] = N_COLOR;
-    str_settings[SKIN_ID] = SKIN_STR; len_opts[SKIN_ID] = N_SKIN;
-    str_settings[COL1_ID] = COL1_STR; len_opts[COL1_ID] = N_COLOR;
-    str_settings[COL2_ID] = COL2_STR; len_opts[COL2_ID] = N_COLOR;
+    str str_settings[N_SETTINGS] = LIST_SETTINGS;
+    int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
     FILE* fptr = fopen(SETTINGS_PATH, READ); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
         wr_settings(); // Write new default settings file
@@ -109,12 +101,7 @@ void rd_settings(void) {
 // Write updated settings in settings file
 void wr_settings(void) {
     // Init vars & open settings file
-    str str_settings[N_SETTINGS];
-    str_settings[LANG_ID] = LANG_STR;
-    str_settings[DIFF_ID] = DIFF_STR;
-    str_settings[SKIN_ID] = SKIN_STR;
-    str_settings[COL1_ID] = COL1_STR;
-    str_settings[COL2_ID] = COL2_STR;
+    str str_settings[N_SETTINGS] = LIST_SETTINGS;
     FILE* fptr = fopen(SETTINGS_PATH, WRITE);
     if(fptr == NULL) { // If settings file cannot be created...
         return; // Use previous settings

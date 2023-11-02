@@ -191,19 +191,19 @@ void settings_menu(void) {
     // Options for each settings
     List_str opts[N_SETTINGS];
     str language[N_LANGUAGE] = {LANGUAGE_0, LANGUAGE_1};
-    opts[LANG_ID].list = language;
-    opts[LANG_ID].len = N_LANGUAGE;
+    opts[0].list = language;
+    opts[0].len = N_LANGUAGE;
     str difficulty[N_DIFFICULTY] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
-    opts[DIFF_ID].list = difficulty;
-    opts[DIFF_ID].len = N_DIFFICULTY;
+    opts[1].list = difficulty;
+    opts[1].len = N_DIFFICULTY;
     str skin[N_SKIN] = {SKIN_0, SKIN_1, SKIN_2};
-    opts[SKIN_ID].list = skin;
-    opts[SKIN_ID].len = N_SKIN;
+    opts[2].list = skin;
+    opts[2].len = N_SKIN;
     str color[N_COLOR] = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6};
-    opts[COL1_ID].list = color;
-    opts[COL1_ID].len = N_COLOR;
-    opts[COL2_ID].list = color;
-    opts[COL2_ID].len = N_COLOR;
+    opts[3].list = color;
+    opts[3].len = N_COLOR;
+    opts[4].list = color;
+    opts[4].len = N_COLOR;
 
     // Sync newly setted to settings
     int newly_setted[N_SETTINGS];
