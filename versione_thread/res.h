@@ -3,7 +3,6 @@
 
 // Define constant
 #define LIM_STR_BUFF 100
-#define NULL_RECORD 0
 
 // Function prototypes
 void rd_settings(void);
@@ -41,6 +40,8 @@ extern str strContainer[][2];
 
 // Best
 #define N_BEST 3
+#define NULL_USER "NULL"
+#define NULL_RECORD 0
 
 // Settings
 #define LANGUAGE strContainer[5][LANG_SET]
