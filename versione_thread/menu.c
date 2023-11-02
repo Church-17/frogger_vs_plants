@@ -152,11 +152,11 @@ void best_scores_menu(void) {
     cols.len = sx.len = dx.len = N_BEST;
 
     // Pass best scores ignoring empty scores
-    List_UserScore best = rd_best(); // Retreive best scores
+    Dict_str_int best = rd_best(); // Retreive best scores
     for(i = 0; i < N_BEST; i++) {
-        if(best.list[i].score >= 0) {
-            sx.list[i] = best.list[i].user;
-            dx.list[i] = dtos(best.list[i].score);
+        if(best.val[i] > NULL_RECORD) {
+            sx.list[i] = best.key[i];
+            dx.list[i] = dtos(best.val[i]);
         } else { // If a score is negative, it's a non-existing record
             sx.list[i] = dx.list[i] = ""; // Print empty line
         }
@@ -165,12 +165,13 @@ void best_scores_menu(void) {
 
     // Free memory
     for(i = 0; i < N_BEST; i++) {
-        if(best.list[i].score >= 0) {
+        if(best.val[i] > NULL_RECORD) {
             free(dx.list[i]);
         }
-        free(best.list[i].user);
+        free(best.key[i]);
     }
-    free(best.list);
+    free(best.key);
+    free(best.val);
 }
 
 // Settings Menu

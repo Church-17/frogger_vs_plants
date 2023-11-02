@@ -12,6 +12,7 @@
 #define FIRST_ALLOWED_CHAR '!'
 #define LAST_ALLOWED_CHAR '~'
 #define LEN_STR_INT 12
+#define NULL_USER "NULL"
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {0}; // Default settings
@@ -49,7 +50,7 @@ void rd_settings(void) {
     int i, j;
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
     int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
-    FILE* fptr = fopen(SETTINGS_PATH, "r"); // Open settings file
+    FILE* fptr = fopen(SETTINGS_PATH, READ); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
         wr_settings(); // Write new default settings file
         return;
@@ -85,7 +86,7 @@ void rd_settings(void) {
 void wr_settings(void) {
     // Init vars & open settings file
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
-    FILE* fptr = fopen(SETTINGS_PATH, "w");
+    FILE* fptr = fopen(SETTINGS_PATH, WRITE);
     if(fptr == NULL) { // If settings file cannot be created...
         return; // Use previous settings
     }
@@ -97,52 +98,42 @@ void wr_settings(void) {
 }
 
 // Read best scores file
-List_UserScore rd_best(void) {
+Dict_str_int rd_best(void) {
     // Init vars & open best scores file
     int i;
-    List_UserScore best;
-    alloc(UserScore, best.list, N_BEST);
+    Dict_str_int best;
+    alloc(str, best.key, N_BEST);
+    alloc(int, best.val, N_BEST);
     for(i = 0; i < N_BEST; i++) {
-        alloc(char, best.list[i].user, LIM_STR_BUFF);
-        sprintf(best.list[i].user, "NULL"); // NULL: placeholder for non-existing records
-        best.list[i].score = -1; // Negative score identifies non-existing records
+        alloc(char, best.key[i], LIM_STR_BUFF);
+        sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
+        best.val[i] = NULL_RECORD; // Negative score identifies non-existing records
     }
-    FILE* fptr = fopen(BEST_PATH, "r");
-
+    FILE* fptr = fopen(BEST_PATH, READ);
     if(fptr == NULL) { // If best scores file cannot be opened...
         wr_best(best); // Write new empty best scores file
         return best;
     }
     // Read best scores
-    Dict_str_int dict = check_conf_file(fptr, N_BEST, LIM_STR_BUFF);
+    best = check_conf_file(fptr, N_BEST, LIM_STR_BUFF);
     fclose(fptr); // Close best scores file
-    if(dict.len != N_BEST) { // If settings file integrity is compromised...
+    if(best.len != N_BEST) { // If settings file integrity is compromised...
         wr_best(best);
-        return best;
     }
-    // Fill the UserScore list
-    for(i = 0; i < N_BEST; i++) {
-        free(best.list[i].user);
-        best.list[i].user = dict.key[i];
-        best.list[i].score = dict.val[i];
-    }
-    // Free memory
-    free(dict.key);
-    free(dict.val);
     return best;
 }
 
 // Write updated best scores file
-void wr_best(List_UserScore best) {
+void wr_best(Dict_str_int best) {
     // Open best scores file
-    FILE* fptr = fopen(BEST_PATH, "w");
+    FILE* fptr = fopen(BEST_PATH, WRITE);
 
     if(fptr == NULL) { // If best scores file cannot be created
         return;
     }
     // Write best scores file
     for(int i = 0; i < N_BEST; i++) {
-        fprintf(fptr, "%s = %d\n", best.list[i].user, best.list[i].score);
+        fprintf(fptr, "%s = %d\n", best.key[i], best.val[i]);
     }
     fclose(fptr); // Close best scores file
 }

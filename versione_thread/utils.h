@@ -6,6 +6,8 @@
 // Define constant
 #define ENTER 10
 #define CAPITAL_SHIFT 32
+#define READ "r"
+#define WRITE "w"
 
 // Define macros
 #define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) error("Allocated NULL"); // malloc with error-handle
@@ -18,20 +20,12 @@ struct Point {
     int y;
     int x;
 };
-struct UserScore {
-    str user;
-    int score;
-};
 struct List_str {
     str* list;
     int len;
 };
 struct List_attr {
     attr_t* list;
-    int len;
-};
-struct List_UserScore {
-    UserScore* list;
     int len;
 };
 struct Dict_str_int {
