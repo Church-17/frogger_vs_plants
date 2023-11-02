@@ -102,15 +102,15 @@ Dict_str_int rd_best(void) {
     // Init vars & open best scores file
     int i;
     Dict_str_int best;
-    alloc(str, best.key, N_BEST);
-    alloc(int, best.val, N_BEST);
-    for(i = 0; i < N_BEST; i++) {
-        alloc(char, best.key[i], LIM_STR_BUFF);
-        sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
-        best.val[i] = NULL_RECORD; // Negative score identifies non-existing records
-    }
     FILE* fptr = fopen(BEST_PATH, READ);
     if(fptr == NULL) { // If best scores file cannot be opened...
+        alloc(str, best.key, N_BEST);
+        alloc(int, best.val, N_BEST);
+        for(i = 0; i < N_BEST; i++) {
+            alloc(char, best.key[i], LIM_STR_BUFF);
+            sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
+            best.val[i] = NULL_RECORD; // Negative score identifies non-existing records
+        }
         wr_best(best); // Write new empty best scores file
         return best;
     }
@@ -118,6 +118,10 @@ Dict_str_int rd_best(void) {
     best = check_conf_file(fptr, N_BEST, LIM_STR_BUFF);
     fclose(fptr); // Close best scores file
     if(best.len != N_BEST) { // If settings file integrity is compromised...
+        for(i = 0; i < N_BEST; i++) {
+            sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
+            best.val[i] = NULL_RECORD; // Negative score identifies non-existing records
+        }
         wr_best(best);
     }
     return best;
