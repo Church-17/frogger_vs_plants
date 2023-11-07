@@ -184,32 +184,47 @@ void best_scores_menu(void) {
 void settings_menu(void) {
     // Init vars
     int i, key, hl = 0, old_hl = 0;
+    Dict_str_int dict;
     // Settings
-    List_str set;
     str set0[N_SETTINGS] = {LANGUAGE, DIFFICULTY, SKIN, FIRST_COLOR, SECOND_COLOR};
-    set.list = set0;
-    set.len = N_SETTINGS;
+    int ind_set[N_SETTINGS] = {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID};
+    dict.key = set0;
+    dict.val = ind_set;
+    dict.len = N_SETTINGS;
+    List_str set = dict_to_list(dict);
     // Selectables
-    List_str sel; 
     str sel0[N_SETTINGS_SEL] = {APPLY, CANCEL};
-    sel.list = sel0;
-    sel.len = N_SETTINGS_SEL;
+    int ind_sel[N_SETTINGS_SEL] = {SET_APPL_ID, SET_CANC_ID};
+    dict.key = sel0;
+    dict.val = ind_sel;
+    dict.len = N_SETTINGS_SEL;
+    List_str sel = dict_to_list(dict);
     // Options for each settings
     List_str opts[N_SETTINGS];
     str language[N_LANGUAGE] = {LANGUAGE_0, LANGUAGE_1};
-    opts[0].list = language;
-    opts[0].len = N_LANGUAGE;
+    int ind_lang[N_LANGUAGE] = {LANG_0_ID, LANG_1_ID};
+    dict.key = language;
+    dict.val = ind_lang;
+    dict.len = N_LANGUAGE;
+    opts[SET_LANG_ID] = dict_to_list(dict);
     str difficulty[N_DIFFICULTY] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
-    opts[1].list = difficulty;
-    opts[1].len = N_DIFFICULTY;
+    int ind_diff[N_DIFFICULTY] = {DIFF_0_ID, DIFF_1_ID, DIFF_2_ID};
+    dict.key = difficulty;
+    dict.val = ind_diff;
+    dict.len = N_DIFFICULTY;
+    opts[SET_DIFF_ID] = dict_to_list(dict);
     str skin[N_SKIN] = {SKIN_0, SKIN_1, SKIN_2};
-    opts[2].list = skin;
-    opts[2].len = N_SKIN;
+    int ind_skin[N_SKIN] = {SKIN_0_ID, SKIN_1_ID, SKIN_2_ID};
+    dict.key = skin;
+    dict.val = ind_skin;
+    dict.len = N_SKIN;
+    opts[SET_SKIN_ID] = dict_to_list(dict);
     str color[N_COLOR] = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6};
-    opts[3].list = color;
-    opts[3].len = N_COLOR;
-    opts[4].list = color;
-    opts[4].len = N_COLOR;
+    int ind_col[N_COLOR] = {COL_0_ID, COL_1_ID, COL_2_ID, COL_3_ID, COL_4_ID, COL_5_ID, COL_6_ID};
+    dict.key = color;
+    dict.val = ind_col;
+    dict.len = N_COLOR;
+    opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(dict);
 
     // Sync newly setted to settings
     int newly_setted[N_SETTINGS];
@@ -360,7 +375,7 @@ void credits_menu(void) {
 
 int pause_menu(void) {
     // Init vars
-    str list[N_PAUSE] = {RESUME, NEW_GAME, SETTINGS, HOME, QUIT};
+    str list[N_PAUSE] = {RESUME, NEW_GAME, SETTINGS, BACK_HOME, QUIT};
     List_str set;
     set.list = list;
     set.len = N_PAUSE;

@@ -6,6 +6,7 @@
 
 // Define constant
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"}
+#define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID}
 #define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR}
 #define SETTINGS_PATH "/home/matte/.game_settings.ini"
 #define BEST_PATH "/home/matte/.game_best.dat"
@@ -49,6 +50,7 @@ void rd_settings(void) {
     // Init vars & open settings file
     int i, j;
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
+    int ind_set[N_SETTINGS] = LIST_SET_ID;
     int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
     FILE* fptr = fopen(SETTINGS_PATH, READ); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
@@ -76,7 +78,7 @@ void rd_settings(void) {
                     wr_settings(); // Restore default for the other settings
                     return;
                 }
-                game_settings[j] = dict.val[i];
+                game_settings[ind_set[j]] = dict.val[i];
                 used[j] = 1; // Mark settings as used
                 break;
             }
@@ -101,13 +103,14 @@ void rd_settings(void) {
 void wr_settings(void) {
     // Init vars & open settings file
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
+    int ind_set[N_SETTINGS] = LIST_SET_ID;
     FILE* fptr = fopen(SETTINGS_PATH, WRITE);
     if(fptr == NULL) { // If settings file cannot be created...
         return; // Use previous settings
     }
     // Write settings file
     for(int i = 0; i < N_SETTINGS; i++) {
-        fprintf(fptr, "%s = %d\n", str_settings[i], game_settings[i]);
+        fprintf(fptr, "%s = %d\n", str_settings[ind_set[i]], game_settings[ind_set[i]]);
     }
     fclose(fptr); // Close settings file
 }
