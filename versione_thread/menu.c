@@ -142,6 +142,9 @@ void home_menu(void) {
         default:
             break;           
     }
+
+    // Free memory
+    free(set.list);
 }
 
 // Best scores screen
@@ -354,6 +357,13 @@ void settings_menu(void) {
                 }
                 break;
         }
+    }
+    
+    // Free memory
+    free(set.list);
+    free(sel.list);
+    for(i = 0; i < N_SETTINGS; i++) {
+        free(opts[i].list);
     }
 }
 
