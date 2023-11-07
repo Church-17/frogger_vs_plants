@@ -35,7 +35,7 @@ int max_strlen(List_str strings, int min_len) {
 }
 
 // Convert int to string
-str dtos(int num) {
+str int_to_str(int num) {
     dalloc(char, numstr, LEN_INTSTR);
     sprintf(numstr, "%d", num);
     return numstr;
