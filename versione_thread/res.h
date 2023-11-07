@@ -31,10 +31,15 @@ extern str strContainer[][2];
 
 // Home
 #define TITLE "PAC-MAN"
+#define HOME_NEWG_ID 0
 #define NEW_GAME strContainer[0][LANG_SET]
+#define HOME_BEST_ID 1
 #define BEST_SCORES strContainer[1][LANG_SET]
+#define HOME_SETT_ID 2
 #define SETTINGS strContainer[2][LANG_SET]
+#define HOME_CRED_ID 3
 #define CREDITS strContainer[3][LANG_SET]
+#define HOME_QUIT_ID 4
 #define QUIT strContainer[4][LANG_SET]
 #define N_HOME 5
 

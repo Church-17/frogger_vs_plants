@@ -49,6 +49,16 @@ bool is_char_in(char ch, char first, char last) {
     return 0;
 }
 
+List_str dict_to_list(Dict_str_int dict) {
+    List_str list;
+    list.len = dict.len;
+    alloc(str, list.list, list.len);
+    for(int i = 0; i < dict.len; i++) {
+        list.list[dict.val[i]] = dict.key[i];
+    }
+    return list;
+}
+
 // Create new centred window
 WINDOW* newctrwin(int n_rows, int n_cols) {
     return newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2);

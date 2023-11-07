@@ -109,32 +109,38 @@ int menu(str title, List_str set) {
 // Home Menu
 void home_menu(void) {
     // Init vars
-    List_str set;
     str list[N_HOME] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
-    set.list = list;
-    set.len = N_HOME;
+    int ind[N_HOME] = {HOME_NEWG_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
+    Dict_str_int dict;
+    dict.key = list;
+    dict.val = ind;
+    dict.len = N_HOME;
+    List_str set = dict_to_list(dict);
 
     int chosen = menu(TITLE, set); // Call menu
     switch(chosen) {
-        case 0: // Game
+        case HOME_NEWG_ID: // Game
             game();
             break;
 
-        case 1: // Best scores
+        case HOME_BEST_ID: // Best scores
             best_scores_menu();
             break;
 
-        case 2: // Settings
+        case HOME_SETT_ID: // Settings
             settings_menu();
             break;
 
-        case 3: // Credits
+        case HOME_CRED_ID: // Credits
             credits_menu();
             break;
             
-        default: // Quit
+        case HOME_QUIT_ID: // Quit
             endwin();
-            exit(0);            
+            exit(0); 
+
+        default:
+            break;           
     }
 }
 
