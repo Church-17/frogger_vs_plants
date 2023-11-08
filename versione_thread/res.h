@@ -14,7 +14,6 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
 
 // --- SETTINGS ---
 extern int game_settings[];
-
 #define SET_LANG_ID 0
 #define SET_DIFF_ID 1
 #define SET_SKIN_ID 2
@@ -27,6 +26,7 @@ extern int game_settings[];
 #define COL2_SET game_settings[SET_COL2_ID]
 
 // --- STRINGS ---
+
 extern str strContainer[][2];
 
 // Home
