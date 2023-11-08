@@ -2,7 +2,7 @@ CC = gcc
 CARGS = -o $@ -fdiagnostics-color=always -g -Wall -lncursesw -lpthread
 COBJ = ${CC} -c $*.c ${CARGS}
 
-sopr_proj: main.o menu.o game.o res.o utils.o
+sopr_proj.out: main.o menu.o game.o res.o utils.o
 	${CC} $^ ${CARGS}
 
 main.o: menu.h res.h utils.h main.c
