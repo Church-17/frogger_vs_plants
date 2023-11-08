@@ -6,10 +6,6 @@
 #include "res.h"
 #include "utils.h"
 
-// Define constant
-#define COLOR_GREY 8
-#define COLOR_BROWN 9
-
 // Main
 int main(void) {
     // Setup screen
