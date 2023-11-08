@@ -8,8 +8,8 @@
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"}
 #define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID}
 #define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR}
-#define SETTINGS_PATH "/home/matte/.game_settings.ini"
-#define BEST_PATH "/home/matte/.game_best.dat"
+#define SETTINGS_PATH "~/.game_settings.ini"
+#define BEST_PATH "~/.game_best.dat"
 #define FIRST_ALLOWED_CHAR '!'
 #define LAST_ALLOWED_CHAR '~'
 #define LEN_STR_INT 12
