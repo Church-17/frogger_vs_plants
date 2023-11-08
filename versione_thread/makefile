@@ -1,5 +1,5 @@
 CC = gcc
-CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread
+CARGS = -o $@ -fdiagnostics-color=always -g -Wall -lncursesw -lpthread
 COBJ = ${CC} -c $*.c ${CARGS}
 
 sopr_proj: main.o menu.o game.o res.o utils.o
