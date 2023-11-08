@@ -1,2 +1,3 @@
 # Ignore .vscode directory
 .vscode
+*.out
