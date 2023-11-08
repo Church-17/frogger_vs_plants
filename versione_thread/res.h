@@ -114,6 +114,8 @@ extern str strContainer[][2];
 // Endgame
 
 // --- COLORS ---
+#define COLOR_GREY 8
+#define COLOR_BROWN 9
 #define GREY_BLACK_ID 7
 #define BROWN_BLACK_ID 8
 #define COLS1 COLOR_PAIR(COL1_SET)
