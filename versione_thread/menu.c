@@ -328,18 +328,15 @@ void settings_menu(void) {
                 break;
 
             case ENTER:
-                if(hl >= set.len) { // If hl is a selectable...
-                    if(hl == set.len) { // If is apply...
-                        // Update game settings
-                        for(i = 0; i < N_SETTINGS; i++) {
-                            game_settings[i] = newly_setted[i];
-                        }
-                        wr_settings();
+                if(hl <= set.len) { // If is apply...
+                    // Update game settings
+                    for(i = 0; i < N_SETTINGS; i++) {
+                        game_settings[i] = newly_setted[i];
                     }
-                    unwin(menu_win);
-                    return;
+                    wr_settings();
                 }
-                break;
+                unwin(menu_win);
+                return;
 
             default:
                 // Check first letters from hl

@@ -56,7 +56,7 @@ extern str strContainer[][2];
 #define SECOND_COLOR strContainer[19][LANG_SET]
 #define N_SETTINGS 5
 #define SET_APPL_ID 0
-#define APPLY "Ok"
+#define APPLY strContainer[26][LANG_SET]
 #define SET_CANC_ID 1
 #define CANCEL strContainer[7][LANG_SET]
 #define N_SETTINGS_SEL 2

@@ -42,7 +42,8 @@ str strContainer[][N_LANGUAGE] = {
     {"Green","Verde"},
     {"Yellow","Giallo"},
     {"Blue","Blu"},
-    {"Cyan","Ciano"}
+    {"Cyan","Ciano"},
+    {"Apply [Enter]", "Applica [Invio]"}
 };
 
 // Read settings from settings file
