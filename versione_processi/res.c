@@ -55,14 +55,14 @@ void rd_settings(void) {
     int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
     FILE* fptr = fopen(SETTINGS_PATH, READ); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
-        wr_settings(); // Write new default settings file
+        wr_settings(game_settings); // Write new default settings file
         return;
     }
     // Read settings file
     Dict_str_int dict = check_conf_file(fptr, N_SETTINGS, LIM_STR_BUFF);
     fclose(fptr); // Close settings file
     if(dict.len != N_SETTINGS) { // If settings file integrity is compromised...
-        wr_settings();
+        wr_settings(game_settings);
         return;
     }
     // Overwrite game_settings
@@ -76,7 +76,7 @@ void rd_settings(void) {
                     }
                     free(dict.key);
                     free(dict.val);
-                    wr_settings(); // Restore default for the other settings
+                    wr_settings(game_settings); // Restore default for the other settings
                     return;
                 }
                 game_settings[ind_set[j]] = dict.val[i];
@@ -90,7 +90,7 @@ void rd_settings(void) {
             }
             free(dict.key);
             free(dict.val);
-            wr_settings(); // Restore default for the other settings 
+            wr_settings(game_settings); // Restore default for the other settings 
             return;
         }
         free(dict.key[i]);
@@ -101,16 +101,21 @@ void rd_settings(void) {
 }
 
 // Write updated settings in settings file
-void wr_settings(void) {
+void wr_settings(int* set) {
     // Init vars & open settings file
+    int i;
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
     int ind_set[N_SETTINGS] = LIST_SET_ID;
     FILE* fptr = fopen(SETTINGS_PATH, WRITE);
+    // Write new settings in game_settings
+    for(i = 0; i < N_SETTINGS; i++) {
+        game_settings[i] = set[i];
+    }
     if(fptr == NULL) { // If settings file cannot be created...
         return; // Use previous settings
     }
     // Write settings file
-    for(int i = 0; i < N_SETTINGS; i++) {
+    for(i = 0; i < N_SETTINGS; i++) {
         fprintf(fptr, "%s = %d\n", str_settings[ind_set[i]], game_settings[ind_set[i]]);
     }
     fclose(fptr); // Close settings file

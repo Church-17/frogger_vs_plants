@@ -328,12 +328,9 @@ void settings_menu(void) {
                 break;
 
             case ENTER:
-                if(hl <= set.len) { // If is apply...
+                if(hl < set.len || hl == set.len+SET_APPL_ID) { // If is apply...
                     // Update game settings
-                    for(i = 0; i < N_SETTINGS; i++) {
-                        game_settings[i] = newly_setted[i];
-                    }
-                    wr_settings();
+                    wr_settings(newly_setted);
                 }
                 unwin(menu_win);
                 return;
