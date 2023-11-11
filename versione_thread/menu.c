@@ -7,6 +7,7 @@
 #include "res.h"
 
 // Define constants
+#define LR_ARROWS 4 // # chars occupied by arrows in settings
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADW 2 // West padding of the box
 #define BOX_PADE 5 // East padding of the box
@@ -14,12 +15,13 @@
 #define HL_PADX 1 // Highlight padding
 #define SET_PADY 0 // Empty lines between settings
 #define SET_SEL_PADY 1 // Empty lines between settings and selectables
-#define LR_ARROWS 4 // # chars occupied by arrows in settings
+#define POSITION_Y(obj) (obj)+SET_PADY*((obj)+1)+BOX_PADN // Calc lines in mv function
+#define POSITION_X_DX(obj) win_width-BOX_PADW-strlen(obj) // Calc dx cols in mv function (needs win_width)
 
 // General function for styled double column view
 void view(str title, List_str sx, List_str dx, List_attr attrs) {
     int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
-    WINDOW* menu_win = newctrwin(sx.len*(SET_PADY+1)+BOX_PADN+BOX_PADS, win_width); // Centered window
+    WINDOW* menu_win = newctrwin(POSITION_Y(sx.len)+BOX_PADS, win_width); // Centered window
     wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box window
@@ -27,8 +29,8 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
 
     // Print lists with attributes
     for(i = 0; i < sx.len; i++) {
-        mvwattrprintw(menu_win, i+SET_PADY*(i+1)+BOX_PADN, BOX_PADW, attrs.list[i], "%s", sx.list[i]);
-        mvwattrprintw(menu_win, i+SET_PADY*(i+1)+BOX_PADN, win_width-BOX_PADW-strlen(dx.list[i]), attrs.list[i], "%s", dx.list[i]);
+        mvwattrprintw(menu_win, POSITION_Y(i), BOX_PADW, attrs.list[i], "%s", sx.list[i]);
+        mvwattrprintw(menu_win, POSITION_Y(i), POSITION_X_DX(dx.list[i]), attrs.list[i], "%s", dx.list[i]);
     }
     wgetch(menu_win); // Press any key to exit
     unwin(menu_win);
@@ -37,8 +39,8 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
 // General function for a single column menu, returning index of selected option
 int menu(str title, List_str set) {
     // Init vars
-    int i, key, hl = 0, old_hl = 0, win_width = max_strlen(set, strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
-    WINDOW* menu_win = newctrwin(set.len*(SET_PADY+1)+BOX_PADN+BOX_PADS, win_width); // Create centered window
+    int i, key, hl = 0, old_hl = 0;
+    WINDOW* menu_win = newctrwin(POSITION_Y(set.len)+BOX_PADS, max_strlen(set, strlen(title))+BOX_PADW+BOX_PADE); // Create centered window
 
     // Setup window
     wattron(menu_win, COLS1);
@@ -48,15 +50,15 @@ int menu(str title, List_str set) {
 
     // Print options with first letter underlined
     for(i = 0; i < set.len; i++) {
-        mvwfattrprintw(menu_win, i+SET_PADY*(i+1)+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[i]);
+        mvwfattrprintw(menu_win, POSITION_Y(i), BOX_PADW, A_UNDERLINE, set.list[i]);
     }
 
     // Loop to get pressed key
     while(TRUE) {
         // Update highlighted & non-highlighted option
-        mvwfattrprintw(menu_win, old_hl+SET_PADY*(old_hl+1)+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[old_hl]);
+        mvwfattrprintw(menu_win, POSITION_Y(old_hl), BOX_PADW, A_UNDERLINE, set.list[old_hl]);
         wprintw(menu_win, "%*s", HL_PADX, ""); // Delete old_hl padding
-        mvwprintw(menu_win, hl+SET_PADY*(hl+1)+BOX_PADN, BOX_PADW, "%*s", HL_PADX, ""); // Print hl padding
+        mvwprintw(menu_win, POSITION_Y(hl), BOX_PADW, "%*s", HL_PADX, ""); // Print hl padding
         wattroff(menu_win, COLS1);
         wattrprintw(menu_win, A_STANDOUT | COLS2, "%s", set.list[hl]);
         wattron(menu_win, COLS1);
@@ -244,7 +246,7 @@ void settings_menu(void) {
     int win_width = max(set_width+opts_width, strlen(SETTINGS)) + LR_ARROWS + BOX_PADW + BOX_PADE;
 
     // Setup window 
-    WINDOW* menu_win = newctrwin((set.len+sel.len)*(SET_PADY+1)+BOX_PADN+BOX_PADS+SET_SEL_PADY, win_width); // Create centered window
+    WINDOW* menu_win = newctrwin(POSITION_Y(set.len+sel.len)+BOX_PADS+SET_SEL_PADY, win_width); // Create centered window
     wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
     box(menu_win, 0, 0); // Box window
@@ -252,33 +254,33 @@ void settings_menu(void) {
 
     // Prints
     for(i = 0; i < set.len; i++) { // Settings & options
-        mvwfattrprintw(menu_win, i+SET_PADY*(i+1)+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[i]);
-        mvwprintw(menu_win, i+SET_PADY*(i+1)+BOX_PADN, win_width-BOX_PADW-strlen(opts[i].list[newly_setted[i]]), "%s", opts[i].list[newly_setted[i]]);
+        mvwfattrprintw(menu_win, POSITION_Y(i), BOX_PADW, A_UNDERLINE, set.list[i]);
+        mvwprintw(menu_win, POSITION_Y(i), POSITION_X_DX(opts[i].list[newly_setted[i]]), "%s", opts[i].list[newly_setted[i]]);
     }
     for(i = 0; i < sel.len; i++) { // Selectables
-        mvwfattrprintw(menu_win, i+set.len+SET_PADY*(i+set.len+1)+BOX_PADN+SET_SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[i]);
+        mvwfattrprintw(menu_win, POSITION_Y(i+set.len)+SET_SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[i]);
     }
     
     // Loop to get the pressed key
     while(TRUE) {
         // Update old_hl to become non-highlighted
         if(old_hl >= set.len) { // If old_hl referes to a selectable...
-            mvwfattrprintw(menu_win, old_hl+SET_PADY*(old_hl+1)+BOX_PADN+SET_SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[old_hl-set.len]); 
+            mvwfattrprintw(menu_win, POSITION_Y(old_hl)+SET_SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[old_hl-set.len]); 
             wprintw(menu_win, "%*s", HL_PADX, ""); // Fix for HL_PADX
         } else { // If old_hl referes to a setting...
-            mvwfattrprintw(menu_win, old_hl+SET_PADY*(old_hl+1)+BOX_PADN, BOX_PADW, A_UNDERLINE, set.list[old_hl]);
+            mvwfattrprintw(menu_win, POSITION_Y(old_hl), BOX_PADW, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, ""); // Fix for HL_PADX
-            mvwprintw(menu_win, old_hl+SET_PADY*(old_hl+1)+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[old_hl].list[newly_setted[old_hl]]), "%*s%s", LR_ARROWS, "", opts[old_hl].list[newly_setted[old_hl]]);
+            mvwprintw(menu_win, POSITION_Y(old_hl), POSITION_X_DX(opts[old_hl].list[newly_setted[old_hl]])-LR_ARROWS, "%*s%s", LR_ARROWS, "", opts[old_hl].list[newly_setted[old_hl]]);
         }
         // Update hl to become highlighted or to update corrispondent option
         wattroff(menu_win, COLS1);
         if(hl >= set.len) { // If hl referes to a selectable...
-            mvwprintw(menu_win, hl+SET_PADY*(hl+1)+BOX_PADN+SET_SEL_PADY, BOX_PADW, "%*s", HL_PADX, ""); // Print HL_PADX
+            mvwprintw(menu_win, POSITION_Y(hl)+SET_SEL_PADY, BOX_PADW, "%*s", HL_PADX, ""); // Print HL_PADX
             wattrprintw(menu_win, A_STANDOUT | COLS2, "%s", sel.list[hl-set.len]);
         } else { // If hl referes to a setting...
-            mvwprintw(menu_win, hl+SET_PADY*(hl+1)+BOX_PADN, BOX_PADW, "%*s", HL_PADX, ""); // Print HL_PADX
+            mvwprintw(menu_win, POSITION_Y(hl), BOX_PADW, "%*s", HL_PADX, ""); // Print HL_PADX
             wattrprintw(menu_win, A_STANDOUT | COLS2, "%s", set.list[hl]);
-            mvwattrprintw(menu_win, hl+SET_PADY*(hl+1)+BOX_PADN, win_width-BOX_PADW-LR_ARROWS-strlen(opts[hl].list[newly_setted[hl]]), A_STANDOUT | COLS2, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
+            mvwattrprintw(menu_win, POSITION_Y(hl), POSITION_X_DX(opts[hl].list[newly_setted[hl]])-LR_ARROWS, A_STANDOUT | COLS2, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
         }
         wattron(menu_win, COLS1);
 
