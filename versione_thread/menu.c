@@ -16,7 +16,7 @@
 #define SET_PADY 0 // Empty lines between settings
 #define SET_SEL_PADY 1 // Empty lines between settings and selectables
 #define POSITION_Y(obj) (obj)+SET_PADY*((obj)+1)+BOX_PADN // Calc lines in mv function
-#define POSITION_X_DX(obj) win_width-BOX_PADW-strlen(obj) // Calc dx cols in mv function (needs win_width)
+#define POSITION_X_DX(obj, win_width) win_width-BOX_PADW-strlen(obj) // Calc dx cols in mv function (needs win_width)
 
 // General function for styled double column view
 void view(str title, List_str sx, List_str dx, List_attr attrs) {
@@ -30,7 +30,7 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
     // Print lists with attributes
     for(i = 0; i < sx.len; i++) {
         mvwattrprintw(menu_win, POSITION_Y(i), BOX_PADW, attrs.list[i], "%s", sx.list[i]);
-        mvwattrprintw(menu_win, POSITION_Y(i), POSITION_X_DX(dx.list[i]), attrs.list[i], "%s", dx.list[i]);
+        mvwattrprintw(menu_win, POSITION_Y(i), POSITION_X_DX(dx.list[i], win_width), attrs.list[i], "%s", dx.list[i]);
     }
     wgetch(menu_win); // Press any key to exit
     unwin(menu_win);
@@ -255,7 +255,7 @@ void settings_menu(void) {
     // Prints
     for(i = 0; i < set.len; i++) { // Settings & options
         mvwfattrprintw(menu_win, POSITION_Y(i), BOX_PADW, A_UNDERLINE, set.list[i]);
-        mvwprintw(menu_win, POSITION_Y(i), POSITION_X_DX(opts[i].list[newly_setted[i]]), "%s", opts[i].list[newly_setted[i]]);
+        mvwprintw(menu_win, POSITION_Y(i), POSITION_X_DX(opts[i].list[newly_setted[i]], win_width), "%s", opts[i].list[newly_setted[i]]);
     }
     for(i = 0; i < sel.len; i++) { // Selectables
         mvwfattrprintw(menu_win, POSITION_Y(i+set.len)+SET_SEL_PADY, BOX_PADW, A_UNDERLINE, sel.list[i]);
@@ -270,7 +270,7 @@ void settings_menu(void) {
         } else { // If old_hl referes to a setting...
             mvwfattrprintw(menu_win, POSITION_Y(old_hl), BOX_PADW, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, ""); // Fix for HL_PADX
-            mvwprintw(menu_win, POSITION_Y(old_hl), POSITION_X_DX(opts[old_hl].list[newly_setted[old_hl]])-LR_ARROWS, "%*s%s", LR_ARROWS, "", opts[old_hl].list[newly_setted[old_hl]]);
+            mvwprintw(menu_win, POSITION_Y(old_hl), POSITION_X_DX(opts[old_hl].list[newly_setted[old_hl]], win_width)-LR_ARROWS, "%*s%s", LR_ARROWS, "", opts[old_hl].list[newly_setted[old_hl]]);
         }
         // Update hl to become highlighted or to update corrispondent option
         wattroff(menu_win, COLS1);
@@ -280,7 +280,7 @@ void settings_menu(void) {
         } else { // If hl referes to a setting...
             mvwprintw(menu_win, POSITION_Y(hl), BOX_PADW, "%*s", HL_PADX, ""); // Print HL_PADX
             wattrprintw(menu_win, A_STANDOUT | COLS2, "%s", set.list[hl]);
-            mvwattrprintw(menu_win, POSITION_Y(hl), POSITION_X_DX(opts[hl].list[newly_setted[hl]])-LR_ARROWS, A_STANDOUT | COLS2, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
+            mvwattrprintw(menu_win, POSITION_Y(hl), POSITION_X_DX(opts[hl].list[newly_setted[hl]], win_width)-LR_ARROWS, A_STANDOUT | COLS2, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
         }
         wattron(menu_win, COLS1);
 
