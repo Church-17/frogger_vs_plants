@@ -114,11 +114,7 @@ void home_menu(void) {
     // Init vars
     str list[N_HOME] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
     int ind[N_HOME] = {HOME_NEWG_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
-    Dict_str_int dict;
-    dict.key = list;
-    dict.val = ind;
-    dict.len = N_HOME;
-    List_str set = dict_to_list(dict);
+    List_str set = dict_to_list(list, ind, N_HOME);
 
     int chosen = menu(TITLE, set); // Call menu
     switch(chosen) {
@@ -190,47 +186,28 @@ void best_scores_menu(void) {
 void settings_menu(void) {
     // Init vars
     int i, key, hl = 0, old_hl = 0;
-    Dict_str_int dict;
     // Settings
     str set0[N_SETTINGS] = {LANGUAGE, DIFFICULTY, SKIN, FIRST_COLOR, SECOND_COLOR};
     int ind_set[N_SETTINGS] = {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID};
-    dict.key = set0;
-    dict.val = ind_set;
-    dict.len = N_SETTINGS;
-    List_str set = dict_to_list(dict);
+    List_str set = dict_to_list(set0, ind_set, N_SETTINGS);
     // Selectables
     str sel0[N_SETTINGS_SEL] = {APPLY, CANCEL};
     int ind_sel[N_SETTINGS_SEL] = {SET_APPL_ID, SET_CANC_ID};
-    dict.key = sel0;
-    dict.val = ind_sel;
-    dict.len = N_SETTINGS_SEL;
-    List_str sel = dict_to_list(dict);
+    List_str sel = dict_to_list(sel0, ind_sel, N_SETTINGS_SEL);
     // Options for each settings
     List_str opts[N_SETTINGS];
     str language[N_LANGUAGE] = {LANGUAGE_0, LANGUAGE_1};
     int ind_lang[N_LANGUAGE] = {LANG_0_ID, LANG_1_ID};
-    dict.key = language;
-    dict.val = ind_lang;
-    dict.len = N_LANGUAGE;
-    opts[SET_LANG_ID] = dict_to_list(dict);
+    opts[SET_LANG_ID] = dict_to_list(language, ind_lang, N_LANGUAGE);
     str difficulty[N_DIFFICULTY] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
     int ind_diff[N_DIFFICULTY] = {DIFF_0_ID, DIFF_1_ID, DIFF_2_ID};
-    dict.key = difficulty;
-    dict.val = ind_diff;
-    dict.len = N_DIFFICULTY;
-    opts[SET_DIFF_ID] = dict_to_list(dict);
+    opts[SET_DIFF_ID] = dict_to_list(difficulty, ind_diff, N_DIFFICULTY);
     str skin[N_SKIN] = {SKIN_0, SKIN_1, SKIN_2};
     int ind_skin[N_SKIN] = {SKIN_0_ID, SKIN_1_ID, SKIN_2_ID};
-    dict.key = skin;
-    dict.val = ind_skin;
-    dict.len = N_SKIN;
-    opts[SET_SKIN_ID] = dict_to_list(dict);
+    opts[SET_SKIN_ID] = dict_to_list(skin, ind_skin, N_SKIN);
     str color[N_COLOR] = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6};
     int ind_col[N_COLOR] = {COL_0_ID, COL_1_ID, COL_2_ID, COL_3_ID, COL_4_ID, COL_5_ID, COL_6_ID};
-    dict.key = color;
-    dict.val = ind_col;
-    dict.len = N_COLOR;
-    opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(dict);
+    opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(color, ind_col, N_COLOR);
 
     // Sync newly setted to settings
     int newly_setted[N_SETTINGS];

@@ -49,12 +49,12 @@ bool is_char_in(char ch, char first, char last) {
     return 0;
 }
 
-List_str dict_to_list(Dict_str_int dict) {
+List_str dict_to_list(str* obj, int* ind, int len) {
     List_str list;
-    list.len = dict.len;
+    list.len = len;
     alloc(str, list.list, list.len);
-    for(int i = 0; i < dict.len; i++) {
-        list.list[dict.val[i]] = dict.key[i];
+    for(int i = 0; i < len; i++) {
+        list.list[ind[i]] = obj[i];
     }
     return list;
 }

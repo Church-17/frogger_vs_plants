@@ -40,7 +40,7 @@ int mod(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
 str int_to_str(int num);
 bool is_char_in(char ch, char first, char last);
-List_str dict_to_list(Dict_str_int dict);
+List_str dict_to_list(str* obj, int* ind, int len);
 WINDOW* newctrwin(int n_rows, int n_cols);
 void wctrprintw(WINDOW* win, int row, str fstr);
 void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr);
