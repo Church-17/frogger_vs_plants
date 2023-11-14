@@ -10,7 +10,7 @@
 #define WRITE "w"
 
 // Define macros
-#define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) error("Allocated NULL"); // malloc with error-handle
+#define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) error(1); // malloc with error-handle
 #define dalloc(type, var, n) type* alloc(type, var, n)
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col); wattrprintw(win, attr, args) // Move & print string with attribute
@@ -47,4 +47,4 @@ void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr);
 void wfattrprintw(WINDOW* win, attr_t attr, str fstr);
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr);
 void unwin(WINDOW* win);
-void error(str err_str);
+void error(int err_code);

@@ -7,6 +7,11 @@
 #define LEN_INTSTR 12
 #define N_SPACES 2
 
+str errContainer[] = {
+    "Current terminal don't support colors",
+    "Error during memory allocation"
+};
+
 int max(int n1, int n2) {
     if(n1 > n2) {
         return n1;
@@ -95,9 +100,9 @@ void unwin(WINDOW* win) {
 }
 
 // Error handler
-void error(str err_str) {
+void error(int err_code) {
     endwin();
-    printf("%s\n", err_str);
+    printf("%s\n", errContainer[err_code-1]);
     getchar();
-    exit(1);
+    exit(err_code);
 }

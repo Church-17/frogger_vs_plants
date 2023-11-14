@@ -17,7 +17,7 @@ int main(void) {
     
     // Setup colors
     if(has_colors() == FALSE) {	// Check color support
-		error("Color unsupported");
+		error(2);
 	}
     start_color(); // Enable colors
     init_color(COLOR_BLACK, 0, 0, 0);
