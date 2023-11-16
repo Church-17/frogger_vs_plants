@@ -97,6 +97,11 @@ int menu(str title, List_str set) {
                 return hl;
 
             default:
+                // Check numbers
+                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len) {
+                    hl = key-KEY_0;
+                    break;
+                }
                 // Check first letters of options
                 for(i = mod(hl+1, set.len); i != hl; i = mod(i+1, set.len)) {
                     if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
@@ -315,6 +320,11 @@ void settings_menu(void) {
                 return;
 
             default:
+                // Check numbers
+                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len+sel.len) {
+                    hl = key-KEY_0;
+                    break;
+                }
                 // Check first letters from hl
                 for(i = mod(hl+1, set.len+sel.len); i != hl; i = mod(i+1, set.len+sel.len)) {
                     if(i < set.len) {

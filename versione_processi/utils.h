@@ -6,6 +6,8 @@
 // Define constant
 #define ENTER 10
 #define CAPITAL_SHIFT 32
+#define KEY_0 48
+#define KEY_9 57
 #define READ "r"
 #define WRITE "w"
 
