@@ -20,6 +20,7 @@ int main(void) {
 		error(ERR_COLOR);
 	}
     start_color(); // Enable colors
+    // Set each color with RGB values (scaled on thousandth)
     init_color(COLOR_BLACK, 0, 0, 0);
     init_color(COLOR_WHITE, 800, 800, 800);
     init_color(COLOR_RED, 800, 0, 0);
@@ -30,6 +31,7 @@ int main(void) {
     init_color(COLOR_CYAN, 200, 600, 900);
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
+    // Set needed color pairs (text, bg)
     init_pair(COL_0_ID, COLOR_WHITE, COLOR_BLACK);
     init_pair(COL_1_ID, COLOR_RED, COLOR_BLACK);
     init_pair(COL_2_ID, COLOR_GREEN, COLOR_BLACK);

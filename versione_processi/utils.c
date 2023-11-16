@@ -6,6 +6,7 @@
 
 #define N_SPACES_CTRPRINT 2
 
+// Find max
 int max(int n1, int n2) {
     if(n1 > n2) {
         return n1;
@@ -22,7 +23,7 @@ int mod(int n1, int n2) {
     }
 }
 
-// Find max length of a strings list
+// Find max length of a strings list, starting from a min
 int max_strlen(List_str strings, int min_len) {
     int max_len = min_len;
     for(int i = 0; i < strings.len; i++) {
@@ -40,7 +41,7 @@ str int_to_str(int num) {
     return numstr;
 }
 
-// Check char
+// Check if a char is in a given interval
 bool is_char_in(char ch, char first, char last) {
     if(ch >= first && ch <= last) {
         return 1;
@@ -48,6 +49,7 @@ bool is_char_in(char ch, char first, char last) {
     return 0;
 }
 
+// Given objects and indexes, create a list with each object at its index
 List_str dict_to_list(str* obj, int* ind, int len) {
     List_str list;
     list.len = len;
