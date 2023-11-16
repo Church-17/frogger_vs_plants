@@ -6,11 +6,6 @@
 
 #define N_SPACES_CTRPRINT 2
 
-str errContainer[] = {
-    "Current terminal don't support colors",
-    "Error during memory allocation"
-};
-
 int max(int n1, int n2) {
     if(n1 > n2) {
         return n1;
@@ -99,6 +94,10 @@ void unwin(WINDOW* win) {
 }
 
 // Error handler
+str errContainer[] = {
+    "Current terminal don't support colors",
+    "Error during memory allocation"
+};
 void error(int err_code) {
     endwin();
     printf("%s\n", errContainer[err_code-1]);
