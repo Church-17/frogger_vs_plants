@@ -4,8 +4,7 @@
 #include <string.h>
 #include "utils.h"
 
-#define LEN_INTSTR 12
-#define N_SPACES 2
+#define N_SPACES_CTRPRINT 2
 
 str errContainer[] = {
     "Current terminal don't support colors",
@@ -41,7 +40,7 @@ int max_strlen(List_str strings, int min_len) {
 
 // Convert int to string
 str int_to_str(int num) {
-    dalloc(char, numstr, LEN_INTSTR);
+    dalloc(char, numstr, LEN_STR_INT);
     sprintf(numstr, "%d", num);
     return numstr;
 }
@@ -71,12 +70,12 @@ WINDOW* newctrwin(int n_rows, int n_cols) {
 
 // Print in center
 void wctrprintw(WINDOW* win, int row, str fstr) {
-    mvwprintw(win, row, (win->_maxx - strlen(fstr) - N_SPACES)/2, " %s ", fstr);
+    mvwprintw(win, row, (win->_maxx - strlen(fstr) - N_SPACES_CTRPRINT)/2, " %s ", fstr);
 }
 
 // Print with attribute in center
 void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr) {
-    mvwattrprintw(win, row, (win->_maxx - strlen(fstr) - N_SPACES)/2, attr, " %s ", fstr);
+    mvwattrprintw(win, row, (win->_maxx - strlen(fstr) - N_SPACES_CTRPRINT)/2, attr, " %s ", fstr);
 }
 
 // Print string with first letter attributed

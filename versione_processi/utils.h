@@ -4,6 +4,7 @@
 #include "struct.h"
 
 // Define constant
+#define LEN_STR_INT 12
 #define ENTER 10
 #define CAPITAL_SHIFT 32
 #define KEY_0 48

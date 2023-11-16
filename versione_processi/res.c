@@ -12,7 +12,6 @@
 #define BEST_PATH "/tmp/.game_best.dat"
 #define FIRST_ALLOWED_CHAR '!'
 #define LAST_ALLOWED_CHAR '~'
-#define LEN_STR_INT 12
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {0}; // Default settings
