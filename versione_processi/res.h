@@ -39,7 +39,7 @@ extern int game_settings[];
 
 // Home
 #define TITLE "PAC-MAN"
-#define HOME_NEWG_ID 0
+#define HOME_GAME_ID 0
 #define NEW_GAME strContainer[0][LANG_SET]
 #define HOME_BEST_ID 1
 #define BEST_SCORES strContainer[1][LANG_SET]

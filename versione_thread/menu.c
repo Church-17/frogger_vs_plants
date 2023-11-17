@@ -118,12 +118,12 @@ int menu(str title, List_str set) {
 void home_menu(void) {
     // Init vars
     str list[N_HOME] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
-    int ind[N_HOME] = {HOME_NEWG_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
+    int ind[N_HOME] = {HOME_GAME_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_HOME);
 
     int chosen = menu(TITLE, set); // Call menu
     switch(chosen) {
-        case HOME_NEWG_ID: // Game
+        case HOME_GAME_ID: // Game
             game();
             break;
 
