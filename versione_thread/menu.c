@@ -169,7 +169,8 @@ void best_scores_menu(void) {
     for(i = 0; i < N_BEST; i++) {
         if(best.val[i] > NULL_RECORD) {
             sx.list[i] = best.key[i];
-            dx.list[i] = int_to_str(best.val[i]);
+            alloc(char, dx.list[i], LEN_STR_INT)
+            sprintf(dx.list[i], "%d", best.val[i]);
         } else { // If a score is negative, it's a non-existing record
             sx.list[i] = dx.list[i] = ""; // Print empty line
         }

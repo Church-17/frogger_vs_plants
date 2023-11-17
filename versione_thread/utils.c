@@ -34,13 +34,6 @@ int max_strlen(List_str strings, int min_len) {
     return max_len;
 }
 
-// Convert int to string
-str int_to_str(int num) {
-    dalloc(char, numstr, LEN_STR_INT);
-    sprintf(numstr, "%d", num);
-    return numstr;
-}
-
 // Check if a char is in a given interval
 bool is_char_in(char ch, char first, char last) {
     if(ch >= first && ch <= last) {

@@ -41,7 +41,6 @@ struct Dict_str_int {
 int max(int n1, int n2);
 int mod(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
-str int_to_str(int num);
 bool is_char_in(char ch, char first, char last);
 List_str dict_to_list(str* obj, int* ind, int len);
 WINDOW* newctrwin(int n_rows, int n_cols);
