@@ -1,4 +1,4 @@
-#define typestructdef(datatype) struct datatype; typedef struct datatype datatype;
+#define typestructdef(datatype) struct datatype; typedef struct datatype datatype
 
 // Define types & scruct prototypes
 typedef char* str;
