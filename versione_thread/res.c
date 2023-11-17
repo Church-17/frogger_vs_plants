@@ -59,7 +59,6 @@ void rd_settings(void) {
     }
     // Read settings file
     Dict_str_int dict = check_conf_file(fptr, N_SETTINGS, LIM_STR_BUFF);
-    fclose(fptr); // Close settings file
     if(dict.len != N_SETTINGS) { // If settings file integrity is compromised...
         wr_settings(game_settings);
         return;
@@ -139,7 +138,6 @@ Dict_str_int rd_best(void) {
     }
     // Read best scores
     best = check_conf_file(fptr, N_BEST, LIM_STR_BUFF);
-    fclose(fptr); // Close best scores file
     if(best.len != N_BEST) { // If settings file integrity is compromised...
         for(i = 0; i < N_BEST; i++) {
             sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
@@ -154,7 +152,6 @@ Dict_str_int rd_best(void) {
 void wr_best(Dict_str_int best) {
     // Open best scores file
     FILE* fptr = fopen(BEST_PATH, WRITE);
-
     if(fptr == NULL) { // If best scores file cannot be created
         return;
     }
@@ -219,7 +216,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
                 }
                 break; // Otherwise end of line or file
             }
-            if(!is_char_in((char)achar, '0', '9')) { // Check number char
+            if(!is_char_in((char)achar, KEY_0, KEY_9)) { // Check number char
                 dict.len = -1; // ERROR in file
                 return dict;
             }
@@ -228,5 +225,6 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
         numstr[col] = '\0'; // End string
         dict.val[line] = atoi(numstr); // Convert string to number
     }
+    fclose(fptr); // Close settings file
     return dict;
 }

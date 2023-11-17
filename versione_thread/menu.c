@@ -98,7 +98,7 @@ int menu(str title, List_str set) {
 
             default:
                 // Check numbers
-                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len) {
+                if(is_char_in((char)key, KEY_0, KEY_9) && key-KEY_0 < set.len) {
                     hl = key-KEY_0;
                     break;
                 }
@@ -322,7 +322,7 @@ void settings_menu(void) {
 
             default:
                 // Check numbers
-                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len+sel.len) {
+                if(is_char_in((char)key, KEY_0, KEY_9) && key-KEY_0 < set.len+sel.len) {
                     hl = key-KEY_0;
                     break;
                 }
