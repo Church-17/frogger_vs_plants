@@ -74,7 +74,7 @@ void unwin(WINDOW* win) {
 
 // Error handler
 str errContainer[] = {
-    "Current terminal don't support colors",
+    "Current terminal doesn't support colors",
     "Error during memory allocation"
 };
 // Exit ending window with error message

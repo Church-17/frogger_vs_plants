@@ -10,18 +10,18 @@
 #define LR_ARROWS 4 // # chars occupied by arrows in settings
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADW 2 // West padding of the box
-#define BOX_PADE 5 // East padding of the box
+#define BOX_PADE 4 // East padding of the box
 #define BOX_PADS 1 // South padding of the box
-#define HL_PADX 1 // Highlight padding
+#define HL_PADX 2 // Highlight padding
 #define SET_PADY 0 // Empty lines between settings
 #define SET_SEL_PADY 1 // Empty lines between settings and selectables
-#define POSITION_Y(obj) (obj)+SET_PADY*((obj)+1)+BOX_PADN // Calc lines in mv function
+#define POSITION_Y(obj) (obj)+SET_PADY*((obj)+1)+BOX_PADN // Calc lines of each option in mv function 
 #define POSITION_X_DX(obj, win_width) win_width-BOX_PADW-strlen(obj) // Calc dx cols in mv function (needs win_width)
 
 // General function for styled double column view
 void view(str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars & setup window
-    int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
+    int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE + HL_PADX; // Calc window width
     WINDOW* menu_win = newctrwin(POSITION_Y(sx.len)+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     
@@ -30,8 +30,8 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
     for(i = 0; i < sx.len; i++) {
-        mvwattrprintw(menu_win, POSITION_Y(i), BOX_PADW, attrs.list[i], "%s", sx.list[i]);
-        mvwattrprintw(menu_win, POSITION_Y(i), POSITION_X_DX(dx.list[i], win_width), attrs.list[i], "%s", dx.list[i]);
+        mvwattrprintw(menu_win, POSITION_Y(i), BOX_PADW, attrs.list[i], "%s", sx.list[i]); // Print elements of sx column
+        mvwattrprintw(menu_win, POSITION_Y(i), POSITION_X_DX(dx.list[i], win_width), attrs.list[i], "%s", dx.list[i]); // Print elements of dx column
     }
 
     wgetch(menu_win); // Press any key to exit
@@ -42,7 +42,7 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
 int menu(str title, List_str set) {
     // Init vars & setup window
     int i, key, hl = 0, old_hl = 0;
-    WINDOW* menu_win = newctrwin(POSITION_Y(set.len)+BOX_PADS, max_strlen(set, strlen(title))+BOX_PADW+BOX_PADE); // Create centered window
+    WINDOW* menu_win = newctrwin(POSITION_Y(set.len)+BOX_PADS, max_strlen(set, strlen(title))+BOX_PADW+BOX_PADE+HL_PADX); // Create centered window
     keypad(menu_win, TRUE); // Enable function keys listener
 
     // Print box, title, options with first letter underlined
@@ -225,7 +225,7 @@ void settings_menu(void) {
     for(i = 0; i < set.len; i++) {
         opts_width = max_strlen(opts[i], opts_width);
     }
-    int win_width = max(set_width+opts_width, strlen(SETTINGS)) + LR_ARROWS + BOX_PADW + BOX_PADE;
+    int win_width = max(set_width+opts_width, strlen(SETTINGS)) + LR_ARROWS + BOX_PADW + BOX_PADE + HL_PADX;
 
     // Setup window 
     WINDOW* menu_win = newctrwin(POSITION_Y(set.len+sel.len)+BOX_PADS+SET_SEL_PADY, win_width); // Create centered window
