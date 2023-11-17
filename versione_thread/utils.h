@@ -18,7 +18,7 @@
 #define ERR_COLOR 2
 
 // Define macros
-#define max(n1, n2) (n1) > (n2) ? (n1) : (n2)
+#define max(n1, n2) ((n1) > (n2) ? (n1) : (n2))
 #define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) quit(ERR_ALLOC); // malloc with error-handle
 #define dalloc(type, var, n) type* alloc(type, var, n)
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
