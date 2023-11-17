@@ -6,14 +6,6 @@
 
 #define N_SPACES_CTRPRINT 2
 
-// Find max
-int max(int n1, int n2) {
-    if(n1 > n2) {
-        return n1;
-    }
-    return n2;
-}
-
 // Mod function
 int mod(int n1, int n2) {
     if(n1 >= 0) {
