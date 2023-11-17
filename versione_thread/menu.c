@@ -15,6 +15,8 @@
 #define HL_PADX 2 // Highlight padding
 #define SET_PADY 0 // Empty lines between settings
 #define SET_SEL_PADY 1 // Empty lines between settings and selectables
+
+// Define macros
 #define POSITION_Y(obj) (obj)+SET_PADY*((obj)+1)+BOX_PADN // Calc lines of each option in mv function 
 #define POSITION_X_DX(obj, win_width) win_width-BOX_PADW-strlen(obj) // Calc dx cols in mv function (needs win_width)
 
@@ -41,8 +43,8 @@ void view(str title, List_str sx, List_str dx, List_attr attrs) {
 // General function for a single column menu, returning index of selected option
 int menu(str title, List_str set) {
     // Init vars & setup window
-    int i, key, hl = 0, old_hl = 0;
-    WINDOW* menu_win = newctrwin(POSITION_Y(set.len)+BOX_PADS, max_strlen(set, strlen(title))+BOX_PADW+BOX_PADE+HL_PADX); // Create centered window
+    int i, key, hl = 0, old_hl = 0, win_width = max_strlen(set, strlen(title)) + BOX_PADW + BOX_PADE + HL_PADX;
+    WINDOW* menu_win = newctrwin(POSITION_Y(set.len)+BOX_PADS, win_width); // Create centered window
     keypad(menu_win, TRUE); // Enable function keys listener
 
     // Print box, title, options with first letter underlined
