@@ -1,5 +1,4 @@
 // Include libs
-#include <stdlib.h>
 #include "struct.h"
 
 // Define constant
@@ -25,9 +24,18 @@ extern int game_settings[];
 #define COL1_SET game_settings[SET_COL1_ID]
 #define COL2_SET game_settings[SET_COL2_ID]
 
-// --- STRINGS ---
+// --- COLORS ---
+#define COLOR_GREY 8
+#define COLOR_BROWN 9
+#define GREY_BLACK_ID 7
+#define BROWN_BLACK_ID 8
+#define COLS1 COLOR_PAIR(COL1_SET)
+#define COLS2 COLOR_PAIR(COL2_SET)
+#define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
+#define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
+#define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
 
-extern str strContainer[][2];
+// --- STRINGS ---
 
 // Home
 #define TITLE "PAC-MAN"
@@ -113,13 +121,4 @@ extern str strContainer[][2];
 
 // Endgame
 
-// --- COLORS ---
-#define COLOR_GREY 8
-#define COLOR_BROWN 9
-#define GREY_BLACK_ID 7
-#define BROWN_BLACK_ID 8
-#define COLS1 COLOR_PAIR(COL1_SET)
-#define COLS2 COLOR_PAIR(COL2_SET)
-#define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
-#define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
-#define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
+extern str strContainer[][N_LANGUAGE];
