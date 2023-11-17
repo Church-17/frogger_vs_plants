@@ -93,9 +93,11 @@ str errContainer[] = {
     "Current terminal don't support colors",
     "Error during memory allocation"
 };
-void error(int err_code) {
+void quit(int err_code) {
     endwin();
-    printf("%s\n", errContainer[err_code-1]);
-    getchar();
+    if(err_code > 0) {
+        printf("%s\n", errContainer[err_code-1]);
+        getchar();
+    }
     exit(err_code);
 }

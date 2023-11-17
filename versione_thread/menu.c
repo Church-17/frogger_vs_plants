@@ -140,8 +140,7 @@ void home_menu(void) {
             break;
             
         case HOME_QUIT_ID: // Quit
-            endwin();
-            exit(0); 
+            quit(NO_ERR); 
 
         default:
             break;           

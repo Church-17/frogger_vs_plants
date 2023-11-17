@@ -17,7 +17,7 @@ int main(void) {
     
     // Setup colors
     if(has_colors() == FALSE) {	// Check color support
-		error(ERR_COLOR);
+		quit(ERR_COLOR);
 	}
     start_color(); // Enable colors
     // Set each color with RGB values (scaled on thousandth)
