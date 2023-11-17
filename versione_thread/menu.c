@@ -20,35 +20,35 @@
 
 // General function for styled double column view
 void view(str title, List_str sx, List_str dx, List_attr attrs) {
+    // Init vars & setup window
     int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + BOX_PADW + BOX_PADE; // Calc window width
     WINDOW* menu_win = newctrwin(POSITION_Y(sx.len)+BOX_PADS, win_width); // Centered window
-    wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
+    
+    // Print box, title, lists with attributes
+    wattron(menu_win, COLS1);
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
-
-    // Print lists with attributes
     for(i = 0; i < sx.len; i++) {
         mvwattrprintw(menu_win, POSITION_Y(i), BOX_PADW, attrs.list[i], "%s", sx.list[i]);
         mvwattrprintw(menu_win, POSITION_Y(i), POSITION_X_DX(dx.list[i], win_width), attrs.list[i], "%s", dx.list[i]);
     }
+
     wgetch(menu_win); // Press any key to exit
     unwin(menu_win);
 }
 
 // General function for a single column menu, returning index of selected option
 int menu(str title, List_str set) {
-    // Init vars
+    // Init vars & setup window
     int i, key, hl = 0, old_hl = 0;
     WINDOW* menu_win = newctrwin(POSITION_Y(set.len)+BOX_PADS, max_strlen(set, strlen(title))+BOX_PADW+BOX_PADE); // Create centered window
-
-    // Setup window
-    wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
+
+    // Print box, title, options with first letter underlined
+    wattron(menu_win, COLS1);
     box(menu_win, 0, 0); // Box window
     wctrprintw(menu_win, 0, title); // Print title
-
-    // Print options with first letter underlined
     for(i = 0; i < set.len; i++) {
         mvwfattrprintw(menu_win, POSITION_Y(i), BOX_PADW, A_UNDERLINE, set.list[i]);
     }
@@ -229,12 +229,12 @@ void settings_menu(void) {
 
     // Setup window 
     WINDOW* menu_win = newctrwin(POSITION_Y(set.len+sel.len)+BOX_PADS+SET_SEL_PADY, win_width); // Create centered window
-    wattron(menu_win, COLS1);
     keypad(menu_win, TRUE); // Enable function keys listener
-    box(menu_win, 0, 0); // Box window
-    wctrprintw(menu_win, 0, SETTINGS); // Print title
 
     // Prints
+    wattron(menu_win, COLS1);
+    box(menu_win, 0, 0); // Box window
+    wctrprintw(menu_win, 0, SETTINGS); // Print title
     for(i = 0; i < set.len; i++) { // Settings & options
         mvwfattrprintw(menu_win, POSITION_Y(i), BOX_PADW, A_UNDERLINE, set.list[i]);
         mvwprintw(menu_win, POSITION_Y(i), POSITION_X_DX(opts[i].list[newly_setted[i]], win_width), "%s", opts[i].list[newly_setted[i]]);

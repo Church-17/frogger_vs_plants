@@ -5,17 +5,17 @@
 #include "res.h"
 
 // Define constant
-#define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"}
-#define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID}
-#define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR}
-#define SETTINGS_PATH "/tmp/.game_settings.ini"
-#define BEST_PATH "/tmp/.game_best.dat"
-#define FIRST_ALLOWED_CHAR '!'
-#define LAST_ALLOWED_CHAR '~'
+#define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"} // Array of setting labels
+#define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID} // Index of settings
+#define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR} // N options of each settings
+#define SETTINGS_PATH "/tmp/.game_settings.ini" // Path of settings file
+#define BEST_PATH "/tmp/.game_best.dat" // Path of best scores files
+#define FIRST_ALLOWED_CHAR '!' // First allowed char in username
+#define LAST_ALLOWED_CHAR '~' // Last allowed char in username
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {0}; // Default settings
-str strContainer[][N_LANGUAGE] = {
+str strContainer[][N_LANGUAGE] = { // Container of all strings
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
     {"Settings", "Impostazioni"},
@@ -54,17 +54,17 @@ void rd_settings(void) {
     int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
     FILE* fptr = fopen(SETTINGS_PATH, READ); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
-        wr_settings(game_settings); // Write new default settings file
+        wr_settings(game_settings); // Write default settings file
         return;
     }
     // Read settings file
     Dict_str_int dict = check_conf_file(fptr, N_SETTINGS, LIM_STR_BUFF);
     if(dict.len != N_SETTINGS) { // If settings file integrity is compromised...
-        wr_settings(game_settings);
+        wr_settings(game_settings); // Write default settings file
         return;
     }
     // Overwrite game_settings
-    bool used[N_SETTINGS] = {0};
+    bool used[N_SETTINGS] = {FALSE}; // Track readed settings
     for(i = 0; i < dict.len; i++) {
         for(j = 0; j < N_SETTINGS; j++) {
             if(!strcmp(dict.key[i], str_settings[j])) { // Check which settings is
@@ -78,7 +78,7 @@ void rd_settings(void) {
                     return;
                 }
                 game_settings[ind_set[j]] = dict.val[i];
-                used[j] = 1; // Mark settings as used
+                used[j] = TRUE; // Mark settings as used
                 break;
             }
         }
@@ -91,7 +91,7 @@ void rd_settings(void) {
             wr_settings(game_settings); // Restore default for the other settings 
             return;
         }
-        free(dict.key[i]);
+        free(dict.key[i]); // Free used key
     }
     // Free memory
     free(dict.key);
@@ -109,12 +109,12 @@ void wr_settings(int* set) {
     for(i = 0; i < N_SETTINGS; i++) {
         game_settings[i] = set[i];
     }
-    if(fptr == NULL) { // If settings file cannot be created...
+    if(fptr == NULL) { // If settings file cannot be writed...
         return; // Use previous settings
     }
     // Write settings file
     for(i = 0; i < N_SETTINGS; i++) {
-        fprintf(fptr, "%s = %d\n", str_settings[ind_set[i]], game_settings[ind_set[i]]);
+        fprintf(fptr, "%s = %d\n", str_settings[i], game_settings[ind_set[i]]);
     }
     fclose(fptr); // Close settings file
 }

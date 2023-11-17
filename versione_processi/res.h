@@ -2,7 +2,7 @@
 #include "struct.h"
 
 // Define constant
-#define LIM_STR_BUFF 100
+#define LIM_STR_BUFF 100 // Max len of string in file
 
 // Function prototypes
 void rd_settings(void);
@@ -12,7 +12,6 @@ void wr_best(Dict_str_int best);
 Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
 
 // --- SETTINGS ---
-extern int game_settings[];
 #define SET_LANG_ID 0
 #define SET_DIFF_ID 1
 #define SET_SKIN_ID 2
@@ -121,4 +120,7 @@ extern int game_settings[];
 
 // Endgame
 
+
+// Inter-object variables
+extern int game_settings[N_SETTINGS];
 extern str strContainer[][N_LANGUAGE];

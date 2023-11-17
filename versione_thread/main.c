@@ -12,7 +12,7 @@ int main(void) {
     setlocale(LC_ALL, ""); // Enable UTF-8 chars
     initscr(); // Initialize window
     noecho(); // Hide character typed
-    curs_set(0); // Remove cursor
+    curs_set(FALSE); // Remove cursor
     keypad(stdscr, TRUE); // Enable function keys listener
     
     // Setup colors

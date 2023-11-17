@@ -4,16 +4,8 @@
 #include <string.h>
 #include "utils.h"
 
+// Define constant
 #define N_SPACES_CTRPRINT 2
-
-// Mod function
-int mod(int n1, int n2) {
-    if(n1 >= 0) {
-        return n1 % n2;
-    } else {
-        return (n1 % n2) + n2;
-    }
-}
 
 // Find max length of a strings list, starting from a min
 int max_strlen(List_str strings, int min_len) {
@@ -85,6 +77,7 @@ str errContainer[] = {
     "Current terminal don't support colors",
     "Error during memory allocation"
 };
+// Exit ending window with error message
 void quit(int err_code) {
     endwin();
     if(err_code > 0) {

@@ -19,8 +19,9 @@
 
 // Define macros
 #define max(n1, n2) ((n1) > (n2) ? (n1) : (n2))
-#define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) quit(ERR_ALLOC); // malloc with error-handle
-#define dalloc(type, var, n) type* alloc(type, var, n)
+#define mod(n1, n2) ((n1) >= 0 ? (n1) % (n2) : (n1) % (n2) + (n2))
+#define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) quit(ERR_ALLOC) // malloc with error-handle
+#define dalloc(type, var, n) type* alloc(type, var, n) // Define and alloc
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute
 #define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col); wattrprintw(win, attr, args) // Move & print string with attribute
 
@@ -40,7 +41,6 @@ struct Dict_str_int {
 };
 
 // Function prototypes
-int mod(int n1, int n2);
 int max_strlen(List_str strings, int min_len);
 bool is_char_in(char ch, char first, char last);
 List_str dict_to_list(str* obj, int* ind, int len);
