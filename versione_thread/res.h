@@ -55,18 +55,18 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
 #define NULL_USER "NULL"
 #define NULL_RECORD 0
 
-// Settings
+// Settings (settings ID already defined)
 #define LANGUAGE strContainer[5][LANG_SET]
 #define DIFFICULTY strContainer[6][LANG_SET]
 #define SKIN "Skin"
 #define FIRST_COLOR strContainer[18][LANG_SET]
 #define SECOND_COLOR strContainer[19][LANG_SET]
 #define N_SETTINGS 5
-#define SET_APPL_ID 0
+#define SET_APPL_ID (N_SETTINGS+0)
 #define APPLY strContainer[26][LANG_SET]
-#define SET_CANC_ID 1
+#define SET_CANC_ID (N_SETTINGS+1)
 #define CANCEL strContainer[7][LANG_SET]
-#define N_SETTINGS_SEL 2
+#define N_SET_SEL (N_SETTINGS+2)
 // - Language
 #define LANG_0_ID 0
 #define LANGUAGE_0 "English"
