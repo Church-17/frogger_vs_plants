@@ -21,7 +21,7 @@
 #define POSITION_X_DX(obj, win_width) ((win_width)-(BOX_PADX)-strlen(obj)) // Calc dx cols of each option in mv function
 
 // General function for styled double column view
-WINDOW* view(str title, List_str sx, List_str dx, List_attr attrs) {
+void view(str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars & setup window
     int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + 2*BOX_PADX + BOX_PADX_ADD + HL_PADX; // Calc window width
     WINDOW* menu_win = newctrwin(POSITION_Y(sx.len)+BOX_PADS, win_width); // Centered window
