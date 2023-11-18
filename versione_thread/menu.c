@@ -67,7 +67,7 @@ int menu(str title, List_str set) {
 
         old_hl = hl; // Track old hl
 
-        key = wgetch(menu_win); // Get the pressed key
+        key = wgetch(menu_win); // Get pressed key
         switch (key) {
             // Decrease hl
             case KEY_UP:
@@ -100,7 +100,7 @@ int menu(str title, List_str set) {
 
             default:
                 // Check numbers
-                if(is_char_in((char)key, KEY_0, KEY_9) && key-KEY_0 < set.len) {
+                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len) {
                     hl = key-KEY_0;
                     break;
                 }
@@ -323,7 +323,7 @@ void settings_menu(void) {
 
             default:
                 // Check numbers
-                if(is_char_in((char)key, KEY_0, KEY_9) && key-KEY_0 < set.len+sel.len) {
+                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len+sel.len) {
                     hl = key-KEY_0;
                     break;
                 }

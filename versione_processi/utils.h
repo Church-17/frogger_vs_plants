@@ -42,7 +42,6 @@ struct Dict_str_int {
 
 // Function prototypes
 int max_strlen(List_str strings, int min_len);
-bool is_char_in(char ch, char first, char last);
 List_str dict_to_list(str* obj, int* ind, int len);
 WINDOW* newctrwin(int n_rows, int n_cols);
 void wctrprintw(WINDOW* win, int row, str fstr);

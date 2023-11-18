@@ -18,14 +18,6 @@ int max_strlen(List_str strings, int min_len) {
     return max_len;
 }
 
-// Check if a char is in a given interval
-bool is_char_in(char ch, char first, char last) {
-    if(ch >= first && ch <= last) {
-        return TRUE;
-    }
-    return FALSE;
-}
-
 // Given objects and indexes, create a list with each object at its index
 List_str dict_to_list(str* obj, int* ind, int len) {
     List_str list;

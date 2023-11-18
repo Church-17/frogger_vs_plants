@@ -192,7 +192,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
                 }
                 break; // Otherwise string ended
             }
-            if(!is_char_in((char)achar, FIRST_ALLOWED_CHAR, LAST_ALLOWED_CHAR)) { // Check allowed char
+            if(achar < FIRST_ALLOWED_CHAR || achar > LAST_ALLOWED_CHAR) { // Check allowed char
                 dict.len = -1; // ERROR in file
                 return dict;
             }
@@ -216,7 +216,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
                 }
                 break; // Otherwise end of line or file
             }
-            if(!is_char_in((char)achar, KEY_0, KEY_9)) { // Check number char
+            if(achar < KEY_0 || achar > KEY_9) { // Check number char
                 dict.len = -1; // ERROR in file
                 return dict;
             }
