@@ -230,7 +230,7 @@ void settings_menu(void) {
     win_width = max(win_width+opts_width, strlen(SETTINGS)) + LR_ARROWS + 2*BOX_PADX + BOX_PADX_ADD + HL_PADX;
 
     // Setup window 
-    WINDOW* menu_win = init_menu(SETTINGS, POSITION_Y(set.len+sel.len)+BOX_PADS+SET_SEL_PADY, win_width); // Create centered window
+    WINDOW* menu_win = init_menu(SETTINGS, POSITION_Y(set.len+sel.len)+BOX_PADS+SET_SEL_PADY, win_width); // Init centered menu
 
     // Prints
     for(i = 0; i < set.len; i++) { // Settings & options
