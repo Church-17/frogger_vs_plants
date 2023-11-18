@@ -10,7 +10,7 @@
 #define LR_ARROWS 4 // # chars occupied by arrows in settings
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADX 2 // West & east padding of the box
-#define BOX_PADX_ADD 2 // Adding space on x-axis of the box
+#define BOX_PADX_ADD 3 // Adding space on x-axis of the box
 #define BOX_PADS 1 // South padding of the box
 #define HL_PADX 1 // Highlight padding
 #define SET_PADY 0 // Empty lines between settings
@@ -23,7 +23,7 @@
 // General function for styled double column view
 void view(str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars & setup window
-    int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + 2*BOX_PADX + BOX_PADX_ADD + HL_PADX; // Calc window width
+    int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), strlen(title)) + 2*BOX_PADX + BOX_PADX_ADD; // Calc window width
     WINDOW* menu_win = newctrwin(POSITION_Y(sx.len)+BOX_PADS, win_width); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     
