@@ -10,6 +10,14 @@
 #define CAPITAL_SHIFT (int)('a'-'A')
 #define KEY_0 (int)'0'
 #define KEY_9 (int)'9'
+#define KEY_w (int)'w'
+#define KEY_a (int)'a'
+#define KEY_s (int)'s'
+#define KEY_d (int)'d'
+#define KEY_W (int)'W'
+#define KEY_A (int)'A'
+#define KEY_S (int)'S'
+#define KEY_D (int)'D'
 #define READ "r"
 #define WRITE "w"
 #define NO_CURS 0
