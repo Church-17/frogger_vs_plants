@@ -26,7 +26,7 @@ str strContainer[][N_LANGUAGE] = { // Container of all strings
     {"Cancel", "Annula"},
     {"Easy", "Facile"},
     {"Medium", "Medio"},
-    {"Difficult", "Difficile"},
+    {"Hard", "Difficile"},
     {"Common", "Comune"},
     {"Rare", "Rara"},
     {"Epic", "Epica"},
