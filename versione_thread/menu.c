@@ -1,5 +1,6 @@
 // Include libs
 #include <string.h>
+#include "game.h"
 #include "menu.h"
 #include "res.h"
 #include "utils.h"
@@ -140,7 +141,7 @@ void home_menu(void) {
 
     free(set.list); // Free memory
 
-    return chosen;
+    return;
 }
 
 // Best scores screen
