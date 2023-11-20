@@ -1,10 +1,9 @@
 // Include libs
 #include <string.h>
-#include <ncurses.h>
 #include "menu.h"
 #include "game.h"
-#include "utils.h"
 #include "res.h"
+#include "utils.h"
 
 // Define constants
 #define LR_ARROWS 4 // # chars occupied by arrows in settings

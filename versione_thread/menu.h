@@ -1,4 +1,5 @@
 // Include libs
+#include <ncurses.h>
 #include "struct.h"
 
 // Prototypes
