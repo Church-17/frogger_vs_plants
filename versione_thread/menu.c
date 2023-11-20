@@ -73,7 +73,7 @@ int menu(str title, List_str set) {
         old_hl = hl; // Track old hl
         inc = 1; // Restore inc
 
-        key = getch(); // Get pressed key
+        key = wgetch(menu_win); // Get pressed key
         switch (key) {
             // Change hl
             case KEY_UP:
@@ -227,7 +227,7 @@ void settings_menu(void) {
         old_hl = hl; // Track old hl
         inc = 1; // Restore inc
 
-        key = getch();
+        key = wgetch(menu_win);
         switch (key) {
             // Change hl
             case KEY_UP:
