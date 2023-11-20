@@ -1,5 +1,4 @@
 // Include libs
-#include <curses.h>
 #include <pthread.h>
 #include <locale.h>
 #include "menu.h"

@@ -1,6 +1,4 @@
 // Include libs
-#include <ncurses.h>
-#include <string.h>
 #include "menu.h"
 #include "game.h"
 #include "utils.h"
