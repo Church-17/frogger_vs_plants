@@ -5,3 +5,4 @@ typedef char* str;
 typestructdef(List_str);
 typestructdef(List_attr);
 typestructdef(Dict_str_int);
+typestructdef(Point);

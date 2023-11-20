@@ -63,6 +63,10 @@ struct Dict_str_int {
     int* val;
     int len;
 };
+struct Point {
+    int x;
+    int y;
+};
 
 // Function prototypes
 int max_strlen(List_str strings, int min_len);
