@@ -1,5 +1,4 @@
 // Include libs
-#include <stdlib.h>
 #include "struct.h"
 
 // Define constant
@@ -10,7 +9,6 @@ void rd_settings(void);
 void wr_settings(int* set);
 Dict_str_int rd_best(void);
 void wr_best(Dict_str_int best);
-Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
 
 // --- SETTINGS ---
 #define SET_LANG_ID 0

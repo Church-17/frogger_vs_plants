@@ -3,6 +3,9 @@
 #include "utils.h"
 #include "res.h"
 
+// Fucntion prototypes
+Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
+
 // Define constant
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"} // Array of setting labels
 #define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID} // Index of settings

@@ -5,6 +5,11 @@
 #include "res.h"
 #include "utils.h"
 
+// Function prototypes
+WINDOW* init_menu(str title, int rows, int cols);
+void view(str title, List_str sx, List_str dx, List_attr cols);
+int menu(str title, List_str opts);
+
 // Define constants
 #define LR_ARROWS 4 // # chars occupied by arrows in settings
 #define BOX_PADN 2 // North padding of the box
