@@ -2,6 +2,7 @@
 #include <pthread.h>
 #include <locale.h>
 #include "menu.h"
+#include "game.h"
 #include "res.h"
 #include "utils.h"
 
@@ -45,7 +46,29 @@ int main(void) {
     rd_settings();
 
     // Main loop
-    while(TRUE) {
-        home_menu();
+    int chosen = -1;
+    while(chosen != HOME_QUIT_ID) {
+        chosen = home_menu();
+        switch(chosen) {
+            case HOME_GAME_ID: // Game
+                game();
+                break;
+
+            case HOME_BEST_ID: // Best scores
+                best_scores_menu();
+                break;
+
+            case HOME_SETT_ID: // Settings
+                settings_menu();
+                break;
+
+            case HOME_CRED_ID: // Credits
+                credits_menu();
+                break;
+
+            default:
+                break;
+        }
     }
+    quit(NO_ERR);
 }
