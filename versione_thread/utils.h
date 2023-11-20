@@ -48,6 +48,10 @@
 #define wctrprintw(win, row, args...) {char tmpstr[LIM_STR_BUFF];\
                                       sprintf(tmpstr, args);\
                                       mvwprintw(win, row, (win->_maxx - strlen(tmpstr))/2, "%s", tmpstr);}
+// Print in center with attribute
+#define wctrattrprintw(win, row, attr, args...) wattron(win, attr);\
+                                                wctrprintw(win, row, args);\
+                                                wattroff(win, attr)
 
 // Define structs
 struct List_str {
