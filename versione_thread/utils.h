@@ -7,9 +7,9 @@
 // Define constant
 #define LEN_STR_INT 12
 #define ENTER 10
-#define CAPITAL_SHIFT 32
-#define KEY_0 '0'
-#define KEY_9 '9'
+#define CAPITAL_SHIFT (int)('a'-'A')
+#define KEY_0 (int)'0'
+#define KEY_9 (int)'9'
 #define READ "r"
 #define WRITE "w"
 #define NO_CURS 0
