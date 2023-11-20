@@ -5,15 +5,8 @@
 #include "res.h"
 #include "utils.h"
 
-// Function prototypes
-WINDOW* init_menu(str title, int rows, int cols);
-void view(str title, List_str sx, List_str dx, List_attr cols);
-int menu(str title, List_str opts);
-void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr);
-void check_key(int key, int* hl, List_str* set);
-
 // Define constants
-#define LR_ARROWS 4 // # chars occupied by arrows in settings
+#define LR_ARROWS 4 // N chars occupied by arrows in settings
 #define BOX_PADN 2 // North padding of the box
 #define BOX_PADX 2 // West & east padding of the box
 #define BOX_PADX_ADD 3 // Adding space on x-axis of the box
@@ -23,18 +16,15 @@ void check_key(int key, int* hl, List_str* set);
 #define SET_SEL_PADY 1 // Empty lines between settings and selectables
 
 // Define macros
-#define POSITION_Y(ind, lim) ((ind)+(SET_PADY)*((ind)+1)+(BOX_PADN)+SET_SEL_PADY*(ind>=lim)) // Calc lines of each set in mv function 
+#define POSITION_Y(ind, lim) ((ind)+(SET_PADY)*((ind)+1)+(BOX_PADN)+SET_SEL_PADY*(ind>=lim)) // Calc lines of each set in mv function (check to add lines)
 #define POSITION_X_DX(obj, win_width) ((win_width)-(BOX_PADX)-strlen(obj)) // Calc dx cols of each option in mv function
 
-// Init menu window
-WINDOW* init_menu(str title, int rows, int cols) {
-    WINDOW* menu_win = newctrwin(rows, cols); // Centered window
-    keypad(menu_win, TRUE); // Enable function keys listener
-    wattron(menu_win, COLS1); // Enable chosen color
-    box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
-    wctrprintw(menu_win, 0, "%s", title); // Print title
-    return menu_win;
-}
+// Function prototypes
+WINDOW* init_menu(str title, int rows, int cols);
+void view(str title, List_str sx, List_str dx, List_attr cols);
+int menu(str title, List_str opts);
+void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr);
+void check_key(int key, int* hl, List_str* set);
 
 // General function for styled double column view
 void view(str title, List_str sx, List_str dx, List_attr attrs) {
@@ -334,6 +324,16 @@ int pause_menu(void) {
 
 void endgame_menu(int score) {
     
+}
+
+// Init menu window
+WINDOW* init_menu(str title, int rows, int cols) {
+    WINDOW* menu_win = newctrwin(rows, cols); // Centered window
+    keypad(menu_win, TRUE); // Enable function keys listener
+    wattron(menu_win, COLS1); // Enable chosen color
+    box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
+    wctrprintw(menu_win, 0, " %s ", title); // Print title
+    return menu_win;
 }
 
 // Move & print string with first letter attributed
