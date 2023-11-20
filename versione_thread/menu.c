@@ -102,18 +102,8 @@ int menu(str title, List_str set) {
                 return hl;
 
             default:
-                // Check numbers
-                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len) {
-                    hl = key-KEY_0;
-                    break;
-                }
-                // Check first letters of options
-                for(i = mod(hl+1, set.len); i != hl; i = mod(i+1, set.len)) {
-                    if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
-                        hl = i;
-                        break;
-                    }
-                }
+                // Check numbers & first letter
+                check_key(key, &hl, &set);
                 break;
         }
     }
@@ -276,18 +266,8 @@ void settings_menu(void) {
                 return;
 
             default:
-                // Check numbers
-                if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set.len) {
-                    hl = key-KEY_0;
-                    break;
-                }
-                // Check first letters from hl
-                for(i = mod(hl+1, set.len); i != hl; i = mod(i+1, set.len)) {
-                    if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
-                        hl = i;
-                        break;
-                    }
-                }
+                // Check numbers & first letter
+                check_key(key, &hl, &set);
                 break;
         }
     }
@@ -328,4 +308,18 @@ int pause_menu(void) {
 
 void endgame_menu(int score) {
     
+}
+
+// Check if key is one of the first letters
+void check_key(int key, int* hl, List_str* set) {
+    if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set->len) {
+        *hl = key-KEY_0;
+        return;
+    }
+    for(int i = mod(*hl+1, set->len); i != *hl; i = mod(i+1, set->len)) {
+        if(key == set->list[i][0] || key == set->list[i][0]+CAPITAL_SHIFT) {
+            *hl = i;
+            return;
+        }
+    }
 }

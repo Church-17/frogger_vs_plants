@@ -12,6 +12,7 @@
 #define KEY_9 '9'
 #define READ "r"
 #define WRITE "w"
+#define NO_CURS 0
 
 // Define error codes
 #define NO_ERR 0
