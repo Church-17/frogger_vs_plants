@@ -29,7 +29,7 @@ WINDOW* init_menu(str title, int rows, int cols) {
     WINDOW* menu_win = newctrwin(rows, cols); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1); // Enable chosen color
-    box(menu_win, 0, 0); // Box window
+    box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
     wctrprintw(menu_win, 0, title); // Print title
     return menu_win;
 }
@@ -134,6 +134,9 @@ void home_menu(void) {
         case HOME_CRED_ID: // Credits
             credits_menu();
             break;
+
+        case HOME_QUIT_ID:
+            quit(NO_ERR);
 
         default:
             break;
