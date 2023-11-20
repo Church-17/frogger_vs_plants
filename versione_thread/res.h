@@ -1,9 +1,6 @@
 // Include libs
 #include "struct.h"
 
-// Define constant
-#define LIM_STR_BUFF 100 // Max len of string in file
-
 // Function prototypes
 void rd_settings(void);
 void wr_settings(int* set);

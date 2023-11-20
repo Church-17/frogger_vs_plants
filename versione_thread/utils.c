@@ -32,28 +32,6 @@ WINDOW* newctrwin(int n_rows, int n_cols) {
     return newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2);
 }
 
-// Print in center
-void wctrprintw(WINDOW* win, int row, str fstr) {
-    mvwprintw(win, row, (win->_maxx - strlen(fstr) - N_SPACES_CTRPRINT)/2, " %s ", fstr);
-}
-
-// Print with attribute in center
-void wctrattrprintw(WINDOW* win, int row, attr_t attr, str fstr) {
-    mvwattrprintw(win, row, (win->_maxx - strlen(fstr) - N_SPACES_CTRPRINT)/2, attr, " %s ", fstr);
-}
-
-// Print string with first letter attributed
-void wfattrprintw(WINDOW* win, attr_t attr, str fstr) {
-    wattrprintw(win, attr, "%c", fstr[0]);
-    wprintw(win, "%s", &(fstr[1]));
-}
-
-// Move & print string with first letter attributed
-void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {
-    mvwattrprintw(win, row, col, attr, "%c", fstr[0]);
-    wprintw(win, "%s", &(fstr[1]));
-}
-
 // Delete a window
 void unwin(WINDOW* win) {
     werase(win);

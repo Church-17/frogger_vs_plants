@@ -9,6 +9,8 @@
 WINDOW* init_menu(str title, int rows, int cols);
 void view(str title, List_str sx, List_str dx, List_attr cols);
 int menu(str title, List_str opts);
+void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr);
+void check_key(int key, int* hl, List_str* set);
 
 // Define constants
 #define LR_ARROWS 4 // # chars occupied by arrows in settings
@@ -30,7 +32,7 @@ WINDOW* init_menu(str title, int rows, int cols) {
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1); // Enable chosen color
     box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
-    wctrprintw(menu_win, 0, title); // Print title
+    wctrprintw(menu_win, 0, "%s", title); // Print title
     return menu_win;
 }
 
@@ -332,6 +334,12 @@ int pause_menu(void) {
 
 void endgame_menu(int score) {
     
+}
+
+// Move & print string with first letter attributed
+void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {
+    mvwattrprintw(win, row, col, attr, "%c", fstr[0]);
+    wprintw(win, "%s", &(fstr[1]));
 }
 
 // Check if key is one of the first letters
