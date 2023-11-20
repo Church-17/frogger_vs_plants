@@ -46,29 +46,7 @@ int main(void) {
     rd_settings();
 
     // Main loop
-    int chosen = -1;
-    while(chosen != HOME_QUIT_ID) {
-        chosen = home_menu();
-        switch(chosen) {
-            case HOME_GAME_ID: // Game
-                game();
-                break;
-
-            case HOME_BEST_ID: // Best scores
-                best_scores_menu();
-                break;
-
-            case HOME_SETT_ID: // Settings
-                settings_menu();
-                break;
-
-            case HOME_CRED_ID: // Credits
-                credits_menu();
-                break;
-
-            default:
-                break;
-        }
+    while(TRUE) {
+        home_menu();
     }
-    quit(NO_ERR);
 }
