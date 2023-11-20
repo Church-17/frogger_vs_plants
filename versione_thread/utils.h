@@ -22,6 +22,7 @@
 // Define macros
 #define max(n1, n2) ((n1) > (n2) ? (n1) : (n2))
 #define mod(n1, n2) ((n1) >= 0 ? (n1) % (n2) : (n1) % (n2) + (n2))
+#define rand_int(min, max) (rand() % (max-min) + min)
 #define alloc(type, var, n) var = (type*) malloc((n)*sizeof(type)); if(var == NULL) quit(ERR_ALLOC) // malloc with error-handle
 #define dalloc(type, var, n) type* alloc(type, var, n) // Define and alloc
 #define wattrprintw(win, attr, args...) wattron(win, attr); wprintw(win, args); wattroff(win, attr) // Print string with attribute

@@ -6,6 +6,7 @@
 
 // Main
 int main(void) {
+    srand(time(NULL));
     // Setup screen
     setlocale(LC_ALL, ""); // Enable UTF-8 chars
     initscr(); // Initialize window
