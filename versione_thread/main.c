@@ -13,6 +13,7 @@ int main(void) {
     initscr(); // Initialize window
     noecho(); // Hide character typed
     curs_set(FALSE); // Remove cursor
+    cbreak(); // getch() non-block
     keypad(stdscr, TRUE); // Enable function keys listener
     
     // Setup colors
