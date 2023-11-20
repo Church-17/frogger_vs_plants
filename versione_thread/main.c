@@ -1,5 +1,4 @@
 // Include libs
-#include <pthread.h>
 #include <locale.h>
 #include "menu.h"
 #include "game.h"

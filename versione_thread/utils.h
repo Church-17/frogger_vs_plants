@@ -1,6 +1,7 @@
 // Include libs
 #include <stdlib.h>
 #include <ncurses.h>
+#include <pthread.h>
 #include "struct.h"
 
 // Define constant
