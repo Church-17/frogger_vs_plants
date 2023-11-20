@@ -73,7 +73,7 @@ str errContainer[] = {
 void quit(int err_code) {
     endwin();
     if(err_code > 0) {
-        printf("%s\n", errContainer[err_code-1]);
+        fprintf(stderr, "%s\n", errContainer[err_code-1]);
         getchar();
     }
     exit(err_code);
