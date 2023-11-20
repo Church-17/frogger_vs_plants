@@ -1,4 +1,5 @@
 // Include libs
+#include <stdlib.h>
 #include "struct.h"
 
 // Define constant
