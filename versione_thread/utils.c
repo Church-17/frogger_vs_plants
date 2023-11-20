@@ -1,4 +1,6 @@
 // Include libs
+#include <string.h>
+#include <ncurses.h>
 #include "utils.h"
 
 // Define constant
