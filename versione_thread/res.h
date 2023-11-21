@@ -69,6 +69,10 @@ void wr_best(Dict_str_int best);
 // Credits
 #define N_CREDITS 4
 // Pause
+#define PAUSE_RES_ID 0
+#define PAUSE_RETR_ID 1
+#define PAUSE_BACK_ID 2
+#define PAUSE_QUIT_ID 3
 #define N_PAUSE 4
 // Gameover
 #define OVER_RETR_ID 0

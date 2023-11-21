@@ -339,8 +339,9 @@ int pause_menu(void) {
     set.list = list;
     set.len = N_PAUSE;
     
-    menu(title, set);
-    return 0;
+    int chosen = menu(title, set);
+    //free(set.list);
+    return chosen;
 }
 
 int gameover_menu(int score) {

@@ -10,6 +10,7 @@
 #define POINT '$'
 #define N_POINT 5
 #define CLOSE_GAME 'q'
+#define PAUSE_GAME 'p'
 
 // Function prototypes
 int play(void);
@@ -79,10 +80,32 @@ int play(void) {
                 }
                 break;
 
+            case PAUSE_GAME:
+                int p_chosen = pause_menu();
+
+                switch (p_chosen)
+                {
+                    case PAUSE_RES_ID:
+                        break;
+                    
+                    case PAUSE_RETR_ID:
+                        return OVER_RETR_ID;
+
+                    case PAUSE_BACK_ID:
+                        unwin(top_bar);
+                        unwin(game_scr); 
+                        return OVER_BACK_ID;
+
+                    case PAUSE_QUIT_ID:                    
+                        return OVER_QUIT_ID;
+
+                }
+                break;
+
             case CLOSE_GAME:
-                chosen = gameover_menu(score);
                 unwin(top_bar);
                 unwin(game_scr);
+                chosen = gameover_menu(score);
                 return chosen;
         }
         for(i = 0; i < N_POINT; i++) {
