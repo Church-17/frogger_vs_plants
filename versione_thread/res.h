@@ -117,6 +117,9 @@ void wr_best(Dict_str_int best);
 // Endgame
 
 
+// Game
+#define SCORE strContainer[27][LANG_SET]
+
 // Inter-object variables
 extern int game_settings[N_SETTINGS];
 extern str strContainer[][N_LANGUAGE];
