@@ -1,5 +1,4 @@
 // Include libs
-#include <string.h>
 #include "game.h"
 #include "menu.h"
 #include "res.h"
