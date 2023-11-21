@@ -7,7 +7,7 @@
 
 // Define constants
 #define LR_ARROWS 4 // N chars occupied by arrows in settings
-#define TITLE_ROW 1 // Row where print title
+#define TITLE_ROW 1 // Row where start to print title
 #define BOX_PADN 1 // North padding of the box
 #define BOX_PADX 2 // West & east padding of the box
 #define BOX_PADX_ADD 3 // Adding space on x-axis of the box
@@ -17,6 +17,7 @@
 #define SET_SEL_PADY 1 // Empty lines between settings and selectables
 
 // Define macros
+#define WIN_WIDTH(sx, dx, title) (max((sx)+(dx), title)+(2*BOX_PADX)+(BOX_PADX_ADD)) // Calc win_width partially
 #define POSITION_Y(ind, lim, title) ((ind)+(SET_PADY)*((ind)+1)+(TITLE_ROW)+(title)+(BOX_PADN)+(SET_SEL_PADY)*(ind>=lim)) // Calc lines of each set in mv function (check to add lines)
 #define POSITION_X_DX(obj, win_width) ((win_width)-(BOX_PADX)-strlen(obj)) // Calc dx cols of each option in mv function
 
@@ -30,7 +31,7 @@ void check_key(int key, int* hl, List_str* set);
 // General function for styled double column view
 void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars & setup window
-    int i, win_width = max(max_strlen(sx, 0)+max_strlen(dx, 0), max_strlen(title, 0)) + 2*BOX_PADX + BOX_PADX_ADD; // Calc window width
+    int i, win_width = WIN_WIDTH(max_strlen(sx, 0), max_strlen(dx, 0), max_strlen(title, 0));
     WINDOW* menu_win = init_menu(title, POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS, win_width); // Init centered menu
     
     // Print lists with attributes
@@ -46,7 +47,7 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
 // General function for a single column menu, returning index of selected option
 int menu(List_str title, List_str set) {
     // Init vars & setup window
-    int i, key, inc, hl = 0, old_hl = 0, win_width = max_strlen(set, max_strlen(title, 0)) + 2*BOX_PADX + BOX_PADX_ADD + HL_PADX; // Calc window width
+    int i, key, inc, hl = 0, old_hl = 0, win_width = WIN_WIDTH(max_strlen(set, 0), 0, max_strlen(title, 0)) + HL_PADX; // Calc window width
     WINDOW* menu_win = init_menu(title, POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS, win_width); // Init centered menu
     
     // Print options with first letter underlined
@@ -223,9 +224,9 @@ void settings_menu(void) {
     for(i = 0; i < N_SETTINGS; i++) {
         opts_width = max_strlen(opts[i], opts_width);
     }
-    int win_width = max(max_strlen(set, 0)+opts_width, max_strlen(title, 0)) + LR_ARROWS + 2*BOX_PADX + BOX_PADX_ADD + HL_PADX;
+    int win_width = WIN_WIDTH(max_strlen(set, 0), opts_width, max_strlen(title, 0)) + HL_PADX + LR_ARROWS;
 
-    // Setup window 
+    // Setup window
     WINDOW* menu_win = init_menu(title, POSITION_Y(set.len, N_SETTINGS, title.len)+BOX_PADS, win_width); // Init centered menu
 
     // Prints
