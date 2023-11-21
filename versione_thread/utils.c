@@ -54,7 +54,6 @@ void unwin(WINDOW* win) {
     werase(win);
     wrefresh(win);
     delwin(win);
-    refresh();
 }
 
 // Error handler
