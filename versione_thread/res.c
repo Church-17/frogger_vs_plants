@@ -12,8 +12,8 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines);
 #define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR} // N options of each settings
 #define SETTINGS_PATH "/tmp/.game_settings.ini" // Path of settings file
 #define BEST_PATH "/tmp/.game_best.dat" // Path of best scores files
-#define FIRST_ALLOWED_CHAR '!' // First allowed char in username
-#define LAST_ALLOWED_CHAR '~' // Last allowed char in username
+#define FIRST_ALLOWED_CHAR (int)'!' // First allowed char in username
+#define LAST_ALLOWED_CHAR (int)'~' // Last allowed char in username
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {1, 0, 0, 0, 0}; // Default settings
