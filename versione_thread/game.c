@@ -18,7 +18,7 @@ void game(void) {
     WINDOW* game_scr = newwin(LINES-TOP_BAR_ROWS, COLS, TOP_BAR_ROWS, 0);
     keypad(game_scr, TRUE);
     box(game_scr, ACS_VLINE, ACS_HLINE);
-    int i, x = game_scr->_maxx/2, y = game_scr->_maxy/2, c, point_x[N_POINT], point_y[N_POINT], score = 0;  // Inizio al centro
+    int i, key, x = game_scr->_maxx/2, y = game_scr->_maxy/2, point_x[N_POINT], point_y[N_POINT], score = 0;  // Inizio al centro
     mvwaddch(game_scr, y, x, USR);
     wctrprintw(top_bar, TOP_BAR_ROWS/2, "%s: %d", SCORE, score);
     wrefresh(top_bar);
@@ -29,9 +29,9 @@ void game(void) {
     }
     wrefresh(game_scr);
     while(1) {
-        c = wgetch(game_scr);
+        key = wgetch(game_scr);
         mvwaddch(game_scr, y, x, ' ');
-        switch(c) {
+        switch(key) {
             case KEY_UP:
                 if(y > 1) {
                     y -= 1;
