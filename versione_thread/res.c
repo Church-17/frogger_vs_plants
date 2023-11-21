@@ -4,7 +4,7 @@
 #include "res.h"
 
 // Fucntion prototypes
-Dict_str_int check_conf_file(FILE* fptr, int lines, int lim);
+Dict_str_int check_conf_file(FILE* fptr, int lines);
 
 // Define constant
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"} // Array of setting labels
@@ -60,7 +60,7 @@ void rd_settings(void) {
         return;
     }
     // Read settings file
-    Dict_str_int dict = check_conf_file(fptr, N_SETTINGS, LIM_STR_BUFF);
+    Dict_str_int dict = check_conf_file(fptr, N_SETTINGS);
     if(dict.len != N_SETTINGS) { // If settings file integrity is compromised...
         wr_settings(game_settings); // Write default settings file
         return;
@@ -139,7 +139,7 @@ Dict_str_int rd_best(void) {
         return best;
     }
     // Read best scores
-    best = check_conf_file(fptr, N_BEST, LIM_STR_BUFF);
+    best = check_conf_file(fptr, N_BEST);
     if(best.len != N_BEST) { // If settings file integrity is compromised...
         for(i = 0; i < N_BEST; i++) {
             sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
@@ -165,14 +165,14 @@ void wr_best(Dict_str_int best) {
 }
 
 // Check file format
-Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
+Dict_str_int check_conf_file(FILE* fptr, int lines) {
     // Init vars
     int line, col, achar;
     char numstr[LEN_STR_INT];
     Dict_str_int dict;
     alloc(str, dict.key, lines);
     for(line = 0; line < lines; line++) {
-        alloc(char, dict.key[line], lim);
+        alloc(char, dict.key[line], LIM_STR_BUFF);
     }
     alloc(int, dict.val, lines);
     dict.len = lines;
@@ -181,7 +181,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines, int lim) {
     // For each line...
     for(line = 0; line < lines; line++) {
         // Check string
-        for(col = 0; col < lim; col++) {
+        for(col = 0; col < LIM_STR_BUFF; col++) {
             achar = getc(fptr);
             if(achar == EOF) { // Handle EOF
                 dict.len = -1; // ERROR in file
