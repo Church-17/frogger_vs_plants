@@ -321,7 +321,7 @@ int pause_menu(void) {
     return 0;
 }
 
-void endgame_menu(int score) {
+void gameover_menu(int score) {
     
 }
 

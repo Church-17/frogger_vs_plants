@@ -21,12 +21,12 @@ void game(void) {
     int i, key, x = game_scr->_maxx/2, y = game_scr->_maxy/2, point_x[N_POINT], point_y[N_POINT], score = 0;  // Inizio al centro
     mvwaddch(game_scr, y, x, USR);
     wctrprintw(top_bar, TOP_BAR_ROWS/2, "%s: %d", SCORE, score);
-    wrefresh(top_bar);
     for(i = 0; i < N_POINT; i++) {
         point_x[i] = rand_int(1, game_scr->_maxx);
         point_y[i] = rand_int(1, game_scr->_maxy);
         mvwaddch(game_scr, point_y[i], point_x[i], POINT);
     }
+    wrefresh(top_bar);
     wrefresh(game_scr);
     while(1) {
         key = wgetch(game_scr);
