@@ -154,26 +154,25 @@ void best_scores_menu(void) {
 
     // Pass best scores ignoring empty scores
     Dict_str_int best = rd_best(); // Retreive best scores
-    for(i = 0; i < N_BEST; i++) {
-        if(best.val[i] > NULL_RECORD) {
-            sx.list[i] = best.key[i];
-            alloc(char, dx.list[i], LEN_STR_INT);
-            sprintf(dx.list[i], "%d", best.val[i]);
-        } else { // If a score is negative, it's a non-existing record
-            sx.list[i] = dx.list[i] = ""; // Print empty line
-        }
+    for(i = 0; i < best.len; i++) {
+        sx.list[i] = best.key[i];
+        alloc(char, dx.list[i], LEN_STR_INT);
+        sprintf(dx.list[i], "%d", best.val[i]);
+    }
+    for(i = best.len; i < N_BEST; i++) {
+        sx.list[i] = dx.list[i] = ""; // Print empty line
     }
     view(BEST_SCORES, sx, dx, cols); // Call view
 
     // Free memory
-    for(i = 0; i < N_BEST; i++) {
-        if(best.val[i] > NULL_RECORD) {
-            free(dx.list[i]);
-        }
+    for(i = 0; i < best.len; i++) {
+        free(dx.list[i]);
         free(best.key[i]);
     }
-    free(best.key);
-    free(best.val);
+    if(best.len > 0) {
+        free(best.key);
+        free(best.val);
+    }
 }
 
 // Settings Menu

@@ -113,28 +113,18 @@ void wr_settings(int* set) {
 // Read best scores file
 Dict_str_int rd_best(void) {
     // Init vars & open best scores file
-    int i;
     Dict_str_int best;
     FILE* fptr = fopen(BEST_PATH, READ);
     if(fptr == NULL) { // If best scores file cannot be opened...
-        alloc(str, best.key, N_BEST);
-        alloc(int, best.val, N_BEST);
-        for(i = 0; i < N_BEST; i++) {
-            alloc(char, best.key[i], LIM_STR_BUFF);
-            sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
-            best.val[i] = NULL_RECORD; // Negative score identifies non-existing records
-        }
+        best.len = 0;
         wr_best(best); // Write new empty best scores file
         return best;
     }
     // Read best scores
     best = check_conf_file(fptr, N_BEST);
-    if(best.len != N_BEST) { // If settings file integrity is compromised...
-        for(i = 0; i < N_BEST; i++) {
-            sprintf(best.key[i], NULL_USER); // NULL: placeholder for non-existing records
-            best.val[i] = NULL_RECORD; // Negative score identifies non-existing records
-        }
-        wr_best(best);
+    if(best.len < 0) { // If best scores file integrity is compromised...
+        best.len = 0;
+        wr_best(best); // Write new empty best scores file
     }
     return best;
 }
@@ -147,7 +137,7 @@ void wr_best(Dict_str_int best) {
         return;
     }
     // Write best scores file
-    for(int i = 0; i < N_BEST; i++) {
+    for(int i = 0; i < best.len; i++) {
         fprintf(fptr, "%s = %d\n", best.key[i], best.val[i]);
     }
     fclose(fptr); // Close best scores file
@@ -164,7 +154,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
         alloc(char, dict.key[line], LIM_STR_BUFF);
     }
     alloc(int, dict.val, lim_lines);
-    dict.len = lim_lines;
+    dict.len = 0;
     rewind(fptr); // Restore fptr start position
 
     // For each line...
@@ -217,6 +207,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
         }
         numstr[col] = '\0'; // End string
         dict.val[line] = atoi(numstr); // Convert string to number
+        (dict.len)++;
     }
     fclose(fptr); // Close settings file
     return dict;
