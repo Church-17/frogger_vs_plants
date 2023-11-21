@@ -9,7 +9,7 @@
 #define USR '#'
 #define POINT '$'
 #define N_POINT 5
-#define CLOSE_GAME (int)'q'
+#define CLOSE_GAME 'q'
 
 // Function prototypes
 

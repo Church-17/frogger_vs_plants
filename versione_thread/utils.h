@@ -10,17 +10,17 @@
 #define LEN_STR_INT 12
 #define LIM_STR_BUFF 100 // Max len of string
 #define ENTER 10
-#define CAPITAL_SHIFT (int)('a'-'A')
-#define KEY_0 (int)'0'
-#define KEY_9 (int)'9'
-#define KEY_W (int)'W'
-#define KEY_A (int)'A'
-#define KEY_S (int)'S'
-#define KEY_D (int)'D'
-#define KEY_w (int)'w'
-#define KEY_a (int)'a'
-#define KEY_s (int)'s'
-#define KEY_d (int)'d'
+#define CAPITAL_SHIFT ('a'-'A')
+#define KEY_0 '0'
+#define KEY_9 '9'
+#define KEY_W 'W'
+#define KEY_A 'A'
+#define KEY_S 'S'
+#define KEY_D 'D'
+#define KEY_w 'w'
+#define KEY_a 'a'
+#define KEY_s 's'
+#define KEY_d 'd'
 #define READ "r"
 #define WRITE "w"
 
