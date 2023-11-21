@@ -126,6 +126,7 @@ Dict_str_int rd_best(void) {
         best.len = 0;
         wr_best(best); // Write new empty best scores file
     }
+    sort_dict(&best);
     return best;
 }
 

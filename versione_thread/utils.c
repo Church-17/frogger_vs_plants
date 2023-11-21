@@ -27,6 +27,24 @@ List_str dict_to_list(str* obj, int* ind, int len) {
     return list;
 }
 
+void sort_dict(Dict_str_int* dict) {
+    str tmpstr;
+    int tmpint, ind_max = 0;
+    for(int i = 0; i < dict->len - 1; i++) {
+        for(int j = i; j < dict->len; j++) {
+            if(dict->val[j] > dict->val[ind_max]) {
+                ind_max = j;
+            }
+        }
+        tmpstr = dict->key[i];
+        dict->key[i] = dict->key[ind_max];
+        dict->key[ind_max] = tmpstr;
+        tmpint = dict->val[i];
+        dict->val[i] = dict->val[ind_max];
+        dict->val[ind_max] = tmpint;
+    }
+}
+
 // Create new centred window
 WINDOW* newctrwin(int n_rows, int n_cols) {
     return newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2);
