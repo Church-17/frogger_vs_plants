@@ -45,7 +45,8 @@ str strContainer[][N_LANGUAGE] = { // Container of all strings
     {"Blue","Blu"},
     {"Cyan","Ciano"},
     {"Apply [Enter]", "Applica [Invio]"},
-    {"Score", "Punteggio"}
+    {"Score", "Punteggio"},
+    {"Retry", "Riprova"}
 };
 
 // Read settings from settings file

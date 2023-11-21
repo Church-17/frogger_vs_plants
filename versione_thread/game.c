@@ -12,13 +12,36 @@
 #define CLOSE_GAME 'q'
 
 // Function prototypes
+int play(void);
 
 void game(void) {
+    int chosen, lets_play = 1;
+    while(lets_play) {
+        chosen = play();
+        switch(chosen) {
+            case OVER_RETR_ID: // Play
+                break;
+
+            case OVER_BACK_ID: // Back to menu
+                lets_play = 0;
+                break;
+
+            case OVER_QUIT_ID:
+                quit(NO_ERR);
+
+            default:
+                break;
+        }
+    }
+    return;
+}
+
+int play(void) {
     WINDOW* top_bar = newwin(TOP_BAR_ROWS, COLS, 0, 0);
     WINDOW* game_scr = newwin(LINES-TOP_BAR_ROWS, COLS, TOP_BAR_ROWS, 0);
     keypad(game_scr, TRUE);
     box(game_scr, ACS_VLINE, ACS_HLINE);
-    int i, key, x = game_scr->_maxx/2, y = game_scr->_maxy/2, point_x[N_POINT], point_y[N_POINT], score = 0;  // Inizio al centro
+    int i, key, chosen, x = game_scr->_maxx/2, y = game_scr->_maxy/2, point_x[N_POINT], point_y[N_POINT], score = 0;  // Inizio al centro
     mvwaddch(game_scr, y, x, USR);
     wctrprintw(top_bar, TOP_BAR_ROWS/2, "%s: %d", SCORE, score);
     for(i = 0; i < N_POINT; i++) {
@@ -57,9 +80,10 @@ void game(void) {
                 break;
 
             case CLOSE_GAME:
+                chosen = gameover_menu(score);
                 unwin(top_bar);
                 unwin(game_scr);
-                return;
+                return chosen;
         }
         for(i = 0; i < N_POINT; i++) {
             if(x == point_x[i] && y == point_y[i]) {

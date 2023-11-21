@@ -7,4 +7,4 @@ void best_scores_menu(void);
 void settings_menu(void);
 void credits_menu(void);
 int pause_menu(void);
-void gameover_menu(int score);
+int gameover_menu(int score);
