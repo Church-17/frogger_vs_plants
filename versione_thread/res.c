@@ -4,7 +4,7 @@
 #include "res.h"
 
 // Fucntion prototypes
-Dict_str_int check_conf_file(FILE* fptr, int lines);
+Dict_str_int check_conf_file(FILE* fptr, int lim_lines);
 
 // Define constant
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"} // Array of setting labels
@@ -16,7 +16,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lines);
 #define LAST_ALLOWED_CHAR '~' // Last allowed char in username
 
 // Define inter-object variables
-int game_settings[N_SETTINGS] = {0}; // Default settings
+int game_settings[N_SETTINGS] = {1, 0, 0, 0, 0}; // Default settings
 str strContainer[][N_LANGUAGE] = { // Container of all strings
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
@@ -66,11 +66,10 @@ void rd_settings(void) {
         return;
     }
     // Overwrite game_settings
-    bool used[N_SETTINGS] = {FALSE}; // Track readed settings
     for(i = 0; i < dict.len; i++) {
         for(j = 0; j < N_SETTINGS; j++) {
             if(!strcmp(dict.key[i], str_settings[j])) { // Check which settings is
-                if(used[j] || dict.val[i] >= len_opts[j]) { // If is already used or the value is too high...
+                if(dict.val[i] >= len_opts[j]) { // If is already used or the value is too high...
                     for(; i < dict.len; i++) { // Free Dict
                         free(dict.key[i]);
                     }
@@ -80,18 +79,8 @@ void rd_settings(void) {
                     return;
                 }
                 game_settings[ind_set[j]] = dict.val[i];
-                used[j] = TRUE; // Mark settings as used
                 break;
             }
-        }
-        if(!used[j]) { // If settings wasn't been used...
-            for(; i < dict.len; i++) {  // Free Dict
-                free(dict.key[i]);
-            }
-            free(dict.key);
-            free(dict.val);
-            wr_settings(game_settings); // Restore default for the other settings 
-            return;
         }
         free(dict.key[i]); // Free used key
     }
@@ -165,26 +154,28 @@ void wr_best(Dict_str_int best) {
 }
 
 // Check file format
-Dict_str_int check_conf_file(FILE* fptr, int lines) {
+Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
     // Init vars
     int line, col, achar;
     char numstr[LEN_STR_INT];
     Dict_str_int dict;
-    alloc(str, dict.key, lines);
-    for(line = 0; line < lines; line++) {
+    alloc(str, dict.key, lim_lines);
+    for(line = 0; line < lim_lines; line++) {
         alloc(char, dict.key[line], LIM_STR_BUFF);
     }
-    alloc(int, dict.val, lines);
-    dict.len = lines;
+    alloc(int, dict.val, lim_lines);
+    dict.len = lim_lines;
     rewind(fptr); // Restore fptr start position
 
     // For each line...
-    for(line = 0; line < lines; line++) {
+    for(line = 0; line < lim_lines; line++) {
         // Check string
         for(col = 0; col < LIM_STR_BUFF; col++) {
             achar = getc(fptr);
             if(achar == EOF) { // Handle EOF
-                dict.len = -1; // ERROR in file
+                if(col != 0) {
+                    dict.len = -1; // ERROR in file
+                }
                 return dict;
             }
             if(achar == ' ') { // Handle space
