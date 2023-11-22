@@ -14,7 +14,7 @@ int main(void) {
     noecho(); // Hide character typed
     curs_set(NO_CURS); // Remove cursor
     keypad(stdscr, TRUE); // Enable function keys listener
-    cbreak();
+    cbreak(); // Don't wait ENTER in getch()
     
     // Setup colors
     if(has_colors() == FALSE) {	// Check color support
