@@ -7,17 +7,6 @@ void wr_settings(int* set);
 Dict_str_int rd_best(void);
 void wr_best(Dict_str_int best);
 
-// --- COLORS ---
-#define COLOR_GREY 8
-#define COLOR_BROWN 9
-#define GREY_BLACK_ID 7
-#define BROWN_BLACK_ID 8
-#define COLS1 COLOR_PAIR(COL1_SET)
-#define COLS2 COLOR_PAIR(COL2_SET)
-#define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
-#define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
-#define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
-
 // --- ID OPTIONS ---
 // Home
 #define HOME_GAME_ID 0
@@ -122,3 +111,14 @@ extern str strContainer[][N_LANGUAGE]; // Strings
 #define GAMEOVER "Game over"
 #define SCORE strContainer[27][LANG_SET]
 #define RETRY strContainer[28][LANG_SET]
+
+// --- COLORS ---
+#define COLOR_GREY 8
+#define COLOR_BROWN 9
+#define GREY_BLACK_ID 7
+#define BROWN_BLACK_ID 8
+#define COLS1 COLOR_PAIR(COL1_SET)
+#define COLS2 COLOR_PAIR(COL2_SET)
+#define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
+#define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
+#define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
