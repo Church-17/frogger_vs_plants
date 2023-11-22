@@ -81,8 +81,8 @@ void wr_best(Dict_str_int best);
 #define N_OVER 3
 
 // --- INTER-OBJECT VARS ---
-extern int game_settings[N_SETTINGS];
-extern str strContainer[][N_LANGUAGE];
+extern int game_settings[N_SETTINGS]; // Game settings
+extern str strContainer[][N_LANGUAGE]; // Strings
 
 // --- STRINGS ---
 #define TITLE "FROGGER"
