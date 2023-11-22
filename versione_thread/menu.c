@@ -46,8 +46,10 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
 // General function for a single column menu, returning index of selected option
 int menu(List_str title, List_str set) {
     // Init vars & setup window
-    int i, key, inc, hl = 0, old_hl = 0, win_width = WIN_WIDTH(max_strlen(set, 0), 0, max_strlen(title, 0)) + HL_PADX; // Calc window width
-    WINDOW* menu_win = init_menu(title, POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS, win_width); // Init centered menu
+    int i, key, inc, hl = 0, old_hl = 0;
+    int win_width = WIN_WIDTH(max_strlen(set, 0), 0, max_strlen(title, 0)) + HL_PADX; // Calc window width
+    int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
+    WINDOW* menu_win = init_menu(title, win_height, win_width); // Init centered menu
     
     // Print options with first letter underlined
     for(i = 0; i < set.len; i++) {
@@ -94,6 +96,17 @@ int menu(List_str title, List_str set) {
             case ENTER:
                 unwin(menu_win);
                 return hl;
+
+            case KEY_RESIZE:
+                if(check_term()) {
+                    redrawwin(menu_win);
+                } else {
+                    mvwin(menu_win, (LINES - win_height)/2, (COLS - win_width)/2);
+                    clear();
+                    refresh();
+                    wrefresh(menu_win);
+                }
+                break;
 
             default:
                 // Check numbers & first letter
@@ -218,15 +231,16 @@ void settings_menu(void) {
         newly_setted[i] = game_settings[i];
     }
 
-    // Calc window width
+    // Calc window width & height
     int opts_width = 0;
     for(i = 0; i < N_SETTINGS; i++) {
         opts_width = max_strlen(opts[i], opts_width);
     }
     int win_width = WIN_WIDTH(max_strlen(set, 0), opts_width, max_strlen(title, 0)) + HL_PADX + LR_ARROWS;
+    int win_height = POSITION_Y(set.len, N_SETTINGS, title.len)+BOX_PADS;
 
     // Setup window
-    WINDOW* menu_win = init_menu(title, POSITION_Y(set.len, N_SETTINGS, title.len)+BOX_PADS, win_width); // Init centered menu
+    WINDOW* menu_win = init_menu(title, win_height, win_width); // Init centered menu
 
     // Prints
     for(i = 0; i < set.len; i++) { // Settings & selectables
@@ -293,6 +307,17 @@ void settings_menu(void) {
                 }
                 unwin(menu_win);
                 return;
+
+            case KEY_RESIZE:
+                if(check_term()) {
+                    redrawwin(menu_win);
+                } else {
+                    mvwin(menu_win, (LINES - win_height)/2, (COLS - win_width)/2);
+                    clear();
+                    refresh();
+                    wrefresh(menu_win);
+                }
+                break;
 
             default:
                 // Check numbers & first letter
@@ -361,7 +386,8 @@ int gameover_menu(int score) {
 
 // Init menu window
 WINDOW* init_menu(List_str title, int rows, int cols) {
-    WINDOW* menu_win = newctrwin(rows, cols); // Centered window
+    check_term();
+    WINDOW* menu_win = newwin(rows, cols, (LINES - rows)/2, (COLS - cols)/2); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1); // Enable chosen color
     box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
@@ -369,6 +395,22 @@ WINDOW* init_menu(List_str title, int rows, int cols) {
         wctrprintw(menu_win, TITLE_ROW+i, " %s ", title.list[i]); // Print title
     }
     return menu_win;
+}
+
+// Check if term is large enough, return 1 if error
+int check_term() {
+    if(LINES < MIN_ROWS || COLS < MIN_COLS) {
+        WINDOW* err_win = newwin(LINES, COLS, 0, 0);
+        mvwprintw(err_win, 0, 0, "Please expand terminal:");
+        mvwprintw(err_win, 1, 0, "Minimum: %d x %d ", MIN_ROWS, MIN_COLS);
+        while(LINES < MIN_ROWS || COLS < MIN_COLS) {
+            mvwprintw(err_win, 2, 0, "Actual:  %d x %d ", LINES, COLS);
+            wgetch(err_win);
+        }
+        unwin(err_win);
+        return 1;
+    }
+    return 0;
 }
 
 // Move & print string with first letter attributed

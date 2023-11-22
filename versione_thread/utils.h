@@ -75,6 +75,5 @@ struct Point {
 int max_strlen(List_str strings, int min_len);
 List_str dict_to_list(str* obj, int* ind, int len);
 void sort_dict(Dict_str_int* dict);
-WINDOW* newctrwin(int n_rows, int n_cols);
 void unwin(WINDOW* win);
 void quit(int err_code);

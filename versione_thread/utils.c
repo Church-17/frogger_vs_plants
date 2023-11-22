@@ -44,11 +44,6 @@ void sort_dict(Dict_str_int* dict) {
     }
 }
 
-// Create new centred window
-WINDOW* newctrwin(int n_rows, int n_cols) {
-    return newwin(n_rows, n_cols, (LINES - (n_rows))/2, (COLS - (n_cols))/2);
-}
-
 // Delete a window
 void unwin(WINDOW* win) {
     werase(win);
