@@ -16,15 +16,16 @@
 int play(void);
 
 void game(void) {
-    int chosen, lets_play = 1;
+    bool lets_play = TRUE;
+    int game_ret;
     while(lets_play) {
-        chosen = play();
-        switch(chosen) {
+        game_ret = play();
+        switch(game_ret) {
             case OVER_RETR_ID: // Play
                 break;
 
             case OVER_BACK_ID: // Back to menu
-                lets_play = 0;
+                lets_play = FALSE;
                 break;
 
             case OVER_QUIT_ID:
@@ -42,7 +43,7 @@ int play(void) {
     WINDOW* game_scr = newwin(LINES-TOP_BAR_ROWS, COLS, TOP_BAR_ROWS, 0);
     keypad(game_scr, TRUE);
     box(game_scr, ACS_VLINE, ACS_HLINE);
-    int i, key, chosen, x = game_scr->_maxx/2, y = game_scr->_maxy/2, point_x[N_POINT], point_y[N_POINT], score = 0;  // Inizio al centro
+    int i, key, ret, x = game_scr->_maxx/2, y = game_scr->_maxy/2, point_x[N_POINT], point_y[N_POINT], score = 0;  // Inizio al centro
     mvwaddch(game_scr, y, x, USR);
     wctrprintw(top_bar, TOP_BAR_ROWS/2, "%s: %d", SCORE, score);
     for(i = 0; i < N_POINT; i++) {
@@ -52,7 +53,7 @@ int play(void) {
     }
     wrefresh(top_bar);
     wrefresh(game_scr);
-    while(1) {
+    while(TRUE) {
         key = wgetch(game_scr);
         mvwaddch(game_scr, y, x, ' ');
         switch(key) {
@@ -81,10 +82,8 @@ int play(void) {
                 break;
 
             case PAUSE_GAME:
-                int p_chosen = pause_menu();
-
-                switch (p_chosen)
-                {
+                ret = pause_menu();
+                switch (ret) {
                     case PAUSE_RES_ID:
                         break;
                     
@@ -98,15 +97,14 @@ int play(void) {
 
                     case PAUSE_QUIT_ID:                    
                         return OVER_QUIT_ID;
-
                 }
                 break;
 
             case CLOSE_GAME:
                 unwin(top_bar);
                 unwin(game_scr);
-                chosen = gameover_menu(score);
-                return chosen;
+                ret = gameover_menu(score);
+                return ret;
         }
         for(i = 0; i < N_POINT; i++) {
             if(x == point_x[i] && y == point_y[i]) {
