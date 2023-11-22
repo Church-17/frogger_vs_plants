@@ -7,11 +7,13 @@
 #include "struct.h"
 
 // Define constant
+#define READ "r"
+#define WRITE "w"
 #define NO_CURS 0
 #define LEN_STR_INT 12
 #define LIM_STR_BUFF 100 // Max len of string
-#define ENTER 10
 #define CAPITAL_SHIFT ('a'-'A')
+#define ENTER 10
 #define KEY_0 '0'
 #define KEY_9 '9'
 #define KEY_W 'W'
@@ -22,8 +24,6 @@
 #define KEY_a 'a'
 #define KEY_s 's'
 #define KEY_d 'd'
-#define READ "r"
-#define WRITE "w"
 
 // Define error codes
 #define NO_ERR 0
