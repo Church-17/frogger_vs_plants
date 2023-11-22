@@ -67,7 +67,7 @@ void wr_best(Dict_str_int best);
 #define COL_6_ID 6
 #define N_COLOR 7
 // Credits
-#define N_CREDITS 4
+#define N_CREDITS 2
 // Pause
 #define PAUSE_RES_ID 0
 #define PAUSE_RETR_ID 1

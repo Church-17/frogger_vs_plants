@@ -311,13 +311,13 @@ void settings_menu(void) {
 // Credits screen
 void credits_menu(void) {
     // Init vars
-    str tit[] = {CREDITS};
+    str tit[] = {CREDITS, PROJECT};
     List_str title;
     title.list = tit;
-    title.len = 1;
-    str list0[N_CREDITS] = {PROJECT, "", FRANCESCO, MATTEO};
-    str list1[N_CREDITS] = {"", "", "", ""};
-    attr_t list2[N_CREDITS] = {COLS1, COLS1, COLS1, COLS1};
+    title.len = 2;
+    str list0[N_CREDITS] = {FRANCESCO, MATTEO};
+    str list1[N_CREDITS] = {"", ""};
+    attr_t list2[N_CREDITS] = {COLS1, COLS1};
     List_str sx, dx;
     List_attr cols;
     sx.list = list0;
