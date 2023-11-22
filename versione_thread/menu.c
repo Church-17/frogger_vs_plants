@@ -335,12 +335,11 @@ int pause_menu(void) {
     title.list = tit;
     title.len = 1;
     str list[N_PAUSE] = {RESUME, RETRY, BACK_HOME, QUIT};
-    List_str set;
-    set.list = list;
-    set.len = N_PAUSE;
+    int ind[N_PAUSE] = {PAUSE_RES_ID, PAUSE_RETR_ID, PAUSE_BACK_ID, PAUSE_QUIT_ID};
+    List_str set = dict_to_list(list, ind, N_PAUSE);
     
     int chosen = menu(title, set);
-    //free(set.list);
+    free(set.list);
     return chosen;
 }
 
