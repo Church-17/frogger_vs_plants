@@ -1,4 +1,5 @@
 // Include libs
+#include <ncurses.h>
 #include "struct.h"
 
 // Define constant
@@ -12,4 +13,4 @@ void settings_menu(void);
 void credits_menu(void);
 int pause_menu(void);
 int gameover_menu(int score);
-int check_term();
+void check_term();
