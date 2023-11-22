@@ -24,6 +24,7 @@
 WINDOW* init_menu(List_str title, int rows, int cols);
 void view(List_str title, List_str sx, List_str dx, List_attr cols);
 int menu(List_str title, List_str opts);
+void mvctrwin(WINDOW* win);
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr);
 void check_key(int key, int* hl, List_str* set);
 
@@ -100,7 +101,7 @@ int menu(List_str title, List_str set) {
                 return hl;
             
             case KEY_RESIZE:
-                redrawwin(menu_win);
+                mvctrwin(menu_win);
                 break;
 
             default:
@@ -304,7 +305,7 @@ void settings_menu(void) {
                 return;
 
             case KEY_RESIZE:
-                redrawwin(menu_win);
+                mvctrwin(menu_win);
                 break;
 
             default:
@@ -388,17 +389,23 @@ WINDOW* init_menu(List_str title, int rows, int cols) {
 // Check if term is large enough, return 1 if error
 void check_term() {
     if(LINES < MIN_ROWS || COLS < MIN_COLS) {
-        int key = 0;
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
         keypad(err_win, TRUE);
         mvwprintw(err_win, 0, 0, "Expand terminal and press any key:");
         mvwprintw(err_win, 1, 0, "Minimum: %d x %d ", MIN_ROWS, MIN_COLS);
-        while(LINES < MIN_ROWS || COLS < MIN_COLS || key == KEY_RESIZE) {
+        while(LINES < MIN_ROWS || COLS < MIN_COLS) {
             mvwprintw(err_win, 2, 0, "Actual:  %d x %d ", LINES, COLS);
-            key = wgetch(err_win);
+            wgetch(err_win);
         }
         unwin(err_win);
     }
+}
+
+// Move window in central
+void mvctrwin(WINDOW* win) {
+    mvwin(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
+    clear();
+    refresh();
 }
 
 // Move & print string with first letter attributed
