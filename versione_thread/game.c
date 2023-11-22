@@ -98,6 +98,10 @@ int play(void) {
                     case PAUSE_QUIT_ID:                    
                         return OVER_QUIT_ID;
                 }
+                box(game_scr, ACS_VLINE, ACS_HLINE);
+                for(i = 0; i < N_POINT; i++) {
+                    mvwaddch(game_scr, point_y[i], point_x[i], POINT);
+                }
                 break;
 
             case CLOSE_GAME:
