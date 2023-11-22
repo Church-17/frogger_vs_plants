@@ -30,8 +30,10 @@ void check_key(int key, int* hl, List_str* set);
 // General function for styled double column view
 void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars & setup window
-    int i, win_width = WIN_WIDTH(max_strlen(sx, 0), max_strlen(dx, 0), max_strlen(title, 0));
-    WINDOW* menu_win = init_menu(title, POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS, win_width); // Init centered menu
+    int i;
+    int win_width = WIN_WIDTH(max_strlen(sx, 0), max_strlen(dx, 0), max_strlen(title, 0));
+    int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
+    WINDOW* menu_win = init_menu(title, win_height, win_width); // Init centered menu
     
     // Print lists with attributes
     for(i = 0; i < sx.len; i++) {
