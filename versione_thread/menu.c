@@ -386,7 +386,7 @@ WINDOW* init_menu(List_str title, int rows, int cols) {
     return menu_win;
 }
 
-// Check if term is large enough, return 1 if error
+// Check if term is large enough
 void check_term() {
     if(LINES < MIN_ROWS || COLS < MIN_COLS) {
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
@@ -403,8 +403,8 @@ void check_term() {
 
 // Move window in central
 void mvctrwin(WINDOW* win) {
-    mvwin(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
-    clear();
+    mvwin(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2); // Move window to center position
+    clear(); // Remove garbage
     refresh();
 }
 
