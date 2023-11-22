@@ -391,7 +391,7 @@ void check_term() {
     if(LINES < MIN_ROWS || COLS < MIN_COLS) {
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
         keypad(err_win, TRUE);
-        mvwprintw(err_win, 0, 0, "Expand terminal and press any key:");
+        mvwprintw(err_win, 0, 0, "Expand terminal:");
         mvwprintw(err_win, 1, 0, "Minimum: %d x %d ", MIN_ROWS, MIN_COLS);
         while(LINES < MIN_ROWS || COLS < MIN_COLS) {
             mvwprintw(err_win, 2, 0, "Actual:  %d x %d ", LINES, COLS);
