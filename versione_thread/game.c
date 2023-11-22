@@ -98,7 +98,7 @@ int play(void) {
                     case PAUSE_QUIT_ID:                    
                         return OVER_QUIT_ID;
                 }
-                redrawwin(game_scr);
+                redrawwin(game_scr); // Restore element under menu
                 break;
 
             case CLOSE_GAME:
