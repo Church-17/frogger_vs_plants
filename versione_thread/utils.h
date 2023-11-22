@@ -31,9 +31,6 @@
 #define ERR_COLOR 2
 
 // Define macros
-#define max(n1, n2) ((n1) > (n2) ? (n1) : (n2))
-#define mod(n1, n2) ((n1) >= 0 ? (n1) % (n2) : (n1) % (n2) + (n2))
-#define rand_range(min, max) (rand() % (max-min) + min) // Random int in range
 #define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
 #define dalloc(type, var, n) type* var; alloc(type, var, n) // Define and alloc
 // Print with attribute
@@ -72,6 +69,9 @@ struct Point {
 };
 
 // Function prototypes
+int max(int n1, int n2);
+int mod(int n1, int n2);
+int rand_range(int min0, int max0);
 int max_strlen(List_str strings, int min_len);
 List_str dict_to_list(str* obj, int* ind, int len);
 void sort_dict(Dict_str_int* dict);

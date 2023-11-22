@@ -4,6 +4,21 @@
 // Define constant
 #define N_SPACES_CTRPRINT 2
 
+// Max function
+int max(int n1, int n2) {
+    return n1 > n2 ? n1 : n2;
+}
+
+// Fixed mod function
+int mod(int n1, int n2) {
+    return n1 >= 0 ? n1%n2 : n1%n2+n2;
+}
+
+// Random number in range
+int rand_range(int min0, int max0) {
+    return rand() % (max0-min0) + min0;
+}
+
 // Find max length of a strings list, starting from a min
 int max_strlen(List_str strings, int min_len) {
     int max_len = min_len;
