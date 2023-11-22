@@ -6,6 +6,7 @@
 Dict_str_int check_conf_file(FILE* fptr, int lim_lines);
 
 // Define constant
+#define CHK_FILE_ERR -1
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"} // Array of setting labels
 #define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID} // Index of settings
 #define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR} // N options of each settings
@@ -62,7 +63,7 @@ void rd_settings(void) {
     }
     // Read settings file
     Dict_str_int dict = check_conf_file(fptr, N_SETTINGS);
-    if(dict.len != N_SETTINGS) { // If settings file integrity is compromised...
+    if(dict.len == CHK_FILE_ERR) { // If settings file integrity is compromised...
         wr_settings(game_settings); // Write default settings file
         return;
     }
@@ -123,7 +124,7 @@ Dict_str_int rd_best(void) {
     }
     // Read best scores
     best = check_conf_file(fptr, N_BEST);
-    if(best.len < 0) { // If best scores file integrity is compromised...
+    if(best.len == CHK_FILE_ERR) { // If best scores file integrity is compromised...
         best.len = 0;
         wr_best(best); // Write new empty best scores file
     }
@@ -166,19 +167,19 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
             achar = getc(fptr);
             if(achar == EOF) { // Handle EOF
                 if(col != 0) {
-                    dict.len = -1; // ERROR in file
+                    dict.len = CHK_FILE_ERR; // ERROR in file
                 }
                 return dict;
             }
             if(achar == ' ') { // Handle space
                 if(col == 0) { // In first col error
-                    dict.len = -1; // ERROR in file
+                    dict.len = CHK_FILE_ERR; // ERROR in file
                     return dict;
                 }
                 break; // Otherwise string ended
             }
             if(achar < FIRST_ALLOWED_CHAR || achar > LAST_ALLOWED_CHAR) { // Check allowed char
-                dict.len = -1; // ERROR in file
+                dict.len = CHK_FILE_ERR; // ERROR in file
                 return dict;
             }
             dict.key[line][col] = (char)achar;
@@ -187,7 +188,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
 
         // Check ' = '
         if((achar = getc(fptr)) != '=' || (achar = getc(fptr)) != ' ') {
-            dict.len = -1; // ERROR in file
+            dict.len = CHK_FILE_ERR; // ERROR in file
             return dict;
         }
 
@@ -196,13 +197,13 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
             achar = getc(fptr);
             if(achar == EOF || achar == '\n') { // Handle EOF or \n
                 if(col == 0) { // In first col
-                    dict.len = -1; // ERROR in file
+                    dict.len = CHK_FILE_ERR; // ERROR in file
                     return dict;
                 }
                 break; // Otherwise end of line or file
             }
             if(achar < KEY_0 || achar > KEY_9) { // Check number char
-                dict.len = -1; // ERROR in file
+                dict.len = CHK_FILE_ERR; // ERROR in file
                 return dict;
             }
             numstr[col] = (char)achar;
