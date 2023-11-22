@@ -47,8 +47,8 @@ int play(void) {
     mvwaddch(game_scr, y, x, USR);
     wctrprintw(top_bar, TOP_BAR_ROWS/2, "%s: %d", SCORE, score);
     for(i = 0; i < N_POINT; i++) {
-        point_x[i] = rand_int(1, game_scr->_maxx);
-        point_y[i] = rand_int(1, game_scr->_maxy);
+        point_x[i] = rand_range(1, game_scr->_maxx);
+        point_y[i] = rand_range(1, game_scr->_maxy);
         mvwaddch(game_scr, point_y[i], point_x[i], POINT);
     }
     wrefresh(top_bar);
@@ -113,8 +113,8 @@ int play(void) {
         for(i = 0; i < N_POINT; i++) {
             if(x == point_x[i] && y == point_y[i]) {
                 score++;
-                point_x[i] = rand_int(1, game_scr->_maxx);
-                point_y[i] = rand_int(1, game_scr->_maxy);
+                point_x[i] = rand_range(1, game_scr->_maxx);
+                point_y[i] = rand_range(1, game_scr->_maxy);
                 mvwaddch(game_scr, point_y[i], point_x[i], POINT);
                 wctrprintw(top_bar, TOP_BAR_ROWS/2, "%s: %d", SCORE, score);
                 wrefresh(top_bar);

@@ -33,7 +33,7 @@
 // Define macros
 #define max(n1, n2) ((n1) > (n2) ? (n1) : (n2))
 #define mod(n1, n2) ((n1) >= 0 ? (n1) % (n2) : (n1) % (n2) + (n2))
-#define rand_int(min, max) (rand() % (max-min) + min) // Random int in range
+#define rand_range(min, max) (rand() % (max-min) + min) // Random int in range
 #define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
 #define dalloc(type, var, n) type* var; alloc(type, var, n) // Define and alloc
 // Print with attribute
