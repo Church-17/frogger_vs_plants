@@ -47,7 +47,7 @@ str strContainer[][N_LANGUAGE] = { // Container of all strings
     {"Apply [Enter]", "Applica [Invio]"},
     {"Score", "Punteggio"},
     {"Retry", "Riprova"},
-    {"Expand terminal", "Espandi il terminale"},
+    {"Expand terminal and press any key", "Espandi il terminale e premi un tasto"},
     {"Minimum", "Minimo"},
     {"Actual", "Attuale"}
 };
