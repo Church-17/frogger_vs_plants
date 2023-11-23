@@ -30,7 +30,7 @@ void check_key(int key, int* hl, List_str* set);
 // General function for styled double column view
 void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars
-    bool do_prints, do_restore_win, do_return = FALSE;
+    bool do_prints, do_restore_win, do_return = FALSE; // Flags
     int i, key, prev_LINES, prev_COLS;
     int win_width = WIN_WIDTH(max_strlen(sx, 0), max_strlen(dx, 0), max_strlen(title, 0));
     int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
@@ -68,7 +68,7 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
 // General function for a single column menu, returning index of selected option
 int menu(List_str title, List_str set) {
     // Init vars
-    bool do_prints, do_restore_win, do_return = FALSE;
+    bool do_prints, do_restore_win, do_return = FALSE; // Flags
     int i, key, inc, old_hl = 0, hl = 0, prev_LINES, prev_COLS;
     int win_width = WIN_WIDTH(max_strlen(set, 0), 0, max_strlen(title, 0)) + HL_PADX; // Calc window width
     int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
@@ -231,7 +231,7 @@ void best_scores_menu(void) {
 // Settings Menu
 void settings_menu(void) {
     // Init vars
-    bool do_prints, do_restore_win, do_return = FALSE;
+    bool do_prints, do_restore_win, do_return = FALSE; // Flags
     int i, key, inc, hl = 0, old_hl = 0, prev_LINES, prev_COLS;
     // Title
     str tit[] = {SETTINGS};
@@ -429,12 +429,12 @@ int gameover_menu(int score) {
 // Check if term is large enough
 bool check_term(int dim_y, int dim_x, int* act_LINES, int* act_COLS) {
     bool ret = FALSE;
-    if(LINES < dim_y) {
+    if(LINES < dim_y) { // Resize terminal Y-axis if needed
         ret = TRUE;
         *act_LINES = LINES;
         resizeterm(dim_y, COLS);
     }
-    if(COLS < dim_x) {    
+    if(COLS < dim_x) { // Resize terminal X-axis if needed 
         ret = TRUE;
         *act_COLS = COLS;
         resizeterm(LINES, dim_x);
@@ -443,16 +443,15 @@ bool check_term(int dim_y, int dim_x, int* act_LINES, int* act_COLS) {
 }
 
 // Procedure when terminal is resized
+// - prev_LINES & prev_COLS contains real LINES & COLS before resize
 void resize_proc(WINDOW* win, int dim_y, int dim_x, int* prev_LINES, int* prev_COLS, bool* do_restore_win, bool* do_prints) {
     if(win->_maxy > dim_y) win->_maxy = dim_y; // Fix: don't stick window on Y-axis
     if(win->_maxx > dim_x) win->_maxx = dim_x; // Fix: don't stick window on X-axis
     mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2); // Move win in central
-    if(*do_restore_win && (LINES > *prev_LINES || COLS > *prev_COLS)) {
-        *do_restore_win = check_term(dim_y, dim_x, prev_LINES, prev_COLS);
-        *do_prints = TRUE;
-    } else {
-        *do_restore_win = check_term(dim_y, dim_x, prev_LINES, prev_COLS);
+    if(*do_restore_win && (LINES > *prev_LINES || COLS > *prev_COLS)) { // If needs to redraw elements and terminal is expanding...
+        *do_prints = TRUE; // Flag: re-print
     }
+    *do_restore_win = check_term(dim_y, dim_x, prev_LINES, prev_COLS); // Check if needs more redraws later
 }
 
 // Move & print string with first letter attributed
