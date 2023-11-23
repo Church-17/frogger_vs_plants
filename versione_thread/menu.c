@@ -30,7 +30,7 @@ void check_key(int key, int* hl, List_str* set);
 // General function for styled double column view
 void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars
-    bool do_prints, do_restore_win;
+    bool do_prints, do_restore_win, do_return = FALSE;
     int i, key, prev_LINES, prev_COLS;
     int win_width = WIN_WIDTH(max_strlen(sx, 0), max_strlen(dx, 0), max_strlen(title, 0));
     int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
@@ -41,7 +41,7 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1); // Enable chosen color
 
-    while(TRUE) {
+    while(!do_return) {
         do_prints = FALSE;
         // Prints
         box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
@@ -53,22 +53,22 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
             mvwattrprintw(menu_win, POSITION_Y(i, sx.len, title.len), POSITION_X_DX(dx.list[i], win_width), attrs.list[i], "%s", dx.list[i]); // Print elements of dx column
         }
 
-        while(!do_prints) {
+        while(!(do_prints || do_return)) {
             key = wgetch(menu_win);
             if(key == KEY_RESIZE) {
                 resize_proc(menu_win, win_height, win_width, &prev_LINES, &prev_COLS, &do_restore_win, &do_prints);
             } else {
-                unwin(menu_win);
-                return;
+                do_return = TRUE;
             }
         }
     }
+    unwin(menu_win);
 }
 
 // General function for a single column menu, returning index of selected option
 int menu(List_str title, List_str set) {
     // Init vars
-    bool do_prints, do_restore_win;
+    bool do_prints, do_restore_win, do_return = FALSE;
     int i, key, inc, old_hl = 0, hl = 0, prev_LINES, prev_COLS;
     int win_width = WIN_WIDTH(max_strlen(set, 0), 0, max_strlen(title, 0)) + HL_PADX; // Calc window width
     int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
@@ -80,7 +80,7 @@ int menu(List_str title, List_str set) {
     wattron(menu_win, COLS1); // Enable chosen color
 
     // Loop to print all when needed
-    while(TRUE) {
+    while(!do_return) {
         do_prints = FALSE;
         // Prints
         box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
@@ -92,7 +92,7 @@ int menu(List_str title, List_str set) {
         }
 
         // Loop to get pressed key
-        while(!do_prints) {
+        while(!(do_prints || do_return)) {
             // Update highlighted & non-highlighted option
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, set.len, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, ""); // Delete old_hl padding
@@ -129,8 +129,8 @@ int menu(List_str title, List_str set) {
 
                 // Select the highlighted option
                 case ENTER:
-                    unwin(menu_win);
-                    return hl;
+                    do_return = TRUE;
+                    break;
                 
                 case KEY_RESIZE:
                     resize_proc(menu_win, win_height, win_width, &prev_LINES, &prev_COLS, &do_restore_win, &do_prints);
@@ -143,6 +143,8 @@ int menu(List_str title, List_str set) {
             }
         }
     }
+    unwin(menu_win);
+    return hl;
 }
 
 // Home Menu
@@ -229,7 +231,7 @@ void best_scores_menu(void) {
 // Settings Menu
 void settings_menu(void) {
     // Init vars
-    bool do_prints, do_restore_win;
+    bool do_prints, do_restore_win, do_return = FALSE;
     int i, key, inc, hl = 0, old_hl = 0, prev_LINES, prev_COLS;
     // Title
     str tit[] = {SETTINGS};
@@ -276,7 +278,7 @@ void settings_menu(void) {
     wattron(menu_win, COLS1); // Enable chosen color
 
     // Loop to print all when needed
-    while(TRUE) {
+    while(!do_return) {
         do_prints = FALSE;
         // Prints
         box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
@@ -291,7 +293,7 @@ void settings_menu(void) {
         }
         
         // Loop to get the pressed key
-        while(!do_prints) {
+        while(!(do_prints || do_return)) {
             // Update old_hl to become non-highlighted
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, N_SETTINGS, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, ""); // Fix for HL_PADX
@@ -342,11 +344,8 @@ void settings_menu(void) {
                     break;
 
                 case ENTER:
-                    if(hl < N_SETTINGS || hl == SET_APPL_ID) { // If is apply...
-                        wr_settings(newly_setted); // Update game settings
-                    }
-                    unwin(menu_win);
-                    return;
+                    do_return = TRUE;
+                    break;
 
                 case KEY_RESIZE:
                     resize_proc(menu_win, win_height, win_width, &prev_LINES, &prev_COLS, &do_restore_win, &do_prints);
@@ -362,9 +361,16 @@ void settings_menu(void) {
     
     // Free memory
     free(set.list);
-    for(i = 0; i < N_SETTINGS; i++) {
-        free(opts[i].list);
+    free(opts[SET_LANG_ID].list);
+    free(opts[SET_DIFF_ID].list);
+    free(opts[SET_SKIN_ID].list);
+    free(opts[SET_COL1_ID].list);
+    
+    // Update game settings if applied
+    if(hl < N_SETTINGS || hl == SET_APPL_ID) {
+        wr_settings(newly_setted);
     }
+    unwin(menu_win);
 }
 
 // Credits Screen
