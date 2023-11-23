@@ -46,7 +46,10 @@ str strContainer[][N_LANGUAGE] = { // Container of all strings
     {"Cyan","Ciano"},
     {"Apply [Enter]", "Applica [Invio]"},
     {"Score", "Punteggio"},
-    {"Retry", "Riprova"}
+    {"Retry", "Riprova"},
+    {"Expand terminal", "Espandi il terminale"},
+    {"Minimum", "Minimo"},
+    {"Actual", "Attuale"}
 };
 
 // Read settings from settings file

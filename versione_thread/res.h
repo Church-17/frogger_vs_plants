@@ -111,6 +111,9 @@ extern str strContainer[][N_LANGUAGE]; // Strings
 #define GAMEOVER "Game over"
 #define SCORE strContainer[27][LANG_SET]
 #define RETRY strContainer[28][LANG_SET]
+#define EXTEND strContainer[29][LANG_SET]
+#define MINIMUM strContainer[30][LANG_SET]
+#define ACTUAL strContainer[31][LANG_SET]
 
 // --- COLORS ---
 #define COLOR_GREY 8

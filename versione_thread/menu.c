@@ -410,10 +410,11 @@ bool check_term(void) {
     if(LINES < MIN_ROWS || COLS < MIN_COLS) {
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
         keypad(err_win, TRUE);
-        mvwprintw(err_win, 0, 0, "Expand terminal:");
-        mvwprintw(err_win, 1, 0, "Minimum: %d x %d ", MIN_ROWS, MIN_COLS);
+        wattron(err_win, COLS1);
+        mvwprintw(err_win, 0, 0, "%s:", EXTEND);
+        mvwprintw(err_win, 1, 0, "%s: %d x %d ", MINIMUM, MIN_ROWS, MIN_COLS);
         while(LINES < MIN_ROWS || COLS < MIN_COLS) {
-            mvwprintw(err_win, 2, 0, "Actual:  %d x %d ", LINES, COLS);
+            mvwprintw(err_win, 2, 0, "%s: %d x %d ", ACTUAL, LINES, COLS);
             wgetch(err_win);
         }
         unwin(err_win);
