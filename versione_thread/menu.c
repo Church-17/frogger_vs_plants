@@ -49,7 +49,8 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
 // General function for a single column menu, returning index of selected option
 int menu(List_str title, List_str set) {
     // Init vars & setup window
-    int i, key, inc, hl = 0, old_hl = 0;
+    int i, key, inc, old_hl = 0;
+    static int hl = 0;
     int win_width = WIN_WIDTH(max_strlen(set, 0), 0, max_strlen(title, 0)) + HL_PADX; // Calc window width
     int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
     WINDOW* menu_win = init_menu(title, win_height, win_width); // Init centered menu
@@ -98,9 +99,15 @@ int menu(List_str title, List_str set) {
             // Select the highlighted option
             case ENTER:
                 unwin(menu_win);
-                return hl;
+                int ret = hl;
+                hl = 0;
+                return ret;
             
             case KEY_RESIZE:
+                if(check_term()) {
+                    unwin(menu_win);
+                    return menu(title, set);
+                }
                 mvctrwin(menu_win);
                 break;
 
@@ -196,7 +203,8 @@ void best_scores_menu(void) {
 // Settings Menu
 void settings_menu(void) {
     // Init vars
-    int i, key, inc, hl = 0, old_hl = 0;
+    int i, key, inc, old_hl = 0;
+    static int hl = 0;
     // Title
     str tit[] = {SETTINGS};
     List_str title;
@@ -222,9 +230,12 @@ void settings_menu(void) {
     opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(color, ind_col, N_COLOR);
 
     // Sync newly setted to settings
-    int newly_setted[N_SETTINGS];
-    for(i = 0; i < N_SETTINGS; i++) {
-        newly_setted[i] = game_settings[i];
+    static bool sync_set = TRUE;
+    static int newly_setted[N_SETTINGS];
+    if(sync_set) {
+        for(i = 0; i < N_SETTINGS; i++) {
+            newly_setted[i] = game_settings[i];
+        }
     }
 
     // Calc window width & height
@@ -302,9 +313,17 @@ void settings_menu(void) {
                     wr_settings(newly_setted); // Update game settings
                 }
                 unwin(menu_win);
+                hl = 0;
                 return;
 
             case KEY_RESIZE:
+                if(check_term()) {
+                    unwin(menu_win);
+                    sync_set = FALSE;
+                    settings_menu();
+                    sync_set = TRUE;
+                    return;
+                }
                 mvctrwin(menu_win);
                 break;
 
@@ -387,7 +406,7 @@ WINDOW* init_menu(List_str title, int rows, int cols) {
 }
 
 // Check if term is large enough
-void check_term() {
+bool check_term(void) {
     if(LINES < MIN_ROWS || COLS < MIN_COLS) {
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
         keypad(err_win, TRUE);
@@ -398,7 +417,9 @@ void check_term() {
             wgetch(err_win);
         }
         unwin(err_win);
+        return TRUE;
     }
+    return FALSE;
 }
 
 // Move window in central
