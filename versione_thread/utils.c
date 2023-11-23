@@ -59,6 +59,13 @@ void sort_dict(Dict_str_int* dict) {
     }
 }
 
+// Move window in central
+void mv_win(WINDOW* win, int new_y, int new_x) {
+    mvwin(win, new_y, new_x); // Move window
+    clear(); // Remove garbage
+    refresh();
+}
+
 // Delete a window
 void unwin(WINDOW* win) {
     werase(win);

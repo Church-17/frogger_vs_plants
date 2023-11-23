@@ -13,4 +13,4 @@ void settings_menu(void);
 void credits_menu(void);
 int pause_menu(void);
 int gameover_menu(int score);
-bool check_term(void);
+bool check_term(int dim_y, int dim_x, int* act_LINES, int* act_COLS);
