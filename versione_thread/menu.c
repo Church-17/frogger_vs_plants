@@ -438,7 +438,9 @@ bool check_term(WINDOW* win) {
             mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
             wgetch(err_win);
-            mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
+            if(win != NULL) {
+                mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
+            }
         }
         unwin(err_win);
         return TRUE;
