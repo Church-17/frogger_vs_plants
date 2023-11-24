@@ -36,6 +36,7 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
 
     // Setup window
+    check_term(NULL);
     WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1); // Enable chosen color
@@ -73,7 +74,7 @@ int menu(List_str title, List_str set) {
     int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
 
     // Setup window
-    check_term();
+    check_term(NULL);
     WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1);
@@ -271,6 +272,7 @@ void settings_menu(void) {
     int win_height = POSITION_Y(set.len, N_SETTINGS, title.len)+BOX_PADS;
 
     // Setup window
+    check_term(NULL);
     WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1);
@@ -426,17 +428,17 @@ int gameover_menu(int score) {
 }
 
 // Check if term is large enough
-bool check_term() {
+bool check_term(WINDOW* win) {
     if(LINES < MIN_ROWS || COLS < MIN_COLS) {
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
         keypad(err_win, TRUE);
         wattron(err_win, COLS1);
-        mvwprintw(err_win, 0, 0, "%s", EXTEND);
-        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
-        
         while(LINES < MIN_ROWS || COLS < MIN_COLS) {
+            mvwprintw(err_win, 0, 0, "%s", EXTEND);
+            mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
             wgetch(err_win);
+            mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
         }
         unwin(err_win);
         return TRUE;
@@ -446,7 +448,7 @@ bool check_term() {
 
 // Resize procedure
 bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
-    bool do_prints = check_term();
+    bool do_prints = check_term(win);
     if(win->_maxy >= dim_y) win->_maxy = dim_y-1; // Fix: don't stick window on Y-axis
     if(win->_maxx >= dim_x) win->_maxx = dim_x-1; // Fix: don't stick window on X-axis
     mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
