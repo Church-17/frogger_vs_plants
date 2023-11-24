@@ -12,4 +12,4 @@ void settings_menu(void);
 void credits_menu(void);
 int pause_menu(void);
 int gameover_menu(int score);
-void check_term(void);
+void check_term(int min_rows, int min_cols);

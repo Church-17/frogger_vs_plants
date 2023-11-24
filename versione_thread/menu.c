@@ -403,17 +403,18 @@ int gameover_menu(int score) {
 }
 
 // Check if term is large enough
-void check_term() {
-    if(LINES < MIN_ROWS || COLS < MIN_COLS) {
+void check_term(int min_rows, int min_cols) {
+    if(LINES < min_rows || COLS < min_cols) {
         int key = KEY_RESIZE;
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
         keypad(err_win, TRUE);
         wattron(err_win, COLS1);
         mvwprintw(err_win, 0, 0, "%s", EXTEND);
-        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
-        while(key == KEY_RESIZE) {
+        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, min_rows, min_cols);
+        
+        while(LINES < min_rows || COLS < min_cols) {
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
-            key = wgetch(err_win);
+            wgetch(err_win);
         }
         unwin(err_win);
     }

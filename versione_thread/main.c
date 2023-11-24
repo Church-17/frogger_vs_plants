@@ -47,7 +47,7 @@ int main(void) {
     rd_settings();
 
     // Check term size
-    check_term();
+    check_term(MIN_ROWS, MIN_COLS);
 
     // Main loop
     while(TRUE) {
