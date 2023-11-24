@@ -59,6 +59,16 @@ void sort_dict(Dict_str_int* dict) {
     }
 }
 
+chstr str_to_chstr(str fstr, attr_t attr) {
+    int i, len = strlen(fstr);
+    dalloc(chtype, ret, len+1);
+    for(i = 0; i < len; i++) {
+        ret[i] = fstr[i] | attr;
+    }
+    ret[i] = '\0';
+    return ret;
+}
+
 // Move window in central
 void mv_win(WINDOW* win, int new_y, int new_x) {
     mvwin(win, new_y, new_x); // Move window

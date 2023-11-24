@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <pthread.h>
 #include "struct.h"
 
@@ -33,21 +33,11 @@
 // Define macros
 #define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
 #define dalloc(type, var, n) type* var; alloc(type, var, n) // Define and alloc
-// Print with attribute
-#define wattrprintw(win, attr, args...) wattron(win, attr);\
-                                        wprintw(win, args);\
-                                        wattroff(win, attr)
-// Move & print with attribute
-#define mvwattrprintw(win, row, col, attr, args...) wmove(win, row, col);\
-                                                    wattrprintw(win, attr, args)
+
 // Print in center
 #define wctrprintw(win, row, args...) {char tmpstr[LIM_STR_BUFF];\
                                       sprintf(tmpstr, args);\
                                       mvwprintw(win, row, (win->_maxx - strlen(tmpstr))/2, "%s", tmpstr);}
-// Print in center with attribute
-#define wctrattrprintw(win, row, attr, args...) wattron(win, attr);\
-                                                wctrprintw(win, row, args);\
-                                                wattroff(win, attr)
 
 // Define structs
 struct List_str {
@@ -75,6 +65,7 @@ int rand_range(int min0, int max0);
 int max_strlen(List_str strings, int min_len);
 List_str dict_to_list(str* obj, int* ind, int len);
 void sort_dict(Dict_str_int* dict);
+chstr str_to_chstr(str fstr, attr_t attr);
 void mv_win(WINDOW* win, int new_y, int new_x);
 void unwin(WINDOW* win);
 void quit(int err_code);
