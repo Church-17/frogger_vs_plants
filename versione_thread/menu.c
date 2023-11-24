@@ -410,9 +410,9 @@ void check_term() {
         keypad(err_win, TRUE);
         wattron(err_win, COLS1);
         mvwprintw(err_win, 0, 0, "%s", EXTEND);
-        mvwprintw(err_win, 1, 0, "%s: %d x %d", MINIMUM, MIN_ROWS, MIN_COLS);
+        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
         while(key == KEY_RESIZE) {
-            mvwprintw(err_win, 2, 0, "%s: %d x %d", ACTUAL, LINES, COLS);
+            mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
             key = wgetch(err_win);
         }
         unwin(err_win);
