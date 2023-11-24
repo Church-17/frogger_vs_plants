@@ -46,9 +46,6 @@ int main(void) {
     // Read settings from file
     rd_settings();
 
-    // Check term size
-    check_term(MIN_ROWS, MIN_COLS);
-
     // Main loop
     while(TRUE) {
         home_menu();
