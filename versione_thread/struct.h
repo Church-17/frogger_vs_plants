@@ -3,7 +3,6 @@
 
 // Define types & scruct prototypes
 typedef char* str;
-typedef chtype* chstr;
 typestructdef(List_str);
 typestructdef(List_attr);
 typestructdef(Dict_str_int);
