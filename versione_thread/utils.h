@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include <curses.h>
+#include <ncurses.h>
 #include <pthread.h>
 #include "struct.h"
 
@@ -35,9 +35,11 @@
 #define dalloc(type, var, n) type* var; alloc(type, var, n) // Define and alloc
 
 // Print in center
-#define wctrprintw(win, row, args...) {char tmpstr[LIM_STR_BUFF];\
-                                      sprintf(tmpstr, args);\
-                                      mvwprintw(win, row, (win->_maxx - strlen(tmpstr))/2, "%s", tmpstr);}
+#define wctrprintw(win, row, args...) {\
+    char tmpstr[LIM_STR_BUFF];\
+    sprintf(tmpstr, args);\
+    mvwprintw(win, row, (win->_maxx - strlen(tmpstr))/2, "%s", tmpstr);\
+}
 
 // Define structs
 struct List_str {
