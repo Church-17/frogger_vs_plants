@@ -400,11 +400,11 @@ int gameover_menu(int score) {
 
 // Check if term is large enough
 bool check_term(WINDOW* win) {
-    if(LINES < MIN_ROWS || COLS < MIN_COLS) {
-        if(win != NULL) {
+    if(LINES < MIN_ROWS || COLS < MIN_COLS) { // Check if terminal size is enough
+        if(win != NULL) { // If a window is passed, move it at top left
             mv_win(win, 0, 0);
         }
-        WINDOW* err_win = new_win(0, 0, 0, 0);
+        WINDOW* err_win = new_win(0, 0, 0, 0); // New full window
         wattron(err_win, COLS1);
         mvwprintw(err_win, 0, 0, "%s", EXTEND);
         mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
