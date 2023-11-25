@@ -31,12 +31,11 @@ void check_key(int key, int* hl, List_str* set);
 void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars
     bool do_prints = TRUE;
-    int i, key;
+    int i, key = KEY_RESIZE;
     int win_width = WIN_WIDTH(max_strlen(sx, 0), max_strlen(dx, 0), max_strlen(title, 0));
     int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
 
     // Setup window
-    check_term(NULL);
     WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1); // Enable chosen color
@@ -55,11 +54,9 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
         }
         do_prints = FALSE;
 
-        key = wgetch(menu_win);
-        while(key == KEY_RESIZE) {
-            do_prints = resize_proc(menu_win, win_height, win_width);
-            if(do_prints) break;
+        while(key == KEY_RESIZE && !do_prints) {
             key = wgetch(menu_win);
+            do_prints = resize_proc(menu_win, win_height, win_width);
         }
     }
     unwin(menu_win);
@@ -74,7 +71,6 @@ int menu(List_str title, List_str set) {
     int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
 
     // Setup window
-    check_term(NULL);
     WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1);
@@ -90,7 +86,7 @@ int menu(List_str title, List_str set) {
         }
         do_prints = FALSE;
         
-        while(!(do_return | do_prints)) {
+        while(!(do_return || do_prints)) {
             // Update non-highlighted & highlighted option
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, set.len, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
@@ -272,7 +268,6 @@ void settings_menu(void) {
     int win_height = POSITION_Y(set.len, N_SETTINGS, title.len)+BOX_PADS;
 
     // Setup window
-    check_term(NULL);
     WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
     keypad(menu_win, TRUE); // Enable function keys listener
     wattron(menu_win, COLS1);
@@ -292,7 +287,7 @@ void settings_menu(void) {
         do_prints = FALSE;
 
         // Loop to print all when needed
-        while(!(do_return | do_prints)) {
+        while(!(do_return || do_prints)) {
             // Update old_hl to become non-highlighted
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, N_SETTINGS, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
@@ -430,17 +425,17 @@ int gameover_menu(int score) {
 // Check if term is large enough
 bool check_term(WINDOW* win) {
     if(LINES < MIN_ROWS || COLS < MIN_COLS) {
+        if(win != NULL) {
+            mv_win(win, 0, 0);
+        }
         WINDOW* err_win = newwin(LINES, COLS, 0, 0);
         keypad(err_win, TRUE);
         wattron(err_win, COLS1);
+        mvwprintw(err_win, 0, 0, "%s", EXTEND);
+        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
         while(LINES < MIN_ROWS || COLS < MIN_COLS) {
-            mvwprintw(err_win, 0, 0, "%s", EXTEND);
-            mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
             wgetch(err_win);
-            if(win != NULL) {
-                mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
-            }
         }
         unwin(err_win);
         return TRUE;

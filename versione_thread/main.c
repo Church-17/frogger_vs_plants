@@ -46,6 +46,9 @@ int main(void) {
     // Read settings from file
     rd_settings();
 
+    // Check terminal size
+    check_term(NULL);
+
     // Main loop
     while(TRUE) {
         home_menu();
