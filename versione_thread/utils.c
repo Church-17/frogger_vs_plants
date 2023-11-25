@@ -69,6 +69,7 @@ WINDOW* new_win(int dim_y, int dim_x, int pos_y, int pos_x) {
     return new;
 }
 
+// Create new window in center
 WINDOW* new_ctrwin(int dim_y, int dim_x) {
     return new_win(dim_y, dim_x, (LINES - dim_y)/2, (COLS - dim_x)/2);
 }
