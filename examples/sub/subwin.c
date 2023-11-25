@@ -17,9 +17,6 @@ int main(void) {
     keypad(main_scr, TRUE);
     wprintw(main_scr, "hey");
     wrefresh(main_scr);
-    // WINDOW* sub = derwin(main_scr, 5, 10, (10-5)/2, (20-10)/2);
-    // keypad(sub, TRUE);
-    // wprintw(sub, "Ciao");
     home_menu();
 
     endwin();
