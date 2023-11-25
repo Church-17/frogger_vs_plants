@@ -15,27 +15,31 @@
 // Function prototypes
 int play(void);
 
-void game(void) {
-    bool lets_play = TRUE;
+bool game(void) {
+    // Init vars
+    bool do_play = TRUE, do_quit = FALSE; // Flag
     int game_ret;
-    while(lets_play) {
+
+    while(do_play) {
         game_ret = play();
         switch(game_ret) {
             case OVER_RETR_ID: // Play
                 break;
 
             case OVER_BACK_ID: // Back to menu
-                lets_play = FALSE;
+                do_play = FALSE;
                 break;
 
             case OVER_QUIT_ID:
-                quit(NO_ERR);
+                do_play = FALSE;
+                do_quit = TRUE;
+                break;
 
             default:
                 break;
         }
     }
-    return;
+    return do_quit;
 }
 
 int play(void) {

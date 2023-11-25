@@ -2,7 +2,7 @@
 #include "struct.h"
 
 // Prototypes
-void home_menu(void);
+int home_menu(void);
 void best_scores_menu(void);
 void settings_menu(void);
 void credits_menu(void);

@@ -5,4 +5,4 @@
 #define MIN_ROWS 15
 #define MIN_COLS 50
 
-void game(void);
+bool game(void);

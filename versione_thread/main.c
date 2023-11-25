@@ -1,6 +1,7 @@
 // Include libs
 #include <locale.h>
 #include "menu.h"
+#include "game.h"
 #include "res.h"
 #include "utils.h"
 
@@ -50,7 +51,35 @@ int main(void) {
     check_term(NULL);
 
     // Main loop
-    while(TRUE) {
-        home_menu();
+    bool do_quit = FALSE;
+    int chosen;
+    while(!do_quit) {
+        chosen = home_menu();
+        switch(chosen) {
+            case HOME_GAME_ID: // Game
+                do_quit = game();
+                break;
+
+            case HOME_BEST_ID: // Best scores
+                best_scores_menu();
+                break;
+
+            case HOME_SETT_ID: // Settings
+                settings_menu();
+                break;
+
+            case HOME_CRED_ID: // Credits
+                credits_menu();
+                break;
+
+            case HOME_QUIT_ID:
+                do_quit = TRUE;
+                break;
+
+            default:
+                break;
+        }
     }
+
+    quit(NO_ERR);
 }

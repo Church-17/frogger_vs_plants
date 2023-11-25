@@ -31,7 +31,7 @@ void check_key(int key, int* hl, List_str* set);
 void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     // Init vars
     bool do_prints = TRUE;
-    int i, key = KEY_RESIZE;
+    int i;
     int win_width = WIN_WIDTH(max_strlen(sx, 0), max_strlen(dx, 0), max_strlen(title, 0));
     int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
 
@@ -54,8 +54,8 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
         }
         do_prints = FALSE;
 
-        while(key == KEY_RESIZE && !do_prints) {
-            key = wgetch(menu_win);
+        while(!do_prints) {
+            if(wgetch(menu_win) != KEY_RESIZE) break;
             do_prints = resize_proc(menu_win, win_height, win_width);
         }
     }
@@ -86,7 +86,7 @@ int menu(List_str title, List_str set) {
         }
         do_prints = FALSE;
         
-        while(!(do_return || do_prints)) {
+        while(!do_prints) {
             // Update non-highlighted & highlighted option
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, set.len, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
@@ -125,6 +125,7 @@ int menu(List_str title, List_str set) {
 
                 // Select the highlighted option
                 case ENTER:
+                    do_prints = TRUE;
                     do_return = TRUE;
                     break;
 
@@ -144,7 +145,7 @@ int menu(List_str title, List_str set) {
 }
 
 // Home Menu
-void home_menu(void) {
+int home_menu(void) {
     // Init vars
     str tit[] = {TITLE};
     List_str title;
@@ -155,33 +156,10 @@ void home_menu(void) {
     List_str set = dict_to_list(list, ind, N_HOME);
 
     int chosen = menu(title, set); // Call menu
-    switch(chosen) {
-        case HOME_GAME_ID: // Game
-            game();
-            break;
-
-        case HOME_BEST_ID: // Best scores
-            best_scores_menu();
-            break;
-
-        case HOME_SETT_ID: // Settings
-            settings_menu();
-            break;
-
-        case HOME_CRED_ID: // Credits
-            credits_menu();
-            break;
-
-        case HOME_QUIT_ID:
-            quit(NO_ERR);
-
-        default:
-            break;
-    }
-
+    
     free(set.list); // Free memory
 
-    return;
+    return chosen;
 }
 
 // Best scores screen
@@ -287,7 +265,7 @@ void settings_menu(void) {
         do_prints = FALSE;
 
         // Loop to print all when needed
-        while(!(do_return || do_prints)) {
+        while(!do_prints) {
             // Update old_hl to become non-highlighted
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, N_SETTINGS, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
@@ -340,6 +318,7 @@ void settings_menu(void) {
                     break;
 
                 case ENTER:
+                    do_prints = TRUE;
                     do_return = TRUE;
                     break;
 
