@@ -29,6 +29,7 @@
 #define NO_ERR 0
 #define ERR_ALLOC 1
 #define ERR_COLOR 2
+#define ERR_WIN 3
 
 // Define macros
 #define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
@@ -67,6 +68,8 @@ int rand_range(int min0, int max0);
 int max_strlen(List_str strings, int min_len);
 List_str dict_to_list(str* obj, int* ind, int len);
 void sort_dict(Dict_str_int* dict);
+WINDOW* new_win(int dim_y, int dim_x, int pos_y, int pos_x);
+WINDOW* new_ctrwin(int dim_y, int dim_x);
 void mv_win(WINDOW* win, int new_y, int new_x);
 void unwin(WINDOW* win);
 void quit(int err_code);

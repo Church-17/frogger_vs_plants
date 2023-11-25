@@ -59,6 +59,20 @@ void sort_dict(Dict_str_int* dict) {
     }
 }
 
+// Create new window
+WINDOW* new_win(int dim_y, int dim_x, int pos_y, int pos_x) {
+    WINDOW* new = newwin(dim_y, dim_x, pos_y, pos_x);
+    if(new == NULL) {
+        quit(ERR_WIN);
+    }
+    keypad(new, TRUE);
+    return new;
+}
+
+WINDOW* new_ctrwin(int dim_y, int dim_x) {
+    return new_win(dim_y, dim_x, (LINES - dim_y)/2, (COLS - dim_x)/2);
+}
+
 // Move window in central
 void mv_win(WINDOW* win, int new_y, int new_x) {
     mvwin(win, new_y, new_x); // Move window
@@ -76,7 +90,8 @@ void unwin(WINDOW* win) {
 // Error handler
 str errContainer[] = {
     "Current terminal doesn't support colors",
-    "Error during memory allocation"
+    "Error during memory allocation",
+    "Error during window creation"
 };
 // Exit ending window with error message
 void quit(int err_code) {

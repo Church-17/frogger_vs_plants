@@ -36,8 +36,7 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
     int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
 
     // Setup window
-    WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
-    keypad(menu_win, TRUE); // Enable function keys listener
+    WINDOW* menu_win = new_win(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
     wattron(menu_win, COLS1); // Enable chosen color
 
     while(do_prints) {
@@ -71,8 +70,7 @@ int menu(List_str title, List_str set) {
     int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
 
     // Setup window
-    WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
-    keypad(menu_win, TRUE); // Enable function keys listener
+    WINDOW* menu_win = new_ctrwin(win_height, win_width); // Centered window
     wattron(menu_win, COLS1);
 
     while(!do_return) {
@@ -246,8 +244,7 @@ void settings_menu(void) {
     int win_height = POSITION_Y(set.len, N_SETTINGS, title.len)+BOX_PADS;
 
     // Setup window
-    WINDOW* menu_win = newwin(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
-    keypad(menu_win, TRUE); // Enable function keys listener
+    WINDOW* menu_win = new_ctrwin(win_height, win_width); // Centered window
     wattron(menu_win, COLS1);
 
     while(!do_return) {
@@ -407,8 +404,7 @@ bool check_term(WINDOW* win) {
         if(win != NULL) {
             mv_win(win, 0, 0);
         }
-        WINDOW* err_win = newwin(LINES, COLS, 0, 0);
-        keypad(err_win, TRUE);
+        WINDOW* err_win = new_win(0, 0, 0, 0);
         wattron(err_win, COLS1);
         mvwprintw(err_win, 0, 0, "%s", EXTEND);
         mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
