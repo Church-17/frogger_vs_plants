@@ -1,6 +1,7 @@
 // Include libs
-#include "game.h"
+#include "main.h"
 #include "menu.h"
+#include "game.h"
 #include "res.h"
 #include "utils.h"
 
@@ -15,12 +16,20 @@
 // Function prototypes
 int play(void);
 
+// Start demo in main_scr
+void meun_bg(void) {
+    wctrprintw(main_scr, 1, TITLE);
+    box(main_scr, 0, 0);
+}
+
+// Manage more games
 bool game(void) {
     // Init vars
     bool do_play = TRUE, do_quit = FALSE; // Flag
     int game_ret;
 
     while(do_play) {
+        in_game_status = TRUE; // Update game status
         game_ret = play();
         switch(game_ret) {
             case OVER_RETR_ID: // Play
@@ -39,6 +48,7 @@ bool game(void) {
                 break;
         }
     }
+    in_game_status = FALSE; // Update game status
     return do_quit;
 }
 
@@ -106,9 +116,9 @@ int play(void) {
                 break;
 
             case CLOSE_GAME:
+                ret = gameover_menu(score);
                 unwin(top_bar);
                 unwin(game_scr);
-                ret = gameover_menu(score);
                 return ret;
         }
         for(i = 0; i < N_POINT; i++) {

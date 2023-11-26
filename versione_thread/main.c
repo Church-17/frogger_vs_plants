@@ -1,9 +1,16 @@
 // Include libs
 #include <locale.h>
+#include "main.h"
 #include "menu.h"
 #include "game.h"
 #include "res.h"
 #include "utils.h"
+
+// Inter-object vars
+bool in_game_status = FALSE;
+WINDOW* main_scr = NULL;
+
+bool check_term(WINDOW* win);
 
 // Main
 int main(void) {
@@ -50,26 +57,39 @@ int main(void) {
     // Check terminal size
     check_term(NULL);
 
-    // Main loop
+    // Init vars
     bool do_quit = FALSE;
     int chosen;
+    main_scr = new_ctrwin(MIN_ROWS, MIN_COLS);
+
+    // Start demo in bg
+    menu_bg();
+    wrefresh(main_scr);
+
+    // Main loop
     while(!do_quit) {
         chosen = home_menu();
+        redrawwin(main_scr);
+        wrefresh(main_scr);
         switch(chosen) {
             case HOME_GAME_ID: // Game
                 do_quit = game();
+                menu_bg();
                 break;
 
             case HOME_BEST_ID: // Best scores
                 best_scores_menu();
+                redrawwin(main_scr);
                 break;
 
             case HOME_SETT_ID: // Settings
                 settings_menu();
+                redrawwin(main_scr);
                 break;
 
             case HOME_CRED_ID: // Credits
                 credits_menu();
+                redrawwin(main_scr);
                 break;
 
             case HOME_QUIT_ID:
@@ -79,7 +99,58 @@ int main(void) {
             default:
                 break;
         }
+        // Redraw 
+        wrefresh(main_scr);
     }
 
     quit(NO_ERR);
+}
+
+// Check if term is large enough
+bool check_term(WINDOW* win) {
+    if(LINES < MIN_ROWS || COLS < MIN_COLS) { // Check if terminal size is enough
+        if(main_scr != NULL) { // If a window is passed, move it at top left
+            mv_win(main_scr, 0, 0);
+        }
+        if(win != NULL) { // If a window is passed, move it at top left
+            mv_win(win, 0, 0);
+        }
+        WINDOW* err_win = new_win(0, 0, 0, 0); // New full window
+        wattron(err_win, COLS1);
+        mvwprintw(err_win, 0, 0, "%s", EXTEND);
+        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
+        while(LINES < MIN_ROWS || COLS < MIN_COLS) {
+            mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
+            wgetch(err_win);
+        }
+        unwin(err_win);
+        return TRUE;
+    }
+    return FALSE;
+}
+
+// Resize procedure
+bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
+    bool do_prints = check_term(win); // Check terminal size
+
+    // Lib fix: don't stick window on axis
+    if(main_scr->_maxy >= MIN_ROWS) main_scr->_maxy = MIN_ROWS-1;
+    if(main_scr->_maxx >= MIN_COLS) main_scr->_maxx = MIN_COLS-1;
+    if(win->_maxy >= dim_y) win->_maxy = dim_y-1;
+    if(win->_maxx >= dim_x) win->_maxx = dim_x-1;
+
+    // Move windows
+    mv_win(main_scr, (LINES - main_scr->_maxy)/2, (COLS - main_scr->_maxx)/2);
+    mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
+
+    // Redraw main_scr
+    if(do_prints) {
+        if(in_game_status) {
+            ; // Redraw game
+        } else {
+            menu_bg(); // Redraw demo
+        }
+    }
+    wrefresh(main_scr);
+    return do_prints;
 }

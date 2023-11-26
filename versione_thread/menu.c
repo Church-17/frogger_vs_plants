@@ -1,6 +1,7 @@
 // Include libs
-#include "game.h"
+#include "main.h"
 #include "menu.h"
+#include "game.h"
 #include "res.h"
 #include "utils.h"
 
@@ -145,10 +146,8 @@ int menu(List_str title, List_str set) {
 // Home Menu
 int home_menu(void) {
     // Init vars
-    str tit[] = {TITLE};
     List_str title;
-    title.list = tit;
-    title.len = 1;
+    title.len = -1;
     str list[N_HOME] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
     int ind[N_HOME] = {HOME_GAME_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_HOME);
@@ -396,35 +395,6 @@ int gameover_menu(int score) {
     int chosen = menu(title, set); // Call menu
     free(set.list); // Free memory
     return chosen;
-}
-
-// Check if term is large enough
-bool check_term(WINDOW* win) {
-    if(LINES < MIN_ROWS || COLS < MIN_COLS) { // Check if terminal size is enough
-        if(win != NULL) { // If a window is passed, move it at top left
-            mv_win(win, 0, 0);
-        }
-        WINDOW* err_win = new_win(0, 0, 0, 0); // New full window
-        wattron(err_win, COLS1);
-        mvwprintw(err_win, 0, 0, "%s", EXTEND);
-        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
-        while(LINES < MIN_ROWS || COLS < MIN_COLS) {
-            mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
-            wgetch(err_win);
-        }
-        unwin(err_win);
-        return TRUE;
-    }
-    return FALSE;
-}
-
-// Resize procedure
-bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
-    bool do_prints = check_term(win);
-    if(win->_maxy >= dim_y) win->_maxy = dim_y-1; // Fix: don't stick window on Y-axis
-    if(win->_maxx >= dim_x) win->_maxx = dim_x-1; // Fix: don't stick window on X-axis
-    mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
-    return do_prints;
 }
 
 // Move & print string with first letter attributed
