@@ -35,7 +35,7 @@ str strContainer[][N_LANGUAGE] = { // Container of all strings
     {"SOPR Project 23-24", "Progetto SOPR 23-24"},
     {"Pause", "Pausa"},
     {"Resume", "Continua"},
-    {"Home menu", "Torna al menu"},
+    {"Home menu", "Menù principale"},
     {"Main color","Colore principale"},
     {"Secondary color", "Colore secondario"},
     {"White","Bianco"},
@@ -131,7 +131,13 @@ Dict_str_int rd_best(void) {
         best.len = 0;
         wr_best(best); // Write new empty best scores file
     }
-    sort_dict(&best);
+
+    // Free unused memory
+    for(int i = best.len; i < N_BEST; i++) {
+        free(best.key[i]);
+    }
+
+    sort_dict(&best); // Sort dict
     return best;
 }
 

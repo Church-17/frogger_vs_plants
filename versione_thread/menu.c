@@ -146,8 +146,10 @@ int menu(List_str title, List_str set) {
 // Home Menu
 int home_menu(void) {
     // Init vars
+    str tit[] = {BACK_HOME};
     List_str title;
-    title.len = -1;
+    title.list = tit;
+    title.len = 1;
     str list[N_HOME] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
     int ind[N_HOME] = {HOME_GAME_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_HOME);
@@ -193,7 +195,7 @@ void best_scores_menu(void) {
         free(dx.list[i]);
         free(best.key[i]);
     }
-    if(best.len > 0) {
+    if(best.len >= 0) {
         free(best.key);
         free(best.val);
     }
@@ -382,6 +384,28 @@ int pause_menu(void) {
 
 // Game Over Menu
 int gameover_menu(int score) {
+    // Dict_str_int best = rd_best();
+    // printf("%d", best.len);
+    // int i = best.len;
+    // while(i > 0 && best.val[i-1] < score) {
+    //     i--;
+    // }
+    // if(i < N_BEST) {
+    //     free(best.key[i]);
+    //     best.key[i] = "User";
+    //     best.val[i] = score;
+    //     if(best.len < N_BEST) (best.len)++;
+    //     wr_best(best);
+    // }
+    // // Free memory
+    // for(i = 0; i < best.len; i++) {
+    //     free(best.key[i]);
+    // }
+    // if(best.len >= 0) {
+    //     free(best.key);
+    //     free(best.val);
+    // }
+
     char scorestr[LIM_STR_BUFF];
     sprintf(scorestr, "%s: %d", SCORE, score); // Transform score int in str
     str tit[] = {GAMEOVER, scorestr};
