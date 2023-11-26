@@ -140,8 +140,8 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
     if(win->_maxx >= dim_x) win->_maxx = dim_x-1;
 
     // Move windows
-    mv_win(main_scr, (LINES - main_scr->_maxy)/2, (COLS - main_scr->_maxx)/2);
-    mv_win(win, (LINES - win->_maxy)/2, (COLS - win->_maxx)/2);
+    mv_win(main_scr, LINES/2 - MIN_ROWS/2, COLS/2 - MIN_COLS/2);
+    mv_win(win, LINES/2 - dim_y/2, COLS/2 - dim_x/2);
 
     // Redraw main_scr
     if(do_prints) {
