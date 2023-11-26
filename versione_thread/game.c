@@ -17,7 +17,7 @@
 int play(void);
 
 // Start demo in main_scr
-void meun_bg(void) {
+void menu_bg(void) {
     wctrprintw(main_scr, 1, TITLE);
     box(main_scr, 0, 0);
 }
