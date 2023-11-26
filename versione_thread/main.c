@@ -21,8 +21,8 @@ int main(void) {
     initscr(); // Initialize window
     noecho(); // Hide character typed
     curs_set(NO_CURS); // Remove cursor
-    keypad(stdscr, TRUE); // Enable function keys listener
     cbreak(); // Don't wait ENTER in getch()
+    keypad(stdscr, TRUE); // Enable function keys listener
     
     // Setup colors
     if(has_colors() == FALSE) {	// Check color support
