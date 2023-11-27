@@ -73,7 +73,9 @@ int main(void) {
         wrefresh(main_scr);
         switch(chosen) {
             case HOME_GAME_ID: // Game
+                in_game_status = TRUE;
                 do_quit = game();
+                in_game_status = FALSE;
                 menu_bg();
                 break;
 

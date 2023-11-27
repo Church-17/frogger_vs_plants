@@ -6,7 +6,6 @@
 #define MAIN_COLS 50
 
 // Inter-object vars
-extern bool in_game_status;
 extern WINDOW* main_scr;
 
 // Function prototypes

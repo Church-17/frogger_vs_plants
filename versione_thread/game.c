@@ -29,7 +29,6 @@ bool game(void) {
     int game_ret;
 
     while(do_play) {
-        in_game_status = TRUE; // Update game status
         game_ret = play();
         switch(game_ret) {
             case OVER_RETR_ID: // Play
@@ -48,7 +47,6 @@ bool game(void) {
                 break;
         }
     }
-    in_game_status = FALSE; // Update game status
     return do_quit;
 }
 
