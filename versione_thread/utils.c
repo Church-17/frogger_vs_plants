@@ -11,7 +11,7 @@ int mod(int n1, int n2) {
     return n1 >= 0 ? n1%n2 : n1%n2+n2;
 }
 
-// Random number in range
+// Random number in range, min0 <= RAND < max0
 int rand_range(int min0, int max0) {
     return rand() % (max0-min0) + min0;
 }
