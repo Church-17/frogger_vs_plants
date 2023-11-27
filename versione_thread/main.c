@@ -60,7 +60,7 @@ int main(void) {
     // Init vars
     bool do_quit = FALSE;
     int chosen;
-    main_scr = new_ctrwin(MIN_ROWS, MIN_COLS);
+    main_scr = new_ctrwin(MAIN_ROWS, MAIN_COLS);
 
     // Start demo in bg
     menu_bg();
@@ -108,7 +108,7 @@ int main(void) {
 
 // Check if term is large enough
 bool check_term(WINDOW* win) {
-    if(LINES < MIN_ROWS || COLS < MIN_COLS) { // Check if terminal size is enough
+    if(LINES < MAIN_ROWS || COLS < MAIN_COLS) { // Check if terminal size is enough
         if(main_scr != NULL) { // If a window is passed, move it at top left
             mv_win(main_scr, 0, 0);
         }
@@ -118,8 +118,8 @@ bool check_term(WINDOW* win) {
         WINDOW* err_win = new_win(0, 0, 0, 0); // New full window
         wattron(err_win, COLS1);
         mvwprintw(err_win, 0, 0, "%s", EXTEND);
-        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MIN_ROWS, MIN_COLS);
-        while(LINES < MIN_ROWS || COLS < MIN_COLS) {
+        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MAIN_ROWS, MAIN_COLS);
+        while(LINES < MAIN_ROWS || COLS < MAIN_COLS) {
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", ACTUAL, LINES, COLS);
             wgetch(err_win);
         }
@@ -134,13 +134,13 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
     bool do_prints = check_term(win); // Check terminal size
 
     // Lib fix: don't stick window on axis
-    if(main_scr->_maxy >= MIN_ROWS) main_scr->_maxy = MIN_ROWS-1;
-    if(main_scr->_maxx >= MIN_COLS) main_scr->_maxx = MIN_COLS-1;
+    if(main_scr->_maxy >= MAIN_ROWS) main_scr->_maxy = MAIN_ROWS-1;
+    if(main_scr->_maxx >= MAIN_COLS) main_scr->_maxx = MAIN_COLS-1;
     if(win->_maxy >= dim_y) win->_maxy = dim_y-1;
     if(win->_maxx >= dim_x) win->_maxx = dim_x-1;
 
     // Move windows
-    mv_win(main_scr, LINES/2 - MIN_ROWS/2, COLS/2 - MIN_COLS/2);
+    mv_win(main_scr, LINES/2 - MAIN_ROWS/2, COLS/2 - MAIN_COLS/2);
     mv_win(win, LINES/2 - dim_y/2, COLS/2 - dim_x/2);
 
     // Redraw main_scr

@@ -2,8 +2,8 @@
 #include "struct.h"
 
 // Define constant
-#define MIN_ROWS 15
-#define MIN_COLS 50
+#define MAIN_ROWS 15
+#define MAIN_COLS 50
 
 // Inter-object vars
 extern bool in_game_status;
