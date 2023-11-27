@@ -7,9 +7,12 @@
 #include "utils.h"
 
 // Inter-object vars
-bool in_game_status = FALSE;
 WINDOW* main_scr = NULL;
 
+// Global vars
+bool in_game_status = FALSE;
+
+// Function prototypes
 bool check_term(WINDOW* win);
 
 // Main
