@@ -52,10 +52,6 @@ struct Dict_str_int {
     int* val;
     int len;
 };
-struct Point {
-    int x;
-    int y;
-};
 
 // Function prototypes
 int max(int n1, int n2);
