@@ -20,10 +20,6 @@
 #define KEY_A 'A'
 #define KEY_S 'S'
 #define KEY_D 'D'
-#define KEY_w 'w'
-#define KEY_a 'a'
-#define KEY_s 's'
-#define KEY_d 'd'
 
 // Define error codes
 #define NO_ERR 0
