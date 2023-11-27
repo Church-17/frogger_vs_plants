@@ -59,6 +59,7 @@ void sort_dict(Dict_str_int* dict) {
 // Create new window
 WINDOW* new_win(int dim_y, int dim_x, int pos_y, int pos_x) {
     WINDOW* new = newwin(dim_y, dim_x, pos_y, pos_x);
+    new = NULL;
     if(new == NULL) {
         quit(ERR_WIN);
     }
@@ -95,7 +96,7 @@ str errContainer[] = {
 void quit(int err_code) {
     endwin();
     if(err_code > 0) {
-        fprintf(stderr, "%s\n", errContainer[err_code-1]);
+        perror(errContainer[err_code-1]);
     }
     exit(err_code);
 }
