@@ -59,7 +59,6 @@ void sort_dict(Dict_str_int* dict) {
 // Create new window
 WINDOW* new_win(int dim_y, int dim_x, int pos_y, int pos_x) {
     WINDOW* new = newwin(dim_y, dim_x, pos_y, pos_x);
-    new = NULL;
     if(new == NULL) {
         quit(ERR_WIN);
     }
