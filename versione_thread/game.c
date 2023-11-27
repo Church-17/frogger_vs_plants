@@ -1,9 +1,9 @@
 // Include libs
-#include "main.h"
-#include "menu.h"
-#include "game.h"
-#include "res.h"
-#include "utils.h"
+#include "../main.h"
+#include "../menu.h"
+#include "../game.h"
+#include "../res.h"
+#include "../utils.h"
 
 // Define constant
 #define TOP_BAR_ROWS 3
