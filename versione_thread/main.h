@@ -10,4 +10,4 @@ extern bool in_game_status;
 extern WINDOW* main_scr;
 
 // Function prototypes
-bool check_term(WINDOW* win);
+bool resize_proc(WINDOW* win, int dim_y, int dim_x);
