@@ -66,8 +66,6 @@ int main() {
     aprintw(BLACK_GREEN, " ");
     aprintw(GREEN_BLACK, "▀");
 
-
-
     getch();
     endwin();
 
