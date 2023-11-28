@@ -23,5 +23,10 @@ res.o: res.c res.h utils.h
 utils.o: utils.c utils.h
 	${COBJ}
 
-clear:
+clear_all: clean_o clean_out
+
+clear_o:
 	rm *.o
+
+clear_out:
+	rm *.out
