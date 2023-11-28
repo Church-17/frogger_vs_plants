@@ -2,7 +2,7 @@ CC = gcc
 CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread
 COBJ = ${CC} -c $*.c ${CARGS}
 
-VER = versione_thread
+VER = .
 COBJ_VER = ${CC} -c ${VER}/$*.c ${CARGS}
 
 sopr_proj.out: main.o menu.o game.o res.o utils.o
