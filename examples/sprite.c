@@ -51,7 +51,7 @@ int main() {
     mvaptrintw(y+3, x, GREEN_BLACK, "▀█▀"); //
     mvaptrintw(y+3, x+7, GREEN_BLACK, "▀█▀"); //
 
-    getch();
+    while(getch() != 'q');
 
     printf("%d %d ", LINES, COLS);
     endwin();
