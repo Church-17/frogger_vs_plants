@@ -15,3 +15,6 @@ res.o: res.c res.h utils.h
 
 utils.o: utils.c utils.h
 	${COBJ}
+
+clear:
+	rm *.o
