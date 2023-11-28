@@ -2,7 +2,7 @@
 #include <locale.h>
 #include <ncurses.h>
 
-#define aprintw(attr, fstr...) attron(attr); printw(fstr); attroff(attr)
+#define mvaptrintw(y, x, attr, fstr...) attron(attr); mvprintw(y, x, fstr); attroff(attr)
 #define GREEN_BLACK COLOR_PAIR(1)
 #define BLACK_GREEN COLOR_PAIR(2)
 #define YELLOW_BLACK COLOR_PAIR(3)
@@ -43,30 +43,28 @@ int main() {
     init_pair(8, COLOR_MAGENTA, COLOR_GREEN);
     init_pair(9, COLOR_BLACK, COLOR_WHITE);
 
-    move(0, 0);
-    aprintw(BLACK_GREEN, "▀ ");
-    aprintw(GREEN_BLACK, " ");
-    aprintw(MAGENTA_GREEN, "▀");
-    aprintw(GREEN_YELLOW, "▌▐");
-    aprintw(MAGENTA_GREEN, "▀");
-    aprintw(GREEN_BLACK, " ");
-    aprintw(BLACK_GREEN, " ▀");
-    move(1, 0);
-    aprintw(GREEN_BLACK, " ▀▄");
-    aprintw(GREEN_YELLOW, " ▄  ");
-    aprintw(GREEN_BLACK, "▄▀ ");
-    move(2, 0);
-    aprintw(GREEN_BLACK, "  ▄");
-    aprintw(YELLOW_GREEN, " ▀▄▀");
-    aprintw(GREEN_BLACK, "▄  ");
-    move(3, 0);
-    aprintw(GREEN_BLACK, "▀");
-    aprintw(BLACK_GREEN, " ");
-    aprintw(GREEN_BLACK, "▀    ▀");
-    aprintw(BLACK_GREEN, " ");
-    aprintw(GREEN_BLACK, "▀");
+    int y = 1, x = 1;
+
+    mvaptrintw(y, x, GREEN_BLACK, "▄█"); //
+    mvaptrintw(y, x+3, MAGENTA_GREEN, "▀");
+    mvaptrintw(y, x+4, GREEN_YELLOW, "▌▐");
+    mvaptrintw(y, x+6, MAGENTA_GREEN, "▀");
+    mvaptrintw(y, x+8, GREEN_BLACK, "█▄"); //
+
+    mvaptrintw(y+1, x+1, GREEN_BLACK, "▀▄"); //
+    mvaptrintw(y+1, x+3, GREEN_YELLOW, " ▄  ");
+    mvaptrintw(y+1, x+7, GREEN_BLACK, "▄▀"); //
+
+    mvaptrintw(y+2, x+2, GREEN_BLACK, "▄"); //
+    mvaptrintw(y+2, x+3, YELLOW_GREEN, " ▀▄▀");
+    mvaptrintw(y+2, x+7, GREEN_BLACK, "▄"); //
+
+    mvaptrintw(y+3, x, GREEN_BLACK, "▀█▀"); //
+    mvaptrintw(y+3, x+7, GREEN_BLACK, "▀█▀"); //
 
     getch();
+
+    printf("%d %d\n", LINES, COLS);
     endwin();
 
 }
