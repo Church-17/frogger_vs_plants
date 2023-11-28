@@ -1,4 +1,2 @@
-# Ignore .vscode directory
-.vscode
 *.out
 *.o
