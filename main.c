@@ -3,7 +3,7 @@
 #include "main.h"
 #include "menu.h"
 #include "game.h"
-#include "res.h"
+#include "str.h"
 #include "utils.h"
 
 // Inter-object vars
@@ -111,7 +111,7 @@ int main(void) {
     quit(NO_ERR);
 }
 
-// Check if term is large enough
+// Check if term is large enough, return TRUE if it is not large enough, FALSE if it is
 bool check_term(WINDOW* win) {
     if(LINES < MAIN_ROWS || COLS < MAIN_COLS) { // Check if terminal size is enough
         if(main_scr != NULL) { // If a window is passed, move it at top left
@@ -134,7 +134,7 @@ bool check_term(WINDOW* win) {
     return FALSE;
 }
 
-// Resize procedure
+// Procedure to call after any resize, return TRUE if term is not large enough, FALSE if it is
 bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
     bool do_prints = check_term(win); // Check terminal size
 

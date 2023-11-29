@@ -17,40 +17,6 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines);
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {1, 0, 0, 0, 0}; // Default settings
-str strContainer[][N_LANGUAGE] = { // Container of all strings
-    {"New game", "Nuova partita"},
-    {"Best scores", "Migliori punteggi"},
-    {"Settings", "Impostazioni"},
-    {"Credits", "Crediti"},
-    {"Quit", "Esci"},
-    {"Language", "Lingua"},
-    {"Difficulty", "Difficoltà"},
-    {"Cancel", "Annula"},
-    {"Easy", "Facile"},
-    {"Medium", "Medio"},
-    {"Hard", "Difficile"},
-    {"Common", "Comune"},
-    {"Rare", "Rara"},
-    {"Epic", "Epica"},
-    {"SOPR Project 23-24", "Progetto SOPR 23-24"},
-    {"Pause", "Pausa"},
-    {"Resume", "Continua"},
-    {"Home menu", "Menù principale"},
-    {"Main color","Colore principale"},
-    {"Secondary color", "Colore secondario"},
-    {"White","Bianco"},
-    {"Red","Rosso"},
-    {"Green","Verde"},
-    {"Yellow","Giallo"},
-    {"Blue","Blu"},
-    {"Cyan","Ciano"},
-    {"Apply [Enter]", "Applica [Invio]"},
-    {"Score", "Punteggio"},
-    {"Retry", "Riprova"},
-    {"Expand the terminal", "Espandi il terminale"},
-    {"Minimum", "Minimo"},
-    {"Actual", "Attuale"}
-};
 
 // Read settings from settings file
 void rd_settings(void) {

@@ -2,7 +2,7 @@
 #include "../main.h"
 #include "../menu.h"
 #include "../game.h"
-#include "../res.h"
+#include "../str.h"
 #include "../utils.h"
 
 // Define constant

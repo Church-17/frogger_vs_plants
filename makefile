@@ -5,7 +5,7 @@ COBJ = ${CC} -c $*.c ${CARGS}
 VER = versione_thread
 COBJ_VER = ${CC} -c ${VER}/$*.c ${CARGS}
 
-sopr_proj.out: main.o menu.o game.o res.o utils.o
+sopr_proj.out: main.o menu.o game.o str.o res.o utils.o
 	${CC} $^ ${CARGS}
 
 main.o: main.c main.h menu.h game.h res.h utils.h
@@ -17,13 +17,16 @@ menu.o: menu.c main.h menu.h game.h res.h utils.h
 game.o: ${VER}/game.c main.h menu.h game.h res.h utils.h
 	${COBJ_VER}
 
+str.o: str.h
+	${COBJ}
+
 res.o: res.c res.h utils.h
 	${COBJ}
 
 utils.o: utils.c utils.h
 	${COBJ}
 
-clear_all: clean_o clean_out
+clear_all: clear_o clear_out
 
 clear_o:
 	rm *.o
