@@ -1,5 +1,5 @@
 // Include libs
-#include "proto_struct.h"
+#include "struct_proto.h"
 #include "res.h"
 
 // --- INTER-OBJECT VARS ---

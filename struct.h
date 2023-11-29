@@ -1,5 +1,5 @@
 // Include prototypes of structs
-#include "proto_struct.h"
+#include "struct_proto.h"
 
 // Define structs
 struct List_str {

@@ -1,5 +1,5 @@
 // Include libs
-#include "proto_struct.h"
+#include "struct_proto.h"
 
 void menu_bg(void);
 bool game(void);

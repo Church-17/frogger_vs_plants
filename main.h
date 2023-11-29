@@ -1,5 +1,5 @@
 // Include libs
-#include "proto_struct.h"
+#include "struct_proto.h"
 
 // Define constant
 #define MAIN_ROWS 15

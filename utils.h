@@ -1,7 +1,7 @@
 // Include libs
 #include <stdlib.h>
 #include <string.h>
-#include "proto_struct.h"
+#include "struct_proto.h"
 
 // Define constant
 #define READ "r"
@@ -13,10 +13,6 @@
 #define ENTER 10
 #define KEY_0 '0'
 #define KEY_9 '9'
-#define KEY_W 'W'
-#define KEY_A 'A'
-#define KEY_S 'S'
-#define KEY_D 'D'
 
 // Define error codes
 #define NO_ERR 0
@@ -26,7 +22,9 @@
 
 // Define macros
 #define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
-#define dalloc(type, var, n) type* var; alloc(type, var, n) // Define and alloc
+#define dalloc(type, var, n) \
+    type* var;\
+    alloc(type, var, n) // Define and alloc
 
 // Print in center
 #define wctrprintw(win, row, args...) {\
