@@ -1,5 +1,5 @@
 // Include libs
-#include "struct.h"
+#include "proto_struct.h"
 
 // Prototypes
 int home_menu(void);

@@ -1,5 +1,5 @@
 // Include libs
-#include "struct.h"
+#include "proto_struct.h"
 
 // Function prototypes
 void rd_settings(void);

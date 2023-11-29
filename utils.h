@@ -3,8 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <ncurses.h>
-#include "struct.h"
+#include "proto_struct.h"
 
 // Define constant
 #define READ "r"
@@ -37,21 +36,6 @@
     sprintf(tmpstr, args);\
     mvwprintw(win, row, (win->_maxx - strlen(tmpstr))/2, "%s", tmpstr);\
 }
-
-// Define structs
-struct List_str {
-    str* list;
-    int len;
-};
-struct List_attr {
-    attr_t* list;
-    int len;
-};
-struct Dict_str_int {
-    str* key;
-    int* val;
-    int len;
-};
 
 // Function prototypes
 int max(int n1, int n2);

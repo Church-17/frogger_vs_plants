@@ -1,8 +1,17 @@
-#include <ncurses.h>
-#define typestructdef(datatype) struct datatype; typedef struct datatype datatype
+// Include prototypes of structs
+#include "proto_struct.h"
 
-// Define types & scruct prototypes
-typedef char* str;
-typestructdef(List_str);
-typestructdef(List_attr);
-typestructdef(Dict_str_int);
+// Define structs
+struct List_str {
+    str* list;
+    int len;
+};
+struct List_attr {
+    attr_t* list;
+    int len;
+};
+struct Dict_str_int {
+    str* key;
+    int* val;
+    int len;
+};

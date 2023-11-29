@@ -1,4 +1,5 @@
 // Include libs
+#include "struct.h"
 #include "utils.h"
 #include "res.h"
 

@@ -4,6 +4,7 @@
 #include "game.h"
 #include "str.h"
 #include "utils.h"
+#include "struct.h"
 
 // Define constants
 #define LR_ARROWS 4 // N chars occupied by arrows in settings
