@@ -8,13 +8,13 @@ COBJ_VER = ${CC} -c ${VER}/$*.c ${CARGS}
 sopr_proj.out: main.o menu.o game.o str.o res.o utils.o
 	${CC} $^ ${CARGS}
 
-main.o: main.c main.h menu.h game.h res.h utils.h struct_proto.h
+main.o: main.c main.h menu.h game.h str.h res.h utils.h struct_proto.h
 	${COBJ}
 
-menu.o: menu.c main.h menu.h game.h res.h utils.h struct.h struct_proto.h
+menu.o: menu.c main.h menu.h game.h str.h res.h utils.h struct.h struct_proto.h
 	${COBJ}
 
-game.o: ${VER}/game.c main.h menu.h game.h res.h utils.h struct.h struct_proto.h
+game.o: ${VER}/game.c main.h menu.h game.h str.h res.h utils.h struct.h struct_proto.h
 	${COBJ_VER}
 
 str.o: str.c str.h res.h struct.h struct_proto.h
