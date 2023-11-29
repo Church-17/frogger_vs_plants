@@ -121,7 +121,7 @@ bool check_term(WINDOW* win) {
             mv_win(win, 0, 0);
         }
         WINDOW* err_win = new_win(0, 0, 0, 0); // New full window
-        wattron(err_win, COLS1);
+        wattron(err_win, COL1);
         mvwprintw(err_win, 0, 0, "%s", EXTEND);
         mvwprintw(err_win, 1, 0, "%s: %d x %d    ", MINIMUM, MAIN_ROWS, MAIN_COLS);
         while(LINES < MAIN_ROWS || COLS < MAIN_COLS) {

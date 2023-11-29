@@ -38,7 +38,7 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
 
     // Setup window
     WINDOW* menu_win = new_win(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
-    wattron(menu_win, COLS1); // Enable chosen color
+    wattron(menu_win, COL1); // Enable chosen color
 
     while(do_prints) {
         // Prints
@@ -72,7 +72,7 @@ int menu(List_str title, List_str set) {
 
     // Setup window
     WINDOW* menu_win = new_ctrwin(win_height, win_width); // Centered window
-    wattron(menu_win, COLS1);
+    wattron(menu_win, COL1);
 
     while(!do_return) {
         // Prints
@@ -90,11 +90,11 @@ int menu(List_str title, List_str set) {
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, set.len, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
             mvwprintw(menu_win, POSITION_Y(hl, set.len, title.len), BOX_PADX, "%*s", HL_PADX, ""); // Print hl padding
-            wattroff(menu_win, COLS1);
-            wattron(menu_win, A_STANDOUT | COLS2);
+            wattroff(menu_win, COL1);
+            wattron(menu_win, A_STANDOUT | COL2);
             mvwprintw(menu_win, POSITION_Y(hl, set.len, title.len), BOX_PADX+HL_PADX, "%s", set.list[hl]);
-            wattroff(menu_win, A_STANDOUT | COLS2);
-            wattron(menu_win, COLS1);
+            wattroff(menu_win, A_STANDOUT | COL2);
+            wattron(menu_win, COL1);
 
             old_hl = hl; // Track old hl
             inc = 1; // Restore inc
@@ -246,7 +246,7 @@ void settings_menu(void) {
 
     // Setup window
     WINDOW* menu_win = new_ctrwin(win_height, win_width); // Centered window
-    wattron(menu_win, COLS1);
+    wattron(menu_win, COL1);
 
     while(!do_return) {
         // Prints
@@ -272,14 +272,14 @@ void settings_menu(void) {
             }
             // Update hl to become highlighted
             mvwprintw(menu_win, POSITION_Y(hl, N_SETTINGS, title.len), BOX_PADX, "%*s", HL_PADX, ""); // Print HL_PADX
-            wattroff(menu_win, COLS1);
-            wattron(menu_win, A_STANDOUT | COLS2);
+            wattroff(menu_win, COL1);
+            wattron(menu_win, A_STANDOUT | COL2);
             wprintw(menu_win, "%s", set.list[hl]);
             if(hl < N_SETTINGS) { // If hl referes to a setting...
                 mvwprintw(menu_win, POSITION_Y(hl, N_SETTINGS, title.len), POSITION_X_DX(opts[hl].list[newly_setted[hl]], win_width)-LR_ARROWS, "◄ %s ►", opts[hl].list[newly_setted[hl]]);
             }
-            wattroff(menu_win, A_STANDOUT | COLS2);
-            wattron(menu_win, COLS1);
+            wattroff(menu_win, A_STANDOUT | COL2);
+            wattron(menu_win, COL1);
 
             old_hl = hl; // Track old hl
             inc = 1; // Restore inc
@@ -355,7 +355,7 @@ void credits_menu(void) {
     title.len = 2;
     str list0[N_CREDITS] = {FRANCESCO, MATTEO};
     str list1[N_CREDITS] = {"", ""};
-    attr_t list2[N_CREDITS] = {COLS1, COLS1};
+    attr_t list2[N_CREDITS] = {COL1, COL1};
     List_str sx, dx;
     List_attr cols;
     sx.list = list0;
