@@ -52,10 +52,10 @@ int main(void){
     int i, c, y = LINES/2, x = COLS/2, old_y, old_x;
 
     for(i = 0; i < LIM_RED_BLUE; i++) {
-        mvhline(i, 0, ' ' | COLOR_PAIR(5), COLS);
+        mvaptrintw(i, 0, GREEN_RED, "%*c", COLS, ' ');
     }
     for(i = LIM_RED_BLUE; i < LINES; i++) {
-        mvhline(i, 0, ' ' | COLOR_PAIR(4), COLS);
+        mvaptrintw(i, 0, GREEN_BLUE, "%*c", COLS, ' ');
     }
 
     move_frog(stdscr, y, x);
@@ -93,9 +93,9 @@ int main(void){
         }
         for(i = old_y; i < old_y + FROG_Y_DIM; i++) {
             if(i < LIM_RED_BLUE) {
-                mvhline(i, old_x, ' ' | COLOR_PAIR(5), FROG_X_DIM);
+                mvaptrintw(i, old_x, GREEN_RED, "%*c", FROG_X_DIM, ' ');
             } else {
-                mvhline(i, old_x, ' ' | COLOR_PAIR(4), FROG_X_DIM);
+                mvaptrintw(i, old_x, GREEN_BLUE, "%*c", FROG_X_DIM, ' ');
             }
         }
 
