@@ -86,16 +86,15 @@ void unwin(WINDOW* win) {
     delwin(win);
 }
 
-// Error handler
-str errContainer[] = {
-    "Current terminal doesn't support colors",
-    "Error during memory allocation",
-    "Error during window creation"
-};
-// Exit ending window with error message
+// Error handler, exit ending window with error message
 void quit(int err_code) {
     endwin();
     if(err_code > 0) {
+        str errContainer[] = {
+            "Current terminal doesn't support colors",
+            "Error during memory allocation",
+            "Error during window creation"
+        };
         perror(errContainer[err_code-1]);
     }
     exit(err_code);
