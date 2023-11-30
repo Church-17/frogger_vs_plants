@@ -26,6 +26,12 @@
     type* var;\
     alloc(type, var, n) // Define and alloc
 
+// Print in win with attr
+#define mvwaprintw(win, y, x, attr, fstr...)\
+    wattron(win, attr);\
+    mvwprintw(win, y, x, fstr);\
+    wattroff(win, attr)
+
 // Print in center
 #define wctrprintw(win, row, args...) {\
     char tmpstr[LIM_STR_BUFF];\

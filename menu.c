@@ -92,9 +92,7 @@ int menu(List_str title, List_str set) {
             wprintw(menu_win, "%*s", HL_PADX, "");
             mvwprintw(menu_win, POSITION_Y(hl, set.len, title.len), BOX_PADX, "%*s", HL_PADX, ""); // Print hl padding
             wattroff(menu_win, COL1);
-            wattron(menu_win, A_STANDOUT | COL2);
-            mvwprintw(menu_win, POSITION_Y(hl, set.len, title.len), BOX_PADX+HL_PADX, "%s", set.list[hl]);
-            wattroff(menu_win, A_STANDOUT | COL2);
+            mvwaprintw(menu_win, POSITION_Y(hl, set.len, title.len), BOX_PADX+HL_PADX, A_STANDOUT | COL2, "%s", set.list[hl]);
             wattron(menu_win, COL1);
 
             old_hl = hl; // Track old hl
