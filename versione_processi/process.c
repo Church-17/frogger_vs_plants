@@ -4,17 +4,20 @@
 #include "../utils.h"
 #include "../struct.h"
 
+// Sends a signal to all the processes
 void signal_all(const List_pid *pids, int signal) {
     for(int i = 0; i < pids->len; i++) {
         kill(pids->list[i], signal);
     }
 }
 
+// Ends the game
 void quit_all(int err_code, const List_pid *pids) {
     signal_all(pids, SIGKILL);
     quit(err_code);
 }
 
+// Calls fork() handling the errors
 void forker(List_pid* pids) {
     pid_t pid = fork();
     if(pid < 0) {
@@ -25,6 +28,7 @@ void forker(List_pid* pids) {
     (pids->len)++;
 }
 
+// Calls pipe() handling the errors
 void piper(int* pipe_fds) {
     int ret = pipe(pipe_fds);
     if(ret < 0) {

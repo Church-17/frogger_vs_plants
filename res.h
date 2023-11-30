@@ -85,3 +85,6 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
 #define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
 #define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
+
+// --- PROCESS TYPES ---
+#define FROG_ID 0

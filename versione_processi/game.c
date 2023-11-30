@@ -32,7 +32,9 @@ bool game() {
     int game_ret;
 
     while(do_play) {
+
         game_ret = play();
+
         switch(game_ret) {
             case OVER_RETR_ID: // Play
                 break;
@@ -53,10 +55,11 @@ bool game() {
     return do_quit;
 }
 
+// Play a game
 int play(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
     int i;
-    int manche_scores[N_HOLES] = {0};
+    int manche_scores[N_HOLES] = {0};   // array with the scores for each manche
     int score = 0;
     int n_lifes = N_LIFES;
 
@@ -79,19 +82,20 @@ int play(void) {
     return gameover_menu(score);
 }
 
+// Play a manche
 int play_manche(bool* holes_occupied, int n_lifes) {
     int i;
     Message buff;
-    pid_t array_pids[30];
+    pid_t array_pids[30];   // pids for every process
     List_pid process_pids;
     process_pids.list = array_pids;
     process_pids.len = 0;
-
+    
     int pipe_fds[PIPE_DIM];
-    piper(pipe_fds);
+    piper(pipe_fds);    // starts the pipe handling the errors
 
-    forker(&process_pids);
-    if(process_pids.list[0] == 0) {
+    forker(&process_pids);  // calls the fork handling the errors
+    if(process_pids.list[FROG_ID] == 0) {
         frog();
         _exit(ERR_FORK); // Handle SUS process termination
     }
