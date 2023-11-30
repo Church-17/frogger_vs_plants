@@ -3,10 +3,12 @@
 #include "../main.h"
 #include "../menu.h"
 #include "../game.h"
+#include "../sprites.h"
 #include "../str.h"
 #include "../struct.h"
 #include "../utils.h"
 #include "process.h"
+#include "frog.h"
 
 // Define constant
 #define CLOSE_GAME 'q'
@@ -55,7 +57,7 @@ bool game() {
     return do_quit;
 }
 
-// Play a game
+// Play a game handling more manche
 int play(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
     int i;
@@ -85,29 +87,47 @@ int play(void) {
 // Play a manche
 int play_manche(bool* holes_occupied, int n_lifes) {
     int i;
-    Message buff;
     pid_t array_pids[30];   // pids for every process
     List_pid process_pids;
     process_pids.list = array_pids;
     process_pids.len = 0;
     
+    // Pipe
     int pipe_fds[PIPE_DIM];
-    piper(pipe_fds);    // starts the pipe handling the errors
+    piper(pipe_fds); // Starts the pipe handling the errors
 
-    forker(&process_pids);  // calls the fork handling the errors
-    if(process_pids.list[FROG_ID] == 0) {
-        frog();
-        _exit(ERR_FORK); // Handle SUS process termination
+    process_pids.list[FROG_ID] = forker(&process_pids); // Calls the fork handling the errors
+    (process_pids.len)++;
+    if(process_pids.list[FROG_ID] == PID_CHILD) {
+        // frog();
+        _exit(ERR_FORK); // Handle unexpected process termination
     }
     
+    // Store old coordinates
+    int old_frog_y = MAIN_ROWS/2, old_frog_x = MAIN_COLS/2;
+
+    // Colors under frog to restore
+    int frog_restore_colors[FROG_Y_DIM] = {COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, COLOR_BLACK};
+
+    Message msg;
+
     close(pipe_fds[PIPE_WRITE]);
 
     while(TRUE) {
-        read(pipe_fds[PIPE_READ], &buff, sizeof(Message));
-        switch(buff.id) {
-            case 0:
-                
+        // read(pipe_fds[PIPE_READ], &msg, sizeof(Message));
+        msg.id = 0;
+        msg.x = 10;
+        msg.y = 10;
+
+        switch(msg.id) {
+            case FROG_ID:
+                for(i = old_frog_y; i - old_frog_y < FROG_Y_DIM; i++) {
+                    mvwaprintw(main_scr, i, old_frog_x, WHITE_BLACK, "%*c", FROG_X_DIM, ' ');
+                }
+                print_frog(main_scr, msg.y, msg.x, frog_restore_colors);
+                break;
         }
+        wgetch(main_scr);
     }
     return 0;
 }

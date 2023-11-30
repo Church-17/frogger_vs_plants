@@ -1,8 +1,8 @@
 #include <unistd.h>
-#include <sys/wait.h>
 #include <signal.h>
 #include "../utils.h"
 #include "../struct.h"
+#include "process.h"
 
 // Sends a signal to all the processes
 void signal_all(const List_pid *pids, int signal) {
@@ -18,14 +18,12 @@ void quit_all(int err_code, const List_pid *pids) {
 }
 
 // Calls fork() handling the errors
-void forker(List_pid* pids) {
+pid_t forker(const List_pid* pids) {
     pid_t pid = fork();
     if(pid < 0) {
         quit_all(ERR_FORK, pids);
     }
-    // Adding pid to list
-    pids->list[pids->len] = pid;
-    (pids->len)++;
+    return pid;
 }
 
 // Calls pipe() handling the errors

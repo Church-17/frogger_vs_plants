@@ -2,8 +2,14 @@ CC = gcc
 CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread
 COBJ = ${CC} -c $*.c ${CARGS}
 
-version:
-	make -C ../ VER=versione_processi
+COMMON = ../main.o ../menu.o ../sprites.o ../str.o ../res.o ../utils.o
 
-process: process.c process.h
+sopr_proj.out: game.o process.o
+	make common -C ../
+	${CC} $^ ${COMMON} ${CARGS}
+
+game.o: game.c ../main.h ../menu.h ../game.h ../str.h ../res.h ../utils.h ../struct.h ../struct_proto.h
+	${COBJ}
+
+process.o: process.c process.h ../utils.h ../struct.h ../struct_proto.h
 	${COBJ}

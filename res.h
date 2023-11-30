@@ -47,7 +47,7 @@ void wr_best(Dict_str_int best);
 #define SKIN_2_ID 2
 #define N_SKIN 3
 // - Color
-#define COL_0_ID 0
+#define COL_0_ID 0 // FIXED with WHITE_BLACK
 #define COL_1_ID 1
 #define COL_2_ID 2
 #define COL_3_ID 3
@@ -78,13 +78,20 @@ extern int game_settings[N_SETTINGS]; // Game settings
 
 #define GREY_BLACK_ID 7
 #define BROWN_BLACK_ID 8
+#define GREEN_BLACK_ID 9
+#define GREEN_YELLOW_ID 10
+#define MAGENTA_GREEN_ID 11
 
 #define COL1 COLOR_PAIR(COL1_SET)
 #define COL2 COLOR_PAIR(COL2_SET)
 
+#define WHITE_BLACK COLOR_PAIR(COL_0_ID)
 #define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
 #define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
 #define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
+#define GREEN_BLACK COLOR_PAIR(GREEN_BLACK_ID)
+#define GREEN_YELLOW COLOR_PAIR(GREEN_YELLOW_ID)
+#define MAGENTA_GREEN COLOR_PAIR(MAGENTA_GREEN_ID)
 
 // --- PROCESS TYPES ---
 #define FROG_ID 0
