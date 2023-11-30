@@ -90,10 +90,12 @@ void unwin(WINDOW* win) {
 void quit(int err_code) {
     endwin();
     if(err_code > 0) {
-        str errContainer[] = {
+        const str errContainer[] = {
             "Current terminal doesn't support colors",
             "Error during memory allocation",
-            "Error during window creation"
+            "Error during window creation",
+            "Error during process fork",
+            "Error during pipe creation"
         };
         perror(errContainer[err_code-1]);
     }

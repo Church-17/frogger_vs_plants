@@ -3,7 +3,7 @@
 #include "res.h"
 
 // Container of all strings
-str strContainer[][N_LANGUAGE] = {
+const str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
     {"Best scores", "Migliori punteggi"},
     {"Settings", "Impostazioni"},

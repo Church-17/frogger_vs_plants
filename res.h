@@ -75,8 +75,10 @@ extern int game_settings[N_SETTINGS]; // Game settings
 // --- COLORS ---
 #define COLOR_GREY 8
 #define COLOR_BROWN 9
+
 #define GREY_BLACK_ID 7
 #define BROWN_BLACK_ID 8
+
 #define COL1 COLOR_PAIR(COL1_SET)
 #define COL2 COLOR_PAIR(COL2_SET)
 #define YELLOW_BLACK COLOR_PAIR(COL_3_ID)

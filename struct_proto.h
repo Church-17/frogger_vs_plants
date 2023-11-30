@@ -11,3 +11,4 @@ typestructdef(List_str);
 typestructdef(Dict_str_int);
 typestructdef(List_attr);
 typedef List_int List_pid;
+typestructdef(Message);

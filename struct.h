@@ -19,3 +19,8 @@ struct List_attr {
     attr_t* list;
     int len;
 };
+struct Message {
+    int id;
+    int y;
+    int x;
+};

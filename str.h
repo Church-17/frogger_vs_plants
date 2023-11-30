@@ -3,7 +3,7 @@
 #include "res.h"
 
 // --- INTER-OBJECT VARS ---
-extern str strContainer[][N_LANGUAGE]; // Strings
+extern const str strContainer[][N_LANGUAGE]; // Strings
 
 // --- STRINGS ---
 #define TITLE "FROGGER"
