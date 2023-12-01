@@ -92,6 +92,3 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define GREEN_BLACK COLOR_PAIR(GREEN_BLACK_ID)
 #define GREEN_YELLOW COLOR_PAIR(GREEN_YELLOW_ID)
 #define MAGENTA_GREEN COLOR_PAIR(MAGENTA_GREEN_ID)
-
-// --- PROCESS TYPES ---
-#define FROG_ID 0

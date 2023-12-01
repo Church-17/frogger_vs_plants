@@ -4,7 +4,7 @@ COBJ = ${CC} -c $*.c ${CARGS}
 
 COMMON = ../main.o ../menu.o ../sprites.o ../str.o ../res.o ../utils.o
 
-sopr_proj.out: game.o process.o
+sopr_proj.out: game.o process.o frog.o
 	make common -C ../
 	${CC} $^ ${COMMON} ${CARGS}
 
@@ -12,4 +12,7 @@ game.o: game.c ../main.h ../menu.h ../game.h ../str.h ../res.h ../utils.h ../str
 	${COBJ}
 
 process.o: process.c process.h ../utils.h ../struct.h ../struct_proto.h
+	${COBJ}
+
+frog.o: frog.c frog.h process.h ../utils.h ../struct.h ../struct_proto.h
 	${COBJ}

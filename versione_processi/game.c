@@ -1,5 +1,3 @@
-#include <unistd.h>
-#include <sys/wait.h>
 #include "../main.h"
 #include "../menu.h"
 #include "../game.h"
@@ -11,9 +9,8 @@
 #include "frog.h"
 
 // Define constant
-#define CLOSE_GAME 'q'
-#define PAUSE_GAME 'p'
-#define MANCHE_LOST -1
+#define LIM_N_PROCESS 30
+#define MANCHE_LOST 0
 #define N_LIFES 3
 #define N_HOLES 5
 
@@ -24,7 +21,6 @@ int play_manche(bool* holes_occupied, int n_lifes);
 // Start demo in main_scr
 void menu_bg(void) {
     wctrprintw(main_scr, 1, TITLE);
-    box(main_scr, 0, 0);
 }
 
 // Manage more games
@@ -54,40 +50,50 @@ bool game() {
                 break;
         }
     }
+    wclear(main_scr);
+    wrefresh(main_scr);
     return do_quit;
 }
 
 // Play a game handling more manche
 int play(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
-    int i;
-    int manche_scores[N_HOLES] = {0};   // array with the scores for each manche
-    int score = 0;
-    int n_lifes = N_LIFES;
+    int i, score = 0, n_lifes = N_LIFES;
+    int manche_remained_time[N_HOLES] = {0}; // Array with the remained time of each manche
 
-    for(int index_manche = 0; index_manche < N_HOLES; index_manche++) {
-        manche_scores[index_manche] = play_manche(holes_occupied, n_lifes);
-        if(manche_scores[index_manche] == MANCHE_LOST) {
-            if(n_lifes > 0) {
+    // Loop for play n manche saving the remained time and updating lifes
+    for(i = 0; i < N_HOLES && n_lifes; i++) {
+        manche_remained_time[i] = play_manche(holes_occupied, n_lifes);
+        switch(manche_remained_time[i]) {
+            case MANCHE_LOST:
                 n_lifes--;
-                index_manche--;
-            } else {
-                manche_scores[index_manche] = 0;
+                if(n_lifes > 0) {
+                    i--;
+                }
                 break;
-            }
+
+            case CLOSE_ID:
+                return gameover_menu(0);
+                break;
+
+            default: break;
         }
     }
+
     for(i = 0; i < N_HOLES; i++) {
-        score += manche_scores[i];
+        score += manche_remained_time[i];
     }
-    score *= n_lifes+1;
+    score *= n_lifes;
     return gameover_menu(score);
 }
 
 // Play a manche
 int play_manche(bool* holes_occupied, int n_lifes) {
+    wclear(main_scr); // Erase old game or menu_bg
+    wrefresh(main_scr);
+
     int i;
-    pid_t array_pids[30];   // pids for every process
+    pid_t array_pids[30]; // Pids for every process
     List_pid process_pids;
     process_pids.list = array_pids;
     process_pids.len = 0;
@@ -99,25 +105,24 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     process_pids.list[FROG_ID] = forker(&process_pids); // Calls the fork handling the errors
     (process_pids.len)++;
     if(process_pids.list[FROG_ID] == PID_CHILD) {
-        // frog();
+        close(pipe_fds[PIPE_READ]);
+        frog(pipe_fds[PIPE_WRITE]);
         _exit(ERR_FORK); // Handle unexpected process termination
     }
     
+    close(pipe_fds[PIPE_WRITE]); // Close unused fd
+
     // Store old coordinates
     int old_frog_y = MAIN_ROWS/2, old_frog_x = MAIN_COLS/2;
 
-    // Colors under frog to restore
+    // Colors under frog per line
     int frog_restore_colors[FROG_Y_DIM] = {COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, COLOR_BLACK};
 
-    Message msg;
-
-    close(pipe_fds[PIPE_WRITE]);
+    Message msg; // Define msg to store pipe message
 
     while(TRUE) {
-        // read(pipe_fds[PIPE_READ], &msg, sizeof(Message));
-        msg.id = 0;
-        msg.x = 10;
-        msg.y = 10;
+
+        read(pipe_fds[PIPE_READ], &msg, sizeof(Message));
 
         switch(msg.id) {
             case FROG_ID:
@@ -125,9 +130,15 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                     mvwaprintw(main_scr, i, old_frog_x, WHITE_BLACK, "%*c", FROG_X_DIM, ' ');
                 }
                 print_frog(main_scr, msg.y, msg.x, frog_restore_colors);
+                old_frog_y = msg.y;
+                old_frog_x = msg.x;
                 break;
+
+            case CLOSE_ID:
+                signal_all(process_pids, SIGKILL);
+                return CLOSE_ID;
         }
-        wgetch(main_scr);
+        wrefresh(main_scr);
     }
     return 0;
 }
