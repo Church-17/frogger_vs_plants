@@ -5,7 +5,6 @@ COBJ = ${CC} -c $*.c ${CARGS}
 COMMON = ../main.o ../menu.o ../sprites.o ../str.o ../res.o ../utils.o ../game.o
 
 .PHONY: sopr_proj.out
-
 sopr_proj.out: manche.o process.o frog.o
 	make common -C ../
 	${CC} $^ ${COMMON} ${CARGS}

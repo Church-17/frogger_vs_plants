@@ -28,17 +28,16 @@ res.o: res.c res.h utils.h struct.h struct_proto.h
 utils.o: utils.c utils.h struct.h struct_proto.h
 	${COBJ}
 
-
 # Clear routines
 
 clear_all: clear_o clear_out
 
 clear_o:
-	rm *.o
-	rm versione_processi/*.o
-	rm versione_thread/*.o
+	rm -f *.o
+	rm -f versione_processi/*.o
+	rm -f versione_thread/*.o
 
 clear_out:
-	rm *.out
-	rm versione_processi/*.out
-	rm versione_thread/*.out
+	rm -f *.out
+	rm -f versione_processi/*.out
+	rm -f versione_thread/*.out
