@@ -68,6 +68,10 @@ void wr_best(Dict_str_int best);
 #define OVER_BACK_ID 1
 #define OVER_QUIT_ID 2
 #define N_OVER 3
+// Warning quit
+#define YES_ID 0
+#define NO_ID 1
+#define N_YN 2
 
 // --- INTER-OBJECT VARS ---
 extern int game_settings[N_SETTINGS]; // Game settings

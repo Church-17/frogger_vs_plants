@@ -397,6 +397,21 @@ int gameover_menu(int score) {
     free(set.list); // Free memory
     return chosen;
 }
+// Quit Menu
+int quit_menu(void) {
+    str tit[] = {QUIT_WARNING};
+    List_str title;
+    title.list = tit;
+    title.len = 1;
+    str list[N_YN] = {YES, NO};
+    int ind[N_OVER] = {YES_ID, NO_ID};
+    List_str set = dict_to_list(list, ind, N_YN);
+
+    int chosen = menu(title, set); // Call menu
+    free(set.list); // Free memory
+    return chosen;
+}
+
 
 // Move & print string with first letter attributed
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {

@@ -8,3 +8,4 @@ void settings_menu(void);
 void credits_menu(void);
 int pause_menu(void);
 int gameover_menu(int score);
+int quit_menu(void);

@@ -82,8 +82,18 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                 break;
 
             case CLOSE_ID:
-                signal_all(process_pids, SIGKILL);
-                return MANCHE_CLOSE;
+                signal_all(process_pids, SIGSTOP);
+                i = quit_menu();
+                switch (i) {
+                    case NO_ID:
+                        break;
+                    
+                    case YES_ID:
+                        return MANCHE_CLOSE;
+                }
+                redrawwin(main_scr);
+                signal_all(process_pids, SIGCONT);
+                break;
         }
         wrefresh(main_scr);
     }

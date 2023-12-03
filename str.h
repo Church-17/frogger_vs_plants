@@ -46,3 +46,6 @@ extern const str strContainer[][N_LANGUAGE]; // Strings
 #define EXTEND strContainer[29][LANG_SET]
 #define MINIMUM strContainer[30][LANG_SET]
 #define ACTUAL strContainer[31][LANG_SET]
+#define QUIT_WARNING strContainer[33][LANG_SET]
+#define YES strContainer[34][LANG_SET]
+#define NO strContainer[35][LANG_SET]
