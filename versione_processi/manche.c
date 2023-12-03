@@ -77,6 +77,7 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                     case PAUSE_QUIT_ID:
                         return MANCHE_QUIT;
                 }
+                redrawwin(main_scr);
                 signal_all(process_pids, SIGCONT);
                 break;
 
