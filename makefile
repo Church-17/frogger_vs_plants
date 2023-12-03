@@ -5,12 +5,15 @@ COBJ = ${CC} -c $*.c ${CARGS}
 default:
 	make -C ./versione_processi/
 
-common: main.o menu.o sprites.o str.o res.o utils.o
+common: main.o menu.o sprites.o str.o res.o utils.o game.o
 
 main.o: main.c main.h menu.h game.h str.h res.h utils.h struct_proto.h
 	${COBJ}
 
 menu.o: menu.c main.h menu.h game.h str.h res.h utils.h struct.h struct_proto.h
+	${COBJ}
+
+game.o: game.c main.h menu.h game.h str.h res.h utils.h struct.h struct_proto.h
 	${COBJ}
 
 sprites.o: sprites.c sprites.h res.h utils.h struct_proto.h
