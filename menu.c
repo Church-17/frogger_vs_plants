@@ -397,6 +397,7 @@ int gameover_menu(int score) {
     free(set.list); // Free memory
     return chosen;
 }
+
 // Quit Menu
 int quit_menu(void) {
     str tit[] = {QUIT_WARNING};
@@ -411,7 +412,6 @@ int quit_menu(void) {
     free(set.list); // Free memory
     return chosen;
 }
-
 
 // Move & print string with first letter attributed
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {
