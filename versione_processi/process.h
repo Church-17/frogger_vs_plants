@@ -15,4 +15,5 @@ void piper(int* pipe_fds);
 
 // --- PROCESS TYPES ---
 #define FROG_ID 0
-#define CLOSE_ID -1
+#define PAUSE_ID -1
+#define CLOSE_ID -2

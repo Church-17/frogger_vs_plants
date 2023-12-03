@@ -47,7 +47,7 @@ bool game() {
     return do_quit;
 }
 
-// Play a game handling more manche
+// Play a game handling more manche, return Game_Over_Menu_Index
 int play(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
     int i, score = 0, n_lifes = N_LIFES;
@@ -64,8 +64,16 @@ int play(void) {
                 }
                 break;
 
+            case MANCHE_RETR:
+                return OVER_RETR_ID;
+                break;
+
             case MANCHE_CLOSE:
-                return gameover_menu(0);
+                return OVER_BACK_ID;
+                break;
+
+            case MANCHE_QUIT:
+                return OVER_QUIT_ID;
                 break;
 
             default: break;

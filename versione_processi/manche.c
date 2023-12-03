@@ -12,7 +12,7 @@
 // Define constant
 #define LIM_N_PROCESS 30
 
-// Play a manche
+// Play a manche, return remaining time of the manche or a Manche_Index
 int play_manche(bool* holes_occupied, int n_lifes) {
     // Erase old game or menu_bg
     wclear(main_scr);
@@ -59,6 +59,25 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                 print_frog(main_scr, msg.y, msg.x, frog_restore_colors);
                 old_frog_y = msg.y;
                 old_frog_x = msg.x;
+                break;
+
+            case PAUSE_ID:
+                signal_all(process_pids, SIGSTOP);
+                i = pause_menu();
+                switch (i) {
+                    case PAUSE_RES_ID:
+                        break;
+                    
+                    case PAUSE_RETR_ID:
+                        return MANCHE_RETR;
+
+                    case PAUSE_BACK_ID:
+                        return MANCHE_CLOSE;
+
+                    case PAUSE_QUIT_ID:
+                        return MANCHE_QUIT;
+                }
+                signal_all(process_pids, SIGCONT);
                 break;
 
             case CLOSE_ID:

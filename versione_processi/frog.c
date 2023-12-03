@@ -64,16 +64,21 @@ void frog(int pipe_write) {
                 }
                 break;
 
-            case CLOSE_GAME:
+            case PAUSE_GAME_KEY:
+                msg.id = PAUSE_ID;
+                do_send_msg = TRUE; // Set flag to send msg
+                break;
+
+            case CLOSE_GAME_KEY:
                 msg.id = CLOSE_ID;
-                write(pipe_write, &msg, sizeof(Message));
-                msg.id = FROG_ID;
+                do_send_msg = TRUE; // Set flag to send msg
                 break;
 
             default: break; 
         }
         if(do_send_msg) {
             write(pipe_write, &msg, sizeof(Message));
+            msg.id = FROG_ID;
             do_send_msg = FALSE;
         }
     }
