@@ -41,9 +41,10 @@ List_str dict_to_list(str* obj, int* ind, int len) {
 
 void sort_dict(Dict_str_int* dict) {
     str tmpstr;
-    int tmpint, ind_max = 0;
+    int tmpint, ind_max;
     for(int i = 0; i < dict->len - 1; i++) {
-        for(int j = i; j < dict->len; j++) {
+        ind_max = i;
+        for(int j = i+1; j < dict->len; j++) {
             if(dict->val[j] > dict->val[ind_max]) {
                 ind_max = j;
             }
