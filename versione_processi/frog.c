@@ -1,3 +1,4 @@
+// Include libs
 #include "../struct.h"
 #include "../utils.h"
 #include "../main.h"
@@ -6,6 +7,7 @@
 #include "frog.h"
 #include "process.h"
 
+// Define constant
 #define MOVE_Y 4
 #define MOVE_X 2
 #define LIM_UP 0
@@ -13,7 +15,9 @@
 #define LIM_LEFT 0
 #define LIM_RIGHT (MAIN_COLS-FROG_X_DIM-1)
 
+// Frog function, called by a new process
 void frog(int pipe_write) {
+    // Init vars
     bool do_send_msg = FALSE;
     int key;
 
@@ -21,6 +25,7 @@ void frog(int pipe_write) {
     Message msg = {FROG_ID, LIM_DOWN, MAIN_COLS/2-FROG_X_DIM/2};
     write(pipe_write, &msg, sizeof(Message));
 
+    // Frog loop to get pressed key
     while(TRUE) {
         key = wgetch(main_scr);
         switch(key) {
