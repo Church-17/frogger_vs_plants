@@ -51,6 +51,21 @@ int main() {
     mvaptrintw(y+3, x, GREEN_BLACK, "▀█▀"); //
     mvaptrintw(y+3, x+7, GREEN_BLACK, "▀█▀"); //
 
+
+    y = 1, x = 15;
+
+    mvaptrintw(y, x, MAGENTA_GREEN, " "); //
+    mvaptrintw(y, x+2, MAGENTA_GREEN, "▀");
+    mvaptrintw(y, x+3, GREEN_YELLOW, "▌▐");
+    mvaptrintw(y, x+5, MAGENTA_GREEN, "▀");
+    mvaptrintw(y, x+7, MAGENTA_GREEN, " "); //
+
+    mvaptrintw(y+1, x+1, GREEN_BLACK, "▀"); //
+    mvaptrintw(y+1, x+2, GREEN_YELLOW, "▄▀▄ ");
+    mvaptrintw(y+1, x+6, GREEN_BLACK, "▀"); //
+
+    mvaptrintw(y+2, x, GREEN_BLACK, "▄█▀▀▀▀█▄"); //
+
     while(getch() != 'q');
 
     printf("%d %d ", LINES, COLS);
