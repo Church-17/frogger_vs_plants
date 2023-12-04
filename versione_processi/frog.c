@@ -11,9 +11,9 @@
 #define MOVE_Y 4
 #define MOVE_X 2
 #define LIM_UP 0
-#define LIM_DOWN (MAIN_ROWS-FROG_Y_DIM-1)
+#define LIM_DOWN (MAIN_ROWS-FROG_Y_DIM)
 #define LIM_LEFT 0
-#define LIM_RIGHT (MAIN_COLS-FROG_X_DIM-1)
+#define LIM_RIGHT (MAIN_COLS-FROG_X_DIM)
 
 // Frog function, called by a new process
 void frog(int pipe_write) {

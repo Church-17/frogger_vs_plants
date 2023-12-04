@@ -3,6 +3,7 @@
 #include "../menu.h"
 #include "../str.h"
 #include "../sprites.h"
+#include "../game.h"
 #include "../manche.h"
 #include "../utils.h"
 #include "../struct.h"
@@ -40,12 +41,14 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
 
     // Store old coordinates
-    int old_frog_y = MAIN_ROWS/2, old_frog_x = MAIN_COLS/2;
+    int old_frog_y = LINE_BANK_2, old_frog_x = 0;
 
     // Colors under frog per line
-    int frog_restore_colors[FROG_Y_DIM] = {COLOR_BLACK, COLOR_BLACK, COLOR_BLACK, COLOR_BLACK};
+    int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
 
     Message msg; // Define msg to store pipe message
+
+    print_bg_frog();
 
     while(TRUE) {
 
@@ -54,7 +57,7 @@ int play_manche(bool* holes_occupied, int n_lifes) {
         switch(msg.id) {
             case FROG_ID:
                 for(i = old_frog_y; i - old_frog_y < FROG_Y_DIM; i++) {
-                    mvwaprintw(main_scr, i, old_frog_x, WHITE_BLACK, "%*c", FROG_X_DIM, ' ');
+                    mvwaprintw(main_scr, i, old_frog_x, GREEN_PURPLE, "%*c", FROG_X_DIM, ' ');
                 }
                 print_frog(main_scr, msg.y, msg.x, frog_restore_colors);
                 old_frog_y = msg.y;

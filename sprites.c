@@ -10,6 +10,10 @@ void print_frog(WINDOW* win, int y, int x, int* colors_bg) {
             case COLOR_BLACK:
                 pair_bg[i] = GREEN_BLACK;
                 break;
+
+            case COLOR_PURPLE:
+                pair_bg[i] = GREEN_PURPLE;
+                break;
         }
     }
 

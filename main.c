@@ -44,6 +44,7 @@ int main(void) {
     init_color(COLOR_CYAN, 200, 600, 900);
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
+    init_color(COLOR_PURPLE, 300, 0, 500);
     // Set needed color pairs (text, bg)
     init_pair(WHITE_BLACK_ID, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_BLACK_ID, COLOR_RED, COLOR_BLACK);
@@ -56,6 +57,8 @@ int main(void) {
     init_pair(BROWN_BLACK_ID, COLOR_BROWN, COLOR_BLACK);
     init_pair(GREEN_YELLOW_ID, COLOR_GREEN, COLOR_YELLOW);
     init_pair(MAGENTA_GREEN_ID, COLOR_MAGENTA, COLOR_GREEN);
+    init_pair(GREEN_PURPLE_ID, COLOR_GREEN, COLOR_PURPLE);
+    init_pair(GREEN_BLUE_ID, COLOR_GREEN, COLOR_BLUE);
     
     // Read settings from file
     rd_settings();
@@ -69,7 +72,7 @@ int main(void) {
     main_scr = new_ctrwin(MAIN_ROWS, MAIN_COLS);
 
     // Start demo in bg
-    menu_bg();
+    print_bg_frog();
     wrefresh(main_scr);
 
     // Main loop
@@ -82,7 +85,7 @@ int main(void) {
                 in_game_status = TRUE;
                 do_quit = game();
                 in_game_status = FALSE;
-                menu_bg();
+                print_bg_frog();
                 break;
 
             case HOME_BEST_ID: // Best scores
@@ -151,9 +154,9 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
     // Redraw main_scr
     if(do_prints) {
         if(in_game_status) {
-            ; // Redraw game
+            print_bg_frog(); // Redraw game *****
         } else {
-            menu_bg(); // Redraw demo
+            print_bg_frog(); // Redraw demo
         }
     }
     wrefresh(main_scr);

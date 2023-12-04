@@ -6,13 +6,25 @@
 #include "struct.h"
 #include "utils.h"
 #include "manche.h"
+#include "sprites.h"
 
 // Function prototypes
 int play(void);
 
 // Start demo in main_scr
-void menu_bg(void) {
-    wctrprintw(main_scr, 1, STR_TITLE);
+void print_bg_frog(void) {
+    int i;
+    for(i = LINE_BANK_1; i < LINE_RIVER; i++) {
+        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*c", MAIN_COLS, ' ');
+    }
+    for(i = LINE_RIVER; i < LINE_BANK_2; i++) {
+        mvwaprintw(main_scr, i, 0, GREEN_BLUE, "%*c", MAIN_COLS, ' ');
+    }
+    for(i = LINE_BANK_2; i < MAIN_ROWS; i++) {
+        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*c", MAIN_COLS, ' ');
+    }
+    int cols_bg[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
+    print_frog(main_scr, LINE_BANK_2, MAIN_COLS/2-FROG_X_DIM/2, cols_bg);
 }
 
 // Manage more games

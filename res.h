@@ -73,6 +73,7 @@ extern int game_settings[N_SETTINGS]; // Game settings
 // Color ID
 #define COLOR_GREY 8
 #define COLOR_BROWN 9
+#define COLOR_PURPLE 10
 // Color pair ID
 #define WHITE_BLACK_ID 0 // FIXED with WHITE_BLACK
 #define RED_BLACK_ID 1
@@ -85,6 +86,8 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define BROWN_BLACK_ID 8
 #define GREEN_YELLOW_ID 9
 #define MAGENTA_GREEN_ID 10
+#define GREEN_PURPLE_ID 11
+#define GREEN_BLUE_ID 12
 // Color pair
 #define WHITE_BLACK COLOR_PAIR(WHITE_BLACK_ID)
 #define GREEN_BLACK COLOR_PAIR(GREEN_BLACK_ID)
@@ -93,6 +96,8 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
 #define GREEN_YELLOW COLOR_PAIR(GREEN_YELLOW_ID)
 #define MAGENTA_GREEN COLOR_PAIR(MAGENTA_GREEN_ID)
+#define GREEN_PURPLE COLOR_PAIR(GREEN_PURPLE_ID)
+#define GREEN_BLUE COLOR_PAIR(GREEN_BLUE_ID)
 // Color pair setted in settings
 #define COL1 COLOR_PAIR(COL1_SET)
 #define COL2 COLOR_PAIR(COL2_SET)
