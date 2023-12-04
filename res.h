@@ -77,18 +77,18 @@ void wr_best(Dict_str_int best);
 extern int game_settings[N_SETTINGS]; // Game settings
 
 // --- COLORS ---
+// Color ID
 #define COLOR_GREY 8
 #define COLOR_BROWN 9
 
+// Color pair ID
 #define GREY_BLACK_ID 7
 #define BROWN_BLACK_ID 8
 #define GREEN_BLACK_ID 9
 #define GREEN_YELLOW_ID 10
 #define MAGENTA_GREEN_ID 11
 
-#define COL1 COLOR_PAIR(COL1_SET)
-#define COL2 COLOR_PAIR(COL2_SET)
-
+// Color pair
 #define WHITE_BLACK COLOR_PAIR(COL_0_ID)
 #define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
 #define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
@@ -96,3 +96,7 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define GREEN_BLACK COLOR_PAIR(GREEN_BLACK_ID)
 #define GREEN_YELLOW COLOR_PAIR(GREEN_YELLOW_ID)
 #define MAGENTA_GREEN COLOR_PAIR(MAGENTA_GREEN_ID)
+
+// Color pair setted in settings
+#define COL1 COLOR_PAIR(COL1_SET)
+#define COL2 COLOR_PAIR(COL2_SET)
