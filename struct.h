@@ -20,7 +20,10 @@ struct List_attr {
     int len;
 };
 struct Message {
-    int id;
+    int sig;
+    int cmd;
+};
+struct Position {
     int y;
     int x;
 };

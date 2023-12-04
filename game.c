@@ -24,7 +24,7 @@ void print_bg_frog(void) {
         mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*c", MAIN_COLS, ' ');
     }
     int cols_bg[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
-    print_frog(main_scr, LINE_BANK_2, MAIN_COLS/2-FROG_X_DIM/2, cols_bg);
+    print_frog(main_scr, INIT_FROG_Y, INIT_FROG_X, cols_bg);
 }
 
 // Manage more games

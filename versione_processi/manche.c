@@ -30,18 +30,15 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     int pipe_fds[PIPE_DIM];
     piper(pipe_fds); // Starts the pipe handling the errors
 
-    process_pids.list[FROG_ID] = forker(&process_pids); // Calls the fork handling the errors
+    process_pids.list[SIG_FROG] = forker(&process_pids); // Calls the fork handling the errors
     (process_pids.len)++;
-    if(process_pids.list[FROG_ID] == PID_CHILD) {
+    if(process_pids.list[SIG_FROG] == PID_CHILD) {
         close(pipe_fds[PIPE_READ]);
-        frog(pipe_fds[PIPE_WRITE]);
+        frog_process(pipe_fds[PIPE_WRITE]);
         _exit(ERR_FORK); // Handle unexpected process termination
     }
     
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
-
-    // Store old coordinates
-    int old_frog_y = LINE_BANK_2, old_frog_x = 0;
 
     // Colors under frog per line
     int int_restore_color;
@@ -49,35 +46,72 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
 
     Message msg; // Define msg to store pipe message
+    Frog frog = {INIT_FROG_Y, INIT_FROG_X};
 
     print_bg_frog();
+    wrefresh(main_scr);
 
     while(TRUE) {
 
         read(pipe_fds[PIPE_READ], &msg, sizeof(Message));
 
-        switch(msg.id) {
-            case FROG_ID:
+        switch(msg.sig) {
+            case SIG_FROG:
                 // Restore old frog position
-                if(old_frog_y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
-                else if(old_frog_y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
+                if(frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
+                else if(frog.y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
                 else {restore_color = GREEN_PURPLE;}
-                for(i = old_frog_y; i - old_frog_y < FROG_Y_DIM; i++) {
-                    mvwaprintw(main_scr, i, old_frog_x, restore_color, "%*c", FROG_X_DIM, ' ');
+                for(i = frog.y; i - frog.y < FROG_Y_DIM; i++) {
+                    mvwaprintw(main_scr, i, frog.x, restore_color, "%*c", FROG_X_DIM, ' ');
+                }
+                switch(msg.cmd) {
+                    case MOVE_UP:
+                        if(frog.y > LIM_UP) { // If frog can move...
+                            frog.y -= MOVE_FROG_Y; // Update coordinate
+                            if(frog.y < LIM_UP) { // If frog is outside limit...
+                                frog.y = LIM_UP; // Move to limit
+                            }
+                        }
+                        break;
+
+                    case MOVE_DOWN:
+                        if(frog.y < LIM_DOWN) { // If frog can move...
+                            frog.y += MOVE_FROG_Y; // Update coordinate
+                            if(frog.y > LIM_DOWN) { // If frog is outside limit...
+                                frog.y = LIM_DOWN; // Move to limit
+                            }
+                        }
+                        break;
+
+                    case MOVE_LEFT:
+                        if(frog.x > LIM_LEFT) { // If frog can move...
+                            frog.x -= MOVE_FROG_X; // Update coordinate
+                            if(frog.x < LIM_LEFT) { // If frog is outside limit...
+                                frog.x = LIM_LEFT; // Move to limit
+                            }
+                        }
+                        break;
+
+                    case MOVE_RIGHT:
+                        if(frog.x < LIM_RIGHT) { // If frog can move...
+                            frog.x += MOVE_FROG_X; // Update coordinate
+                            if(frog.x > LIM_RIGHT) { // If frog is outside limit...
+                                frog.x = LIM_RIGHT; // Move to limit
+                            }
+                        }
+                        break;
                 }
                 // Pick frog background
-                if(msg.y < LINE_RIVER) {int_restore_color = COLOR_PURPLE;}
-                else if(msg.y < LINE_BANK_2) {int_restore_color = COLOR_BLUE;}
+                if(frog.y < LINE_RIVER) {int_restore_color = COLOR_PURPLE;}
+                else if(frog.y < LINE_BANK_2) {int_restore_color = COLOR_BLUE;}
                 else {int_restore_color = COLOR_PURPLE;}
                 for(i = 0; i < FROG_Y_DIM; i++) {
                     frog_restore_colors[i] = int_restore_color;
                 }
-                print_frog(main_scr, msg.y, msg.x, frog_restore_colors);
-                old_frog_y = msg.y;
-                old_frog_x = msg.x;
+                print_frog(main_scr, frog.y, frog.x, frog_restore_colors);
                 break;
 
-            case PAUSE_ID:
+            case SIG_PAUSE:
                 signal_all(process_pids, SIGSTOP);
                 i = pause_menu();
                 switch (i) {
@@ -97,7 +131,7 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                 signal_all(process_pids, SIGCONT);
                 break;
 
-            case CLOSE_ID:
+            case SIG_CLOSE:
                 signal_all(process_pids, SIGSTOP);
                 i = quit_menu();    
                 switch (i) {
