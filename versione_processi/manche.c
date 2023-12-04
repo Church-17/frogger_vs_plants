@@ -9,6 +9,7 @@
 #include "../struct.h"
 #include "process.h"
 #include "frog.h"
+#include "time.h"
 
 // Define constant
 #define LIM_N_PROCESS 30
@@ -37,10 +38,19 @@ int play_manche(bool* holes_occupied, int n_lifes) {
         frog_process(pipe_fds[PIPE_WRITE]);
         _exit(ERR_FORK); // Handle unexpected process termination
     }
+
+    process_pids.list[SIG_TIME] = forker(&process_pids); // Calls the fork handling the errors
+    (process_pids.len)++;
+    if(process_pids.list[SIG_TIME] == PID_CHILD) {
+        close(pipe_fds[PIPE_READ]);
+        time_process(pipe_fds[PIPE_WRITE]);
+        _exit(ERR_FORK); // Handle unexpected process termination
+    }
     
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
 
     // Colors under frog per line
+    int time_remaining;
     int int_restore_color;
     attr_t restore_color;
     int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
@@ -111,6 +121,14 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                 print_frog(main_scr, frog.y, frog.x, frog_restore_colors);
                 break;
 
+            case SIG_TIME:
+                if(msg.cmd <= 0) {
+                    return MANCHE_LOST;
+                }
+                mvwaprintw(main_scr, 0, 0, GREEN_PURPLE, "%d ", msg.cmd);
+                time_remaining = msg.cmd;
+                break;
+
             case SIG_PAUSE:
                 signal_all(process_pids, SIGSTOP);
                 i = pause_menu();
@@ -145,7 +163,10 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                 signal_all(process_pids, SIGCONT);
                 break;
         }
+
+        // Collisions ***
+
         wrefresh(main_scr);
     }
-    return 0;
+    return time_remaining;
 }
