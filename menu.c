@@ -217,7 +217,7 @@ void settings_menu(void) {
     // Options for each settings
     List_str opts[N_SETTINGS];
     str language[N_LANGUAGE] = {STR_LANG_EN, STR_LANG_IT};
-    int ind_lang[N_LANGUAGE] = {LANG_0_ID, LANG_1_ID};
+    int ind_lang[N_LANGUAGE] = {LANG_EN_ID, LANG_IT_ID};
     opts[SET_LANG_ID] = dict_to_list(language, ind_lang, N_LANGUAGE);
     str difficulty[N_DIFFICULTY] = {STR_DIFFICULTY_0, STR_DIFFICULTY_1, STR_DIFFICULTY_2};
     int ind_diff[N_DIFFICULTY] = {DIFF_0_ID, DIFF_1_ID, DIFF_2_ID};
@@ -226,7 +226,7 @@ void settings_menu(void) {
     int ind_skin[N_SKIN] = {SKIN_0_ID, SKIN_1_ID, SKIN_2_ID};
     opts[SET_SKIN_ID] = dict_to_list(skin, ind_skin, N_SKIN);
     str color[N_COLOR] = {STR_COL_WHT, STR_COL_RED, STR_COL_GRN, STR_COL_YLW, STR_COL_BLU, STR_COL_MGT, STR_COL_CYN};
-    int ind_col[N_COLOR] = {COL_0_ID, COL_1_ID, COL_2_ID, COL_3_ID, COL_4_ID, COL_5_ID, COL_6_ID};
+    int ind_col[N_COLOR] = {WHITE_BLACK_ID, RED_BLACK_ID, GREEN_BLACK_ID, YELLOW_BLACK_ID, BLUE_BLACK_ID, MAGENTA_BLACK_ID, CYAN_BLACK_ID};
     opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(color, ind_col, N_COLOR);
 
     // Sync newly setted to settings

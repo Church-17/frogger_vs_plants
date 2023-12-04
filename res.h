@@ -33,8 +33,8 @@ void wr_best(Dict_str_int best);
 #define COL1_SET game_settings[SET_COL1_ID]
 #define COL2_SET game_settings[SET_COL2_ID]
 // - Language
-#define LANG_0_ID 0
-#define LANG_1_ID 1
+#define LANG_IT_ID 0
+#define LANG_EN_ID 1
 #define N_LANGUAGE 2
 // - Difficulty
 #define DIFF_0_ID 0
@@ -47,13 +47,6 @@ void wr_best(Dict_str_int best);
 #define SKIN_2_ID 2
 #define N_SKIN 3
 // - Color
-#define COL_0_ID 0 // FIXED with WHITE_BLACK
-#define COL_1_ID 1
-#define COL_2_ID 2
-#define COL_3_ID 3
-#define COL_4_ID 4
-#define COL_5_ID 5
-#define COL_6_ID 6
 #define N_COLOR 7
 // Credits
 #define N_CREDITS 2
@@ -81,17 +74,23 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define COLOR_GREY 8
 #define COLOR_BROWN 9
 // Color pair ID
+#define WHITE_BLACK_ID 0 // FIXED with WHITE_BLACK
+#define RED_BLACK_ID 1
+#define GREEN_BLACK_ID 2
+#define YELLOW_BLACK_ID 3
+#define BLUE_BLACK_ID 4
+#define MAGENTA_BLACK_ID 5
+#define CYAN_BLACK_ID 6
 #define GREY_BLACK_ID 7
 #define BROWN_BLACK_ID 8
-#define GREEN_BLACK_ID 9
-#define GREEN_YELLOW_ID 10
-#define MAGENTA_GREEN_ID 11
+#define GREEN_YELLOW_ID 9
+#define MAGENTA_GREEN_ID 10
 // Color pair
-#define WHITE_BLACK COLOR_PAIR(COL_0_ID)
-#define YELLOW_BLACK COLOR_PAIR(COL_3_ID)
+#define WHITE_BLACK COLOR_PAIR(WHITE_BLACK_ID)
+#define GREEN_BLACK COLOR_PAIR(GREEN_BLACK_ID)
+#define YELLOW_BLACK COLOR_PAIR(YELLOW_BLACK_ID)
 #define GREY_BLACK COLOR_PAIR(GREY_BLACK_ID)
 #define BROWN_BLACK COLOR_PAIR(BROWN_BLACK_ID)
-#define GREEN_BLACK COLOR_PAIR(GREEN_BLACK_ID)
 #define GREEN_YELLOW COLOR_PAIR(GREEN_YELLOW_ID)
 #define MAGENTA_GREEN COLOR_PAIR(MAGENTA_GREEN_ID)
 // Color pair setted in settings

@@ -45,16 +45,15 @@ int main(void) {
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
     // Set needed color pairs (text, bg)
-    init_pair(COL_0_ID, COLOR_WHITE, COLOR_BLACK);
-    init_pair(COL_1_ID, COLOR_RED, COLOR_BLACK);
-    init_pair(COL_2_ID, COLOR_GREEN, COLOR_BLACK);
-    init_pair(COL_3_ID, COLOR_YELLOW, COLOR_BLACK);
-    init_pair(COL_4_ID, COLOR_BLUE, COLOR_BLACK);
-    init_pair(COL_5_ID, COLOR_MAGENTA, COLOR_BLACK);
-    init_pair(COL_6_ID, COLOR_CYAN, COLOR_BLACK);
+    init_pair(WHITE_BLACK_ID, COLOR_WHITE, COLOR_BLACK);
+    init_pair(RED_BLACK_ID, COLOR_RED, COLOR_BLACK);
+    init_pair(GREEN_BLACK_ID, COLOR_GREEN, COLOR_BLACK);
+    init_pair(YELLOW_BLACK_ID, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(BLUE_BLACK_ID, COLOR_BLUE, COLOR_BLACK);
+    init_pair(MAGENTA_BLACK_ID, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(CYAN_BLACK_ID, COLOR_CYAN, COLOR_BLACK);
     init_pair(GREY_BLACK_ID, COLOR_GREY, COLOR_BLACK);
     init_pair(BROWN_BLACK_ID, COLOR_BROWN, COLOR_BLACK);
-    init_pair(GREEN_BLACK_ID, COLOR_GREEN, COLOR_BLACK);
     init_pair(GREEN_YELLOW_ID, COLOR_GREEN, COLOR_YELLOW);
     init_pair(MAGENTA_GREEN_ID, COLOR_MAGENTA, COLOR_GREEN);
     
