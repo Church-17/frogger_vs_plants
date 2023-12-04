@@ -37,9 +37,6 @@ bool game() {
                 do_play = FALSE;
                 do_quit = TRUE;
                 break;
-
-            default:
-                break;
         }
     }
     wclear(main_scr);

@@ -104,9 +104,6 @@ int main(void) {
             case HOME_QUIT_ID:
                 do_quit = TRUE;
                 break;
-
-            default:
-                break;
         }
         // Redraw 
         wrefresh(main_scr);
