@@ -126,9 +126,9 @@ bool check_term(WINDOW* win) {
         }
         WINDOW* err_win = new_win(0, 0, 0, 0); // New full window
         wattron(err_win, COL1);
-        mvwprintw(err_win, 0, 0, "%s", STR_EXTEND);
-        mvwprintw(err_win, 1, 0, "%s: %d x %d    ", STR_MINIMUM, MAIN_ROWS, MAIN_COLS);
         while(LINES < MAIN_ROWS || COLS < MAIN_COLS) {
+            mvwprintw(err_win, 0, 0, "%s", STR_EXTEND);
+            mvwprintw(err_win, 1, 0, "%s: %d x %d    ", STR_MINIMUM, MAIN_ROWS, MAIN_COLS);
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", STR_ACTUAL, LINES, COLS);
             wgetch(err_win);
         }
