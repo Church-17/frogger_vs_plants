@@ -44,6 +44,8 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     int old_frog_y = LINE_BANK_2, old_frog_x = 0;
 
     // Colors under frog per line
+    int int_restore_color;
+    attr_t restore_color;
     int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
 
     Message msg; // Define msg to store pipe message
@@ -56,8 +58,19 @@ int play_manche(bool* holes_occupied, int n_lifes) {
 
         switch(msg.id) {
             case FROG_ID:
+                // Restore old frog position
+                if(old_frog_y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
+                else if(old_frog_y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
+                else {restore_color = GREEN_PURPLE;}
                 for(i = old_frog_y; i - old_frog_y < FROG_Y_DIM; i++) {
-                    mvwaprintw(main_scr, i, old_frog_x, GREEN_PURPLE, "%*c", FROG_X_DIM, ' ');
+                    mvwaprintw(main_scr, i, old_frog_x, restore_color, "%*c", FROG_X_DIM, ' ');
+                }
+                // Pick frog background
+                if(msg.y < LINE_RIVER) {int_restore_color = COLOR_PURPLE;}
+                else if(msg.y < LINE_BANK_2) {int_restore_color = COLOR_BLUE;}
+                else {int_restore_color = COLOR_PURPLE;}
+                for(i = 0; i < FROG_Y_DIM; i++) {
+                    frog_restore_colors[i] = int_restore_color;
                 }
                 print_frog(main_scr, msg.y, msg.x, frog_restore_colors);
                 old_frog_y = msg.y;

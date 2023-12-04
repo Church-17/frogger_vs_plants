@@ -142,10 +142,10 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
     bool do_prints = check_term(win); // Check terminal size
 
     // Lib fix: don't stick window on axis
-    if(main_scr->_maxy >= MAIN_ROWS) main_scr->_maxy = MAIN_ROWS-1;
-    if(main_scr->_maxx >= MAIN_COLS) main_scr->_maxx = MAIN_COLS-1;
-    if(win->_maxy >= dim_y) win->_maxy = dim_y-1;
-    if(win->_maxx >= dim_x) win->_maxx = dim_x-1;
+    if(main_scr->_maxy >= MAIN_ROWS) {main_scr->_maxy = MAIN_ROWS-1;}
+    if(main_scr->_maxx >= MAIN_COLS) {main_scr->_maxx = MAIN_COLS-1;}
+    if(win->_maxy >= dim_y) {win->_maxy = dim_y-1;}
+    if(win->_maxx >= dim_x) {win->_maxx = dim_x-1;}
 
     // Move windows
     mv_win(main_scr, LINES/2 - MAIN_ROWS/2, COLS/2 - MAIN_COLS/2);

@@ -7,8 +7,8 @@ void print_frog(WINDOW* win, int y, int x, int* colors_bg) {
     attr_t pair_bg[FROG_Y_DIM];
     for(int i = 0; i < FROG_Y_DIM; i++) {
         switch(colors_bg[i]) {
-            case COLOR_BLACK:
-                pair_bg[i] = GREEN_BLACK;
+            case COLOR_BLUE:
+                pair_bg[i] = GREEN_BLUE;
                 break;
 
             case COLOR_PURPLE:
