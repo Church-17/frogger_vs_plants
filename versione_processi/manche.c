@@ -31,21 +31,9 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     int pipe_fds[PIPE_DIM];
     piper(pipe_fds); // Starts the pipe handling the errors
 
-    process_pids.list[SIG_FROG] = forker(&process_pids); // Calls the fork handling the errors
-    (process_pids.len)++;
-    if(process_pids.list[SIG_FROG] == PID_CHILD) {
-        close(pipe_fds[PIPE_READ]);
-        frog_process(pipe_fds[PIPE_WRITE]);
-        _exit(ERR_FORK); // Handle unexpected process termination
-    }
+    forker(SIG_FROG, &process_pids, frog_process, pipe_fds); // Calls the fork for frog process handling the errors
 
-    process_pids.list[SIG_TIME] = forker(&process_pids); // Calls the fork handling the errors
-    (process_pids.len)++;
-    if(process_pids.list[SIG_TIME] == PID_CHILD) {
-        close(pipe_fds[PIPE_READ]);
-        time_process(pipe_fds[PIPE_WRITE]);
-        _exit(ERR_FORK); // Handle unexpected process termination
-    }
+    forker(SIG_TIME, &process_pids, time_process, pipe_fds); // Calls the fork for time process handling the errors
     
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
 
