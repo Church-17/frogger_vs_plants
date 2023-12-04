@@ -6,6 +6,7 @@
 #define GREEN_BLACK COLOR_PAIR(1)
 #define GREEN_YELLOW COLOR_PAIR(2)
 #define MAGENTA_GREEN COLOR_PAIR(3)
+#define YELLOW_BALCK COLOR_PAIR(4)
 
 
 int main() {
@@ -31,6 +32,7 @@ int main() {
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
     init_pair(2, COLOR_GREEN, COLOR_YELLOW);
     init_pair(3, COLOR_MAGENTA, COLOR_GREEN);
+    init_pair(4, COLOR_YELLOW, COLOR_BLACK);
 
     int y = 1, x = 1;
 
@@ -64,7 +66,9 @@ int main() {
     mvaptrintw(y+1, x+2, GREEN_YELLOW, "▄▀▄ ");
     mvaptrintw(y+1, x+6, GREEN_BLACK, "▀"); //
 
-    mvaptrintw(y+2, x, GREEN_BLACK, "▄█▀▀▀▀█▄"); //
+    mvaptrintw(y+2, x, GREEN_BLACK, "▄█▀▀");
+    mvaptrintw(y+2, x+4, YELLOW_BALCK, "▀"); //
+    mvaptrintw(y+2, x+5, GREEN_BLACK, "▀█▄");
 
     while(getch() != 'q');
 
