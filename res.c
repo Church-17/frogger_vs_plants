@@ -163,7 +163,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
         dict.key[line][col] = '\0'; // End string
 
         // Check ' = '
-        if((achar = getc(fptr)) != '=' || (achar = getc(fptr)) != ' ') {
+        if((achar != ' ') || (achar = getc(fptr)) != '=' || (achar = getc(fptr)) != ' ') {
             dict.len = CHK_FILE_ERR; // ERROR in file
             return dict;
         }

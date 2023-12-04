@@ -83,7 +83,7 @@ int play_manche(bool* holes_occupied, int n_lifes) {
 
             case CLOSE_ID:
                 signal_all(process_pids, SIGSTOP);
-                i = quit_menu();
+                i = quit_menu();    
                 switch (i) {
                     case NO_ID:
                         break;
