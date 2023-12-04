@@ -145,11 +145,11 @@ int menu(List_str title, List_str set) {
 // Home Menu
 int home_menu(void) {
     // Init vars
-    str tit[] = {BACK_HOME};
+    str tit[] = {STR_HOME};
     List_str title;
     title.list = tit;
     title.len = 1;
-    str list[N_HOME] = {NEW_GAME, BEST_SCORES, SETTINGS, CREDITS, QUIT};
+    str list[N_HOME] = {STR_GAME, STR_BEST, STR_SETTINGS, STR_CREDITS, STR_QUIT};
     int ind[N_HOME] = {HOME_GAME_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_HOME);
 
@@ -164,7 +164,7 @@ int home_menu(void) {
 void best_scores_menu(void) {
     // Init vars
     int i;
-    str tit[] = {BEST_SCORES};
+    str tit[] = {STR_BEST};
     List_str title;
     title.list = tit;
     title.len = 1;
@@ -206,26 +206,26 @@ void settings_menu(void) {
     bool do_prints, do_return = FALSE; // Flags
     int i, key, inc, hl = 0, old_hl = 0;
     // Title
-    str tit[] = {SETTINGS};
+    str tit[] = {STR_SETTINGS};
     List_str title;
     title.list = tit;
     title.len = 1;
     // Settings
-    str set0[N_SET_SEL] = {LANGUAGE, DIFFICULTY, SKIN, FIRST_COLOR, SECOND_COLOR, APPLY, CANCEL};
+    str set0[N_SET_SEL] = {STR_LANGUAGE, STR_DIFFICULTY, STR_SKIN, STR_COLOR_1, STR_COLOR_2, STR_APPLY, STR_CANCEL};
     int ind_set[N_SET_SEL] = {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID, SET_APPL_ID, SET_CANC_ID};
     List_str set = dict_to_list(set0, ind_set, N_SET_SEL);
     // Options for each settings
     List_str opts[N_SETTINGS];
-    str language[N_LANGUAGE] = {LANGUAGE_0, LANGUAGE_1};
+    str language[N_LANGUAGE] = {STR_LANG_EN, STR_LANG_IT};
     int ind_lang[N_LANGUAGE] = {LANG_0_ID, LANG_1_ID};
     opts[SET_LANG_ID] = dict_to_list(language, ind_lang, N_LANGUAGE);
-    str difficulty[N_DIFFICULTY] = {DIFFICULTY_0, DIFFICULTY_1, DIFFICULTY_2};
+    str difficulty[N_DIFFICULTY] = {STR_DIFFICULTY_0, STR_DIFFICULTY_1, STR_DIFFICULTY_2};
     int ind_diff[N_DIFFICULTY] = {DIFF_0_ID, DIFF_1_ID, DIFF_2_ID};
     opts[SET_DIFF_ID] = dict_to_list(difficulty, ind_diff, N_DIFFICULTY);
-    str skin[N_SKIN] = {SKIN_0, SKIN_1, SKIN_2};
+    str skin[N_SKIN] = {STR_SKIN_0, STR_SKIN_1, STR_SKIN_2};
     int ind_skin[N_SKIN] = {SKIN_0_ID, SKIN_1_ID, SKIN_2_ID};
     opts[SET_SKIN_ID] = dict_to_list(skin, ind_skin, N_SKIN);
-    str color[N_COLOR] = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5, COLOR_6};
+    str color[N_COLOR] = {STR_COL_WHT, STR_COL_RED, STR_COL_GRN, STR_COL_YLW, STR_COL_BLU, STR_COL_MGT, STR_COL_CYN};
     int ind_col[N_COLOR] = {COL_0_ID, COL_1_ID, COL_2_ID, COL_3_ID, COL_4_ID, COL_5_ID, COL_6_ID};
     opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(color, ind_col, N_COLOR);
 
@@ -348,11 +348,11 @@ void settings_menu(void) {
 // Credits Screen
 void credits_menu(void) {
     // Init vars
-    str tit[] = {CREDITS, PROJECT};
+    str tit[] = {STR_CREDITS, STR_PROJECT};
     List_str title;
     title.list = tit;
     title.len = 2;
-    str list0[N_CREDITS] = {FRANCESCO, MATTEO};
+    str list0[N_CREDITS] = {STR_FRANCESCO, STR_MATTEO};
     str list1[N_CREDITS] = {"", ""};
     attr_t list2[N_CREDITS] = {COL1, COL1};
     List_str sx, dx;
@@ -368,11 +368,11 @@ void credits_menu(void) {
 // Pause Menu
 int pause_menu(void) {
     // Init vars
-    str tit[] = {PAUSE};
+    str tit[] = {STR_PAUSE};
     List_str title;
     title.list = tit;
     title.len = 1;
-    str list[N_PAUSE] = {RESUME, RETRY, BACK_HOME, QUIT};
+    str list[N_PAUSE] = {STR_RESUME, STR_RETRY, STR_HOME, STR_QUIT};
     int ind[N_PAUSE] = {PAUSE_RES_ID, PAUSE_RETR_ID, PAUSE_BACK_ID, PAUSE_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_PAUSE);
     
@@ -384,12 +384,12 @@ int pause_menu(void) {
 // Game Over Menu
 int gameover_menu(int score) {
     char scorestr[LIM_STR_BUFF];
-    sprintf(scorestr, "%s: %d", SCORE, score); // Transform score int in str
-    str tit[] = {GAMEOVER, scorestr};
+    sprintf(scorestr, "%s: %d", STR_SCORE, score); // Transform score int in str
+    str tit[] = {STR_OVER, scorestr};
     List_str title;
     title.list = tit;
     title.len = 2;
-    str list[N_OVER] = {RETRY, BACK_HOME, QUIT};
+    str list[N_OVER] = {STR_RETRY, STR_HOME, STR_QUIT};
     int ind[N_OVER] = {OVER_RETR_ID, OVER_BACK_ID, OVER_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_OVER);
 
@@ -400,11 +400,11 @@ int gameover_menu(int score) {
 
 // Quit Menu
 int quit_menu(void) {
-    str tit[] = {QUIT_WARNING};
+    str tit[] = {STR_QUIT_WARNING};
     List_str title;
     title.list = tit;
     title.len = 1;
-    str list[N_YN] = {YES, NO};
+    str list[N_YN] = {STR_YES, STR_NO};
     int ind[N_OVER] = {YES_ID, NO_ID};
     List_str set = dict_to_list(list, ind, N_YN);
 
