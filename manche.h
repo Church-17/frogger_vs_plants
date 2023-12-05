@@ -20,14 +20,20 @@
 #define LIM_LEFT 0
 #define LIM_RIGHT (MAIN_COLS-FROG_X_DIM)
 
-// Time constant
-#define TIME_ROW 0
+// Time constants
+#define HEADER_ROW 0
 #define TIME_COL 0
-#define TIME_MANCHE 60
+#define TIME_MANCHE 10
 #define TIME_YELLOW 30
 #define TIME_RED 10
 #define TIMEBAR_LEN 15
 #define STRLEN_TIME 3
 #define TIMEBAR_COL (TIME_COL+4)
 
+// Lifes constants
+#define LIFE_DIM 1
+#define LIFES_COL MAIN_COLS - 20
+#define LIFES_SPACE (MAIN_COLS - LIFES_COL)
+
 int play_manche(bool* holes_occupied, int n_lifes);
+void print_lifes(int n_lifes);

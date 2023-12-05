@@ -48,6 +48,7 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     int frog_restore_colors[FROG_Y_DIM];
 
     print_bg_frog();
+    print_lifes(n_lifes);
     wrefresh(main_scr);
 
     while(!manche_ended) {
@@ -113,6 +114,7 @@ int play_manche(bool* holes_occupied, int n_lifes) {
             case SIG_TIME:
                 if(time_remaining <= 0) {
                     manche_ended = TRUE;
+                    time_remaining++;
                 } else {
                     if(time_remaining < TIME_RED) {
                         restore_color = RED_BLACK;
@@ -121,12 +123,12 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                     } else {
                         restore_color = GREEN_BLACK;
                     }
-                    mvwaprintw(main_scr, TIME_ROW, TIME_COL, restore_color, "%*d ", STRLEN_TIME, time_remaining);
+                    mvwaprintw(main_scr, HEADER_ROW, TIME_COL, restore_color, "%*d ", STRLEN_TIME, time_remaining);
                     for(i = 0; i < msg.cmd; i++) {
-                        mvwaprintw(main_scr, TIME_ROW, TIMEBAR_COL+i, restore_color, "█");
+                        mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, restore_color, "█");
                     }
                     for(i = msg.cmd; i < TIMEBAR_LEN; i++) {
-                        mvwaprintw(main_scr, TIME_ROW, TIMEBAR_COL+i, restore_color, " ");
+                        mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, restore_color, " ");
                     }
                 }
                 time_remaining--;
@@ -173,4 +175,14 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     }
     signal_all(process_pids, SIGKILL);
     return time_remaining;
+}
+
+void print_lifes(int n_lifes) {
+    mvwprintw(main_scr, HEADER_ROW, LIFES_COL, "%*c", LIFES_SPACE, ' ');
+
+    // mvwaprintw(main_scr, HEADER_ROW, LIFES_COL, RED_BLACK, "Lifes = %d", n_lifes);
+    for (int i = 0; i < 6; i++)
+    {
+        mvwaprintw(main_scr, HEADER_ROW, LIFES_COL + 3*i, RED_BLACK, "❤");
+    }
 }
