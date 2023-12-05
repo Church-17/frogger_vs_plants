@@ -181,7 +181,7 @@ void print_lifes(int n_lifes) {
     mvwprintw(main_scr, HEADER_ROW, LIFES_COL, "%*c", LIFES_SPACE, ' ');
 
     // mvwaprintw(main_scr, HEADER_ROW, LIFES_COL, RED_BLACK, "Lifes = %d", n_lifes);
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < n_lifes; i++)
     {
         mvwaprintw(main_scr, HEADER_ROW, LIFES_COL + 3*i, RED_BLACK, "❤");
     }
