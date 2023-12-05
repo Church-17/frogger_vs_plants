@@ -3,8 +3,6 @@
 #include "../struct.h"
 #include "../manche.h"
 
-#define SECOND 1
-
 void time_process(int pipe_write) {
     int time_remaining = TIME_MANCHE;
     double sec_in_char_timebar = TIME_MANCHE / TIMEBAR_LEN;
@@ -15,6 +13,6 @@ void time_process(int pipe_write) {
         write(pipe_write, &msg, sizeof(Message));
         (time_remaining)--;
         msg.cmd = time_remaining / sec_in_char_timebar + 1;
-        sleep(SECOND);
+        sleep(1);
     }
 }
