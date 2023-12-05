@@ -11,7 +11,7 @@
 // Define constant
 #define LIM_N_PROCESS 30
 
-// Play a manche, return remaining time of the manche or a Manche_Index
+// Play a manche, return remaining time of the manche or a manche code
 int play_manche(bool* holes_occupied, int n_lifes) {
     // Erase old game or menu_bg
     wclear(main_scr);
@@ -32,18 +32,20 @@ int play_manche(bool* holes_occupied, int n_lifes) {
 
     forker(SIG_TIME, &process_pids, time_process, pipe_fds); // Calls the fork for time process handling the errors
     
+    // --- PARENT PROCESS ---
+
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
 
-    // Init vars
+    // Init control vars
     bool manche_ended = FALSE;
     int time_remaining = TIME_MANCHE;
     Message msg; // Define msg to store pipe message
     Frog frog = {INIT_FROG_Y, INIT_FROG_X};
 
-    // Colors under frog per line
+    // Background color to restore
     int int_restore_color;
     attr_t restore_color;
-    int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
+    int frog_restore_colors[FROG_Y_DIM];
 
     print_bg_frog();
     wrefresh(main_scr);
