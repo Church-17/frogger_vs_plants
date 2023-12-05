@@ -1,7 +1,7 @@
-#include "process.h"
-#include "time.h"
 #include "../struct.h"
 #include "../manche.h"
+#include "process.h"
+#include "time.h"
 
 void time_process(int pipe_write) {
     int time_remaining = TIME_MANCHE;

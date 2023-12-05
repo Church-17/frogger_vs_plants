@@ -15,8 +15,8 @@ manche.o: manche.c ../main.h ../menu.h ../manche.h ../sprites.h ../str.h ../res.
 process.o: process.c process.h ../utils.h ../struct.h ../struct_proto.h
 	${COBJ}
 
-frog.o: frog.c frog.h process.h ../utils.h ../struct.h ../struct_proto.h
+frog.o: frog.c frog.h process.h ../manche.h ../struct.h ../struct_proto.h
 	${COBJ}
 
-time.o: time.c time.h process.h ../utils.h ../struct.h ../struct_proto.h
+time.o: time.c time.h process.h ../manche.h ../struct.h ../struct_proto.h
 	${COBJ}

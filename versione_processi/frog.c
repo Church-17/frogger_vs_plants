@@ -1,11 +1,8 @@
 // Include libs
 #include "../struct.h"
-#include "../utils.h"
-#include "../main.h"
-#include "../sprites.h"
-#include "../game.h"
-#include "frog.h"
+#include "../manche.h"
 #include "process.h"
+#include "frog.h"
 
 // Frog function, called by a new process
 void frog_process(int pipe_write) {
