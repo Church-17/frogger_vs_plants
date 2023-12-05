@@ -114,7 +114,6 @@ int play_manche(bool* holes_occupied, int n_lifes) {
             case SIG_TIME:
                 if(time_remaining <= 0) {
                     manche_ended = TRUE;
-                    time_remaining++;
                 } else {
                     if(time_remaining < TIME_RED) {
                         restore_color = RED_BLACK;
@@ -130,8 +129,9 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                     for(i = msg.cmd; i < TIMEBAR_LEN; i++) {
                         mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, restore_color, " ");
                     }
+                    time_remaining--;
                 }
-                time_remaining--;
+                
                 break;
 
             case SIG_PAUSE:
