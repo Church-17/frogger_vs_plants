@@ -55,6 +55,7 @@ void frog_process(int pipe_write) {
         }
         if(do_send_msg) {
             write(pipe_write, &msg, sizeof(Message));
+            msg.sig = SIG_FROG;
             do_send_msg = FALSE;
         }
     }

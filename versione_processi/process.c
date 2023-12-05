@@ -29,11 +29,11 @@ void forker(int index, List_pid* pids, void (*func_process)(int), int* pipe_fds)
     if(pid < 0) {
         quit_all(ERR_FORK, *pids);
     }
-    pids->list[index] = pid;
-    (pids->len)++;
     if(pid == PID_CHILD) {
         close(pipe_fds[PIPE_READ]);
         func_process(pipe_fds[PIPE_WRITE]);
         _exit(ERR_FORK); // Handle unexpected process termination
     }
+    pids->list[index] = pid;
+    (pids->len)++;
 }
