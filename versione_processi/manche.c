@@ -1,9 +1,6 @@
 // Include libs
-#include "../main.h"
 #include "../menu.h"
 #include "../str.h"
-#include "../sprites.h"
-#include "../game.h"
 #include "../manche.h"
 #include "../utils.h"
 #include "../struct.h"
@@ -37,19 +34,21 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
 
+    // Init vars
+    bool manche_ended = FALSE;
+    int time_remaining = TIME_MANCHE;
+    Message msg; // Define msg to store pipe message
+    Frog frog = {INIT_FROG_Y, INIT_FROG_X};
+
     // Colors under frog per line
-    int time_remaining;
     int int_restore_color;
     attr_t restore_color;
     int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
 
-    Message msg; // Define msg to store pipe message
-    Frog frog = {INIT_FROG_Y, INIT_FROG_X};
-
     print_bg_frog();
     wrefresh(main_scr);
 
-    while(TRUE) {
+    while(!manche_ended) {
 
         read(pipe_fds[PIPE_READ], &msg, sizeof(Message));
 
@@ -110,11 +109,25 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                 break;
 
             case SIG_TIME:
-                if(msg.cmd <= 0) {
-                    return MANCHE_LOST;
+                if(time_remaining <= 0) {
+                    manche_ended = TRUE;
+                } else {
+                    if(time_remaining < TIME_RED) {
+                        restore_color = RED_BLACK;
+                    } else if(time_remaining < TIME_YELLOW) {
+                        restore_color = YELLOW_BLACK;
+                    } else {
+                        restore_color = GREEN_BLACK;
+                    }
+                    mvwaprintw(main_scr, TIME_ROW, TIME_COL, restore_color, "%*d ", STRLEN_TIME, time_remaining);
+                    for(i = 0; i < msg.cmd; i++) {
+                        mvwaprintw(main_scr, TIME_ROW, TIMEBAR_COL+i, restore_color, "█");
+                    }
+                    for(i = msg.cmd; i < TIMEBAR_LEN; i++) {
+                        mvwaprintw(main_scr, TIME_ROW, TIMEBAR_COL+i, restore_color, " ");
+                    }
                 }
-                mvwaprintw(main_scr, 0, 0, GREEN_PURPLE, "%d ", msg.cmd);
-                time_remaining = msg.cmd;
+                time_remaining--;
                 break;
 
             case SIG_PAUSE:
@@ -156,5 +169,6 @@ int play_manche(bool* holes_occupied, int n_lifes) {
 
         wrefresh(main_scr);
     }
+    signal_all(process_pids, SIGKILL);
     return time_remaining;
 }

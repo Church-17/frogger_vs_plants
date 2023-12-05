@@ -39,12 +39,12 @@ int main(void) {
     init_color(COLOR_RED, 800, 0, 0);
     init_color(COLOR_GREEN, 0, 700, 200);
     init_color(COLOR_YELLOW, 800, 800, 0);
-    init_color(COLOR_BLUE, 0, 300, 900);
+    init_color(COLOR_BLUE, 0, 200, 500);
     init_color(COLOR_MAGENTA, 600, 0, 600);
     init_color(COLOR_CYAN, 200, 600, 900);
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
-    init_color(COLOR_PURPLE, 300, 0, 500);
+    init_color(COLOR_PURPLE, 200, 0, 400);
     // Set needed color pairs (text, bg)
     init_pair(WHITE_BLACK_ID, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_BLACK_ID, COLOR_RED, COLOR_BLACK);
