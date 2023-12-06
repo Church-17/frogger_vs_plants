@@ -55,17 +55,18 @@ int play(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
     int i, score = 0, n_lifes = N_LIFES;
     int manche_remained_time[N_HOLES] = {0}; // Array with the remained time of each manche
+    Game_t gamevar;
 
     // Loop for play n manche saving the remained time and updating lifes
     for(i = 0; i < N_HOLES && n_lifes; i++) {
-        manche_remained_time[i] = play_manche(holes_occupied, &n_lifes);
-        switch(manche_remained_time[i]) {
+        gamevar = play_manche(holes_occupied, n_lifes);
+        switch(gamevar.timer) {
             case MANCHE_LOST:
-                n_lifes--;
-                if(n_lifes > 0) {
+                gamevar.lifes--;
+                if(gamevar.lifes > 0) {
                     i--;
                 } else {
-                    print_lifes(n_lifes);
+                    print_lifes(gamevar.lifes);
                     wrefresh(main_scr);
                 }
                 break;
@@ -82,29 +83,31 @@ int play(void) {
                 return OVER_QUIT_ID;
                 break;
 
-            default: break;
+            default:
+                manche_remained_time[i] = gamevar.timer;
+                break;
         }
+        n_lifes = gamevar.lifes;
     }
 
     for(i = 0; i < N_HOLES; i++) {
         score += manche_remained_time[i];
     }
     score *= n_lifes;
-    return gameover_menu(score);
+    return gameover_menu(score, &gamevar);
 }
 
-void print_game(Game_t gamevar) {
+void print_game(const Game_t* gamevar) {
     // Print background
     print_background();
 
     // Print frog
-    int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
-    print_frog(gamevar.frog, frog_restore_colors);
+    print_frog(gamevar);
 
     // Print time
     double char_in_sec_timebar = (double) TIMEBAR_LEN / TIME_MANCHE;
-    print_time(gamevar.timer, gamevar.timer * char_in_sec_timebar, TRUE);
+    print_time(gamevar->timer, gamevar->timer * char_in_sec_timebar, TRUE);
 
     // Print lifes
-    print_lifes(*(gamevar.lifes));
+    print_lifes(gamevar->lifes);
 }

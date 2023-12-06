@@ -6,6 +6,7 @@
 #include "game.h"
 #include "str.h"
 #include "utils.h"
+#include "struct.h"
 
 // Inter-object vars
 WINDOW* main_scr = NULL;
@@ -138,25 +139,29 @@ bool check_term(WINDOW* win) {
 }
 
 // Procedure to call after any resize, return TRUE if term is not large enough, FALSE if it is
-bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
+bool resize_proc(WINDOW* win, int dim_y, int dim_x, const Game_t* gamevar) {
     bool do_prints = check_term(win); // Check terminal size
 
     // Lib fix: don't stick window on axis
     if(main_scr->_maxy >= MAIN_ROWS) {main_scr->_maxy = MAIN_ROWS-1;}
     if(main_scr->_maxx >= MAIN_COLS) {main_scr->_maxx = MAIN_COLS-1;}
-    if(win->_maxy >= dim_y) {win->_maxy = dim_y-1;}
-    if(win->_maxx >= dim_x) {win->_maxx = dim_x-1;}
+    if(win != NULL) {
+        if(win->_maxy >= dim_y) {win->_maxy = dim_y-1;}
+        if(win->_maxx >= dim_x) {win->_maxx = dim_x-1;}
+    }
 
     // Move windows
     mv_win(main_scr, LINES/2 - MAIN_ROWS/2, COLS/2 - MAIN_COLS/2);
-    mv_win(win, LINES/2 - dim_y/2, COLS/2 - dim_x/2);
+    if(win != NULL) {
+        mv_win(win, LINES/2 - dim_y/2, COLS/2 - dim_x/2);
+    }
 
     // Redraw main_scr
     if(do_prints) {
-        if(in_game_status) {
-            print_background(); // Redraw game *****
+        if(gamevar == NULL) {
+            print_background(); // Redraw background
         } else {
-            print_background(); // Redraw demo
+            print_game(gamevar); // Redraw game
         }
     }
     wrefresh(main_scr);

@@ -1,4 +1,5 @@
 // Include libs
+#include <time.h>
 #include "../menu.h"
 #include "../str.h"
 #include "../manche.h"
@@ -11,8 +12,8 @@
 // Define constant
 #define LIM_N_PROCESS 30
 
-// Play a manche, return remaining time of the manche or a manche code
-int play_manche(bool* holes_occupied, int* n_lifes) {
+// Play a manche, return game vars
+Game_t play_manche(bool* holes_occupied, int n_lifes) {
     // Erase old game or menu_bg
     wclear(main_scr);
     wrefresh(main_scr);
@@ -37,12 +38,11 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
 
     // Background color to restore
-    int int_restore_color;
     attr_t restore_color;
-    int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
 
     // Init control vars
     bool manche_ended = FALSE;
+    int resize_time = 0;
     Message msg; // Define msg to store pipe message
 
     // Init game vars
@@ -53,7 +53,7 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
     gamevar.lifes = n_lifes;
     gamevar.holes_occupied = holes_occupied;
 
-    print_game(gamevar);
+    print_game(&gamevar);
     wrefresh(main_scr);
 
     while(!manche_ended) {
@@ -86,14 +86,7 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
                         gamevar.frog.x = LIM_RIGHT; // Move to limit
                     }
                 }
-                // Pick frog background
-                if(gamevar.frog.y < LINE_RIVER) {int_restore_color = COLOR_PURPLE;}
-                else if(gamevar.frog.y < LINE_BANK_2) {int_restore_color = COLOR_BLUE;}
-                else {int_restore_color = COLOR_PURPLE;}
-                for(i = 0; i < FROG_Y_DIM; i++) {
-                    frog_restore_colors[i] = int_restore_color;
-                }
-                print_frog(gamevar.frog, frog_restore_colors);
+                print_frog(&gamevar);
                 break;
 
             case TIME_ID:
@@ -105,35 +98,45 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
                 }
                 break;
 
+            case RESIZE_ID:
+                if(time(NULL) - resize_time < 1) {
+                    break;
+                }
+                resize_proc(NULL, 0, 0, &gamevar);
             case PAUSE_ID:
                 signal_all(process_pids, SIGSTOP);
-                i = pause_menu();
+                i = pause_menu(&gamevar);
                 switch (i) {
                     case PAUSE_RES_ID:
                         break;
                     
                     case PAUSE_RETR_ID:
-                        return MANCHE_RETR;
+                        gamevar.timer = MANCHE_RETR;
+                        return gamevar;
 
                     case PAUSE_BACK_ID:
-                        return MANCHE_CLOSE;
+                        gamevar.timer = MANCHE_CLOSE;
+                        return gamevar;
 
                     case PAUSE_QUIT_ID:
-                        return MANCHE_QUIT;
+                        gamevar.timer = MANCHE_QUIT;
+                        return gamevar;
                 }
                 redrawwin(main_scr);
                 signal_all(process_pids, SIGCONT);
+                resize_time = time(NULL);
                 break;
 
             case CLOSE_ID:
                 signal_all(process_pids, SIGSTOP);
-                i = quit_menu();    
+                i = quit_menu(&gamevar);    
                 switch (i) {
                     case NO_ID:
                         break;
                     
                     case YES_ID:
-                        return MANCHE_CLOSE;
+                        gamevar.timer = MANCHE_CLOSE;
+                        return gamevar;
                 }
                 redrawwin(main_scr);
                 signal_all(process_pids, SIGCONT);
@@ -145,5 +148,5 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
         wrefresh(main_scr);
     }
     signal_all(process_pids, SIGKILL);
-    return gamevar.timer;
+    return gamevar;
 }

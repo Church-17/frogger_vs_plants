@@ -35,4 +35,4 @@
 #define LIFES_SPACE (SPACE_PER_LIFE * MAX_N_LIFES)
 #define LIFES_COL (MAIN_COLS - LIFES_SPACE)
 
-int play_manche(bool* holes_occupied, int* n_lifes);
+Game_t play_manche(bool* holes_occupied, int n_lifes);

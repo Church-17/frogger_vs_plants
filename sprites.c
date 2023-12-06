@@ -3,7 +3,7 @@
 #include "res.h"
 #include "struct.h"
 
-void print_lifes(int n_lifes) {
+void print_lifes(const int n_lifes) {
     int i;
     static int old_lifes = N_LIFES;
     for(i = 0; i < n_lifes; i++) {
@@ -15,7 +15,7 @@ void print_lifes(int n_lifes) {
     old_lifes = n_lifes;
 }
 
-void print_time(int time_remained, int new_timebar_len, bool reprint_bar) {
+void print_time(const int time_remained, int new_timebar_len, bool reprint_bar) {
     int i;
     static int old_timebar_len = TIMEBAR_LEN;
     static attr_t time_color;
@@ -44,34 +44,36 @@ void print_time(int time_remained, int new_timebar_len, bool reprint_bar) {
     old_timebar_len = new_timebar_len;
 }
 
-void print_frog(Position frog, int* colors_bg) {
+void print_frog(const Game_t* gamevar) {
+    int i;
+    attr_t restore_color;
     attr_t pair_bg[FROG_Y_DIM];
-    for(int i = 0; i < FROG_Y_DIM; i++) {
-        switch(colors_bg[i]) {
-            case COLOR_BLUE:
-                pair_bg[i] = GREEN_BLUE;
-                break;
 
-            case COLOR_PURPLE:
-                pair_bg[i] = GREEN_PURPLE;
-                break;
-        }
+    if(gamevar->frog.y < LINE_RIVER) {
+        restore_color = GREEN_PURPLE;
+    } else if(gamevar->frog.y < LINE_BANK_2) {
+        restore_color = GREEN_BLUE;
+    } else {
+        restore_color = GREEN_PURPLE;
+    }
+    for(i = 0; i < FROG_Y_DIM; i++) {
+        pair_bg[i] = restore_color;
     }
 
-    mvwaprintw(main_scr, frog.y, frog.x, pair_bg[0], "▄█"); //
-    mvwaprintw(main_scr, frog.y, frog.x+3, MAGENTA_GREEN, "▀");
-    mvwaprintw(main_scr, frog.y, frog.x+4, GREEN_YELLOW, "▌▐");
-    mvwaprintw(main_scr, frog.y, frog.x+6, MAGENTA_GREEN, "▀");
-    mvwaprintw(main_scr, frog.y, frog.x+8, pair_bg[0], "█▄"); //
+    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x, pair_bg[0], "▄█"); //
+    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+3, MAGENTA_GREEN, "▀");
+    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+4, GREEN_YELLOW, "▌▐");
+    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+6, MAGENTA_GREEN, "▀");
+    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+8, pair_bg[0], "█▄"); //
 
-    mvwaprintw(main_scr, frog.y+1, frog.x+1, pair_bg[1], "▀▄"); //
-    mvwaprintw(main_scr, frog.y+1, frog.x+3, GREEN_YELLOW, " ▄  ");
-    mvwaprintw(main_scr, frog.y+1, frog.x+7, pair_bg[1], "▄▀"); //
+    mvwaprintw(main_scr, gamevar->frog.y+1, gamevar->frog.x+1, pair_bg[1], "▀▄"); //
+    mvwaprintw(main_scr, gamevar->frog.y+1, gamevar->frog.x+3, GREEN_YELLOW, " ▄  ");
+    mvwaprintw(main_scr, gamevar->frog.y+1, gamevar->frog.x+7, pair_bg[1], "▄▀"); //
 
-    mvwaprintw(main_scr, frog.y+2, frog.x+2, pair_bg[2], "▄"); //
-    mvwaprintw(main_scr, frog.y+2, frog.x+3, GREEN_YELLOW, "█▄▀▄");
-    mvwaprintw(main_scr, frog.y+2, frog.x+7, pair_bg[2], "▄"); //
+    mvwaprintw(main_scr, gamevar->frog.y+2, gamevar->frog.x+2, pair_bg[2], "▄"); //
+    mvwaprintw(main_scr, gamevar->frog.y+2, gamevar->frog.x+3, GREEN_YELLOW, "█▄▀▄");
+    mvwaprintw(main_scr, gamevar->frog.y+2, gamevar->frog.x+7, pair_bg[2], "▄"); //
 
-    mvwaprintw(main_scr, frog.y+3, frog.x, pair_bg[3], "▀█▀"); //
-    mvwaprintw(main_scr, frog.y+3, frog.x+7, pair_bg[3], "▀█▀"); //
+    mvwaprintw(main_scr, gamevar->frog.y+3, gamevar->frog.x, pair_bg[3], "▀█▀"); //
+    mvwaprintw(main_scr, gamevar->frog.y+3, gamevar->frog.x+7, pair_bg[3], "▀█▀"); //
 }

@@ -14,4 +14,4 @@
 // Function prototypes
 void print_background(void);
 bool game(void);
-void print_game(Game_t gamevar);
+void print_game(const Game_t* gamevar);

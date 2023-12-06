@@ -17,6 +17,7 @@ void forker(int index, List_pid* pids, void (*func_process)(int), int* pipe_fds)
 void piper(int* pipe_fds);
 
 // --- PROCESS TYPES ---
+#define RESIZE_ID -3
 #define CLOSE_ID -2
 #define PAUSE_ID -1
 #define FROG_ID 0

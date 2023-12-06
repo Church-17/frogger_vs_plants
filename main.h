@@ -9,4 +9,4 @@
 extern WINDOW* main_scr;
 
 // Function prototypes
-bool resize_proc(WINDOW* win, int dim_y, int dim_x);
+bool resize_proc(WINDOW* win, int dim_y, int dim_x, const Game_t* gamevar);

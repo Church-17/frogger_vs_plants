@@ -23,14 +23,13 @@
 #define POSITION_X_DX(obj, win_width) ((win_width)-(BOX_PADX)-strlen(obj)) // Calc dx cols of each option in mv function
 
 // Function prototypes
-void view(List_str title, List_str sx, List_str dx, List_attr cols);
-int menu(List_str title, List_str opts);
-bool resize_proc(WINDOW* win, int dim_y, int dim_x);
+void view(List_str title, List_str sx, List_str dx, List_attr cols, const Game_t* gamevar);
+int menu(List_str title, List_str opts, const Game_t* gamevar);
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr);
 void check_key(int key, int* hl, List_str* set);
 
 // General function for styled double column view
-void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
+void view(List_str title, List_str sx, List_str dx, List_attr attrs, const Game_t* gamevar) {
     // Init vars
     bool do_prints = TRUE;
     int i;
@@ -57,14 +56,14 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs) {
 
         while(!do_prints) {
             if(wgetch(menu_win) != KEY_RESIZE) break;
-            do_prints = resize_proc(menu_win, win_height, win_width);
+            do_prints = resize_proc(menu_win, win_height, win_width, gamevar);
         }
     }
     unwin(menu_win);
 }
 
 // General function for a single column menu, returning index of selected option
-int menu(List_str title, List_str set) {
+int menu(List_str title, List_str set, const Game_t* gamevar) {
     // Init vars
     bool do_prints, do_return = FALSE; // Flags
     int i, key, inc, old_hl = 0, hl = 0;
@@ -128,7 +127,7 @@ int menu(List_str title, List_str set) {
                     break;
 
                 case KEY_RESIZE:
-                    do_prints = resize_proc(menu_win, win_height, win_width);
+                    do_prints = resize_proc(menu_win, win_height, win_width, gamevar);
                     break;
 
                 default:
@@ -153,7 +152,7 @@ int home_menu(void) {
     int ind[N_HOME] = {HOME_GAME_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_HOME);
 
-    int chosen = menu(title, set); // Call menu
+    int chosen = menu(title, set, NULL); // Call menu
     
     free(set.list); // Free memory
 
@@ -187,7 +186,7 @@ void best_scores_menu(void) {
     for(i = best.len; i < N_BEST; i++) {
         sx.list[i] = dx.list[i] = ""; // Print empty line
     }
-    view(title, sx, dx, cols); // Call view
+    view(title, sx, dx, cols, NULL); // Call view
 
     // Free memory
     for(i = 0; i < best.len; i++) {
@@ -320,7 +319,7 @@ void settings_menu(void) {
                     break;
 
                 case KEY_RESIZE:
-                    do_prints = resize_proc(menu_win, win_height, win_width);
+                    do_prints = resize_proc(menu_win, win_height, win_width, NULL);
                     break;
 
                 default:
@@ -362,11 +361,11 @@ void credits_menu(void) {
     cols.list = list2;
     cols.len = sx.len = dx.len = N_CREDITS;
 
-    view(title, sx, dx, cols);
+    view(title, sx, dx, cols, NULL);
 }
 
 // Pause Menu
-int pause_menu(void) {
+int pause_menu(const Game_t* gamevar) {
     // Init vars
     str tit[] = {STR_PAUSE};
     List_str title;
@@ -376,13 +375,13 @@ int pause_menu(void) {
     int ind[N_PAUSE] = {PAUSE_RES_ID, PAUSE_RETR_ID, PAUSE_BACK_ID, PAUSE_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_PAUSE);
     
-    int chosen = menu(title, set);
+    int chosen = menu(title, set, gamevar);
     free(set.list);
     return chosen;
 }
 
 // Game Over Menu
-int gameover_menu(int score) {
+int gameover_menu(int score, const Game_t* gamevar) {
     char scorestr[LIM_STR_BUFF];
     sprintf(scorestr, "%s: %d", STR_SCORE, score); // Transform score int in str
     str tit[] = {STR_OVER, scorestr};
@@ -393,13 +392,13 @@ int gameover_menu(int score) {
     int ind[N_OVER] = {OVER_RETR_ID, OVER_BACK_ID, OVER_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_OVER);
 
-    int chosen = menu(title, set); // Call menu
+    int chosen = menu(title, set, gamevar); // Call menu
     free(set.list); // Free memory
     return chosen;
 }
 
 // Quit Menu
-int quit_menu(void) {
+int quit_menu(const Game_t* gamevar) {
     str tit[] = {STR_QUIT_WARNING};
     List_str title;
     title.list = tit;
@@ -408,7 +407,7 @@ int quit_menu(void) {
     int ind[N_OVER] = {YES_ID, NO_ID};
     List_str set = dict_to_list(list, ind, N_YN);
 
-    int chosen = menu(title, set); // Call menu
+    int chosen = menu(title, set, gamevar); // Call menu
     free(set.list); // Free memory
     return chosen;
 }
