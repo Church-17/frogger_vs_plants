@@ -20,8 +20,6 @@ void print_background(void) {
     for(i = LINE_BANK_2; i < MAIN_ROWS; i++) {
         mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*c", MAIN_COLS, ' ');
     }
-    int cols_bg[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
-    print_frog(main_scr, INIT_FROG_Y, INIT_FROG_X, cols_bg);
 }
 
 // Manage more games

@@ -39,7 +39,7 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
     // Background color to restore
     int int_restore_color;
     attr_t restore_color;
-    int frog_restore_colors[FROG_Y_DIM];
+    int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
 
     // Init control vars
     bool manche_ended = FALSE;
@@ -48,6 +48,7 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
     Frog frog = {INIT_FROG_Y, INIT_FROG_X};
 
     print_background();
+    print_frog(main_scr, INIT_FROG_Y, INIT_FROG_X, frog_restore_colors);
     print_lifes(*n_lifes);
     wrefresh(main_scr);
 
