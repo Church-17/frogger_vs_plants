@@ -2,7 +2,6 @@
 #include "game.h"
 #include "main.h"
 #include "sprites.h"
-#include "struct_proto.h"
 
 // Manche codes
 #define MANCHE_LOST 0

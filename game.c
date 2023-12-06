@@ -1,12 +1,9 @@
 // Include libs
-#include "main.h"
 #include "menu.h"
-#include "game.h"
 #include "str.h"
 #include "struct.h"
 #include "utils.h"
 #include "manche.h"
-#include "sprites.h"
 
 // Function prototypes
 int play(void);

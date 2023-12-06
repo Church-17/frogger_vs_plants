@@ -1,2 +1,2 @@
-thread:
-	make -C ../ VER=versione_thread
+process:
+	make VERSION=versione_thread -C ./../
