@@ -16,6 +16,7 @@ process = ${VERSION}/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
 
+# Define compiling version
 VERSION = versione_processi
 ifeq (${VERSION}, versione_processi)
 SPEC_FILE = process.o
