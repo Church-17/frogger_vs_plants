@@ -16,7 +16,7 @@ menu.o: menu.c main.h menu.h game.h str.h res.h utils.h struct.h struct_proto.h
 game.o: game.c main.h menu.h game.h str.h res.h utils.h struct.h struct_proto.h
 	${COBJ}
 
-sprites.o: sprites.c sprites.h res.h utils.h struct_proto.h
+sprites.o: sprites.c sprites.h main.h game.h manche.h res.h utils.h struct_proto.h
 	${COBJ}
 
 str.o: str.c str.h res.h struct.h struct_proto.h

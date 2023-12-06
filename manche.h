@@ -23,7 +23,7 @@
 // Time constants
 #define HEADER_ROW 0
 #define TIME_COL 0
-#define TIME_MANCHE 10
+#define TIME_MANCHE 15
 #define TIME_YELLOW 30
 #define TIME_RED 10
 #define TIMEBAR_LEN 15

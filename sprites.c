@@ -4,29 +4,41 @@
 #include "struct.h"
 
 void print_lifes(int n_lifes) {
-    mvwprintw(main_scr, HEADER_ROW, LIFES_COL, "%*s", LIFES_SPACE, "");
-    for(int i = 0; i < n_lifes; i++) {
-        mvwaprintw(main_scr, HEADER_ROW, LIFES_COL + 3*i, RED_BLACK, "❤");
+    int i;
+    static int old_lifes = N_LIFES;
+    // mvwprintw(main_scr, HEADER_ROW, LIFES_COL, "%*s", LIFES_SPACE, "");
+    for(i = 0; i < n_lifes; i++) {
+        mvwaprintw(main_scr, HEADER_ROW, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "❤");
     }
+    for(i = n_lifes; i < old_lifes; i++) {
+        mvwaprintw(main_scr, HEADER_ROW, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "%*s", SPACE_PER_LIFE, "");
+    }
+    old_lifes = n_lifes;
 }
 
 void print_time(int time_remained, int new_timebar_len) {
     int i;
-    attr_t time_color;
-    if(time_remained < TIME_RED) {
+    static int old_timebar_len = TIMEBAR_LEN;
+    static attr_t time_color;
+    if(time_remained == TIME_RED) {
         time_color = RED_BLACK;
-    } else if(time_remained < TIME_YELLOW) {
+        for(i = 0; i < new_timebar_len; i++) {
+            mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, time_color, "█");
+        }
+    } else if(time_remained == TIME_YELLOW) {
         time_color = YELLOW_BLACK;
-    } else {
+        for(i = 0; i < new_timebar_len; i++) {
+            mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, time_color, "█");
+        }
+    } else if(time_remained == TIME_MANCHE) {
         time_color = GREEN_BLACK;
+        for(i = 0; i < new_timebar_len; i++) {
+            mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, time_color, "█");
+        }
     }
     mvwaprintw(main_scr, HEADER_ROW, TIME_COL, time_color, "%*d ", STRLEN_TIME, time_remained);
-    for(i = 0; i < new_timebar_len; i++) {
-        mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, time_color, "█");
-    }
-    for(i = new_timebar_len; i < TIMEBAR_LEN; i++) {
-        mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, time_color, " ");
-    }
+    mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+new_timebar_len, WHITE_BLACK, "%*s", old_timebar_len-new_timebar_len, "");
+    old_timebar_len = new_timebar_len;
 }
 
 void print_frog(WINDOW* win, int y, int x, int* colors_bg) {
