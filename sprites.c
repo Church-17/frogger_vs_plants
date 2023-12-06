@@ -6,7 +6,6 @@
 void print_lifes(int n_lifes) {
     int i;
     static int old_lifes = N_LIFES;
-    // mvwprintw(main_scr, HEADER_ROW, LIFES_COL, "%*s", LIFES_SPACE, "");
     for(i = 0; i < n_lifes; i++) {
         mvwaprintw(main_scr, HEADER_ROW, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "❤");
     }
