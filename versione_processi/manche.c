@@ -43,13 +43,17 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
 
     // Init control vars
     bool manche_ended = FALSE;
-    int time_remaining = TIME_MANCHE;
     Message msg; // Define msg to store pipe message
-    Frog frog = {INIT_FROG_Y, INIT_FROG_X};
 
-    print_background();
-    print_frog(main_scr, INIT_FROG_Y, INIT_FROG_X, frog_restore_colors);
-    print_lifes(*n_lifes);
+    // Init game vars
+    Game_t gamevar;
+    gamevar.frog.y = INIT_FROG_Y;
+    gamevar.frog.x = INIT_FROG_X;
+    gamevar.timer = TIME_MANCHE;
+    gamevar.lifes = n_lifes;
+    gamevar.holes_occupied = holes_occupied;
+
+    print_game(gamevar);
     wrefresh(main_scr);
 
     while(!manche_ended) {
@@ -59,45 +63,45 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
         switch(msg.id) {
             case FROG_ID:
                 // Restore old frog position
-                if(frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
-                else if(frog.y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
+                if(gamevar.frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
+                else if(gamevar.frog.y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
                 else {restore_color = GREEN_PURPLE;}
-                for(i = frog.y; i - frog.y < FROG_Y_DIM; i++) {
-                    mvwaprintw(main_scr, i, frog.x, restore_color, "%*c", FROG_X_DIM, ' ');
+                for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_Y_DIM; i++) {
+                    mvwaprintw(main_scr, i, gamevar.frog.x, restore_color, "%*s", FROG_X_DIM, "");
                 }
 
-                if(frog.y >= LIM_UP && frog.y <= LIM_DOWN) { // If frog can move...
-                    frog.y += msg.y; // Update coordinate
-                    if(frog.y < LIM_UP) { // If frog is outside limit...
-                        frog.y = LIM_UP; // Move to limit
-                    } else if(frog.y > LIM_DOWN) { // If frog is outside limit...
-                        frog.y = LIM_DOWN; // Move to limit
+                if(gamevar.frog.y >= LIM_UP && gamevar.frog.y <= LIM_DOWN) { // If frog can move...
+                    gamevar.frog.y += msg.y; // Update coordinate
+                    if(gamevar.frog.y < LIM_UP) { // If frog is outside limit...
+                        gamevar.frog.y = LIM_UP; // Move to limit
+                    } else if(gamevar.frog.y > LIM_DOWN) { // If frog is outside limit...
+                        gamevar.frog.y = LIM_DOWN; // Move to limit
                     }
                 }
-                if(frog.x >= LIM_LEFT && frog.x <= LIM_RIGHT) { // If frog can move...
-                    frog.x += msg.x; // Update coordinate
-                    if(frog.x < LIM_LEFT) { // If frog is outside limit...
-                        frog.x = LIM_LEFT; // Move to limit
-                    } else if(frog.x > LIM_RIGHT) { // If frog is outside limit...
-                        frog.x = LIM_RIGHT; // Move to limit
+                if(gamevar.frog.x >= LIM_LEFT && gamevar.frog.x <= LIM_RIGHT) { // If frog can move...
+                    gamevar.frog.x += msg.x; // Update coordinate
+                    if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
+                        gamevar.frog.x = LIM_LEFT; // Move to limit
+                    } else if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
+                        gamevar.frog.x = LIM_RIGHT; // Move to limit
                     }
                 }
                 // Pick frog background
-                if(frog.y < LINE_RIVER) {int_restore_color = COLOR_PURPLE;}
-                else if(frog.y < LINE_BANK_2) {int_restore_color = COLOR_BLUE;}
+                if(gamevar.frog.y < LINE_RIVER) {int_restore_color = COLOR_PURPLE;}
+                else if(gamevar.frog.y < LINE_BANK_2) {int_restore_color = COLOR_BLUE;}
                 else {int_restore_color = COLOR_PURPLE;}
                 for(i = 0; i < FROG_Y_DIM; i++) {
                     frog_restore_colors[i] = int_restore_color;
                 }
-                print_frog(main_scr, frog.y, frog.x, frog_restore_colors);
+                print_frog(gamevar.frog, frog_restore_colors);
                 break;
 
             case TIME_ID:
-                print_time(time_remaining, msg.x);
-                if(time_remaining <= 0) {
+                print_time(gamevar.timer, msg.x, FALSE);
+                if(gamevar.timer <= 0) {
                     manche_ended = TRUE;
                 } else {
-                    time_remaining--;
+                    gamevar.timer--;
                 }
                 break;
 
@@ -141,5 +145,5 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
         wrefresh(main_scr);
     }
     signal_all(process_pids, SIGKILL);
-    return time_remaining;
+    return gamevar.timer;
 }

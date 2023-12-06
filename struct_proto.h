@@ -13,4 +13,4 @@ typestructdef(List_attr);
 typedef List_int List_pid;
 typestructdef(Message);
 typestructdef(Position);
-typedef Position Frog;
+typestructdef(Game_t);

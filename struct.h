@@ -28,3 +28,9 @@ struct Position {
     int y;
     int x;
 };
+struct Game_t {
+    Position frog;
+    int timer;
+    int* lifes;
+    bool* holes_occupied;
+};
