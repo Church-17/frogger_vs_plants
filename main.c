@@ -72,7 +72,7 @@ int main(void) {
     main_scr = new_ctrwin(MAIN_ROWS, MAIN_COLS);
 
     // Start demo in bg
-    print_bg_frog();
+    print_background();
     wrefresh(main_scr);
 
     // Main loop
@@ -85,7 +85,7 @@ int main(void) {
                 in_game_status = TRUE;
                 do_quit = game();
                 in_game_status = FALSE;
-                print_bg_frog();
+                print_background();
                 break;
 
             case HOME_BEST_ID: // Best scores
@@ -154,9 +154,9 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x) {
     // Redraw main_scr
     if(do_prints) {
         if(in_game_status) {
-            print_bg_frog(); // Redraw game *****
+            print_background(); // Redraw game *****
         } else {
-            print_bg_frog(); // Redraw demo
+            print_background(); // Redraw demo
         }
     }
     wrefresh(main_scr);

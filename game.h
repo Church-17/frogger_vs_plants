@@ -12,5 +12,5 @@
 #define LINE_BANK_2 (MAIN_ROWS-5)
 
 // Function prototypes
-void print_bg_frog(void);
+void print_background(void);
 bool game(void);

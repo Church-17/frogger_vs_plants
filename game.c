@@ -9,7 +9,7 @@
 int play(void);
 
 // Start demo in main_scr
-void print_bg_frog(void) {
+void print_background(void) {
     int i;
     for(i = LINE_BANK_1; i < LINE_RIVER; i++) {
         mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*c", MAIN_COLS, ' ');

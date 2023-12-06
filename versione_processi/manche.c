@@ -36,18 +36,18 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
 
     close(pipe_fds[PIPE_WRITE]); // Close unused fd
 
+    // Background color to restore
+    int int_restore_color;
+    attr_t restore_color;
+    int frog_restore_colors[FROG_Y_DIM];
+
     // Init control vars
     bool manche_ended = FALSE;
     int time_remaining = TIME_MANCHE;
     Message msg; // Define msg to store pipe message
     Frog frog = {INIT_FROG_Y, INIT_FROG_X};
 
-    // Background color to restore
-    int int_restore_color;
-    attr_t restore_color;
-    int frog_restore_colors[FROG_Y_DIM];
-
-    print_bg_frog();
+    print_background();
     print_lifes(*n_lifes);
     wrefresh(main_scr);
 
