@@ -92,3 +92,19 @@ int play(void) {
     score *= n_lifes;
     return gameover_menu(score);
 }
+
+void print_game(Game_t gamevar) {
+    // Print background
+    print_background();
+
+    // Print frog
+    int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
+    print_frog(gamevar.frog, frog_restore_colors);
+
+    // Print time
+    double char_in_sec_timebar = (double) TIMEBAR_LEN / TIME_MANCHE;
+    print_time(gamevar.timer, gamevar.timer * char_in_sec_timebar, TRUE);
+
+    // Print lifes
+    print_lifes(*(gamevar.lifes));
+}
