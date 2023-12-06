@@ -75,3 +75,19 @@ void print_frog(Position frog, int* colors_bg) {
     mvwaprintw(main_scr, frog.y+3, frog.x, pair_bg[3], "▀█▀"); //
     mvwaprintw(main_scr, frog.y+3, frog.x+7, pair_bg[3], "▀█▀"); //
 }
+
+void print_game(Game_t gamevar) {
+    // Print background
+    print_background();
+
+    // Print frog
+    int frog_restore_colors[FROG_Y_DIM] = {COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE, COLOR_PURPLE};
+    print_frog(gamevar.frog, frog_restore_colors);
+
+    // Print time
+    double char_in_sec_timebar = (double) TIMEBAR_LEN / TIME_MANCHE;
+    print_time(gamevar.timer, gamevar.timer * char_in_sec_timebar, TRUE);
+
+    // Print lifes
+    print_lifes(*(gamevar.lifes));
+}
