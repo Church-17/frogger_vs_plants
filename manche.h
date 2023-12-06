@@ -32,8 +32,8 @@
 
 // Lifes constants
 #define LIFE_DIM 1
-#define LIFES_COL MAIN_COLS - 20
-#define LIFES_SPACE (MAIN_COLS - LIFES_COL)
+#define SPACE_PER_LIFE 3
+#define LIFES_SPACE (SPACE_PER_LIFE * MAX_N_LIFES)
+#define LIFES_COL (MAIN_COLS - LIFES_SPACE)
 
-int play_manche(bool* holes_occupied, int n_lifes);
-void print_lifes(int n_lifes);
+int play_manche(bool* holes_occupied, int* n_lifes);

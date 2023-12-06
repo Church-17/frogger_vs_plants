@@ -9,14 +9,14 @@ sopr_proj.out: manche.o process.o frog.o time.o
 	make common -C ../
 	${CC} $^ ${COMMON} ${CARGS}
 
-manche.o: manche.c ../main.h ../menu.h ../manche.h ../sprites.h ../str.h ../res.h ../utils.h ../struct.h ../struct_proto.h
+manche.o: manche.c ../main.h ../menu.h ../game.h ../manche.h ../sprites.h ../str.h ../res.h ../utils.h ../struct.h ../struct_proto.h
 	${COBJ}
 
 process.o: process.c process.h ../utils.h ../struct.h ../struct_proto.h
 	${COBJ}
 
-frog.o: frog.c frog.h process.h ../manche.h ../struct.h ../struct_proto.h
+frog.o: frog.c frog.h process.h ../main.h ../sprites.h ../manche.h ../struct.h ../struct_proto.h
 	${COBJ}
 
-time.o: time.c time.h process.h ../manche.h ../struct.h ../struct_proto.h
+time.o: time.c time.h process.h ../main.h ../sprites.h ../manche.h ../struct.h ../struct_proto.h
 	${COBJ}

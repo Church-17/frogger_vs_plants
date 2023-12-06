@@ -12,7 +12,7 @@
 #define LIM_N_PROCESS 30
 
 // Play a manche, return remaining time of the manche or a manche code
-int play_manche(bool* holes_occupied, int n_lifes) {
+int play_manche(bool* holes_occupied, int* n_lifes) {
     // Erase old game or menu_bg
     wclear(main_scr);
     wrefresh(main_scr);
@@ -48,7 +48,7 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     int frog_restore_colors[FROG_Y_DIM];
 
     print_bg_frog();
-    print_lifes(n_lifes);
+    print_lifes(*n_lifes);
     wrefresh(main_scr);
 
     while(!manche_ended) {
@@ -112,26 +112,12 @@ int play_manche(bool* holes_occupied, int n_lifes) {
                 break;
 
             case SIG_TIME:
+                print_time(time_remaining, msg.cmd);
                 if(time_remaining <= 0) {
                     manche_ended = TRUE;
-                    time_remaining++;
                 } else {
-                    if(time_remaining < TIME_RED) {
-                        restore_color = RED_BLACK;
-                    } else if(time_remaining < TIME_YELLOW) {
-                        restore_color = YELLOW_BLACK;
-                    } else {
-                        restore_color = GREEN_BLACK;
-                    }
-                    mvwaprintw(main_scr, HEADER_ROW, TIME_COL, restore_color, "%*d ", STRLEN_TIME, time_remaining);
-                    for(i = 0; i < msg.cmd; i++) {
-                        mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, restore_color, "█");
-                    }
-                    for(i = msg.cmd; i < TIMEBAR_LEN; i++) {
-                        mvwaprintw(main_scr, HEADER_ROW, TIMEBAR_COL+i, restore_color, " ");
-                    }
+                    time_remaining--;
                 }
-                time_remaining--;
                 break;
 
             case SIG_PAUSE:
@@ -175,14 +161,4 @@ int play_manche(bool* holes_occupied, int n_lifes) {
     }
     signal_all(process_pids, SIGKILL);
     return time_remaining;
-}
-
-void print_lifes(int n_lifes) {
-    mvwprintw(main_scr, HEADER_ROW, LIFES_COL, "%*c", LIFES_SPACE, ' ');
-
-    // mvwaprintw(main_scr, HEADER_ROW, LIFES_COL, RED_BLACK, "Lifes = %d", n_lifes);
-    for (int i = 0; i < n_lifes; i++)
-    {
-        mvwaprintw(main_scr, HEADER_ROW, LIFES_COL + 3*i, RED_BLACK, "❤");
-    }
 }

@@ -64,12 +64,15 @@ int play(void) {
 
     // Loop for play n manche saving the remained time and updating lifes
     for(i = 0; i < N_HOLES && n_lifes; i++) {
-        manche_remained_time[i] = play_manche(holes_occupied, n_lifes);
+        manche_remained_time[i] = play_manche(holes_occupied, &n_lifes);
         switch(manche_remained_time[i]) {
             case MANCHE_LOST:
                 n_lifes--;
                 if(n_lifes > 0) {
                     i--;
+                } else {
+                    print_lifes(n_lifes);
+                    wrefresh(main_scr);
                 }
                 break;
 
