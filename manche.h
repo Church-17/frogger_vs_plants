@@ -13,7 +13,7 @@
 // Frog constant
 #define INIT_FROG_Y LINE_BANK_2
 #define INIT_FROG_X (MAIN_COLS/2-FROG_X_DIM/2)
-#define MOVE_FROG_Y 4
+#define MOVE_FROG_Y FROG_Y_DIM
 #define MOVE_FROG_X 2
 #define LIM_UP LINE_BANK_1
 #define LIM_DOWN INIT_FROG_Y

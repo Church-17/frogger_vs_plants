@@ -28,9 +28,9 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
     int pipe_fds[PIPE_DIM];
     piper(pipe_fds); // Starts the pipe handling the errors
 
-    forker(SIG_FROG, &process_pids, frog_process, pipe_fds); // Calls the fork for frog process handling the errors
+    forker(FROG_ID, &process_pids, frog_process, pipe_fds); // Calls the fork for frog process handling the errors
 
-    forker(SIG_TIME, &process_pids, time_process, pipe_fds); // Calls the fork for time process handling the errors
+    forker(TIME_ID, &process_pids, time_process, pipe_fds); // Calls the fork for time process handling the errors
     
     // --- PARENT PROCESS ---
 
@@ -55,8 +55,8 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
 
         read(pipe_fds[PIPE_READ], &msg, sizeof(Message));
 
-        switch(msg.sig) {
-            case SIG_FROG:
+        switch(msg.id) {
+            case FROG_ID:
                 // Restore old frog position
                 if(frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
                 else if(frog.y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
@@ -64,42 +64,22 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
                 for(i = frog.y; i - frog.y < FROG_Y_DIM; i++) {
                     mvwaprintw(main_scr, i, frog.x, restore_color, "%*c", FROG_X_DIM, ' ');
                 }
-                switch(msg.cmd) {
-                    case MOVE_UP:
-                        if(frog.y > LIM_UP) { // If frog can move...
-                            frog.y -= MOVE_FROG_Y; // Update coordinate
-                            if(frog.y < LIM_UP) { // If frog is outside limit...
-                                frog.y = LIM_UP; // Move to limit
-                            }
-                        }
-                        break;
 
-                    case MOVE_DOWN:
-                        if(frog.y < LIM_DOWN) { // If frog can move...
-                            frog.y += MOVE_FROG_Y; // Update coordinate
-                            if(frog.y > LIM_DOWN) { // If frog is outside limit...
-                                frog.y = LIM_DOWN; // Move to limit
-                            }
-                        }
-                        break;
-
-                    case MOVE_LEFT:
-                        if(frog.x > LIM_LEFT) { // If frog can move...
-                            frog.x -= MOVE_FROG_X; // Update coordinate
-                            if(frog.x < LIM_LEFT) { // If frog is outside limit...
-                                frog.x = LIM_LEFT; // Move to limit
-                            }
-                        }
-                        break;
-
-                    case MOVE_RIGHT:
-                        if(frog.x < LIM_RIGHT) { // If frog can move...
-                            frog.x += MOVE_FROG_X; // Update coordinate
-                            if(frog.x > LIM_RIGHT) { // If frog is outside limit...
-                                frog.x = LIM_RIGHT; // Move to limit
-                            }
-                        }
-                        break;
+                if(frog.y >= LIM_UP && frog.y <= LIM_DOWN) { // If frog can move...
+                    frog.y += msg.y; // Update coordinate
+                    if(frog.y < LIM_UP) { // If frog is outside limit...
+                        frog.y = LIM_UP; // Move to limit
+                    } else if(frog.y > LIM_DOWN) { // If frog is outside limit...
+                        frog.y = LIM_DOWN; // Move to limit
+                    }
+                }
+                if(frog.x >= LIM_LEFT && frog.x <= LIM_RIGHT) { // If frog can move...
+                    frog.x += msg.x; // Update coordinate
+                    if(frog.x < LIM_LEFT) { // If frog is outside limit...
+                        frog.x = LIM_LEFT; // Move to limit
+                    } else if(frog.x > LIM_RIGHT) { // If frog is outside limit...
+                        frog.x = LIM_RIGHT; // Move to limit
+                    }
                 }
                 // Pick frog background
                 if(frog.y < LINE_RIVER) {int_restore_color = COLOR_PURPLE;}
@@ -111,8 +91,8 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
                 print_frog(main_scr, frog.y, frog.x, frog_restore_colors);
                 break;
 
-            case SIG_TIME:
-                print_time(time_remaining, msg.cmd);
+            case TIME_ID:
+                print_time(time_remaining, msg.x);
                 if(time_remaining <= 0) {
                     manche_ended = TRUE;
                 } else {
@@ -120,7 +100,7 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
                 }
                 break;
 
-            case SIG_PAUSE:
+            case PAUSE_ID:
                 signal_all(process_pids, SIGSTOP);
                 i = pause_menu();
                 switch (i) {
@@ -140,7 +120,7 @@ int play_manche(bool* holes_occupied, int* n_lifes) {
                 signal_all(process_pids, SIGCONT);
                 break;
 
-            case SIG_CLOSE:
+            case CLOSE_ID:
                 signal_all(process_pids, SIGSTOP);
                 i = quit_menu();    
                 switch (i) {

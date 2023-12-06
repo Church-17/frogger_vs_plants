@@ -20,8 +20,9 @@ struct List_attr {
     int len;
 };
 struct Message {
-    int sig;
-    int cmd;
+    int id;
+    int y;
+    int x;
 };
 struct Position {
     int y;

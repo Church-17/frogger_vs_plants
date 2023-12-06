@@ -12,39 +12,43 @@ void frog_process(int pipe_write) {
 
     // Initial position
     Message msg;
-    msg.sig = SIG_FROG;
+    msg.id = FROG_ID;
 
     // Frog loop to get pressed key
     while(TRUE) {
         key = wgetch(main_scr);
         switch(key) {
             case KEY_UP:
-                msg.cmd = MOVE_UP;
+                msg.y = -MOVE_FROG_Y;
+                msg.x = 0;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
                 
             case KEY_DOWN:
-                msg.cmd = MOVE_DOWN;
+                msg.y = MOVE_FROG_Y;
+                msg.x = 0;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
             case KEY_LEFT:
-                msg.cmd = MOVE_LEFT;
+                msg.y = 0;
+                msg.x = -MOVE_FROG_X;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
             case KEY_RIGHT:
-                msg.cmd = MOVE_RIGHT;
+                msg.y = 0;
+                msg.x = MOVE_FROG_X;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
             case PAUSE_GAME_KEY:
-                msg.sig = SIG_PAUSE;
+                msg.id = PAUSE_ID;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
             case CLOSE_GAME_KEY:
-                msg.sig = SIG_CLOSE;
+                msg.id = CLOSE_ID;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
@@ -52,7 +56,7 @@ void frog_process(int pipe_write) {
         }
         if(do_send_msg) {
             write(pipe_write, &msg, sizeof(Message));
-            msg.sig = SIG_FROG;
+            msg.id = FROG_ID;
             do_send_msg = FALSE;
         }
     }
