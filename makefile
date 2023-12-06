@@ -12,6 +12,9 @@ game = game.h struct_proto.h
 menu = menu.h struct_proto.h
 main = main.h struct_proto.h
 manche = ${main} ${game} ${sprites}
+process = ${VERSION}/process.h struct_proto.h
+time = ${VERSION}/time.h struct_proto.h
+frog = ${VERSION}/frog.h struct_proto.h
 
 VERSION = versione_processi
 ifeq (${VERSION}, versione_processi)
@@ -26,13 +29,13 @@ sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.
 manche.o: ${VERSION}/manche.c ${menu} ${manche} ${str} ${utils} ${struct}
 	${COBJ_VER}
 
-process.o: ${VERSION}/process.c ${VERSION}/process.h ${utils} ${struct}
+process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
 	${COBJ_VER}
 
-frog.o: ${VERSION}/frog.c ${VERSION}/frog.h ${VERSION}/process.h ${manche} ${struct}
+frog.o: ${VERSION}/frog.c ${frog} ${process} ${manche} ${struct}
 	${COBJ_VER}
 
-time.o: ${VERSION}/time.c ${VERSION}/time.h ${VERSION}/process.h ${manche} ${struct}
+time.o: ${VERSION}/time.c ${time} ${process} ${manche} ${struct}
 	${COBJ_VER}
 
 main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
