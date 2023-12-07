@@ -30,7 +30,7 @@ sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.
 manche.o: ${VERSION}/manche.c ${menu} ${manche} ${str} ${utils} ${struct}
 	${COBJ_VER}
 
-process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
+process.o: ${VERSION}/process.c ${process} ${struct}
 	${COBJ_VER}
 
 frog.o: ${VERSION}/frog.c ${frog} ${process} ${manche} ${struct}
