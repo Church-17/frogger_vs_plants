@@ -63,7 +63,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
         switch(msg.id) {
             case FROG_ID:
                 // Restore old frog position
-                if (in_hole(gamevar.frog)) {restore_color = GREEN_GREY;}
+                if (in_hole_line(gamevar.frog) && gamevar.frog.y < LINE_HOLES) {restore_color = GREEN_GREY;}
                 else if(gamevar.frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
                 else if(gamevar.frog.y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
                 else {restore_color = GREEN_PURPLE;}
@@ -87,8 +87,10 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                         gamevar.frog.x = LIM_RIGHT; // Move to limit
                     }
                 }
-                if(gamevar.frog.y <= LINE_RIVER && !in_hole_line(gamevar.frog)) { // If frog can move...
-                    gamevar.frog.y = LINE_HOLES;
+                if(gamevar.frog.y <= LINE_RIVER && !in_hole_line(gamevar.frog)) { // If the frog is not in front of a trap
+                    if(gamevar.frog.y < LINE_HOLES) { 
+                        gamevar.frog.y = LINE_HOLES; // It can't go ahead
+                    }
                 }
                 print_frog(&gamevar);
                 break;

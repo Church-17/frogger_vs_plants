@@ -49,7 +49,7 @@ void print_frog(const Game_t* gamevar) {
     attr_t restore_color;
     attr_t pair_bg[FROG_Y_DIM];
 
-    if (in_hole(gamevar->frog)) {
+    if (in_hole_line(gamevar->frog) && gamevar->frog.y < LINE_HOLES) {
         restore_color = GREEN_GREY;
     } else if(gamevar->frog.y < LINE_RIVER) {
         restore_color = GREEN_PURPLE;
@@ -94,11 +94,11 @@ void print_holes(int num_hole, bool* occupied) {
         }
     }
 }
-
-bool in_hole(Position frog) {
-    return frog.y < LINE_HOLES && ((frog.x <= 3) || (frog.x >= 22 && frog.x < 25) || (frog.x >= 44 && frog.x < 47) || (frog.x >= 66 && frog.x < 69) || (frog.x >= 88));
-}
-
+// Checks if the frog is in the line of a hole
 bool in_hole_line(Position frog) {
-    return ((frog.x < 3) || (frog.x >= 22 && frog.x < 25) || (frog.x >= 44 && frog.x < 47) || (frog.x >= 66 && frog.x < 69) || (frog.x >= 88));
+    for (int i = 0; i < N_HOLES; i++) {
+        if (frog.x >= i*HOLE_DIM_X + (i*HOLE_DISTANCE) && frog.x < i*HOLE_DIM_X + (i*HOLE_DISTANCE) + 3)
+            return TRUE;
+    }
+    return FALSE;
 }

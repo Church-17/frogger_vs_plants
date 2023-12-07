@@ -33,8 +33,8 @@ void wr_best(Dict_str_int best);
 #define COL1_SET game_settings[SET_COL1_ID]
 #define COL2_SET game_settings[SET_COL2_ID]
 // - Language
-#define LANG_IT_ID 0
-#define LANG_EN_ID 1
+#define LANG_EN_ID 0
+#define LANG_IT_ID 1
 #define N_LANGUAGE 2
 // - Difficulty
 #define DIFF_0_ID 0
