@@ -1,5 +1,6 @@
 // Include libs
 #include "../struct.h"
+#include "../utils.h"
 #include "process.h"
 
 // Sends a signal to all the processes
@@ -35,4 +36,16 @@ void forker(int index, List_pid* pids, void (*func_process)(int), int* pipe_fds)
     }
     pids->list[index] = pid;
     (pids->len)++;
+}
+
+void reader(int pipe_read, Message* buf) {
+    while(read(pipe_read, buf, sizeof(Message)) < 0) {\
+        if(errno != EINTR) quit(ERR_READ);\
+    }
+}
+
+void writer(int pipe_write, Message* buf) {
+    while(write(pipe_write, buf, sizeof(Message)) < 0) {\
+        if(errno != EINTR) quit(ERR_WRITE);\
+    }
 }

@@ -12,7 +12,7 @@ game = game.h struct_proto.h
 menu = menu.h struct_proto.h
 main = main.h struct_proto.h
 manche = manche.h ${main} ${game} ${sprites}
-process = ${VERSION}/process.h ${utils}
+process = ${VERSION}/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
 
@@ -30,7 +30,7 @@ sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.
 manche.o: ${VERSION}/manche.c ${menu} ${manche} ${str} ${utils} ${struct}
 	${COBJ_VER}
 
-process.o: ${VERSION}/process.c ${process} ${struct}
+process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
 	${COBJ_VER}
 
 frog.o: ${VERSION}/frog.c ${frog} ${process} ${manche} ${struct}

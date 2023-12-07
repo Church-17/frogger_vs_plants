@@ -58,7 +58,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
     while(!manche_ended) {
         
-        reader(pipe_fds[PIPE_READ], msg);
+        reader(pipe_fds[PIPE_READ], &msg);
 
         switch(msg.id) {
             case FROG_ID:
