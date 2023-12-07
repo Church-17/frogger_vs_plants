@@ -22,7 +22,7 @@
 // Time constants
 #define HEADER_ROW 0
 #define TIME_COL 0
-#define TIME_MANCHE 15
+#define TIME_MANCHE 60
 #define TIME_YELLOW 30
 #define TIME_RED 10
 #define TIMEBAR_LEN 15
@@ -34,5 +34,11 @@
 #define SPACE_PER_LIFE 3
 #define LIFES_SPACE (SPACE_PER_LIFE * MAX_N_LIFES)
 #define LIFES_COL (MAIN_COLS - LIFES_SPACE)
+
+// Holes constants
+#define N_HOLES 5
+#define HOLE_DIM_X 12
+#define HOLE_DIM_Y 4
+#define HOLE_DISTANCE ((MAIN_COLS - N_HOLES*HOLE_DIM_X)/(N_HOLES-1))
 
 Game_t play_manche(bool* holes_occupied, int n_lifes);

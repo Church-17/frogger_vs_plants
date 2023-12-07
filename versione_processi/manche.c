@@ -57,13 +57,14 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     wrefresh(main_scr);
 
     while(!manche_ended) {
-
+        
         reader(pipe_fds[PIPE_READ], msg);
 
         switch(msg.id) {
             case FROG_ID:
                 // Restore old frog position
-                if(gamevar.frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
+                if (in_hole(gamevar.frog)) {restore_color = GREEN_GREY;}
+                else if(gamevar.frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
                 else if(gamevar.frog.y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
                 else {restore_color = GREEN_PURPLE;}
                 for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_Y_DIM; i++) {
@@ -72,7 +73,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
                 if(gamevar.frog.y >= LIM_UP && gamevar.frog.y <= LIM_DOWN) { // If frog can move...
                     gamevar.frog.y += msg.y; // Update coordinate
-                    if(gamevar.frog.y < LIM_UP) { // If frog is outside limit...
+                    if(gamevar.frog.y < LIM_UP) { // If frog is outside limit...q
                         gamevar.frog.y = LIM_UP; // Move to limit
                     } else if(gamevar.frog.y > LIM_DOWN) { // If frog is outside limit...
                         gamevar.frog.y = LIM_DOWN; // Move to limit
@@ -85,6 +86,9 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     } else if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
                         gamevar.frog.x = LIM_RIGHT; // Move to limit
                     }
+                }
+                if(gamevar.frog.y <= LINE_RIVER && !in_hole_line(gamevar.frog)) { // If frog can move...
+                    gamevar.frog.y = LINE_HOLES;
                 }
                 print_frog(&gamevar);
                 break;

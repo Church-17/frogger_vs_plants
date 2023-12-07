@@ -49,7 +49,9 @@ void print_frog(const Game_t* gamevar) {
     attr_t restore_color;
     attr_t pair_bg[FROG_Y_DIM];
 
-    if(gamevar->frog.y < LINE_RIVER) {
+    if (in_hole(gamevar->frog)) {
+        restore_color = GREEN_GREY;
+    } else if(gamevar->frog.y < LINE_RIVER) {
         restore_color = GREEN_PURPLE;
     } else if(gamevar->frog.y < LINE_BANK_2) {
         restore_color = GREEN_BLUE;
@@ -76,4 +78,27 @@ void print_frog(const Game_t* gamevar) {
 
     mvwaprintw(main_scr, gamevar->frog.y+3, gamevar->frog.x, pair_bg[3], "▀█▀"); //
     mvwaprintw(main_scr, gamevar->frog.y+3, gamevar->frog.x+7, pair_bg[3], "▀█▀"); //
+}
+
+void print_holes(int num_hole, bool* occupied) {
+    int i, j;
+    for (i = 0; i < N_HOLES; i++) {
+        if (occupied[i]) {
+            for (j = 1; j < HOLE_DIM_Y+1; j++) {
+                mvwaprintw(main_scr, j, num_hole*HOLE_DIM_X + (num_hole*HOLE_DISTANCE), GREY_BLACK, "████████████"); 
+            }
+        } else {
+            for (j = 1; j < HOLE_DIM_Y+1; j++) {
+                mvwaprintw(main_scr, j, num_hole*HOLE_DIM_X + (num_hole*HOLE_DISTANCE), GREY_BLACK, "████████████"); 
+            }
+        }
+    }
+}
+
+bool in_hole(Position frog) {
+    return frog.y < LINE_HOLES && ((frog.x <= 3) || (frog.x >= 22 && frog.x < 25) || (frog.x >= 44 && frog.x < 47) || (frog.x >= 66 && frog.x < 69) || (frog.x >= 88));
+}
+
+bool in_hole_line(Position frog) {
+    return ((frog.x < 3) || (frog.x >= 22 && frog.x < 25) || (frog.x >= 44 && frog.x < 47) || (frog.x >= 66 && frog.x < 69) || (frog.x >= 88));
 }

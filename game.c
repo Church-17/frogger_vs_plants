@@ -11,6 +11,7 @@ int play(void);
 // Start demo in main_scr
 void print_background(void) {
     int i;
+    bool free_holes[N_HOLES] = {TRUE};
     for(i = LINE_BANK_1; i < LINE_RIVER; i++) {
         mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*c", MAIN_COLS, ' ');
     }
@@ -19,6 +20,9 @@ void print_background(void) {
     }
     for(i = LINE_BANK_2; i < MAIN_ROWS; i++) {
         mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*c", MAIN_COLS, ' ');
+    }
+    for (i = 0; i < N_HOLES; i++) {
+        print_holes(i, free_holes);
     }
 }
 

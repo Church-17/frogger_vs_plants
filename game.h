@@ -10,6 +10,7 @@
 #define LINE_BANK_1 1
 #define LINE_RIVER 9
 #define LINE_BANK_2 (MAIN_ROWS-5)
+#define LINE_HOLES (LINE_BANK_1 + 4)
 
 // Function prototypes
 void print_background(void);
