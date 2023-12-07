@@ -105,8 +105,7 @@ void print_game(const Game_t* gamevar) {
     print_frog(gamevar);
 
     // Print time
-    double char_in_sec_timebar = (double) TIMEBAR_LEN / TIME_MANCHE;
-    print_time(gamevar->timer, gamevar->timer * char_in_sec_timebar, TRUE);
+    print_time(gamevar->timer, TRUE);
 
     // Print lifes
     print_lifes(gamevar->lifes);

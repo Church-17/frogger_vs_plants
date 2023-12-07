@@ -15,8 +15,8 @@ void print_lifes(const int n_lifes) {
     old_lifes = n_lifes;
 }
 
-void print_time(const int time_remained, int new_timebar_len, bool reprint_bar) {
-    int i;
+void print_time(const int time_remained, bool reprint_bar) {
+    int i, new_timebar_len = time_remained * ((double) TIMEBAR_LEN / TIME_MANCHE);
     static int old_timebar_len = TIMEBAR_LEN;
     static attr_t time_color;
     if(time_remained == TIME_RED) {

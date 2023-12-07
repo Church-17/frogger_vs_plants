@@ -90,12 +90,12 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 break;
 
             case TIME_ID:
-                print_time(gamevar.timer, msg.x, FALSE);
                 if(gamevar.timer <= 0) {
                     manche_ended = TRUE;
                 } else {
                     gamevar.timer--;
                 }
+                print_time(gamevar.timer, FALSE);
                 break;
 
             case RESIZE_ID:
