@@ -11,8 +11,8 @@
 #define PIPE_DIM 2
 
 // Define macros
-#define reader(pipe_read, buf, pids) if(read(pipe_read, &buf, sizeof(buf)) < 0) quit_all(ERR_READ, pids)
-#define writer(pipe_write, buf, pids) if(write(pipe_write, &buf, sizeof(buf)) < 0) quit_all(ERR_WRITE, pids)
+#define reader(pipe_read, buf) if(read(pipe_read, &buf, sizeof(buf)) < 0) quit(ERR_READ)
+#define writer(pipe_write, buf) if(write(pipe_write, &buf, sizeof(buf)) < 0) quit(ERR_WRITE)
 
 // Function prototypes
 void signal_all(const List_pid pids, int signal);

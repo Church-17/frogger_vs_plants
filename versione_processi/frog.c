@@ -60,7 +60,7 @@ void frog_process(int pipe_write) {
             default: break; 
         }
         if(do_send_msg) {
-            write(pipe_write, &msg, sizeof(Message));
+            writer(pipe_write, msg);
             msg.id = FROG_ID;
             do_send_msg = FALSE;
         }

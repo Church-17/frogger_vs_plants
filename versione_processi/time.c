@@ -8,7 +8,7 @@ void time_process(int pipe_write) {
     Message msg;
     msg.id = TIME_ID;
     while(TRUE) {
-        write(pipe_write, &msg, sizeof(Message));
+        writer(pipe_write, msg);
         time_remaining--;
         sleep(1);
     }
