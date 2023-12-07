@@ -21,6 +21,8 @@
 #define ERR_WIN 3
 #define ERR_FORK 4
 #define ERR_PIPE 5
+#define ERR_READ 6
+#define ERR_WRITE 7
 
 // Define macros
 #define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle

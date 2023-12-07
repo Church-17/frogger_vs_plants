@@ -12,7 +12,7 @@ game = game.h struct_proto.h
 menu = menu.h struct_proto.h
 main = main.h struct_proto.h
 manche = manche.h ${main} ${game} ${sprites}
-process = ${VERSION}/process.h struct_proto.h
+process = ${VERSION}/process.h ${utils}
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
 

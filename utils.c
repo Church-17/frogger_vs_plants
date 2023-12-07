@@ -96,7 +96,9 @@ void quit(int err_code) {
             "Error during memory allocation",
             "Error during window creation",
             "Error during process fork",
-            "Error during pipe creation"
+            "Error during pipe creation",
+            "Error reading from pipe",
+            "Error writing in pipe"
         };
         perror(errContainer[err_code-1]);
     }
