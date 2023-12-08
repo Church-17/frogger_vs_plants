@@ -23,13 +23,13 @@
 #define POSITION_X_DX(obj, win_width) ((win_width)-(BOX_PADX)-strlen(obj)) // Calc dx cols of each option in mv function
 
 // Function prototypes
-void view(List_str title, List_str sx, List_str dx, List_attr cols, const Game_t* gamevar);
-int menu(List_str title, List_str opts, const Game_t* gamevar);
+void view(const List_str title, const List_str sx, const List_str dx, const List_attr cols, const Game_t* gamevar);
+int menu(const List_str title, const List_str opts, const Game_t* gamevar);
 void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr);
-void check_key(int key, int* hl, List_str* set);
+void check_key(int key, int* hl, const List_str set);
 
 // General function for styled double column view
-void view(List_str title, List_str sx, List_str dx, List_attr attrs, const Game_t* gamevar) {
+void view(const List_str title, const List_str sx, const List_str dx, const List_attr attrs, const Game_t* gamevar) {
     // Init vars
     bool do_prints = TRUE;
     int i;
@@ -63,7 +63,7 @@ void view(List_str title, List_str sx, List_str dx, List_attr attrs, const Game_
 }
 
 // General function for a single column menu, returning index of selected option
-int menu(List_str title, List_str set, const Game_t* gamevar) {
+int menu(const List_str title, const List_str set, const Game_t* gamevar) {
     // Init vars
     bool do_prints, do_return = FALSE; // Flags
     int i, key, inc, old_hl = 0, hl = 0;
@@ -132,7 +132,7 @@ int menu(List_str title, List_str set, const Game_t* gamevar) {
 
                 default:
                     // Check numbers & first letter
-                    check_key(key, &hl, &set);
+                    check_key(key, &hl, set);
                     break;
             }
         }
@@ -324,7 +324,7 @@ void settings_menu(void) {
 
                 default:
                     // Check numbers & first letter
-                    check_key(key, &hl, &set);
+                    check_key(key, &hl, set);
                     break;
             }
         }
@@ -421,13 +421,13 @@ void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {
 }
 
 // Check if key is one of the first letters
-void check_key(int key, int* hl, List_str* set) {
-    if(key >= KEY_0 && key <= KEY_9 && key-KEY_0 < set->len) {
-        *hl = key-KEY_0;
+void check_key(int key, int* hl, const List_str set) {
+    if(key >= KEY_1 && key <= KEY_9 && key-KEY_1 < set.len) {
+        *hl = key-KEY_1;
         return;
     }
-    for(int i = mod(*hl+1, set->len); i != *hl; i = mod(i+1, set->len)) {
-        if(key == set->list[i][0] || key == set->list[i][0]+CAPITAL_SHIFT) {
+    for(int i = mod(*hl+1, set.len); i != *hl; i = mod(i+1, set.len)) {
+        if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
             *hl = i;
             return;
         }

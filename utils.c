@@ -27,7 +27,7 @@ time_t timestamp(void) {
 }
 
 // Find max length of a strings list, starting from a min
-int max_strlen(List_str strings, int min_len) {
+int max_strlen(const List_str strings, int min_len) {
     int max_len = min_len;
     for(int i = 0; i < strings.len; i++) {
         if(strlen(strings.list[i]) > max_len) {
@@ -38,7 +38,7 @@ int max_strlen(List_str strings, int min_len) {
 }
 
 // Given objects and indexes, create a list with each object at its index
-List_str dict_to_list(str* obj, int* ind, int len) {
+List_str dict_to_list(const str* obj, const int* ind, int len) {
     List_str list;
     list.len = len;
     alloc(str, list.list, list.len);

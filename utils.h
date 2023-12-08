@@ -15,6 +15,7 @@
 #define CAPITAL_SHIFT ('a'-'A')
 #define ENTER 10
 #define KEY_0 '0'
+#define KEY_1 '1'
 #define KEY_9 '9'
 
 // Define error codes
@@ -51,8 +52,8 @@ int max(int n1, int n2);
 int mod(int n1, int n2);
 int rand_range(int min0, int max0);
 time_t timestamp(void);
-int max_strlen(List_str strings, int min_len);
-List_str dict_to_list(str* obj, int* ind, int len);
+int max_strlen(const List_str strings, int min_len);
+List_str dict_to_list(const str* obj, const int* ind, int len);
 void sort_dict(Dict_str_int* dict);
 WINDOW* new_win(int dim_y, int dim_x, int pos_y, int pos_x);
 WINDOW* new_ctrwin(int dim_y, int dim_x);
