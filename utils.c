@@ -22,7 +22,7 @@ int rand_range(int min0, int max0) {
 time_t timestamp(void) {
     struct timeval var;
     gettimeofday(&var, NULL);
-    time_t milliseconds = var.tv_sec * MSEC_IN_SEC + var.tv_usec / USEC_IN_MSEC + 1;
+    time_t milliseconds = var.tv_sec * MSEC_IN_SEC + var.tv_usec / USEC_IN_MSEC;
     return milliseconds;
 }
 
