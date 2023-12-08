@@ -37,7 +37,7 @@ process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
 frog.o: ${VERSION}/frog.c ${frog} ${process} ${manche} ${struct}
 	${COBJ_VER}
 
-time.o: ${VERSION}/time.c ${time} ${process} ${manche} ${struct}
+time.o: ${VERSION}/time.c ${time} ${process} ${utils} ${struct}
 	${COBJ_VER}
 
 main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
@@ -63,9 +63,9 @@ utils.o: utils.c ${utils} ${struct}
 
 # Clear routines
 
-clear_all: clear_o clear_out
+clear_all: clear_obj clear_out
 
-clear_o:
+clear_obj:
 	rm -f *.o
 	rm -f versione_processi/*.o
 	rm -f versione_thread/*.o

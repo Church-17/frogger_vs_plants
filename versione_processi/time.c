@@ -1,7 +1,6 @@
 // Include libs
 #include "../struct.h"
 #include "../utils.h"
-#include "../manche.h"
 #include "process.h"
 #include "time.h"
 
