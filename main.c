@@ -76,37 +76,33 @@ int main(void) {
     // Main loop
     while(!do_quit) {
         chosen = home_menu();
-        redrawwin(main_scr);
+        print_background();
         wrefresh(main_scr);
         switch(chosen) {
             case HOME_GAME_ID: // Game
                 do_quit = game();
-                print_background();
                 break;
 
             case HOME_BEST_ID: // Best scores
                 best_scores_menu();
-                redrawwin(main_scr);
                 break;
 
             case HOME_SETT_ID: // Settings
                 settings_menu();
-                redrawwin(main_scr);
                 break;
 
             case HOME_CRED_ID: // Credits
                 credits_menu();
-                redrawwin(main_scr);
                 break;
 
             case HOME_QUIT_ID:
                 do_quit = TRUE;
                 break;
         }
-        // Redraw 
+        // Redraw
+        print_background();
         wrefresh(main_scr);
     }
-
     quit(NO_ERR);
 }
 
