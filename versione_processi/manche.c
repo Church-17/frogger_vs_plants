@@ -1,5 +1,4 @@
 // Include libs
-#include <time.h>
 #include "../menu.h"
 #include "../str.h"
 #include "../manche.h"
@@ -39,7 +38,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
     // Init control vars
     bool manche_ended = FALSE; // Flag
-    int resize_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
+    time_t resize_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
     Message msg; // Define msg to store pipe message
 
@@ -115,7 +114,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
             // RESIZE AND AUTO-PAUSE
             case RESIZE_ID:
                 // Check the current time with the last continue to prevent multiple resize message at once
-                if(time(NULL) - resize_time < 1) {
+                if(timestamp() - resize_time < MSEC_IN_SEC) {
                     break;
                 }
                 // Call resize procedure
@@ -149,7 +148,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 signal_all(process_pids, SIGCONT); // Resume all child processes
 
                 // Save the current time to prevent multiple resize message at once
-                resize_time = time(NULL); 
+                resize_time = timestamp(); 
                 break;
 
             // CLOSE

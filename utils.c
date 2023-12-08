@@ -1,4 +1,5 @@
 // Include libs
+#include <sys/time.h>
 #include "struct.h"
 #include "utils.h"
 
@@ -15,6 +16,14 @@ int mod(int n1, int n2) {
 // Random number in range, min0 <= RAND < max0
 int rand_range(int min0, int max0) {
     return rand() % (max0-min0) + min0;
+}
+
+// Get current time in milliseconds
+time_t timestamp(void) {
+    struct timeval var;
+    gettimeofday(&var, NULL);
+    time_t milliseconds = var.tv_sec * MSEC_IN_SEC + var.tv_usec / USEC_IN_MSEC;
+    return milliseconds;
 }
 
 // Find max length of a strings list, starting from a min

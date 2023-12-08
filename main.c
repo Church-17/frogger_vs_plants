@@ -1,6 +1,5 @@
 // Include libs
 #include <locale.h>
-#include <time.h>
 #include "main.h"
 #include "menu.h"
 #include "game.h"

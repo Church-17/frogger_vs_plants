@@ -1,11 +1,14 @@
 // Include libs
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "struct_proto.h"
 
 // Define constant
 #define READ "r"
 #define WRITE "w"
+#define MSEC_IN_SEC 1000
+#define USEC_IN_MSEC MSEC_IN_SEC
 #define NO_CURS 0
 #define LEN_STR_INT 12
 #define LIM_STR_BUFF 100 // Max len of string
@@ -47,6 +50,7 @@
 int max(int n1, int n2);
 int mod(int n1, int n2);
 int rand_range(int min0, int max0);
+time_t timestamp(void);
 int max_strlen(List_str strings, int min_len);
 List_str dict_to_list(str* obj, int* ind, int len);
 void sort_dict(Dict_str_int* dict);
