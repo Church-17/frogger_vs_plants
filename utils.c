@@ -18,11 +18,11 @@ int rand_range(int min0, int max0) {
     return rand() % (max0-min0) + min0;
 }
 
-// Get current time in milliseconds
+// Get current epoch unix time in milliseconds
 time_t timestamp(void) {
-    struct timeval var;
-    gettimeofday(&var, NULL);
-    time_t milliseconds = var.tv_sec * MSEC_IN_SEC + var.tv_usec / USEC_IN_MSEC;
+    struct timeval tv;
+    gettimeofday(&tv, NULL); // Get unix time in seconds and the microseconds
+    time_t milliseconds = tv.tv_sec * MSEC_IN_SEC + tv.tv_usec / USEC_IN_MSEC; // Calc unix time in milliseconds
     return milliseconds;
 }
 
