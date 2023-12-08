@@ -8,6 +8,7 @@ struct = struct.h struct_proto.h
 utils = utils.h struct_proto.h
 res = res.h struct_proto.h
 str = str.h ${res}
+sprites = sprites.h struct_proto.h
 game = game.h struct_proto.h
 menu = menu.h struct_proto.h
 main = main.h struct_proto.h
