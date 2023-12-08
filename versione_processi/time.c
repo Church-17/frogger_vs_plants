@@ -6,19 +6,22 @@
 #include "time.h"
 
 void time_process(int pipe_write) {
+    // Init vars
     time_t start = timestamp(), end = start, elapsed;
     Message msg;
     msg.id = TIME_ID;
+
+    // Loop for beat time
     while(TRUE) {
-        elapsed = end - start;
-        if(elapsed >= MSEC_IN_SEC) {
-            start = end;
-            writer(pipe_write, &msg);
-            elapsed -= MSEC_IN_SEC;
+        elapsed = end - start; // Calc elapsed milliseconds
+        if(elapsed >= MSEC_IN_SEC) { // If a seconds passed...
+            start = end; // Update start
+            writer(pipe_write, &msg); // Write in pipe
+            elapsed -= MSEC_IN_SEC; // Decrese elapsed of a second
         }
-        if(elapsed < MSEC_IN_SEC) {
-            usleep((MSEC_IN_SEC - elapsed) * USEC_IN_MSEC);
+        if(elapsed < MSEC_IN_SEC) { // If elasped is now less that a second
+            usleep((MSEC_IN_SEC - elapsed) * USEC_IN_MSEC); // Wait for the milliseconds left to get to a second
         }
-        end = timestamp();
+        end = timestamp(); // Update end
     }
 }
