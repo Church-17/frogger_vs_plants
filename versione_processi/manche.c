@@ -147,9 +147,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 // If continue:
                 print_game(&gamevar); // Redraw game
                 signal_all(process_pids, SIGCONT); // Resume all child processes
-
-                // Save the current time to prevent multiple resize message at once
-                resize_time = timestamp(); 
+                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                 break;
 
             // CLOSE
@@ -168,6 +166,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 // If continue:
                 print_game(&gamevar); // Redraw game
                 signal_all(process_pids, SIGCONT); // Resume all child processes
+                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                 break;
         }
         wrefresh(main_scr);
