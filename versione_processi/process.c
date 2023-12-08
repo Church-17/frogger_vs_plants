@@ -1,4 +1,5 @@
 // Include libs
+#include <errno.h>
 #include "../struct.h"
 #include "../utils.h"
 #include "process.h"

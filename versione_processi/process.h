@@ -2,7 +2,6 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
-#include <errno.h>
 #include "../struct_proto.h"
 
 // Define constant
