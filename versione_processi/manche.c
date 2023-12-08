@@ -10,6 +10,7 @@
 
 // Define constant
 #define LIM_N_PROCESS 30
+#define RESIZE_TIME_THRESHOLD 100
 
 // Play a manche, return game vars with in gamevar.timer the time remaining or a manche_id
 Game_t play_manche(bool* holes_occupied, int n_lifes) {
@@ -114,7 +115,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
             // RESIZE AND AUTO-PAUSE
             case RESIZE_ID:
                 // Check the current time with the last continue to prevent multiple resize message at once
-                if(timestamp() - resize_time < MSEC_IN_SEC) {
+                if(timestamp() - resize_time < RESIZE_TIME_THRESHOLD) {
                     break;
                 }
                 // Call resize procedure
