@@ -52,6 +52,7 @@ int max(int n1, int n2);
 int mod(int n1, int n2);
 int rand_range(int min0, int max0);
 time_t timestamp(void);
+void msleep(time_t timer);
 int max_strlen(const List_str strings, int min_len);
 List_str dict_to_list(const str* obj, const int* ind, int len);
 void sort_dict(Dict_str_int* dict);

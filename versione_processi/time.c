@@ -23,7 +23,7 @@ void time_process(int pipe_write) {
             elapsed -= MSEC_IN_SEC; // Decrese elapsed of a second
         }
         if(elapsed < MSEC_IN_SEC) { // If elasped is now less that a second
-            usleep((MSEC_IN_SEC - elapsed) * USEC_IN_MSEC); // Wait for the milliseconds left to get to a second
+            msleep(MSEC_IN_SEC - elapsed); // Wait for the milliseconds left to get to a second
         }
         end = timestamp(); // Update end
     }
