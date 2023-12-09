@@ -109,7 +109,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 } else {
                     gamevar.timer--;
                 }
-                print_time(gamevar.timer, FALSE);
+                print_time(gamevar.timer);
                 break;
 
             // RESIZE AND AUTO-PAUSE

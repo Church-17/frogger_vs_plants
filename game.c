@@ -109,7 +109,7 @@ void print_game(const Game_t* gamevar) {
     print_frog(gamevar);
 
     // Print time
-    print_time(gamevar->timer, TRUE);
+    print_time(gamevar->timer);
 
     // Print lifes
     print_lifes(gamevar->lifes);

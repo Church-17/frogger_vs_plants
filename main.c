@@ -57,6 +57,7 @@ int main(void) {
     init_pair(GREEN_PURPLE_ID, COLOR_GREEN, COLOR_PURPLE);
     init_pair(GREEN_BLUE_ID, COLOR_GREEN, COLOR_BLUE);
     init_pair(GREEN_GREY_ID, COLOR_GREEN, COLOR_GREY);
+    init_pair(GREEN_RED_ID, COLOR_GREEN, COLOR_RED);
     
     // Read settings from file
     rd_settings();
