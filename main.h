@@ -2,7 +2,7 @@
 #include "struct_proto.h"
 
 // Define constant
-#define MAIN_ROWS 30
+#define MAIN_ROWS 31
 #define MAIN_COLS 100
 
 // Inter-object vars

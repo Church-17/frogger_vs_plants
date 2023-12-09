@@ -1,6 +1,6 @@
 // Include libs
 #include "../menu.h"
-#include "../str.h"
+#include "../res.h"
 #include "../manche.h"
 #include "../utils.h"
 #include "../struct.h"
@@ -65,12 +65,11 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
             // FROG
             case FROG_ID:
                 // Restore old frog position
-                if (in_hole_line(gamevar.frog) && gamevar.frog.y < LINE_HOLES) {restore_color = GREEN_GREY;}
-                else if(gamevar.frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
+                if(gamevar.frog.y < LINE_RIVER) {restore_color = GREEN_PURPLE;}
                 else if(gamevar.frog.y < LINE_BANK_2) {restore_color = GREEN_BLUE;}
                 else {restore_color = GREEN_PURPLE;}
-                for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_Y_DIM; i++) {
-                    mvwaprintw(main_scr, i, gamevar.frog.x, restore_color, "%*s", FROG_X_DIM, "");
+                for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_DIM_Y; i++) {
+                    mvwaprintw(main_scr, i, gamevar.frog.x, restore_color, "%*s", FROG_DIM_X, "");
                 }
 
                 // Update frog Y position
@@ -92,10 +91,10 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     }
                 }
 
-                // If the frog is in front of a trap, if it isn't, it can't go ahead
+                // If the frog isn't in front of a trap, it can't go ahead
                 if(gamevar.frog.y <= LINE_RIVER && !in_hole_line(gamevar.frog)) {
-                    if(gamevar.frog.y < LINE_HOLES) { 
-                        gamevar.frog.y = LINE_HOLES;
+                    if(gamevar.frog.y < LINE_BANK_1) { 
+                        gamevar.frog.y = LINE_BANK_1;
                     }
                 }
 

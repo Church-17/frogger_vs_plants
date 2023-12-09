@@ -8,11 +8,11 @@ struct = struct.h struct_proto.h
 utils = utils.h struct_proto.h
 res = res.h struct_proto.h
 str = str.h ${res}
-sprites = sprites.h struct_proto.h
 game = game.h struct_proto.h
 menu = menu.h struct_proto.h
 main = main.h struct_proto.h
-manche = manche.h ${main} ${game} ${sprites}
+sprites = sprites.h ${main} ${game} struct_proto.h
+manche = manche.h ${sprites}
 process = ${VERSION}/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
@@ -28,13 +28,13 @@ endif
 sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.o time.o ${SPEC_FILE}
 	${CC} $^ ${CARGS}
 
-manche.o: ${VERSION}/manche.c ${menu} ${manche} ${str} ${utils} ${struct}
+manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${menu} ${manche} ${res} ${utils} ${struct}
 	${COBJ_VER}
 
 process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
 	${COBJ_VER}
 
-frog.o: ${VERSION}/frog.c ${frog} ${process} ${manche} ${struct}
+frog.o: ${VERSION}/frog.c ${frog} ${process} ${sprites} ${struct}
 	${COBJ_VER}
 
 time.o: ${VERSION}/time.c ${time} ${process} ${utils} ${struct}
@@ -46,10 +46,10 @@ main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
 menu.o: menu.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
 	${COBJ}
 
-game.o: game.c ${menu} ${manche} ${str} ${utils} ${struct}
+game.o: game.c ${menu} ${manche} ${res} ${utils} ${struct}
 	${COBJ}
 
-sprites.o: sprites.c ${manche} ${res} ${utils} ${struct}
+sprites.o: sprites.c ${sprites} ${res} ${utils} ${struct}
 	${COBJ}
 
 str.o: str.c ${str} ${utils}
