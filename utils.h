@@ -8,7 +8,6 @@
 #define READ "r"
 #define WRITE "w"
 #define MSEC_IN_SEC 1000
-#define USEC_IN_MSEC MSEC_IN_SEC
 #define NO_CURS 0
 #define LEN_STR_INT 12
 #define LIM_STR_BUFF 100 // Max len of string

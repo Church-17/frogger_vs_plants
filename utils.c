@@ -4,6 +4,10 @@
 #include "struct.h"
 #include "utils.h"
 
+// Define constant
+#define USEC_IN_MSEC MSEC_IN_SEC
+#define MSLEEP_INTEVAL 10
+
 // Max function
 int max(int n1, int n2) {
     return n1 > n2 ? n1 : n2;
@@ -28,7 +32,6 @@ time_t timestamp(void) {
 }
 
 // Sleep for certain amount of milliseconds, handling interrupts
-#define MSLEEP_INTEVAL 10
 void msleep(time_t timer) {
     for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
         usleep(timer * USEC_IN_MSEC / MSLEEP_INTEVAL);
