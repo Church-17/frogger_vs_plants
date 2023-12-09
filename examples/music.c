@@ -10,7 +10,7 @@ void play_sound(char* path, int duration);
 int main(int argc, char **argv)
 {
     
-    play_sound("rec.wav", 8);
+    play_sound("invalid_keypress.mp3", 8);
 
     return 0;
 }
@@ -38,7 +38,7 @@ void play_sound(char* path, int duration) {
     sleep(duration);//play the audio 100s
 
     // stop playing
-    libvlc_media_player_stop(mp);
+    // libvlc_media_player_stop(mp);
 
     // free the media_player
     libvlc_media_player_release(mp);

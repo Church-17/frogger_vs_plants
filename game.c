@@ -10,7 +10,7 @@ int play(void);
 
 // Start demo in main_scr
 void demo(void) {
-    bool holes_occupied[N_HOLES] = {0};
+    bool holes_occupied[N_HOLES] = {FALSE};
     print_background(holes_occupied);
 }
 
