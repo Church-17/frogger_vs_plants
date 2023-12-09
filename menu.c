@@ -5,6 +5,7 @@
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
+#include "music.h"
 
 // Define constants
 #define LR_ARROWS 4 // N chars occupied by arrows in settings
@@ -135,6 +136,8 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
                     check_key(key, &hl, set);
                     break;
             }
+
+            play_sound("audio/select.mp3", 800000);
         }
     }
     unwin(menu_win);

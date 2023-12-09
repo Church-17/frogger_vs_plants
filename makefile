@@ -1,5 +1,5 @@
 CC = gcc
-CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread
+CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread -lvlc
 COBJ = ${CC} -c $*.c ${CARGS}
 COBJ_VER = ${CC} -c ./${VERSION}/$*.c ${CARGS}
 
@@ -16,6 +16,7 @@ manche = manche.h ${sprites}
 process = ${VERSION}/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
+music = music.h struct_proto.h
 
 # Define compiling version
 VERSION = versione_processi
@@ -25,7 +26,7 @@ else
 SPEC_FILE = threads.o
 endif
 
-sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.o time.o ${SPEC_FILE}
+sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.o time.o music.o ${SPEC_FILE}
 	${CC} $^ ${CARGS}
 
 manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${menu} ${manche} ${res} ${utils} ${struct}
@@ -43,7 +44,7 @@ time.o: ${VERSION}/time.c ${time} ${process} ${utils} ${struct}
 main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
 	${COBJ}
 
-menu.o: menu.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
+menu.o: menu.c ${main} ${menu} ${game} ${str} ${utils} ${struct} ${music}
 	${COBJ}
 
 game.o: game.c ${menu} ${manche} ${res} ${utils} ${struct}
@@ -59,6 +60,9 @@ res.o: res.c ${res} ${utils} ${struct}
 	${COBJ}
 
 utils.o: utils.c ${utils} ${struct}
+	${COBJ}
+
+music.o: ${music}
 	${COBJ}
 
 # Clear routines
