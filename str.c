@@ -1,6 +1,6 @@
 // Include libs
-#include "utils.h"
 #include "res.h"
+#include "utils.h"
 
 // Container of all strings
 const str strContainer[][N_LANGUAGE] = {

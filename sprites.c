@@ -1,7 +1,8 @@
-#include "struct.h"
-#include "utils.h"
-#include "res.h"
+// Include libs
 #include "sprites.h"
+#include "res.h"
+#include "utils.h"
+#include "struct.h"
 
 void print_lifes(int n_lifes) {
     int i;

@@ -1,9 +1,9 @@
 // Include libs
+#include "manche.h"
 #include "menu.h"
 #include "res.h"
-#include "struct.h"
 #include "utils.h"
-#include "manche.h"
+#include "struct.h"
 
 // Function prototypes
 int play(void);

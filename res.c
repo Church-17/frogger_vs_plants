@@ -1,7 +1,7 @@
 // Include libs
-#include "struct.h"
-#include "utils.h"
 #include "res.h"
+#include "utils.h"
+#include "struct.h"
 
 // Fucntion prototypes
 Dict_str_int check_conf_file(FILE* fptr, int lim_lines);

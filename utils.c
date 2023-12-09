@@ -1,8 +1,8 @@
 // Include libs
-#include <sys/time.h>
 #include <unistd.h>
-#include "struct.h"
+#include <sys/time.h>
 #include "utils.h"
+#include "struct.h"
 
 // Define constant
 #define USEC_IN_MSEC MSEC_IN_SEC
