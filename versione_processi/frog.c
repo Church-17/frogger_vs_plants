@@ -1,5 +1,6 @@
 // Include libs
-#include "../sprites.h"
+#include "../main.h"
+#include "../game.h"
 #include "../struct.h"
 #include "process.h"
 #include "frog.h"

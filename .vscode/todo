@@ -1,5 +1,4 @@
 add pb
 music
-handle read & write
-print_all & game struct
-msg.id
+pass main_scr as parameter
+spec game colors

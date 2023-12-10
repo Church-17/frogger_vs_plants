@@ -34,7 +34,7 @@ manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${menu} ${manche} ${res
 process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
 	${COBJ_VER}
 
-frog.o: ${VERSION}/frog.c ${frog} ${process} ${sprites} ${struct}
+frog.o: ${VERSION}/frog.c ${frog} ${process} ${main} ${game} ${struct}
 	${COBJ_VER}
 
 time.o: ${VERSION}/time.c ${time} ${process} ${utils} ${struct}

@@ -2,6 +2,14 @@
 #include "main.h"
 #include "game.h"
 
+// Define game zones
+#define LINE_HEADER 0
+#define LINE_HEDGE 1
+#define LINE_HOLES 2
+#define LINE_BANK_1 (LINE_HOLES + FROG_DIM_Y)
+#define LINE_RIVER (LINE_HOLES + FROG_DIM_Y)
+#define LINE_BANK_2 (LINE_HOLES + N_WATER_STREAM*FROG_DIM_Y)
+
 // Time constants
 #define TIME_COL 0
 #define TIME_YELLOW 30
@@ -22,8 +30,6 @@
 // Frog constant
 #define FROG_DIM_X 10
 #define FROG_DIM_Y 4
-#define MOVE_FROG_Y FROG_DIM_Y
-#define MOVE_FROG_X 2
 
 // Function prototypes
 void print_background(const bool* holes_occupied);

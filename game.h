@@ -10,14 +10,6 @@
 #define N_HOLES 5
 #define N_WATER_STREAM 4
 
-// Define game zones
-#define LINE_HEADER 0
-#define LINE_HEDGE 1
-#define LINE_HOLES 2
-#define LINE_BANK_1 6
-#define LINE_RIVER 10
-#define LINE_BANK_2 26
-
 // Function prototypes
 void demo(void);
 bool game(void);
