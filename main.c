@@ -71,13 +71,13 @@ int main(void) {
     main_scr = new_ctrwin(MAIN_ROWS, MAIN_COLS);
 
     // Start demo in bg
-    print_background();
+    demo();
     wrefresh(main_scr);
 
     // Main loop
     while(!do_quit) {
         chosen = home_menu();
-        print_background();
+        demo();
         wrefresh(main_scr);
         switch(chosen) {
             case HOME_GAME_ID: // Game
@@ -101,7 +101,7 @@ int main(void) {
                 break;
         }
         // Redraw
-        print_background();
+        demo();
         wrefresh(main_scr);
     }
     quit(NO_ERR);
@@ -151,7 +151,7 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x, const Game_t* gamevar) {
     // Redraw main_scr
     if(do_prints) {
         if(gamevar == NULL) {
-            print_background(); // Redraw background
+            demo(); // Redraw background
         } else {
             print_game(gamevar); // Redraw game
         }

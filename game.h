@@ -19,6 +19,6 @@
 #define LINE_BANK_2 26
 
 // Function prototypes
-void print_background(void);
+void demo(void);
 bool game(void);
 void print_game(const Game_t* gamevar);

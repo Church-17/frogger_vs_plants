@@ -4,12 +4,32 @@
 #include "utils.h"
 #include "struct.h"
 
-void print_lifes(int n_lifes) {
-    int i;
-    for(i = 0; i < n_lifes; i++) {
-        mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "❤");
+void print_background(const bool* holes_occupied) {
+    int i, j;
+    // Print hedge
+    for(i = LINE_HEDGE; i < LINE_BANK_1; i++) {
+        mvwaprintw(main_scr, i, 0, GREEN_GREY, "%*s", MAIN_COLS, "");
     }
-    mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*n_lifes, RED_BLACK, "%*s", SPACE_PER_LIFE*(MAX_N_LIFES-n_lifes), "");
+    // Print holes
+    for(i = 0; i < N_HOLES; i++) {
+        if(!holes_occupied[i]) { // If a hole is occupied, it's closed (so not printed)
+            for(j = LINE_HOLES; j < LINE_BANK_1; j++) {
+                mvwaprintw(main_scr, j, i*MAIN_COLS/N_HOLES + HOLE_PAD_X, GREEN_PURPLE, "%*s", HOLE_DIM_X, "");
+            }
+        }
+    }
+    // Print upper bank
+    for(i = LINE_BANK_1; i < LINE_RIVER; i++) {
+        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
+    }
+    // Print river
+    for(i = LINE_RIVER; i < LINE_BANK_2; i++) {
+        mvwaprintw(main_scr, i, 0, GREEN_BLUE, "%*s", MAIN_COLS, "");
+    }
+    // Print lower bank
+    for(i = LINE_BANK_2; i < MAIN_ROWS; i++) {
+        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
+    }
 }
 
 void print_time(int time_remained) {
@@ -33,6 +53,14 @@ void print_time(int time_remained) {
     mvwaprintw(main_scr, LINE_HEADER, TIME_COL, time_color, "%*d ", STRLEN_TIME, time_remained);
     mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL, timebar_color, "%*s", new_timebar_len, "");
     mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL+new_timebar_len, time_color, "%*s", TIMEBAR_LEN-new_timebar_len, "");
+}
+
+void print_lifes(int n_lifes) {
+    int i;
+    for(i = 0; i < n_lifes; i++) {
+        mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "❤");
+    }
+    mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*n_lifes, RED_BLACK, "%*s", SPACE_PER_LIFE*(MAX_N_LIFES-n_lifes), "");
 }
 
 void print_frog(const Game_t* gamevar) {

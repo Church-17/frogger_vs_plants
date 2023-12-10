@@ -9,33 +9,9 @@
 int play(void);
 
 // Start demo in main_scr
-void print_background(void) {
-    int i, j;
-
-    // Print holes
-    mvwaprintw(main_scr, LINE_HEDGE, 0, GREEN_GREY, "%*s", MAIN_COLS, "");
-    for(i = 0; i < N_HOLES; i++) {
-        for(j = LINE_HOLES; j < LINE_BANK_1; j++) {
-            mvwaprintw(main_scr, j, i*MAIN_COLS/N_HOLES, GREEN_GREY, "%*s", HOLE_PAD_X, "");
-            mvwaprintw(main_scr, j, i*MAIN_COLS/N_HOLES + HOLE_PAD_X, GREEN_PURPLE, "%*s", HOLE_DIM_X, "");
-            mvwaprintw(main_scr, j, i*MAIN_COLS/N_HOLES + HOLE_PAD_X + HOLE_DIM_X, GREEN_GREY, "%*s", HOLE_PAD_X, "");
-        }
-    }
-
-    // Print upper bank
-    for(i = LINE_BANK_1; i < LINE_RIVER; i++) {
-        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
-    }
-
-    // Print river
-    for(i = LINE_RIVER; i < LINE_BANK_2; i++) {
-        mvwaprintw(main_scr, i, 0, GREEN_BLUE, "%*s", MAIN_COLS, "");
-    }
-
-    // Print lower bank
-    for(i = LINE_BANK_2; i < MAIN_ROWS; i++) {
-        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
-    }
+void demo(void) {
+    bool holes_occupied[N_HOLES] = {0};
+    print_background(holes_occupied);
 }
 
 // Manage more games
@@ -115,7 +91,7 @@ int play(void) {
 
 void print_game(const Game_t* gamevar) {
     // Print background
-    print_background();
+    print_background(gamevar->holes_occupied);
 
     // Print frog
     print_frog(gamevar);

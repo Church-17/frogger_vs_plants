@@ -26,7 +26,8 @@
 #define MOVE_FROG_X 2
 
 // Function prototypes
-void print_lifes(int n_lifes);
+void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
+void print_lifes(int n_lifes);
 void print_frog(const Game_t* gamaver);
 bool in_hole_line(Position frog);
