@@ -14,7 +14,7 @@ void play_sound(Mix_Chunk* sound);
 
 int main(void) {
     // Init SDL engine
-    if(SDL_Init(SDL_INIT_AUDIO) == -1) {
+    if(SDL_InitSubSystem(SDL_INIT_AUDIO) == -1) {
         return 1;    
     }
     
