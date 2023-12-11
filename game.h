@@ -9,6 +9,7 @@
 #define MAX_N_LIFES 6
 #define N_HOLES 5
 #define N_WATER_STREAM 4
+#define N_PLANTS 3
 
 // Function prototypes
 void demo(void);
