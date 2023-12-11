@@ -1,21 +1,25 @@
-// installare le librerie libvlccore-dev libvlc-dev
 #include <stdio.h>
 #include <stdlib.h>
 #include <vlc/vlc.h>
 #include <vlc/libvlc.h>
 #include <unistd.h>
 
-void play_sound(char* path, int duration);
+#include "../utils.h"
+#include "../struct_proto.h"
+
+void play_sound(str path, int duration);
 
 int main(int argc, char **argv)
 {
     
-    play_sound("invalid_keypress.mp3", 8);
+    for (int i = 0; i < 10; i++) {
+        play_sound("../audio/select.mp3", 100000);
+    }
 
     return 0;
 }
 
-void play_sound(char* path, int duration) {
+void play_sound(str path, int duration) {
     libvlc_instance_t *inst;
     libvlc_media_player_t *mp;
     libvlc_media_t *m;
@@ -35,7 +39,7 @@ void play_sound(char* path, int duration) {
     // play the media_player
     libvlc_media_player_play(mp);
 
-    sleep(duration);//play the audio 100s
+    usleep(duration);//play the audio 100s
 
     // stop playing
     // libvlc_media_player_stop(mp);
