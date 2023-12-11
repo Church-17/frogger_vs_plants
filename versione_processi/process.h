@@ -14,7 +14,7 @@
 void signal_all(const List_pid pids, int signal);
 void quit_all(int err_code, const List_pid pids);
 void piper(int* pipe_fds);
-void forker(int index, List_pid* pids, void (*func_process)(int), int* pipe_fds);
+void forker(List_pid* pids, void (*func_process)(WINDOW*, int, int, int*), WINDOW* win, int* pipe_fds, int index, int* other_params);
 void reader(int pipe_read, Message* buf);
 void writer(int pipe_write, Message* buf);
 

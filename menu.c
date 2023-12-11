@@ -136,8 +136,6 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
                     check_key(key, &hl, set);
                     break;
             }
-
-            play_sound("audio/select.mp3", 800000);
         }
     }
     unwin(menu_win);

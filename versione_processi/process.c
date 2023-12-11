@@ -25,14 +25,14 @@ void piper(int* pipe_fds) {
 }
 
 // Calls fork() handling the errors
-void forker(int index, List_pid* pids, void (*func_process)(int), int* pipe_fds) {
+void forker(List_pid* pids, void (*func_process)(WINDOW*, int, int, int*), WINDOW* win, int* pipe_fds, int index, int* other_params) {
     pid_t pid = fork();
     if(pid < 0) {
         quit_all(ERR_FORK, *pids);
     }
     if(pid == PID_CHILD) {
         close(pipe_fds[PIPE_READ]);
-        func_process(pipe_fds[PIPE_WRITE]);
+        func_process(win, pipe_fds[PIPE_WRITE], index, other_params);
         _exit(ERR_FORK); // Handle unexpected process termination
     }
     pids->list[index] = pid;

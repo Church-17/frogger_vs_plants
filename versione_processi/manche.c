@@ -30,8 +30,8 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     piper(pipe_fds); // Starts the pipe handling the errors
 
     // Fork
-    forker(FROG_ID, &process_pids, frog_process, pipe_fds); // Calls the fork for frog process handling the errors
-    forker(TIME_ID, &process_pids, time_process, pipe_fds); // Calls the fork for time process handling the errors
+    forker(&process_pids, frog_process, main_scr, pipe_fds, FROG_ID, NULL); // Calls the fork for frog process handling the errors
+    forker(&process_pids, time_process, main_scr, pipe_fds, TIME_ID, NULL); // Calls the fork for time process handling the errors
     
     // --- PARENT PROCESS ---
 

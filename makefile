@@ -62,7 +62,7 @@ res.o: res.c ${res} ${utils} ${struct}
 utils.o: utils.c ${utils} ${struct}
 	${COBJ}
 
-music.o: ${music}
+music.o: music.c ${music}
 	${COBJ}
 
 # Clear routines
