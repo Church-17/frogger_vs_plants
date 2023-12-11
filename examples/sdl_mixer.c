@@ -19,7 +19,7 @@ int main(void) {
     }
     
     //Init SDL_mixer
-    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 128) == -1) {
+    if(Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
         return 1;    
     }
     
@@ -31,6 +31,7 @@ int main(void) {
 
     char str[100];
     while(str[0] != 'q') {
+        printf("ready\n");
         scanf("%s", str);
         getchar();
         play_sound(scratch);
