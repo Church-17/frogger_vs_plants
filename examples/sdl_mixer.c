@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 //The music that will be played
-Mix_Music *music = NULL;
+// Mix_Music *music = NULL;
 
 //The sound effects that will be used
 Mix_Chunk *scratch = NULL;
@@ -14,12 +14,12 @@ void play_sound(Mix_Chunk* sound);
 
 int main(void) {
     // Init SDL engine
-    if(SDL_Init(SDL_INIT_EVERYTHING) == -1) {
+    if(SDL_Init(SDL_INIT_AUDIO) == -1) {
         return 1;    
     }
     
     //Init SDL_mixer
-    if(Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 128) == -1) {
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 128) == -1) {
         return 1;    
     }
     
@@ -27,9 +27,12 @@ int main(void) {
     // music = Mix_LoadMUS( "beat.wav" );
     
     // Load effects
-    scratch = Mix_LoadWAV( "../audio/select_new.wav" );
+    scratch = Mix_LoadWAV( "../audio/select_new.mp3" );
 
-    while(getchar() != 'q') {
+    char str[100];
+    while(str[0] != 'q') {
+        scanf("%s", str);
+        getchar();
         play_sound(scratch);
     }
 
