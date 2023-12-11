@@ -6,7 +6,7 @@
 #include "struct.h"
 
 // Function prototypes
-int play(void);
+int play_game(void);
 
 // Start demo in main_scr
 void demo(void) {
@@ -22,7 +22,7 @@ bool game() {
 
     // Loop for retrying play
     while(do_play) {
-        game_ret = play();
+        game_ret = play_game();
         switch(game_ret) {
             case OVER_RETR_ID: // Play
                 break;
@@ -43,7 +43,7 @@ bool game() {
 }
 
 // Play a game handling more manche, return Game_Over_Menu_Index
-int play(void) {
+int play_game(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
     int i, score = 0, n_lifes = N_LIFES;
     int manche_remained_time[N_HOLES] = {0}; // Array with the remained time of each manche
