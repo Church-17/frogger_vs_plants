@@ -14,14 +14,12 @@ void play_sound(Mix_Chunk* sound);
 
 int main(void) {
     // Init SDL engine
-    if(SDL_InitSubSystem(SDL_INIT_AUDIO) == -1) {
-        return 1;    
-    }
+    SDL_InitSubSystem(SDL_INIT_AUDIO);
     
     //Init SDL_mixer
-    if(Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-        return 1;    
-    }
+    Mix_Init(MIX_INIT_MP3);
+    Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, 2, 1024);
+    Mix_AllocateChannels(8);
     
     //Load the music
     // music = Mix_LoadMUS( "beat.wav" );
@@ -38,8 +36,7 @@ int main(void) {
     }
 
     // Free effects
-    Mix_FreeChunk( scratch );
-    scratch = NULL;
+    Mix_FreeChunk(scratch);
     
     //Free the music
     // Mix_FreeMusic( music );

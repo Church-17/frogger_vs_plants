@@ -11,8 +11,11 @@ void play_sound(str path, int duration);
 
 int main(int argc, char **argv)
 {
-    
-    for (int i = 0; i < 10; i++) {
+    char str[10];
+    while (str[0] != 'q') {
+        printf("ready\n");
+        scanf("%s", str);
+        getchar();
         play_sound("../audio/select.mp3", 100000);
     }
 
