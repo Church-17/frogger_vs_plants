@@ -38,7 +38,7 @@ void view(const List_str title, const List_str sx, const List_str dx, const List
     int win_height = POSITION_Y(sx.len, sx.len+1, title.len)+BOX_PADS;
 
     // Setup window
-    WINDOW* menu_win = new_win(win_height, win_width, (LINES - win_height)/2, (COLS - win_width)/2); // Centered window
+    WINDOW* menu_win = new_ctrwin(win_height, win_width); // Centered window
     wattron(menu_win, COL1); // Enable chosen color
 
     while(do_prints) {
