@@ -31,6 +31,10 @@
 #define FROG_DIM_X 10
 #define FROG_DIM_Y 4
 
+// Croccodile constants
+#define CROCCODILE_DIM_X 30
+#define CROCCODILE_DIM_Y 4
+
 // Function prototypes
 void print_background(const bool* holes_occupied);
 void print_time(int time_remained);

@@ -30,6 +30,7 @@ struct Position {
 };
 struct Game_t {
     Position frog;
+    Position* croccodiles;
     int timer;
     int lifes;
     bool* holes_occupied;

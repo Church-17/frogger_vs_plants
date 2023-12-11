@@ -24,3 +24,4 @@ void writer(int pipe_write, Message* buf);
 #define PAUSE_ID -1
 #define FROG_ID 0
 #define TIME_ID 1
+#define MIN_CROCCODILE_ID 2

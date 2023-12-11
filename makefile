@@ -16,6 +16,7 @@ manche = manche.h ${sprites}
 process = ${VERSION}/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
+croccodile = ${VERSION}/croccodile.h struct_proto.h
 music = music.h struct_proto.h
 
 # Define compiling version
@@ -26,7 +27,7 @@ else
 SPEC_FILE = threads.o
 endif
 
-sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.o time.o music.o ${SPEC_FILE}
+sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.o time.o music.o croccodile.o ${SPEC_FILE}
 	${CC} $^ ${CARGS}
 
 manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${menu} ${manche} ${res} ${utils} ${struct}
@@ -39,6 +40,9 @@ frog.o: ${VERSION}/frog.c ${frog} ${process} ${main} ${game} ${struct}
 	${COBJ_VER}
 
 time.o: ${VERSION}/time.c ${time} ${process} ${utils} ${struct}
+	${COBJ_VER}
+
+croccodile.o: ${VERSION}/croccodile.c ${frog} ${process} ${main} ${game} ${struct}
 	${COBJ_VER}
 
 main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
