@@ -73,6 +73,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     alloc(Position, gamevar.croccodiles, 10);
     gamevar.lifes = n_lifes;
     gamevar.holes_occupied = holes_occupied;
+    gamevar.stream_speed = stream_speed;
 
     // Print all elements of the game
     print_game(&gamevar);
@@ -214,7 +215,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
             default:
                 if (msg.id >= MIN_CROCCODILE_ID && msg.id < 100) {
-                    int n_stream = msg.y*FROG_DIM_X + LINE_BANK_1;
+                    int n_stream = (msg.y - LINE_BANK_1 ) / FROG_DIM_X;
 
                     if (stream_speed[n_stream] > 0) { // if the stream has positive speed
 
@@ -264,7 +265,11 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
                         // Update frog X position
                         if(gamevar.frog.x >= LIM_LEFT && gamevar.frog.x <= LIM_RIGHT) { // If frog can move...
-                            gamevar.frog.x += MOVE_CROCCODILE_X; // Update coordinate
+                            if (stream_speed[(gamevar.croccodiles[frog_on_croccodile].y - LINE_RIVER) / FROG_DIM_Y] > 0) {
+                                gamevar.frog.x += MOVE_CROCCODILE_X; // Update coordinate
+                            } else {
+                                gamevar.frog.x -= MOVE_CROCCODILE_X;
+                            }
                             if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
                                 gamevar.frog.x = LIM_LEFT; // Move to limit
                             } else if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...

@@ -97,6 +97,43 @@ void print_frog(const Game_t* gamevar) {
     mvwaprintw(main_scr, gamevar->frog.y+3, gamevar->frog.x+7, pair_bg[3], "▀█▀"); //
 }
 
+void print_croccodile(const Game_t* gamevar, int id, int n_stream) {
+    int i, real_id = id - 2;
+    if (gamevar->stream_speed[n_stream] > 0) { // if the stream has positive speed
+
+        for (i = gamevar->croccodiles[id].y; i < gamevar->croccodiles[id].y + CROCCODILE_DIM_Y; i++) {
+            if (gamevar->croccodiles[id].x <= MAIN_COLS - CROCCODILE_DIM_X) {
+                mvwaprintw(main_scr, i, gamevar->croccodiles[id].x > 0 ? gamevar->croccodiles[id].x : 0, MAGENTA_GREEN, "%*s", CROCCODILE_DIM_X + (gamevar->croccodiles[id].x < 0 ? gamevar->croccodiles[id].x : 0), " ");
+            } else {
+                mvwaprintw(main_scr, i, gamevar->croccodiles[id].x, MAGENTA_GREEN, "%*s", MAIN_COLS - gamevar->croccodiles[id].x, " ");
+            }
+
+        }
+
+        if (gamevar->croccodiles[id].x > 0) {
+            for (i = gamevar->croccodiles[id].y; i < gamevar->croccodiles[id].y + CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i, gamevar->croccodiles[id].x - MOVE_CROCCODILE_X, GREEN_BLUE, "%*s", MOVE_CROCCODILE_X, " ");
+            }
+        }
+    } else { // if the stream has negative speed
+
+        for (i = gamevar->croccodiles[id].y; i < gamevar->croccodiles[id].y + CROCCODILE_DIM_Y; i++) {
+            if (gamevar->croccodiles[id].x <= MAIN_COLS - CROCCODILE_DIM_X) {
+                mvwaprintw(main_scr, i, gamevar->croccodiles[id].x > 0 ? gamevar->croccodiles[id].x : 0, MAGENTA_GREEN, "%*s", CROCCODILE_DIM_X + (gamevar->croccodiles[id].x < 0 ? gamevar->croccodiles[id].x : 0), " ");
+            } else {
+                mvwaprintw(main_scr, i, gamevar->croccodiles[id].x, MAGENTA_GREEN, "%*s", MAIN_COLS - gamevar->croccodiles[id].x, " ");
+            }
+
+        }
+
+        if (gamevar->croccodiles[id].x <= MAIN_COLS - CROCCODILE_DIM_X) {
+            for (i = gamevar->croccodiles[id].y; i < gamevar->croccodiles[id].y + CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i, gamevar->croccodiles[id].x + CROCCODILE_DIM_X, GREEN_BLUE, "%*s", MOVE_CROCCODILE_X, " ");
+            }
+        }
+    }
+}
+
 // Checks if the frog is in the line of a hole
 bool in_hole_line(Position frog) {
     for (int i = 0; i < N_HOLES; i++) {

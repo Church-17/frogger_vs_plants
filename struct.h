@@ -34,4 +34,5 @@ struct Game_t {
     int timer;
     int lifes;
     bool* holes_occupied;
+    int* stream_speed;
 };
