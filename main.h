@@ -2,8 +2,8 @@
 #include "struct_proto.h"
 
 // Define constant
-#define MAIN_ROWS 31
-#define MAIN_COLS 100
+#define MAIN_ROWS 47
+#define MAIN_COLS 150
 
 // Inter-object vars
 extern WINDOW* main_scr;

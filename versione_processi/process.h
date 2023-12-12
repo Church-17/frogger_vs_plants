@@ -28,4 +28,4 @@ void writer(int pipe_write, Message* buf);
 #define PLANT_2_ID 3
 #define PLANT_3_ID 4
 #define MIN_CROCCODILE_ID 5
-#define MIN_BULLET_ID 50
+#define MIN_BULLET_ID 100

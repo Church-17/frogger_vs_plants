@@ -39,16 +39,14 @@ void croccodile_process(int pipe_write, int* other_params) {
     // Loop for write new coordinates
     while(!do_exit) {
         // Update X coordinate
-        if (speed_stream > 0) {
-            if (msg.x < limit) {
-                msg.x += MOVE_CROCCODILE_X;
-            } else {
+        if(speed_stream > 0) {
+            msg.x += MOVE_CROCCODILE_X;
+            if(msg.x >= limit) {
                 do_exit = TRUE;
             }
         } else {
-            if (msg.x > limit) {
-                msg.x -= MOVE_CROCCODILE_X;
-            } else {
+            msg.x -= MOVE_CROCCODILE_X;
+            if(msg.x <= limit) {
                 do_exit = TRUE;
             }
         }
