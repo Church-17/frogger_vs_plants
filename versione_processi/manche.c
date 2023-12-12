@@ -72,7 +72,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     gamevar.croccodiles.len = LIM_N_CROCCODILE;
     gamevar.lifes = n_lifes;
     gamevar.holes_occupied = holes_occupied;
-    gamevar.stream_speed = stream_speed;
 
     // Erase old game or demo & print all elements of the game
     wclear(main_scr);
