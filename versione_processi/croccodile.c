@@ -1,6 +1,5 @@
 // Include libs
 #include "../main.h"
-#include "../game.h"
 #include "../struct.h"
 #include "../utils.h"
 #include "../sprites.h"
@@ -9,7 +8,7 @@
 
 // params: [communication_id, n_stream, speed_stream]
 void croccodile_process(int pipe_write, int* other_params) {
-    srand(timestamp());
+    srand(timestamp() + other_params[0]);
 
     // Init vars
     bool do_exit = FALSE;

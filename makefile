@@ -30,7 +30,7 @@ endif
 sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.o time.o music.o croccodile.o ${SPEC_FILE}
 	${CC} $^ ${CARGS}
 
-manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${menu} ${manche} ${res} ${utils} ${struct}
+manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${croccodile} ${menu} ${manche} ${res} ${utils} ${struct}
 	${COBJ_VER}
 
 process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
@@ -42,7 +42,7 @@ frog.o: ${VERSION}/frog.c ${frog} ${process} ${main} ${game} ${struct}
 time.o: ${VERSION}/time.c ${time} ${process} ${utils} ${struct}
 	${COBJ_VER}
 
-croccodile.o: ${VERSION}/croccodile.c ${frog} ${process} ${main} ${game} ${struct}
+croccodile.o: ${VERSION}/croccodile.c ${croccodile} ${sprites} ${process} ${utils} ${main} ${struct}
 	${COBJ_VER}
 
 main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}

@@ -40,7 +40,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     forker(pipe_fds, &process_pids, TIME_ID, time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
         do { // Randomize speed of each stream
-            stream_speed[i] = rand_range(-5, 5) * 100;
+            stream_speed[i] = rand_range(-3, 3) * 100;
         } while (stream_speed[i] == 0); // Speed must not be 0
         // Write croccodile params
         croccodile_params[0] = i + MIN_CROCCODILE_ID;
@@ -65,7 +65,10 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     gamevar.frog.x = INIT_FROG_X;
     gamevar.timer = TIME_MANCHE;
     alloc(Position, gamevar.croccodiles.list, LIM_N_CROCCODILE);
-    for(i = 0; i < LIM_N_CROCCODILE; i++) {
+    for(i = 0; i < N_WATER_STREAM; i++) {
+        gamevar.croccodiles.list[i].y = INCOMING_CROCCODILE;
+    }
+    for(i = N_WATER_STREAM; i < LIM_N_CROCCODILE; i++) {
         gamevar.croccodiles.list[i].y = FREE_CROCCODILE;
     }
     gamevar.croccodiles.len = LIM_N_CROCCODILE;
@@ -242,6 +245,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 // Free croccodile
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) {
                     gamevar.croccodiles.list[croccodile_id].y = FREE_CROCCODILE;
+                    printf("F%d ", msg.id);
                 }
 
                 // Check if needs to spawn another croccodile
@@ -253,6 +257,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     croccodile_params[0] = i + MIN_CROCCODILE_ID;
                     croccodile_params[1] = croccodile_stream;
                     croccodile_params[2] = stream_speed[croccodile_stream];
+                    printf("C%d ", croccodile_params[0]);
                     forker(pipe_fds, &process_pids, croccodile_params[0], croccodile_process, croccodile_params); // Calls the fork for time process handling the errors
                     stream_last[croccodile_stream] = i;
                 }

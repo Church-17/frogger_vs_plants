@@ -103,7 +103,7 @@ void print_game(const Game_t* gamevar) {
 
     // Print croccodiles
     for(i = 0; i < gamevar->croccodiles.len; i++) {
-        if(gamevar->croccodiles.list[i].y != FREE_CROCCODILE) {
+        if(gamevar->croccodiles.list[i].y > FREE_CROCCODILE) {
             print_croccodile(gamevar->croccodiles.list[i]);
         }
     }
