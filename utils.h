@@ -28,7 +28,7 @@
 #define ERR_WRITE 7
 
 // Define macros
-#define alloc(type, var, n) if((var = (type*) calloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
+#define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
 #define dalloc(type, var, n) \
     type* var;\
     alloc(type, var, n) // Define and alloc
