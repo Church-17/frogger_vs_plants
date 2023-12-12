@@ -9,7 +9,10 @@
 
 // params: [communication_id, n_stream, speed_stream]
 void croccodile_process(int pipe_write, int* other_params) {
+    srand(timestamp());
+
     // Init vars
+    bool do_exit = FALSE;
     int n_stream, speed_stream, limit;
     Message msg;
 
@@ -21,7 +24,7 @@ void croccodile_process(int pipe_write, int* other_params) {
     // Determine coordinates
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
 
-    if (speed_stream > 0) { // If the stream direction is from L to R
+    if(speed_stream > 0) { // If the stream direction is from L to R
         msg.x = -CROCCODILE_DIM_X + MOVE_CROCCODILE_X;
         limit = MAIN_COLS;
     } else { // If the stream direction is from R to L
@@ -30,25 +33,31 @@ void croccodile_process(int pipe_write, int* other_params) {
     }
 
     // Random spawn time
-    msleep(rand_range(1, 3) * MSEC_IN_SEC);
+    msleep(rand_range(1, 5) * MSEC_IN_SEC);
+    writer(pipe_write, &msg);
 
     // Loop for write new coordinates
-    while(TRUE) {
-        // Write on pipe
-        writer(pipe_write, &msg);
-
+    while(!do_exit) {
         // Update X coordinate
-        if (limit == MAIN_COLS) {
-            if (msg.x < MAIN_COLS) {
+        if (speed_stream > 0) {
+            if (msg.x < limit) {
                 msg.x += MOVE_CROCCODILE_X;
+            } else {
+                do_exit = TRUE;
             }
         } else {
-            if (msg.x > -CROCCODILE_DIM_X) {
+            if (msg.x > limit) {
                 msg.x -= MOVE_CROCCODILE_X;
+            } else {
+                do_exit = TRUE;
             }
         }
 
         // Sleep based on speed
         msleep(speed_stream > 0 ? speed_stream : -speed_stream);
+
+        // Write on pipe
+        writer(pipe_write, &msg);
     }
+    return;
 }

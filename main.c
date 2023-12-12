@@ -15,7 +15,7 @@ bool check_term(WINDOW* win);
 
 // Main
 int main(void) {
-    srand(time(NULL)); // Random seed
+    srand(timestamp()); // Random seed
 
     // Setup screen
     setlocale(LC_ALL, ""); // Enable UTF-8 chars

@@ -2,6 +2,7 @@
 #include "../main.h"
 #include "../game.h"
 #include "../struct.h"
+#include "../utils.h"
 #include "process.h"
 #include "frog.h"
 
@@ -44,11 +45,13 @@ void frog_process(int pipe_write, int* other_params) {
                 break;
 
             case PAUSE_GAME_KEY:
+            case PAUSE_GAME_KEY - CAPITAL_SHIFT:
                 msg.id = PAUSE_ID;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
             case CLOSE_GAME_KEY:
+            case CLOSE_GAME_KEY - CAPITAL_SHIFT:
                 msg.id = CLOSE_ID;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;

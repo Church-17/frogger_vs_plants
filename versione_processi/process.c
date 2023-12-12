@@ -35,7 +35,7 @@ void forker(int* pipe_fds, List_pid* pids, int index, void (*func_process)(int, 
     if(pid == PID_CHILD) {
         close(pipe_fds[PIPE_READ]);
         func_process(pipe_fds[PIPE_WRITE], func_params);
-        _exit(ERR_FORK); // Handle unexpected process termination
+        _exit(NO_ERR);
     }
     pids->list[index] = pid;
 }
