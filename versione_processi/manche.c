@@ -230,7 +230,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                             mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, gamevar.croccodiles.list[croccodile_id].x, GREEN_BLUE, "%*s", MAIN_COLS - gamevar.croccodiles.list[croccodile_id].x, "");
                         }
                     }
-                } else printf("%d ", msg.id);
+                }
 
                 // Update saved coordinates
                 gamevar.croccodiles.list[croccodile_id].x = msg.x;
@@ -242,7 +242,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 // Free croccodile
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) {
                     gamevar.croccodiles.list[croccodile_id].y = FREE_CROCCODILE;
-                    printf("F%d ", msg.id);
                 }
 
                 // Check if needs to spawn another croccodile
