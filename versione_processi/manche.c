@@ -10,7 +10,6 @@
 #include "croccodile.h"
 
 // Define constant
-#define FROG_NOT_ON_CROCCODILE (-1)
 #define RESIZE_TIME_THRESHOLD 100
 #define LIM_N_PROCESS 100
 #define LIM_N_CROCCODILE (MIN_BULLET_ID - MIN_CROCCODILE_ID)
@@ -92,11 +91,11 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
             case FROG_ID:
                 // Restore colors of old frog position
                 if(gamevar.frog.y < LINE_RIVER) {
-                    restore_color = GREEN_PURPLE; // If frog was on bank 1 set purple
+                    restore_color = BANK_BG; // If frog was on bank 1 set purple
                 } else if(gamevar.frog.y < LINE_BANK_2) {
-                    restore_color = MAGENTA_GREEN; // If frog was on croccodile set green
+                    restore_color = GOOD_CROCCODILE_BG; // If frog was on croccodile set dark green
                 } else {
-                    restore_color = GREEN_PURPLE; // If frog was on bank 2 set purple
+                    restore_color = BANK_BG; // If frog was on bank 2 set purple
                 }
                 // De-print old frog with correct background
                 for(i = 0; i < FROG_DIM_Y; i++) {
@@ -150,7 +149,11 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                         manche_ended = TRUE;
                     }
                 }
-                print_frog(&gamevar);
+
+                // Print frog if not dead
+                if(gamevar.timer) {
+                    print_frog(&gamevar);
+                }
                 break;
 
             // TIMER
@@ -227,19 +230,49 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 croccodile_id = msg.id - MIN_CROCCODILE_ID;
                 croccodile_stream = (msg.y - LINE_RIVER) / FROG_DIM_Y;
 
+                // Check if frog is on top
+                if(frog_on_croccodile == croccodile_id) {
+                    // De-print frog
+                    restore_color = GOOD_CROCCODILE_BG;
+                    for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_DIM_Y; i++) {
+                        mvwaprintw(main_scr, i, gamevar.frog.x, restore_color, "%*s", FROG_DIM_X, "");
+                    }
+
+                    // Update frog X position
+                    if(stream_speed[croccodile_stream] > 0) {
+                        gamevar.frog.x += MOVE_CROCCODILE_X;
+                        if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
+                            gamevar.frog.x = LIM_RIGHT; // Move to limit
+                            if(gamevar.frog.x < msg.x) {
+                                gamevar.timer = MANCHE_LOST;
+                                manche_ended = TRUE;
+                            }
+                        }
+                    } else {
+                        gamevar.frog.x -= MOVE_CROCCODILE_X;
+                        if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
+                            gamevar.frog.x = LIM_LEFT; // Move to limit
+                            if(gamevar.frog.x > msg.x + CROCCODILE_DIM_X - FROG_DIM_X) {
+                                gamevar.timer = MANCHE_LOST;
+                                manche_ended = TRUE;
+                            }
+                        }
+                    }
+                }
+
                 // De-print croccodile
                 if(gamevar.croccodiles.list[croccodile_id].y > FREE_CROCCODILE) {
                     if(gamevar.croccodiles.list[croccodile_id].x < 0) {
                         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, 0, GREEN_BLUE, "%*s", CROCCODILE_DIM_X + gamevar.croccodiles.list[croccodile_id].x, "");
+                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, 0, RIVER_BG, "%*s", CROCCODILE_DIM_X + gamevar.croccodiles.list[croccodile_id].x, "");
                         }
                     } else if(gamevar.croccodiles.list[croccodile_id].x < MAIN_COLS - CROCCODILE_DIM_X) {
                         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, gamevar.croccodiles.list[croccodile_id].x, GREEN_BLUE, "%*s", CROCCODILE_DIM_X, "");
+                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, gamevar.croccodiles.list[croccodile_id].x, RIVER_BG, "%*s", CROCCODILE_DIM_X, "");
                         }
                     } else {
                         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, gamevar.croccodiles.list[croccodile_id].x, GREEN_BLUE, "%*s", MAIN_COLS - gamevar.croccodiles.list[croccodile_id].x, "");
+                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, gamevar.croccodiles.list[croccodile_id].x, RIVER_BG, "%*s", MAIN_COLS - gamevar.croccodiles.list[croccodile_id].x, "");
                         }
                     }
                 }
@@ -250,6 +283,11 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
                 // Print croccodile
                 print_croccodile(gamevar.croccodiles.list[croccodile_id]);
+
+                // Print frog is it's on croccodile
+                if(frog_on_croccodile == croccodile_id) {
+                    print_frog(&gamevar);
+                }
 
                 // Free croccodile
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) {
@@ -267,37 +305,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     croccodile_params[2] = stream_speed[croccodile_stream];
                     forker(pipe_fds, &process_pids, croccodile_params[0], croccodile_process, croccodile_params); // Calls the fork for time process handling the errors
                     stream_last[croccodile_stream] = i;
-                }
-
-                // Check if frog is on top
-                if(frog_on_croccodile == croccodile_id) {
-                    // De-print frog
-                    restore_color = MAGENTA_GREEN;
-                    for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_DIM_Y; i++) {
-                        mvwaprintw(main_scr, i, gamevar.frog.x, restore_color, "%*s", FROG_DIM_X, "");
-                    }
-
-                    // Update frog X position
-                    if(stream_speed[croccodile_stream] > 0) {
-                        gamevar.frog.x += MOVE_CROCCODILE_X;
-                        if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
-                            gamevar.frog.x = LIM_RIGHT; // Move to limit
-                            if(gamevar.frog.x < gamevar.croccodiles.list[croccodile_id].x) {
-                                gamevar.timer = MANCHE_LOST;
-                                manche_ended = TRUE;
-                            }
-                        }
-                    } else {
-                        gamevar.frog.x -= MOVE_CROCCODILE_X;
-                        if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
-                            gamevar.frog.x = LIM_LEFT; // Move to limit
-                            if(gamevar.frog.x > gamevar.croccodiles.list[croccodile_id].x + CROCCODILE_DIM_X - FROG_DIM_X) {
-                                gamevar.timer = MANCHE_LOST;
-                                manche_ended = TRUE;
-                            }
-                        }
-                    }
-                    print_frog(&gamevar);
                 }
 
                 break;

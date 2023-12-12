@@ -42,6 +42,8 @@ int main(void) {
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
     init_color(COLOR_PURPLE, 200, 0, 400);
+    init_color(COLOR_BOURDEAUX, 600, 0, 0);
+    init_color(COLOR_DARKGREEN, 0, 500, 0);
     // Set needed color pairs (text, bg)
     init_pair(WHITE_BLACK_ID, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_BLACK_ID, COLOR_RED, COLOR_BLACK);
@@ -55,9 +57,10 @@ int main(void) {
     init_pair(GREEN_YELLOW_ID, COLOR_GREEN, COLOR_YELLOW);
     init_pair(MAGENTA_GREEN_ID, COLOR_MAGENTA, COLOR_GREEN);
     init_pair(GREEN_PURPLE_ID, COLOR_GREEN, COLOR_PURPLE);
-    init_pair(GREEN_BLUE_ID, COLOR_GREEN, COLOR_BLUE);
-    init_pair(GREEN_GREY_ID, COLOR_GREEN, COLOR_GREY);
-    init_pair(GREEN_RED_ID, COLOR_GREEN, COLOR_RED);
+    init_pair(GREEN_DARKGREEN_ID, COLOR_GREEN, COLOR_DARKGREEN);
+    init_pair(GREEN_BOURDEAUX_ID, COLOR_GREEN, COLOR_BOURDEAUX);
+    init_pair(DARKGREEN_BLUE_ID, COLOR_DARKGREEN, COLOR_BLUE);
+    init_pair(BOURDEAUX_BLUE_ID, COLOR_DARKGREEN, COLOR_BLUE);
     
     // Read settings from file
     rd_settings();

@@ -8,7 +8,7 @@ void print_background(const bool* holes_occupied) {
     int i, j;
     // Print hedge
     for(i = LINE_HEDGE; i < LINE_BANK_1; i++) {
-        mvwaprintw(main_scr, i, 0, GREEN_GREY, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, HEDGE_BG, "%*s", MAIN_COLS, "");
     }
     // Print holes
     for(i = 0; i < N_HOLES; i++) {
@@ -20,15 +20,15 @@ void print_background(const bool* holes_occupied) {
     }
     // Print upper bank
     for(i = LINE_BANK_1; i < LINE_RIVER; i++) {
-        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, BANK_BG, "%*s", MAIN_COLS, "");
     }
     // Print river
     for(i = LINE_RIVER; i < LINE_BANK_2; i++) {
-        mvwaprintw(main_scr, i, 0, GREEN_BLUE, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, RIVER_BG, "%*s", MAIN_COLS, "");
     }
     // Print lower bank
     for(i = LINE_BANK_2; i < MAIN_ROWS; i++) {
-        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, BANK_BG, "%*s", MAIN_COLS, "");
     }
 }
 
@@ -69,11 +69,11 @@ void print_frog(const Game_t* gamevar) {
     attr_t pair_bg[FROG_DIM_Y];
 
     if(gamevar->frog.y < LINE_RIVER) {
-        restore_color = GREEN_PURPLE;
+        restore_color = BANK_BG;
     } else if(gamevar->frog.y < LINE_BANK_2) {
-        restore_color = GREEN_BLUE;
+        restore_color = GOOD_CROCCODILE_BG;
     } else {
-        restore_color = GREEN_PURPLE;
+        restore_color = BANK_BG;
     }
     for(i = 0; i < FROG_DIM_Y; i++) {
         pair_bg[i] = restore_color;
@@ -101,15 +101,15 @@ void print_croccodile(Position croccodile) {
     int i;
     if(croccodile.x < 0) {
         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-            mvwaprintw(main_scr, i + croccodile.y, 0, MAGENTA_GREEN, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
+            mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
         }
     } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-            mvwaprintw(main_scr, i + croccodile.y, croccodile.x, MAGENTA_GREEN, "%*s", CROCCODILE_DIM_X, "");
+            mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X, "");
         }
     } else {
         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-            mvwaprintw(main_scr, i + croccodile.y, croccodile.x, MAGENTA_GREEN, "%*s", MAIN_COLS - croccodile.x, "");
+            mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", MAIN_COLS - croccodile.x, "");
         }
     }
 }
