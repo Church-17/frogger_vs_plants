@@ -19,9 +19,13 @@ void reader(int pipe_read, Message* buf);
 void writer(int pipe_write, Message* buf);
 
 // --- PROCESS TYPES ---
-#define RESIZE_ID -3
-#define CLOSE_ID -2
-#define PAUSE_ID -1
+#define RESIZE_ID (-3)
+#define CLOSE_ID (-2)
+#define PAUSE_ID (-1)
 #define FROG_ID 0
 #define TIME_ID 1
-#define MIN_CROCCODILE_ID 2
+#define PLANT_1_ID 2
+#define PLANT_2_ID 3
+#define PLANT_3_ID 4
+#define MIN_CROCCODILE_ID 5
+#define MIN_BULLET_ID 50

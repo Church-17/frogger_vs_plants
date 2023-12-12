@@ -7,7 +7,9 @@
 // Sends a signal to all the processes
 void signal_all(const List_pid pids, int signal) {
     for(int i = 0; i < pids.len; i++) {
-        kill(pids.list[i], signal);
+        if(pids.list[i] != 0) {  
+            kill(pids.list[i], signal);
+        }
     }
 }
 
