@@ -15,4 +15,7 @@
 #define LIM_LEFT 0
 #define LIM_RIGHT (MAIN_COLS-FROG_DIM_X)
 
+// Croccodile constant
+#define FREE_CROCCODILE (-1)
+
 Game_t play_manche(bool* holes_occupied, int n_lifes);

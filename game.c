@@ -90,15 +90,24 @@ int play_game(void) {
 }
 
 void print_game(const Game_t* gamevar) {
+    int i;
+
     // Print background
     print_background(gamevar->holes_occupied);
-
-    // Print frog
-    print_frog(gamevar);
 
     // Print time
     print_time(gamevar->timer);
 
     // Print lifes
     print_lifes(gamevar->lifes);
+
+    // Print croccodiles
+    for(i = 0; i < gamevar->croccodiles.len; i++) {
+        if(gamevar->croccodiles.list[i].y != FREE_CROCCODILE) {
+            print_croccodile(gamevar->croccodiles.list[i]);
+        }
+    }
+    
+    // Print frog
+    print_frog(gamevar);
 }

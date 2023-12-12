@@ -13,4 +13,5 @@ typestructdef(List_attr);
 typedef List_int List_pid;
 typestructdef(Message);
 typestructdef(Position);
+typestructdef(List_position);
 typestructdef(Game_t);

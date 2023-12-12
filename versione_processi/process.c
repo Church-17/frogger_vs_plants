@@ -38,7 +38,6 @@ void forker(int* pipe_fds, List_pid* pids, int index, void (*func_process)(int, 
         _exit(ERR_FORK); // Handle unexpected process termination
     }
     pids->list[index] = pid;
-    (pids->len)++;
 }
 
 void reader(int pipe_read, Message* buf) {
