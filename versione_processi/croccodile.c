@@ -8,31 +8,29 @@
 
 // params: [communication_id, n_stream, speed_stream]
 void croccodile_process(int pipe_write, int* other_params) {
-    srand(timestamp() + other_params[0]);
-
     // Init vars
     bool do_exit = FALSE;
-    int n_stream, speed_stream, limit;
+    int n_stream, speed_stream;
     Message msg;
 
     // Unpack croccodile params
-    msg.id = other_params[0];
-    n_stream = other_params[1];
-    speed_stream = other_params[2];
+    msg.id = other_params[CROCCODILE_ID_INDEX];
+    n_stream = other_params[CROCCODILE_STREAM_INDEX];
+    speed_stream = other_params[CROCCODILE_SPEED_INDEX];
 
     // Determine coordinates
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
-
     if(speed_stream > 0) { // If the stream direction is from L to R
         msg.x = -CROCCODILE_DIM_X + MOVE_CROCCODILE_X;
-        limit = MAIN_COLS;
     } else { // If the stream direction is from R to L
         msg.x = MAIN_COLS - MOVE_CROCCODILE_X;
-        limit = -CROCCODILE_DIM_X;
     }
 
     // Random spawn time
-    msleep(rand_range(1, 5) * MSEC_IN_SEC);
+    srand(timestamp() + msg.id);
+    msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
+
+    // Write initial position
     writer(pipe_write, &msg);
 
     // Loop for write new coordinates
@@ -40,12 +38,12 @@ void croccodile_process(int pipe_write, int* other_params) {
         // Update X coordinate
         if(speed_stream > 0) {
             msg.x += MOVE_CROCCODILE_X;
-            if(msg.x >= limit) {
+            if(msg.x >= MAIN_COLS) {
                 do_exit = TRUE;
             }
         } else {
             msg.x -= MOVE_CROCCODILE_X;
-            if(msg.x <= limit) {
+            if(msg.x <= -CROCCODILE_DIM_X) {
                 do_exit = TRUE;
             }
         }
