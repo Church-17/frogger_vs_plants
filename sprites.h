@@ -34,10 +34,12 @@
 // Croccodile constants
 #define CROCCODILE_DIM_X 30
 #define CROCCODILE_DIM_Y 4
+#define MOVE_CROCCODILE_X 2
 
 // Function prototypes
 void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
 void print_lifes(int n_lifes);
 void print_frog(const Game_t* gamaver);
+void print_croccodile(const Game_t* gamevar, int id, int n_stream);
 bool in_hole_line(Position frog);
