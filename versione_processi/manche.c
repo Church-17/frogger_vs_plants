@@ -10,6 +10,7 @@
 #include "croccodile.h"
 
 // Define constant
+#define FROG_NOT_ON_CROCCODILE (-1)
 #define RESIZE_TIME_THRESHOLD 100
 #define LIM_N_PROCESS 100
 #define LIM_N_CROCCODILE (MIN_BULLET_ID - MIN_CROCCODILE_ID)

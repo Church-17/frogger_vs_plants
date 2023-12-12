@@ -30,7 +30,6 @@
 // Frog constant
 #define FROG_DIM_X 10
 #define FROG_DIM_Y 4
-#define FROG_NOT_ON_CROCCODILE (-1)
 
 // Croccodile constants
 #define CROCCODILE_DIM_X 30
