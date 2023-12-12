@@ -20,7 +20,7 @@
 
 // Lifes constants
 #define SPACE_PER_LIFE 3
-#define LIFES_COL (MAIN_COLS - SPACE_PER_LIFE * MAX_N_LIFES)
+#define LIFES_COL (MAIN_COLS - SPACE_PER_LIFE * N_LIFES)
 
 // Hole
 #define HOLE_DIM_X (FROG_DIM_X + 2)

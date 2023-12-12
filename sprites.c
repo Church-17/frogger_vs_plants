@@ -60,7 +60,7 @@ void print_lifes(int n_lifes) {
     for(i = 0; i < n_lifes; i++) {
         mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "❤");
     }
-    mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*n_lifes, RED_BLACK, "%*s", SPACE_PER_LIFE*(MAX_N_LIFES-n_lifes), "");
+    mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*n_lifes, RED_BLACK, "%*s", SPACE_PER_LIFE*(N_LIFES-n_lifes), "");
 }
 
 void print_frog(const Game_t* gamevar) {

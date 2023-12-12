@@ -123,8 +123,17 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 }
 
                 // If the frog is in bank 1 and it isn't in front of a trap, it can't go ahead
-                if(gamevar.frog.y < LINE_BANK_1 && !in_hole_line(gamevar.frog)) {
-                    gamevar.frog.y = LINE_BANK_1;
+                if(gamevar.frog.y < LINE_BANK_1) {
+                    for(i = 0; i < N_HOLES; i++) {
+                        if(gamevar.frog.x >= i*MAIN_COLS/N_HOLES + HOLE_PAD_X && gamevar.frog.x <= i*MAIN_COLS/N_HOLES + HOLE_PAD_X + HOLE_DIM_X - FROG_DIM_X && gamevar.holes_occupied[i] == FALSE) {
+                            manche_ended = TRUE;
+                            gamevar.holes_occupied[i] = TRUE;
+                            break;
+                        }
+                    }
+                    if(!manche_ended) {
+                        gamevar.frog.y = LINE_BANK_1;
+                    }
                 }
 
                 // Collision with river
@@ -245,7 +254,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 // Free croccodile
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) {
                     gamevar.croccodiles.list[croccodile_id].y = FREE_CROCCODILE;
-                    printf("F%d ", msg.id);
                 }
 
                 // Check if needs to spawn another croccodile
@@ -257,7 +265,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     croccodile_params[0] = i + MIN_CROCCODILE_ID;
                     croccodile_params[1] = croccodile_stream;
                     croccodile_params[2] = stream_speed[croccodile_stream];
-                    printf("C%d ", croccodile_params[0]);
                     forker(pipe_fds, &process_pids, croccodile_params[0], croccodile_process, croccodile_params); // Calls the fork for time process handling the errors
                     stream_last[croccodile_stream] = i;
                 }
