@@ -7,11 +7,11 @@
 // Define constant
 #define FLEX_INTERVAL 1
 
-void time_process(WINDOW* game_scr, int pipe_write, int time_id, int* other_params) {
+void time_process(int pipe_write, int* other_params) {
     // Init vars
     time_t start = timestamp(), end = start, elapsed;
     Message msg;
-    msg.id = time_id;
+    msg.id = TIME_ID;
 
     // Loop for beat time
     while(TRUE) {

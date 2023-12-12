@@ -6,18 +6,18 @@
 #include "frog.h"
 
 // Frog function, called by a new process
-void frog_process(WINDOW* game_scr, int pipe_write, int frog_id, int* other_params) {
+void frog_process(int pipe_write, int* other_params) {
     // Init vars
     bool do_send_msg = FALSE;
     int key;
 
     // Initial position
     Message msg;
-    msg.id = frog_id;
+    msg.id = FROG_ID;
 
     // Frog loop to get pressed key
     while(TRUE) {
-        key = wgetch(game_scr);
+        key = wgetch(main_scr);
         switch(key) {
             case KEY_UP:
                 msg.y = -MOVE_FROG_Y;
@@ -62,7 +62,7 @@ void frog_process(WINDOW* game_scr, int pipe_write, int frog_id, int* other_para
         }
         if(do_send_msg) {
             writer(pipe_write, &msg);
-            msg.id = frog_id;
+            msg.id = FROG_ID;
             do_send_msg = FALSE;
         }
     }

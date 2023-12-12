@@ -8,17 +8,17 @@
 #include "croccodile.h"
 
 // params: [n_stream, speed_stream]
-void croccodile_process(WINDOW* game_scr, int pipe_write, int croccodile_id, int* other_params) {
+void croccodile_process(int pipe_write, int* other_params) {
 
 
     // Initial position
     Message msg;
-    msg.id = croccodile_id;
+    msg.id = other_params[0];
 
     int n_stream, speed_stream, t_spawn, limit;
 
-    n_stream = other_params[0];
-    speed_stream = other_params[1];
+    n_stream = other_params[1];
+    speed_stream = other_params[2];
 
     msleep(rand_range(0, 3) * MSEC_IN_SEC); // wait before spawn
 

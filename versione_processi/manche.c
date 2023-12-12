@@ -25,7 +25,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     List_pid process_pids;
     process_pids.list = array_pids;
     process_pids.len = 0;
-    int croccodile_params[2];
+    int croccodile_params[3];
     int stream_speed[N_WATER_STREAM] = {0};
     int stream_last[N_WATER_STREAM];
 
@@ -45,13 +45,14 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     piper(pipe_fds); // Starts the pipe handling the errors
 
     // Fork
-    forker(&process_pids, frog_process, main_scr, pipe_fds, FROG_ID, NULL); // Calls the fork for frog process handling the errors
-    forker(&process_pids, time_process, main_scr, pipe_fds, TIME_ID, NULL); // Calls the fork for time process handling the errors
+    forker(pipe_fds, &process_pids, FROG_ID, frog_process, NULL); // Calls the fork for frog process handling the errors
+    forker(pipe_fds, &process_pids, TIME_ID, time_process, NULL); // Calls the fork for frog process handling the errors
 
     for (i = 0; i < N_WATER_STREAM; i++) {
-        croccodile_params[0] = i;  
-        croccodile_params[1] = stream_speed[i];
-        forker(&process_pids, croccodile_process, main_scr, pipe_fds, i + MIN_CROCCODILE_ID, croccodile_params); // Calls the fork for time process handling the errors
+        croccodile_params[0] = i + MIN_CROCCODILE_ID;  
+        croccodile_params[1] = i;  
+        croccodile_params[2] = stream_speed[i];
+        forker(pipe_fds, &process_pids, i + MIN_CROCCODILE_ID, croccodile_process, croccodile_params); // Calls the fork for time process handling the errors
     }
     
     // --- PARENT PROCESS ---
@@ -127,8 +128,8 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     }
                 }
 
+                frog_on_croccodile = -1;
                 if (gamevar.frog.y >= LINE_RIVER && gamevar.frog.y < LINE_BANK_2) {
-                    frog_on_croccodile = -1;
                     for (i = 0; i < 10; i++) {
                         if (gamevar.frog.y == gamevar.croccodiles[i].y && gamevar.frog.x >= gamevar.croccodiles[i].x && gamevar.frog.x <= gamevar.croccodiles[i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
                             frog_on_croccodile = i;
