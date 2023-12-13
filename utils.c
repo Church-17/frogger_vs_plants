@@ -103,7 +103,7 @@ void mv_win(WINDOW* win, int new_y, int new_x) {
 
 // Delete a window
 void unwin(WINDOW* win) {
-    werase(win);
+    wclear(win);
     wrefresh(win);
     delwin(win);
 }

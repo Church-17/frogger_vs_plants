@@ -168,9 +168,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 if(timestamp() - resize_time < RESIZE_TIME_THRESHOLD) {
                     break;
                 }
-                // Call resize procedure
-                resize_proc(NULL, 0, 0, &gamevar);
-                // Put game in pause
+                // Put game in pause (resize_proc will be called by menu)
             // PAUSE
             case PAUSE_ID:
                 signal_all(process_pids, SIGSTOP); // Pausing all child processes

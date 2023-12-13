@@ -113,18 +113,18 @@ int main(void) {
 
 // Check if term is large enough, return TRUE if it is not large enough, FALSE if it is
 bool check_term(WINDOW* win) {
-    if(LINES <= MAIN_ROWS || COLS <= MAIN_COLS) { // Check if terminal size is enough
+    if(LINES < MAIN_ROWS + 2 || COLS < MAIN_COLS + 2) { // Check if terminal size is enough
         if(main_scr != NULL) { // If a window is passed, move it at top left
-            mv_win(main_scr, 0, 0);
+            mvwin(main_scr, 0, 0);
         }
         if(win != NULL) { // If a window is passed, move it at top left
-            mv_win(win, 0, 0);
+            mvwin(win, 0, 0);
         }
         WINDOW* err_win = new_win(0, 0, 0, 0); // New full window
         wattron(err_win, COL1);
-        while(LINES <= MAIN_ROWS || COLS <= MAIN_COLS) {
+        while(LINES < MAIN_ROWS + 2 || COLS < MAIN_COLS + 2) {
             mvwprintw(err_win, 0, 0, "%s", STR_EXTEND);
-            mvwprintw(err_win, 1, 0, "%s: %d x %d    ", STR_MINIMUM, MAIN_ROWS + 1, MAIN_COLS + 1);
+            mvwprintw(err_win, 1, 0, "%s: %d x %d    ", STR_MINIMUM, MAIN_ROWS + 2, MAIN_COLS + 2);
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", STR_ACTUAL, LINES, COLS);
             wgetch(err_win);
         }
