@@ -14,10 +14,10 @@
 #define LIM_DOWN LINE_BANK_2
 #define LIM_LEFT 0
 #define LIM_RIGHT (MAIN_COLS-FROG_DIM_X)
+#define FROG_NOT_ON_CROCCODILE (-1)
 
 // Croccodile constant
 #define FREE_CROCCODILE (-1)
 #define INCOMING_CROCCODILE (-2)
-#define FROG_NOT_ON_CROCCODILE (-1)
 
 Game_t play_manche(bool* holes_occupied, int n_lifes);
