@@ -3,6 +3,7 @@
 #include "main.h"
 #include "menu.h"
 #include "game.h"
+#include "music.h"
 #include "str.h"
 #include "utils.h"
 #include "struct.h"

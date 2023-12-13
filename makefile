@@ -1,5 +1,5 @@
 CC = gcc
-CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread -lvlc
+CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread -lSDL2 -lSDL2_mixer
 COBJ = ${CC} -c $*.c ${CARGS}
 COBJ_VER = ${CC} -c ./${VERSION}/$*.c ${CARGS}
 
@@ -17,7 +17,7 @@ process = ${VERSION}/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
 croccodile = ${VERSION}/croccodile.h struct_proto.h
-music = music.h struct_proto.h
+music = music.h
 
 # Define compiling version
 VERSION = versione_processi
