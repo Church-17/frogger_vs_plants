@@ -32,9 +32,8 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     forker(pipe_fds, &process_pids, FROG_ID, &frog_process, NULL); // Calls the fork for frog process handling the errors
     forker(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
-        do { // Randomize speed of each stream
-            stream_speed[i] = rand_range(-7, 7);
-        } while (stream_speed[i] == 0); // Speed must not be 0
+        // Randomize speed & direction of each stream
+        stream_speed[i] = rand_range(2, 7) * (rand_range(0, 2) ? 1 : -1);
         // Write croccodile params
         croccodile_params[CROCCODILE_ID_INDEX] = i + MIN_CROCCODILE_ID;
         croccodile_params[CROCCODILE_STREAM_INDEX] = stream_last[i] = i;
