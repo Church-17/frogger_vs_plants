@@ -29,8 +29,8 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     piper(pipe_fds); // Starts the pipe handling the errors
 
     // Forks
-    forker(pipe_fds, &process_pids, FROG_ID, frog_process, NULL); // Calls the fork for frog process handling the errors
-    forker(pipe_fds, &process_pids, TIME_ID, time_process, NULL); // Calls the fork for time process handling the errors
+    forker(pipe_fds, &process_pids, FROG_ID, &frog_process, NULL); // Calls the fork for frog process handling the errors
+    forker(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
         do { // Randomize speed of each stream
             stream_speed[i] = rand_range(-3, 3) * 100;
@@ -40,7 +40,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
         croccodile_params[CROCCODILE_STREAM_INDEX] = stream_last[i] = i;
         croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[i];
         // Calls the fork for croccodile process handling the errors
-        forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], croccodile_process, croccodile_params);
+        forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], &croccodile_process, croccodile_params);
     }
     
     // --- PARENT PROCESS ---
@@ -297,7 +297,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                             croccodile_params[CROCCODILE_ID_INDEX] = i + MIN_CROCCODILE_ID;
                             croccodile_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
                             croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
-                            forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], croccodile_process, croccodile_params); // Calls the fork for croccodile process handling the errors
+                            forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], &croccodile_process, croccodile_params); // Calls the fork for croccodile process handling the errors
                             stream_last[croccodile_stream] = last_spawned_croccodile = i; // Update last croccodile of stream and last spawned croccodile
                             break;
                         };
