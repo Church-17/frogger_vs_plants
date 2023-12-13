@@ -38,11 +38,10 @@ bool game() {
         }
     }
     wclear(main_scr);
-    wrefresh(main_scr);
     return do_quit;
 }
 
-// Play a game handling more manche, return Game_Over_Menu_Index
+// Play a game handling more manche, return gameover_menu index
 int play_game(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
     int i, score = 0, n_lifes = N_LIFES;
