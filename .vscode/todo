@@ -3,16 +3,16 @@ plants
 bullets
 socket
 
-optimized croccodiles array
 speed
-add pb
-music
-skins
-difficulties
-demo
-figlets
-punteggio in scr
+add best scores
 time manche-by-manche
+skins
+punteggio in scr
+difficulties
+figlets
+colors of sprites
+music
+demo
 
 main_scr?
 croccodile type?
