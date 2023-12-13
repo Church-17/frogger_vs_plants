@@ -16,10 +16,10 @@
 Game_t play_manche(bool* holes_occupied, int n_lifes) {
     // Init vars
     int i;
-    pid_t array_pids[LIM_N_PROCESS] = {0}; // Pids for every process
+    pid_t array_pids[LIM_N_ENTITIES] = {0}; // Pids for every process
     List_pid process_pids;
     process_pids.list = array_pids;
-    process_pids.len = LIM_N_PROCESS;
+    process_pids.len = LIM_N_ENTITIES;
     int croccodile_params[N_CROCCODILE_PARAMS];
     int stream_speed[N_WATER_STREAM];
     int stream_last[N_WATER_STREAM]; // Track which croccodile was the last of each stream
