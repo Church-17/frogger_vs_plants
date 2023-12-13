@@ -104,10 +104,10 @@ void print_game(const Game_t* gamevar) {
     // Print croccodiles
     for(i = 0; i < LIM_N_CROCCODILE; i++) {
         if(gamevar->croccodiles[i].y > FREE_CROCCODILE) {
-            print_croccodile(gamevar->croccodiles[i]);
+            print_croccodile(gamevar->croccodiles[i], gamevar->stream_speed > 0);
         }
     }
     
     // Print frog
-    print_frog(gamevar);
+    print_frog(gamevar->frog, gamevar->frog_on_croccodile);
 }

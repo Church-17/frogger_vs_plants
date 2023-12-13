@@ -40,6 +40,6 @@
 void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
 void print_lifes(int n_lifes);
-void print_frog(const Game_t* gamaver);
-void print_croccodile(Position croccodile);
+void print_frog(Position frog, int frog_on_croccodile);
+void print_croccodile(Position croccodile, bool direction);
 bool in_hole_line(Position frog);

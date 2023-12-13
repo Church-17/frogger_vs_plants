@@ -56,9 +56,13 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
     // Init game vars
     Game_t gamevar;
+    gamevar.holes_occupied = holes_occupied;
+    gamevar.timer = TIME_MANCHE;
+    gamevar.lifes = n_lifes;
+    gamevar.frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
+    gamevar.stream_speed = stream_speed;
     gamevar.frog.y = INIT_FROG_Y;
     gamevar.frog.x = INIT_FROG_X;
-    gamevar.timer = TIME_MANCHE;
     alloc(Position, gamevar.croccodiles, LIM_N_CROCCODILE);
     for(i = 0; i < N_WATER_STREAM; i++) {
         gamevar.croccodiles[i].y = INCOMING_CROCCODILE;
@@ -66,8 +70,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     for(i = N_WATER_STREAM; i < LIM_N_CROCCODILE; i++) {
         gamevar.croccodiles[i].y = FREE_CROCCODILE;
     }
-    gamevar.lifes = n_lifes;
-    gamevar.holes_occupied = holes_occupied;
 
     // Erase old game or demo & print all elements of the game
     wclear(main_scr);
@@ -147,7 +149,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
                 // Print frog if it isn't dead
                 if(gamevar.timer) {
-                    print_frog(&gamevar);
+                    print_frog(gamevar.frog, gamevar.frog_on_croccodile);
                 }
                 break;
 
@@ -277,11 +279,11 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 gamevar.croccodiles[croccodile_id].y = msg.y;
 
                 // Print croccodile
-                print_croccodile(gamevar.croccodiles[croccodile_id]);
+                print_croccodile(gamevar.croccodiles[croccodile_id], stream_speed > 0);
 
                 // Print frog is it's on croccodile
                 if(frog_on_croccodile == croccodile_id) {
-                    print_frog(&gamevar);
+                    print_frog(gamevar.frog, gamevar.frog_on_croccodile);
                 }
 
                 // Free croccodile
