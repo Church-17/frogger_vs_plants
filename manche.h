@@ -18,5 +18,6 @@
 // Croccodile constant
 #define FREE_CROCCODILE (-1)
 #define INCOMING_CROCCODILE (-2)
+#define FROG_NOT_ON_CROCCODILE (-1)
 
 Game_t play_manche(bool* holes_occupied, int n_lifes);

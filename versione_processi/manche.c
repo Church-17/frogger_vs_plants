@@ -10,10 +10,7 @@
 #include "croccodile.h"
 
 // Define constant
-#define FROG_NOT_ON_CROCCODILE (-1)
 #define RESIZE_TIME_THRESHOLD 100
-#define LIM_N_PROCESS 100
-#define LIM_N_CROCCODILE (MIN_BULLET_ID - MIN_CROCCODILE_ID)
 
 // Play a manche, return game vars with in gamevar.timer the time remaining or a manche_id
 Game_t play_manche(bool* holes_occupied, int n_lifes) {
@@ -62,14 +59,13 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     gamevar.frog.y = INIT_FROG_Y;
     gamevar.frog.x = INIT_FROG_X;
     gamevar.timer = TIME_MANCHE;
-    alloc(Position, gamevar.croccodiles.list, LIM_N_CROCCODILE);
+    alloc(Position, gamevar.croccodiles, LIM_N_CROCCODILE);
     for(i = 0; i < N_WATER_STREAM; i++) {
-        gamevar.croccodiles.list[i].y = INCOMING_CROCCODILE;
+        gamevar.croccodiles[i].y = INCOMING_CROCCODILE;
     }
     for(i = N_WATER_STREAM; i < LIM_N_CROCCODILE; i++) {
-        gamevar.croccodiles.list[i].y = FREE_CROCCODILE;
+        gamevar.croccodiles[i].y = FREE_CROCCODILE;
     }
-    gamevar.croccodiles.len = LIM_N_CROCCODILE;
     gamevar.lifes = n_lifes;
     gamevar.holes_occupied = holes_occupied;
 
@@ -138,7 +134,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Reset croccodile index with frog on it
                 if(gamevar.frog.y >= LINE_RIVER && gamevar.frog.y < LINE_BANK_2) { // If frog is in river zone...
                     for(i = 0; i < LIM_N_CROCCODILE; i++) { // Check if frog is on a croccodile
-                        if(gamevar.frog.y == gamevar.croccodiles.list[i].y && gamevar.frog.x >= gamevar.croccodiles.list[i].x && gamevar.frog.x <= gamevar.croccodiles.list[i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
+                        if(gamevar.frog.y == gamevar.croccodiles[i].y && gamevar.frog.x >= gamevar.croccodiles[i].x && gamevar.frog.x <= gamevar.croccodiles[i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
                             frog_on_croccodile = i;
                             break;
                         }
@@ -260,28 +256,28 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 }
 
                 // De-print croccodile
-                if(gamevar.croccodiles.list[croccodile_id].y > FREE_CROCCODILE) {
-                    if(gamevar.croccodiles.list[croccodile_id].x < 0) {
+                if(gamevar.croccodiles[croccodile_id].y > FREE_CROCCODILE) {
+                    if(gamevar.croccodiles[croccodile_id].x < 0) {
                         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, 0, RIVER_BG, "%*s", CROCCODILE_DIM_X + gamevar.croccodiles.list[croccodile_id].x, "");
+                            mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_id].y, 0, RIVER_BG, "%*s", CROCCODILE_DIM_X + gamevar.croccodiles[croccodile_id].x, "");
                         }
-                    } else if(gamevar.croccodiles.list[croccodile_id].x < MAIN_COLS - CROCCODILE_DIM_X) {
+                    } else if(gamevar.croccodiles[croccodile_id].x < MAIN_COLS - CROCCODILE_DIM_X) {
                         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, gamevar.croccodiles.list[croccodile_id].x, RIVER_BG, "%*s", CROCCODILE_DIM_X, "");
+                            mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_id].y, gamevar.croccodiles[croccodile_id].x, RIVER_BG, "%*s", CROCCODILE_DIM_X, "");
                         }
                     } else {
                         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles.list[croccodile_id].y, gamevar.croccodiles.list[croccodile_id].x, RIVER_BG, "%*s", MAIN_COLS - gamevar.croccodiles.list[croccodile_id].x, "");
+                            mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_id].y, gamevar.croccodiles[croccodile_id].x, RIVER_BG, "%*s", MAIN_COLS - gamevar.croccodiles[croccodile_id].x, "");
                         }
                     }
                 }
 
                 // Update saved coordinates
-                gamevar.croccodiles.list[croccodile_id].x = msg.x;
-                gamevar.croccodiles.list[croccodile_id].y = msg.y;
+                gamevar.croccodiles[croccodile_id].x = msg.x;
+                gamevar.croccodiles[croccodile_id].y = msg.y;
 
                 // Print croccodile
-                print_croccodile(gamevar.croccodiles.list[croccodile_id]);
+                print_croccodile(gamevar.croccodiles[croccodile_id]);
 
                 // Print frog is it's on croccodile
                 if(frog_on_croccodile == croccodile_id) {
@@ -290,14 +286,14 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
                 // Free croccodile
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) { // If croccodile was out of screen...
-                    gamevar.croccodiles.list[croccodile_id].y = FREE_CROCCODILE; // mark it as free
+                    gamevar.croccodiles[croccodile_id].y = FREE_CROCCODILE; // mark it as free
                 }
 
                 // Check if needs to spawn another croccodile
                 if(stream_last[croccodile_stream] == croccodile_id && ((stream_speed[croccodile_stream] > 0 && msg.x > 0) || (stream_speed[croccodile_stream] < 0 && msg.x < MAIN_COLS - CROCCODILE_DIM_X))) {
                     for(i = mod(last_spawned_croccodile+1, LIM_N_CROCCODILE); i != last_spawned_croccodile; i = mod(i+1, LIM_N_CROCCODILE)) { // Search for a free croccodile
-                        if(gamevar.croccodiles.list[i].y == FREE_CROCCODILE) {
-                            gamevar.croccodiles.list[i].y = INCOMING_CROCCODILE; // Mark the founded free croccodile as incoming
+                        if(gamevar.croccodiles[i].y == FREE_CROCCODILE) {
+                            gamevar.croccodiles[i].y = INCOMING_CROCCODILE; // Mark the founded free croccodile as incoming
                             croccodile_params[CROCCODILE_ID_INDEX] = i + MIN_CROCCODILE_ID;
                             croccodile_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
                             croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
@@ -322,6 +318,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
         wrefresh(main_scr);
     }
     signal_all(process_pids, SIGKILL); // Killing all child processes
-    free(gamevar.croccodiles.list); // Free allocated memory
+    free(gamevar.croccodiles); // Free allocated memory
     return gamevar;
 }

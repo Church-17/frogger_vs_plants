@@ -28,13 +28,9 @@ struct Position {
     int y;
     int x;
 };
-struct List_position {
-    Position* list;
-    int len;
-};
 struct Game_t {
     Position frog;
-    List_position croccodiles;
+    Position* croccodiles;
     int timer;
     int lifes;
     bool* holes_occupied;
