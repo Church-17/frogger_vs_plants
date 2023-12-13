@@ -157,7 +157,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 if(gamevar.timer <= 0) {
                     manche_ended = TRUE;
                 } else {
-                    gamevar.timer--;
+                    gamevar.timer = msg.y;
                 }
                 print_time(gamevar.timer);
                 break;

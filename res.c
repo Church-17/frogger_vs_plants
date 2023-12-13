@@ -186,7 +186,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
         }
         numstr[col] = '\0'; // End string
         dict.val[line] = atoi(numstr); // Convert string to number
-        (dict.len)++;
+        dict.len++;
     }
     fclose(fptr); // Close settings file
     return dict;

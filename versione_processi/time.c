@@ -13,6 +13,7 @@ void time_process(int pipe_write, int* other_params) {
     time_t start = timestamp(), end = start, elapsed;
     Message msg;
     msg.id = TIME_ID;
+    msg.y = TIME_MANCHE;
 
     // Loop for beat time
     while(TRUE) {
@@ -20,6 +21,7 @@ void time_process(int pipe_write, int* other_params) {
         if(elapsed == MSEC_IN_SEC - FLEX_INTERVAL) elapsed++; // Give flexibility of an interval
         if(elapsed >= MSEC_IN_SEC) { // If a seconds passed...
             start = end; // Update start
+            msg.y--;
             writer(pipe_write, &msg); // Write in pipe
             elapsed -= MSEC_IN_SEC; // Decrese elapsed of a second
         }
