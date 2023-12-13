@@ -33,7 +33,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     forker(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
         do { // Randomize speed of each stream
-            stream_speed[i] = rand_range(-3, 3) * 100;
+            stream_speed[i] = rand_range(-7, 7);
         } while (stream_speed[i] == 0); // Speed must not be 0
         // Write croccodile params
         croccodile_params[CROCCODILE_ID_INDEX] = i + MIN_CROCCODILE_ID;
@@ -238,7 +238,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                         gamevar.frog.x += MOVE_CROCCODILE_X; // Move frog with croccodile
                         if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
                             gamevar.frog.x = LIM_RIGHT; // Move to limit
-                            if(gamevar.frog.x < msg.x) {
+                            if(gamevar.frog.x < msg.x) { // If now frog was outside croccodile: manche lost
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
                             }
@@ -247,7 +247,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                         gamevar.frog.x -= MOVE_CROCCODILE_X;
                         if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
                             gamevar.frog.x = LIM_LEFT; // Move to limit
-                            if(gamevar.frog.x > msg.x + CROCCODILE_DIM_X - FROG_DIM_X) {
+                            if(gamevar.frog.x > msg.x + CROCCODILE_DIM_X - FROG_DIM_X) { // If now frog was outside croccodile: manche lost
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
                             }
