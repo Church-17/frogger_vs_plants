@@ -46,7 +46,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
     // Init control vars
     bool manche_ended = FALSE; // Flag
-    int frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Var to store the croccodile on which the frog is 
     int croccodile_stream, croccodile_id; // Helper vars for croccodile
     time_t resize_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
@@ -133,16 +132,16 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 }
 
                 // Collision with river
-                frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Reset croccodile index with frog on it
+                gamevar.frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Reset croccodile index with frog on it
                 if(gamevar.frog.y >= LINE_RIVER && gamevar.frog.y < LINE_BANK_2) { // If frog is in river zone...
                     croccodile_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
                     for(i = 0; i < N_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a croccodile
                         if(gamevar.frog.x >= gamevar.croccodiles[croccodile_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[croccodile_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
-                            frog_on_croccodile = i + croccodile_stream*N_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
+                            gamevar.frog_on_croccodile = i + croccodile_stream*N_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
                             break;
                         }
                     }
-                    if(frog_on_croccodile == FROG_NOT_ON_CROCCODILE) { // If frog isn't on a croccodile: manche lost
+                    if(gamevar.frog_on_croccodile == FROG_NOT_ON_CROCCODILE) { // If frog isn't on a croccodile: manche lost
                         gamevar.timer = MANCHE_LOST;
                         manche_ended = TRUE;
                     }
@@ -227,7 +226,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 croccodile_id = msg.id - MIN_CROCCODILE_ID - croccodile_stream*N_CROCCODILE_PER_STREAM;
 
                 // Check if frog is on top
-                if(frog_on_croccodile == msg.id) {
+                if(gamevar.frog_on_croccodile == msg.id) {
                     // De-print frog
                     restore_color = GOOD_CROCCODILE_BG;
                     for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_DIM_Y; i++) {
@@ -281,7 +280,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0);
 
                 // Print frog is it's on croccodile
-                if(frog_on_croccodile == msg.id) {
+                if(gamevar.frog_on_croccodile == msg.id) {
                     print_frog(gamevar.frog, gamevar.frog_on_croccodile);
                 }
 
