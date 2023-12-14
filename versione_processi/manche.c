@@ -298,7 +298,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                         croccodile_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
                         croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
                         forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], &croccodile_process, croccodile_params); // Calls the fork for croccodile process handling the errors
-                        stream_last[croccodile_stream] = next_croccodile_id; // Update last croccodile of stream and last spawned croccodile
+                        stream_last[croccodile_stream] = next_croccodile_id; // Update last croccodile of stream
                     }
                 }
 
