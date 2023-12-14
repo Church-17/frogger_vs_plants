@@ -35,7 +35,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
         // Randomize speed & direction of each stream
         stream_speed[i] = rand_range(2, 7) * (rand_range(0, 2) ? 1 : -1);
         // Write croccodile params
-        croccodile_params[CROCCODILE_ID_INDEX] = i*N_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
+        croccodile_params[CROCCODILE_ID_INDEX] = i*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
         croccodile_params[CROCCODILE_STREAM_INDEX] = i;
         croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[i];
         // Calls the fork for croccodile process handling the errors
@@ -46,7 +46,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
     // Init control vars
     bool manche_ended = FALSE; // Flag
-    int croccodile_stream, croccodile_id; // Helper vars for croccodile
+    int croccodile_stream, croccodile_id, next_croccodile_id; // Helper vars for croccodile
     time_t resize_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
     // Position array_croccodile[N_WATER_STREAM][N_CROCCODILE_PER_STREAM];
@@ -62,11 +62,11 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     gamevar.frog.y = INIT_FROG_Y;
     gamevar.frog.x = INIT_FROG_X;
     alloc(Position*, gamevar.croccodiles, N_WATER_STREAM);
-    for(i = 0; i < N_WATER_STREAM; i++) {
-        alloc(Position, gamevar.croccodiles[i], N_CROCCODILE_PER_STREAM);
-        gamevar.croccodiles[i][0].y = INCOMING_CROCCODILE;
-        for(j = 1; j < N_CROCCODILE_PER_STREAM; j++) {
-            gamevar.croccodiles[i][j].y = FREE_CROCCODILE;
+    for(i = 0; i < N_WATER_STREAM; i++) { // Croccodile array per stream
+        alloc(Position, gamevar.croccodiles[i], MAX_CROCCODILE_PER_STREAM);
+        gamevar.croccodiles[i][0].y = INCOMING_CROCCODILE; // Mark as incoming the first croccodile of each stream
+        for(j = 1; j < MAX_CROCCODILE_PER_STREAM; j++) {
+            gamevar.croccodiles[i][j].y = FREE_CROCCODILE; // Mark as free the other croccodiles of each stream
         }
     }
 
@@ -135,9 +135,9 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 gamevar.frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Reset croccodile index with frog on it
                 if(gamevar.frog.y >= LINE_RIVER && gamevar.frog.y < LINE_BANK_2) { // If frog is in river zone...
                     croccodile_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
-                    for(i = 0; i < N_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
+                    for(i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
                         if(gamevar.croccodiles[croccodile_stream][i].y >= 0 && gamevar.frog.x >= gamevar.croccodiles[croccodile_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[croccodile_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
-                            gamevar.frog_on_croccodile = i + croccodile_stream*N_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
+                            gamevar.frog_on_croccodile = i + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
                             break;
                         }
                     }
@@ -223,7 +223,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
             // CROCCODILE
             if(msg.id >= MIN_CROCCODILE_ID && msg.id < MIN_BULLET_ID) {
                 croccodile_stream = (msg.y - LINE_RIVER) / FROG_DIM_Y;
-                croccodile_id = msg.id - MIN_CROCCODILE_ID - croccodile_stream*N_CROCCODILE_PER_STREAM;
+                croccodile_id = msg.id - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
 
                 // Check if frog is on top
                 if(gamevar.frog_on_croccodile == msg.id) {
@@ -289,18 +289,16 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     gamevar.croccodiles[croccodile_stream][croccodile_id].y = FREE_CROCCODILE; // mark it as free
                 }
 
-                // Check if needs to spawn another croccodile
+                // Check if needs to spawn another croccodile (if last croccodile is completely in screen)
                 if(stream_last[croccodile_stream] == croccodile_id && ((stream_speed[croccodile_stream] > 0 && msg.x > 0) || (stream_speed[croccodile_stream] < 0 && msg.x < MAIN_COLS - CROCCODILE_DIM_X))) {
-                    for(i = mod(croccodile_id+1, N_CROCCODILE_PER_STREAM); i != croccodile_id; i = mod(i+1, N_CROCCODILE_PER_STREAM)) { // Search for a free croccodile
-                        if(gamevar.croccodiles[croccodile_stream][i].y == FREE_CROCCODILE) {
-                            gamevar.croccodiles[croccodile_stream][i].y = INCOMING_CROCCODILE; // Mark the founded free croccodile as incoming
-                            croccodile_params[CROCCODILE_ID_INDEX] = i + croccodile_stream*N_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
-                            croccodile_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
-                            croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
-                            forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], &croccodile_process, croccodile_params); // Calls the fork for croccodile process handling the errors
-                            stream_last[croccodile_stream] = i; // Update last croccodile of stream and last spawned croccodile
-                            break;
-                        };
+                    next_croccodile_id = mod(croccodile_id+1, MAX_CROCCODILE_PER_STREAM);
+                    if(gamevar.croccodiles[croccodile_stream][next_croccodile_id].y == FREE_CROCCODILE) { // Check if next croccodile in same stream is free
+                        gamevar.croccodiles[croccodile_stream][next_croccodile_id].y = INCOMING_CROCCODILE; // Mark the founded free croccodile as incoming
+                        croccodile_params[CROCCODILE_ID_INDEX] = next_croccodile_id + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
+                        croccodile_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
+                        croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
+                        forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], &croccodile_process, croccodile_params); // Calls the fork for croccodile process handling the errors
+                        stream_last[croccodile_stream] = next_croccodile_id; // Update last croccodile of stream and last spawned croccodile
                     }
                 }
 

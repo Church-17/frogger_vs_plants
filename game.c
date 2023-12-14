@@ -102,7 +102,7 @@ void print_game(const Game_t* gamevar) {
 
     // Print croccodiles
     for(i = 0; i < N_WATER_STREAM; i++) {
-        for(j = 0; j < N_CROCCODILE_PER_STREAM; j++) {
+        for(j = 0; j < MAX_CROCCODILE_PER_STREAM; j++) {
             if(gamevar->croccodiles[i][j].y >= 0) {
                 print_croccodile(gamevar->croccodiles[i][j], gamevar->stream_speed > 0);
             }
