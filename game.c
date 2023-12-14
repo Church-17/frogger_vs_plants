@@ -89,7 +89,7 @@ int play_game(void) {
 }
 
 void print_game(const Game_t* gamevar) {
-    int i;
+    int i, j;
 
     // Print background
     print_background(gamevar->holes_occupied);
@@ -101,9 +101,11 @@ void print_game(const Game_t* gamevar) {
     print_lifes(gamevar->lifes);
 
     // Print croccodiles
-    for(i = 0; i < LIM_N_CROCCODILE; i++) {
-        if(gamevar->croccodiles[i].y > FREE_CROCCODILE) {
-            print_croccodile(gamevar->croccodiles[i], gamevar->stream_speed > 0);
+    for(i = 0; i < N_WATER_STREAM; i++) {
+        for(j = 0; j < N_CROCCODILE_PER_STREAM; j++) {
+            if(gamevar->croccodiles[i][j].y >= 0) {
+                print_croccodile(gamevar->croccodiles[i][j], gamevar->stream_speed > 0);
+            }
         }
     }
     
