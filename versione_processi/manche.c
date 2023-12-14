@@ -135,8 +135,8 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 gamevar.frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Reset croccodile index with frog on it
                 if(gamevar.frog.y >= LINE_RIVER && gamevar.frog.y < LINE_BANK_2) { // If frog is in river zone...
                     croccodile_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
-                    for(i = 0; i < N_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a croccodile
-                        if(gamevar.frog.x >= gamevar.croccodiles[croccodile_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[croccodile_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
+                    for(i = 0; i < N_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
+                        if(gamevar.croccodiles[croccodile_stream][i].y >= 0 && gamevar.frog.x >= gamevar.croccodiles[croccodile_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[croccodile_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
                             gamevar.frog_on_croccodile = i + croccodile_stream*N_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
                             break;
                         }
@@ -256,7 +256,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 }
 
                 // De-print croccodile
-                if(gamevar.croccodiles[croccodile_stream][croccodile_id].y > FREE_CROCCODILE) {
+                if(gamevar.croccodiles[croccodile_stream][croccodile_id].y >= 0) {
                     if(gamevar.croccodiles[croccodile_stream][croccodile_id].x < 0) {
                         for(i = 0; i < CROCCODILE_DIM_Y; i++) {
                             mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_stream][croccodile_id].y, 0, RIVER_BG, "%*s", CROCCODILE_DIM_X + gamevar.croccodiles[croccodile_stream][croccodile_id].x, "");
