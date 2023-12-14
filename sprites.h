@@ -14,7 +14,7 @@
 #define TIME_COL 0
 #define TIME_YELLOW 30
 #define TIME_RED 10
-#define TIMEBAR_LEN 15
+#define TIMEBAR_LEN 30
 #define STRLEN_TIME 3
 #define TIMEBAR_COL (TIME_COL+4)
 
@@ -40,6 +40,5 @@
 void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
 void print_lifes(int n_lifes);
-void print_frog(Position frog, int frog_on_croccodile);
+void print_frog(const Game_t* gamevar);
 void print_croccodile(Position croccodile, bool direction);
-bool in_hole_line(Position frog);

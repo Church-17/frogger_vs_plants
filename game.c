@@ -110,5 +110,5 @@ void print_game(const Game_t* gamevar) {
     }
     
     // Print frog
-    print_frog(gamevar->frog, gamevar->frog_on_croccodile);
+    print_frog(gamevar);
 }

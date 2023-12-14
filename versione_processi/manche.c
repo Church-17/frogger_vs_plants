@@ -149,7 +149,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
                 // Print frog if it isn't dead
                 if(gamevar.timer) {
-                    print_frog(gamevar.frog, gamevar.frog_on_croccodile);
+                    print_frog(&gamevar);
                 }
                 break;
 
@@ -281,7 +281,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
                 // Print frog is it's on croccodile
                 if(gamevar.frog_on_croccodile == msg.id) {
-                    print_frog(gamevar.frog, gamevar.frog_on_croccodile);
+                    print_frog(&gamevar);
                 }
 
                 // Free croccodile
@@ -290,7 +290,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                 }
 
                 // Check if needs to spawn another croccodile (if last croccodile is completely in screen)
-                if(stream_last[croccodile_stream] == croccodile_id && ((stream_speed[croccodile_stream] > 0 && msg.x > 0) || (stream_speed[croccodile_stream] < 0 && msg.x < MAIN_COLS - CROCCODILE_DIM_X))) {
+                if(stream_last[croccodile_stream] == croccodile_id && (stream_speed[croccodile_stream] > 0 ? (msg.x > 0) : (msg.x < MAIN_COLS - CROCCODILE_DIM_X))) {
                     next_croccodile_id = mod(croccodile_id+1, MAX_CROCCODILE_PER_STREAM);
                     if(gamevar.croccodiles[croccodile_stream][next_croccodile_id].y == FREE_CROCCODILE) { // Check if next croccodile in same stream is free
                         gamevar.croccodiles[croccodile_stream][next_croccodile_id].y = INCOMING_CROCCODILE; // Mark the founded free croccodile as incoming

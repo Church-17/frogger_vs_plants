@@ -20,11 +20,7 @@ void croccodile_process(int pipe_write, int* other_params) {
 
     // Determine coordinates
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
-    if(speed_stream > 0) { // If the stream direction is from L to R
-        msg.x = -CROCCODILE_DIM_X + MOVE_CROCCODILE_X;
-    } else { // If the stream direction is from R to L
-        msg.x = MAIN_COLS - MOVE_CROCCODILE_X;
-    }
+    msg.x = speed_stream > 0 ? -CROCCODILE_DIM_X + MOVE_CROCCODILE_X : MAIN_COLS - MOVE_CROCCODILE_X;
 
     // Random spawn time
     srand(timestamp() + msg.id);
