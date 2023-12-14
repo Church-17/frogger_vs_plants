@@ -147,10 +147,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
                     }
                 }
 
-                // Print frog if it isn't dead
-                if(gamevar.timer) {
-                    print_frog(&gamevar);
-                }
+                print_frog(&gamevar);
                 break;
 
             // TIMER
