@@ -64,10 +64,18 @@ void print_lifes(int n_lifes) {
 }
 
 void print_frog(const Game_t* gamevar) {
-    int i;
+    int i, j;
     attr_t restore_color;
-    attr_t pair_bg[FROG_DIM_Y];
+    attr_t pair_col[FROG_DIM_Y][FROG_DIM_X];
 
+    static const str sprite_matrix[FROG_DIM_Y][FROG_DIM_X] = {
+        {"▄", "█", " ", "▀", "▌", "▐", "▀", " ", "█", "▄"},
+        {" ", "▀", "▄", " ", "▄", " ", " ", "▄", "▀", " "},
+        {" ", " ", "▄", "█", "▄", "▀", "▄", "▄", " ", " "},
+        {"▀", "█", "▀", " ", " ", " ", " ", "▀", "█", "▀"},
+    };
+    
+    // Determine frog background
     if(gamevar->frog.y < LINE_RIVER) {
         restore_color = BANK_BG;
     } else if(gamevar->frog.y < LINE_BANK_2) {
@@ -76,25 +84,25 @@ void print_frog(const Game_t* gamevar) {
         restore_color = BANK_BG;
     }
     for(i = 0; i < FROG_DIM_Y; i++) {
-        pair_bg[i] = restore_color;
+        for(j = 0; j < FROG_DIM_X; j++) {
+            pair_col[i][j] = restore_color;
+        }
     }
+    
+    // Set fixed color
+    for(i = 0; i < FROG_DIM_Y-1; i++) {
+        for(j = 3; j < 7; j++) {
+            pair_col[i][j] = GREEN_YELLOW;
+        }
+    }
+    pair_col[0][3] = pair_col[0][6] = MAGENTA_GREEN;
 
-    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x, pair_bg[0], "▄█"); //
-    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+3, MAGENTA_GREEN, "▀");
-    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+4, GREEN_YELLOW, "▌▐");
-    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+6, MAGENTA_GREEN, "▀");
-    mvwaprintw(main_scr, gamevar->frog.y, gamevar->frog.x+8, pair_bg[0], "█▄"); //
-
-    mvwaprintw(main_scr, gamevar->frog.y+1, gamevar->frog.x+1, pair_bg[1], "▀▄"); //
-    mvwaprintw(main_scr, gamevar->frog.y+1, gamevar->frog.x+3, GREEN_YELLOW, " ▄  ");
-    mvwaprintw(main_scr, gamevar->frog.y+1, gamevar->frog.x+7, pair_bg[1], "▄▀"); //
-
-    mvwaprintw(main_scr, gamevar->frog.y+2, gamevar->frog.x+2, pair_bg[2], "▄"); //
-    mvwaprintw(main_scr, gamevar->frog.y+2, gamevar->frog.x+3, GREEN_YELLOW, "█▄▀▄");
-    mvwaprintw(main_scr, gamevar->frog.y+2, gamevar->frog.x+7, pair_bg[2], "▄"); //
-
-    mvwaprintw(main_scr, gamevar->frog.y+3, gamevar->frog.x, pair_bg[3], "▀█▀"); //
-    mvwaprintw(main_scr, gamevar->frog.y+3, gamevar->frog.x+7, pair_bg[3], "▀█▀"); //
+    // Print frog
+    for(i = 0; i < FROG_DIM_Y; i++) {
+        for(j = 0; j < FROG_DIM_X; j++) {
+            mvwaprintw(main_scr, gamevar->frog.y + i, gamevar->frog.x + j, pair_col[i][j], "%s", sprite_matrix[i][j]);
+        }
+    }
 }
 
 void print_croccodile(Position croccodile, bool direction) {
