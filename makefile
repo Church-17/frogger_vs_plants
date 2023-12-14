@@ -22,27 +22,29 @@ music = music.h
 # Define compiling version
 VERSION = versione_processi
 ifeq (${VERSION}, versione_processi)
-SPEC_FILE = process.o
+SPEC_OBJ = process.o
+SPEC_LIB = ${process}
 else
-SPEC_FILE = threads.o
+SPEC_OBJ = threads.o
+SPEC_LIB = ${threads}
 endif
 
-sopr_proj.out: main.o menu.o sprites.o str.o res.o utils.o game.o manche.o frog.o time.o music.o croccodile.o ${SPEC_FILE}
+sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o frog.o time.o croccodile.o ${SPEC_OBJ}
 	${CC} $^ ${CARGS}
 
 manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${croccodile} ${menu} ${manche} ${res} ${utils} ${struct}
 	${COBJ_VER}
 
-process.o: ${VERSION}/process.c ${process} ${utils} ${struct}
+process.o: versione_processi/process.c ${process} ${utils} ${struct}
 	${COBJ_VER}
 
-frog.o: ${VERSION}/frog.c ${frog} ${process} ${main} ${game} ${struct}
+frog.o: ${VERSION}/frog.c ${frog} ${SPEC_LIB} ${main} ${game} ${struct}
 	${COBJ_VER}
 
-time.o: ${VERSION}/time.c ${time} ${process} ${utils} ${struct}
+time.o: ${VERSION}/time.c ${time} ${SPEC_LIB} ${utils} ${struct}
 	${COBJ_VER}
 
-croccodile.o: ${VERSION}/croccodile.c ${croccodile} ${sprites} ${process} ${utils} ${main} ${struct}
+croccodile.o: ${VERSION}/croccodile.c ${croccodile} ${sprites} ${SPEC_LIB} ${utils} ${main} ${struct}
 	${COBJ_VER}
 
 main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
