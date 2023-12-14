@@ -33,7 +33,7 @@
     type* var;\
     alloc(type, var, n) // Define and alloc
 
-// Print in win with attr
+// Print in window with attribute
 #define mvwaprintw(win, y, x, attr, fstr...)\
     wattron(win, attr);\
     mvwprintw(win, y, x, fstr);\
