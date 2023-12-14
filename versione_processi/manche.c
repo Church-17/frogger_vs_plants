@@ -22,7 +22,6 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     process_pids.len = LIM_N_ENTITIES;
     int croccodile_params[N_CROCCODILE_PARAMS];
     int stream_speed[N_WATER_STREAM];
-    int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
 
     // Pipe
     int pipe_fds[PIPE_DIM];
@@ -47,9 +46,9 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     // Init control vars
     bool manche_ended = FALSE; // Flag
     int croccodile_stream, croccodile_id, next_croccodile_id; // Helper vars for croccodile
+    int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
     time_t resize_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
-    // Position array_croccodile[N_WATER_STREAM][N_CROCCODILE_PER_STREAM];
     Message msg; // Define msg to store pipe message
 
     // Init game vars
