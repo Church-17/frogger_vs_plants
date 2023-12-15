@@ -383,18 +383,18 @@ int pause_menu(const Game_t* gamevar) {
 int gameover_menu(int score, const Game_t* gamevar) {
     // If score was one of the best, add it to the best scores
     if(score > 0) {
-        int i;
-        Dict_str_int best = rd_best();
-        for(i = best.len; i > 0 && score > best.val[i-1]; i--) {
-            if(i < N_BEST) {
+        int i; // Index where write the new best score (if i == N_BEST, it isn't a new best score)
+        Dict_str_int best = rd_best(); // Read actual best scores
+        for(i = best.len; i > 0 && score > best.val[i-1]; i--) { // Check if score is gtr than the least best score
+            if(i < N_BEST) { // If it is, pass the previous best score down (if it is possible)
                 best.key[i] = best.key[i-1];
                 best.val[i] = best.val[i-1];
             }
         }
-        if(i < N_BEST) {
+        if(i < N_BEST) { // If the new score is a best score, write in best scores
             best.key[i] = USERNAME;
             best.val[i] = score;
-            if(best.len < N_BEST) {
+            if(best.len < N_BEST) { // Increment best size if needed
                 best.len++;
             }
             wr_best(best);
