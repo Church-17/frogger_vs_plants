@@ -21,7 +21,7 @@ bool game() {
     int game_ret;
 
     // Loop for retrying play
-    while(do_play) {
+    while(do_play && !do_quit) {
         game_ret = play_game();
         switch(game_ret) {
             case OVER_RETR_ID: // Play
@@ -32,7 +32,6 @@ bool game() {
                 break;
 
             case OVER_QUIT_ID:
-                do_play = FALSE;
                 do_quit = TRUE;
                 break;
         }
