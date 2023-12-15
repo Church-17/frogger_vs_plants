@@ -381,6 +381,26 @@ int pause_menu(const Game_t* gamevar) {
 
 // Game Over Menu
 int gameover_menu(int score, const Game_t* gamevar) {
+    // If score was one of the best, add it to the best scores
+    if(score > 0) {
+        int i;
+        Dict_str_int best = rd_best();
+        for(i = best.len; i > 0 && score > best.val[i-1]; i--) {
+            if(i < N_BEST) {
+                best.key[i] = best.key[i-1];
+                best.val[i] = best.val[i-1];
+            }
+        }
+        if(i < N_BEST) {
+            best.key[i] = USERNAME;
+            best.val[i] = score;
+            if(best.len < N_BEST) {
+                best.len++;
+            }
+            wr_best(best);
+        }
+    }
+
     char scorestr[LIM_STR_BUFF];
     sprintf(scorestr, "%s: %d", STR_SCORE, score); // Transform score int in str
     str tit[] = {STR_OVER, scorestr};

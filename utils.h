@@ -32,6 +32,7 @@
 #define dalloc(type, var, n) \
     type* var;\
     alloc(type, var, n) // Define and alloc
+#define USERNAME getenv("USER")
 
 // Print in window with attribute
 #define mvwaprintw(win, y, x, attr, fstr...)\
