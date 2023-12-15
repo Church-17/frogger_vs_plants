@@ -86,7 +86,7 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
         }
         do_prints = FALSE;
         
-        while(!do_prints) {
+        while(!(do_prints || do_return)) {
             // Update non-highlighted & highlighted option
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, set.len, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
@@ -123,7 +123,6 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
 
                 // Select the highlighted option
                 case ENTER:
-                    do_prints = TRUE;
                     do_return = TRUE;
                     break;
 
@@ -262,7 +261,7 @@ void settings_menu(void) {
         do_prints = FALSE;
 
         // Loop to print all when needed
-        while(!do_prints) {
+        while(!(do_prints || do_return)) {
             // Update old_hl to become non-highlighted
             mvwfattrprintw(menu_win, POSITION_Y(old_hl, N_SETTINGS, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             wprintw(menu_win, "%*s", HL_PADX, "");
@@ -315,7 +314,6 @@ void settings_menu(void) {
                     break;
 
                 case ENTER:
-                    do_prints = TRUE;
                     do_return = TRUE;
                     break;
 
