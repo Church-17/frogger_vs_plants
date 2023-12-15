@@ -19,7 +19,7 @@ IMPOSTAZIONI: Il gioco comprende un menù impostazioni dal quale
     - DIFFICOLTÀ: è possibile scegliere la difficoltà del gioco;
     Le impostazioni correnti vengono mantenute anche ai successivi riavvii del gioco.
 
-PAUSA: È possibile mettere in pausa una partita premendo 'p'.
+PAUSA: È possibile mettere in pausa una partita premendo 'p', ed uscire dalla partita con 'q'.
 
 
 TECNICISMI IMPLEMENTATI
@@ -28,7 +28,7 @@ CONTROLLO DEI FILE: Dei file contenenti le impostazioni e i migliori punteggi,
     durante la loro lettura, se ne controlla il formato,
     in modo che non vi siano irregolarità (come ad esempio un valore di
     un'impostazione non corrispondente ad alcun settaggio possibile nel gioco).
-    L'ordine di comparsa nel file delle impostazioni o dei punteggi è indifferente.
+    Nel file l'ordine di comparsa delle impostazioni o dei punteggi è indifferente.
 
 TEMPO DURANTE LA PAUSA: La funzione usleep non viene interrotta quando il processo
     riceve un SIGSTOP, perciò quando si metteva in pausa il gioco, il timer aspettava
