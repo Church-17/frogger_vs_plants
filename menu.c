@@ -392,7 +392,7 @@ int gameover_menu(int score, const Game_t* gamevar) {
             }
         }
         if(i < N_BEST) { // If the new score is a best score, write in best scores
-            best.key[i] = USERNAME;
+            best.key[i] = getenv("USER");
             best.val[i] = score;
             if(best.len < N_BEST) { // Increment best size if needed
                 best.len++;
