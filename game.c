@@ -56,7 +56,6 @@ int play_game(void) {
                     i--;
                 } else {
                     print_lifes(gamevar.lifes);
-                    wrefresh(main_scr);
                 }
                 break;
 
@@ -81,6 +80,7 @@ int play_game(void) {
 
     score *= n_lifes;
     print_score(score);
+    wrefresh(main_scr);
     return gameover_menu(score, &gamevar);
 }
 
