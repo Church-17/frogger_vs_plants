@@ -4,6 +4,7 @@
 // Define constant
 #define MAIN_ROWS 47
 #define MAIN_COLS 150
+#define FIX_KEEP_WINDOW_INSIDE 2
 
 // Inter-object vars
 extern WINDOW* main_scr;
