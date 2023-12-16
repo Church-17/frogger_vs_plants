@@ -1,5 +1,4 @@
 // Include libs
-#include "main.h"
 #include "game.h"
 
 // Define game zones

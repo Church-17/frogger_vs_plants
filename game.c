@@ -1,7 +1,7 @@
 // Include libs
-#include "manche.h"
+#include "main.h"
 #include "menu.h"
-#include "res.h"
+#include "manche.h"
 #include "utils.h"
 #include "struct.h"
 

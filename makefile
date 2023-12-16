@@ -8,16 +8,16 @@ struct = struct.h struct_proto.h
 utils = utils.h struct_proto.h
 res = res.h struct_proto.h
 str = str.h ${res}
-game = game.h struct_proto.h
+music = music.h
+game = game.h ${res}
 menu = menu.h struct_proto.h
 main = main.h struct_proto.h
-sprites = sprites.h ${main} ${game} struct_proto.h
+sprites = sprites.h ${game}
 manche = manche.h ${sprites}
-process = ${VERSION}/process.h struct_proto.h
+process = versione_processi/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
 croccodile = ${VERSION}/croccodile.h struct_proto.h
-music = music.h
 
 # Define compiling version
 VERSION = versione_processi
@@ -32,31 +32,31 @@ endif
 sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o frog.o time.o croccodile.o ${SPEC_OBJ}
 	${CC} $^ ${CARGS}
 
-manche.o: ${VERSION}/manche.c ${process} ${time} ${frog} ${croccodile} ${menu} ${manche} ${res} ${utils} ${struct}
+manche.o: ${VERSION}/manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${SPEC_LIB} ${time} ${frog} ${croccodile}
 	${COBJ_VER}
 
-process.o: versione_processi/process.c ${process} ${utils} ${struct}
+process.o: versione_processi/process.c ${utils} ${struct} ${process}
 	${COBJ_VER}
 
-frog.o: ${VERSION}/frog.c ${frog} ${SPEC_LIB} ${main} ${game} ${struct}
+frog.o: ${VERSION}/frog.c ${main} ${game} ${utils} ${struct} ${SPEC_LIB} ${frog}
 	${COBJ_VER}
 
-time.o: ${VERSION}/time.c ${time} ${SPEC_LIB} ${utils} ${struct}
+time.o: ${VERSION}/time.c ${game} ${utils} ${struct} ${SPEC_LIB} ${time}
 	${COBJ_VER}
 
-croccodile.o: ${VERSION}/croccodile.c ${croccodile} ${sprites} ${SPEC_LIB} ${utils} ${main} ${struct}
+croccodile.o: ${VERSION}/croccodile.c ${sprites} ${utils} ${struct} ${SPEC_LIB} ${croccodile}
 	${COBJ_VER}
 
-main.o: main.c ${main} ${menu} ${game} ${str} ${utils} ${struct}
+main.o: main.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 	${COBJ}
 
-menu.o: menu.c ${main} ${menu} ${game} ${str} ${utils} ${struct} ${music}
+menu.o: menu.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 	${COBJ}
 
-game.o: game.c ${menu} ${manche} ${res} ${utils} ${struct}
+game.o: game.c ${main} ${menu} ${manche} ${utils} ${struct}
 	${COBJ}
 
-sprites.o: sprites.c ${sprites} ${res} ${utils} ${struct}
+sprites.o: sprites.c ${main} ${sprites} ${str} ${utils} ${struct}
 	${COBJ}
 
 str.o: str.c ${str} ${utils}

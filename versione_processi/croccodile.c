@@ -1,8 +1,7 @@
 // Include libs
-#include "../main.h"
-#include "../struct.h"
-#include "../utils.h"
 #include "../sprites.h"
+#include "../utils.h"
+#include "../struct.h"
 #include "process.h"
 #include "croccodile.h"
 

@@ -1,7 +1,9 @@
 // Include libs
-#include "struct_proto.h"
+#include "res.h"
 
 // Define constant
+#define MAIN_ROWS 47
+#define MAIN_COLS 150
 #define PAUSE_GAME_KEY 'p'
 #define CLOSE_GAME_KEY 'q'
 #define TIME_MANCHE 60
