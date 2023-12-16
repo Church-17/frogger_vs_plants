@@ -56,7 +56,7 @@ menu.o: menu.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 game.o: game.c ${main} ${menu} ${manche} ${utils} ${struct}
 	${COBJ}
 
-sprites.o: sprites.c ${main} ${sprites} ${str} ${utils} ${struct}
+sprites.o: sprites.c ${main} ${sprites} ${str} ${utils} ${struct} ${manche}
 	${COBJ}
 
 str.o: str.c ${str} ${utils}

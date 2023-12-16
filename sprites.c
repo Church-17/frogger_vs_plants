@@ -4,6 +4,7 @@
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
+#include "manche.h"
 
 void print_background(const bool* holes_occupied) {
     int i, j;
@@ -69,7 +70,7 @@ void print_lifes(int n_lifes) {
 }
 
 void print_frog(const Game_t* gamevar) {
-    int i, j;
+    int i, j; // k, croccodile_stream;
     attr_t restore_color;
     attr_t pair_col[FROG_DIM_Y][FROG_DIM_X];
 
@@ -79,12 +80,17 @@ void print_frog(const Game_t* gamevar) {
         {" ", " ", "▄", "█", "▄", "▀", "▄", "▄", " ", " "},
         {"▀", "█", "▀", " ", " ", " ", " ", "▀", "█", "▀"},
     };
+
+    // croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
     
     // Determine frog background
     if(gamevar->frog.y < LINE_RIVER) {
         restore_color = BANK_BG;
     } else if(gamevar->frog.y < LINE_BANK_2) {
         restore_color = GOOD_CROCCODILE_BG;
+        if (gamevar->frog_on_croccodile == FROG_NOT_ON_CROCCODILE) {
+            restore_color = GREEN_BLUE;
+        }
     } else {
         restore_color = BANK_BG;
     }
@@ -93,6 +99,19 @@ void print_frog(const Game_t* gamevar) {
             pair_col[i][j] = restore_color;
         }
     }
+
+    // if(gamevar->frog.y < LINE_BANK_2) {
+    //     for (i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) {
+    //         if (gamevar->croccodiles[croccodile_stream][i].y > 0 && gamevar->frog.x < gamevar->croccodiles[croccodile_stream][i].x) {
+    //             for (j = gamevar->frog.x; j < gamevar->croccodiles[croccodile_stream][i].x; j++) {
+    //                 for (k = 0; k < FROG_DIM_Y; k++) {
+    //                     pair_col[j][k] = GREEN_BLUE;
+    //                 }
+    //             }
+    //         }
+
+    //     }
+    // }
     
     // Set fixed color
     for(i = 0; i < FROG_DIM_Y-1; i++) {
