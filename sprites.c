@@ -1,6 +1,6 @@
 // Include libs
 #include "sprites.h"
-#include "res.h"
+#include "str.h"
 #include "utils.h"
 #include "struct.h"
 
@@ -53,6 +53,10 @@ void print_time(int time_remained) {
     mvwaprintw(main_scr, LINE_HEADER, TIME_COL, time_color, "%*d ", STRLEN_TIME, time_remained);
     mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL, timebar_color, "%*s", new_timebar_len, "");
     mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL+new_timebar_len, time_color, "%*s", TIMEBAR_LEN-new_timebar_len, "");
+}
+
+void print_score(int score) {
+    mvwaprintw(main_scr, LINE_HEADER, SCORE_COL, WHITE_BLACK, "%s: %d", STR_SCORE, score);
 }
 
 void print_lifes(int n_lifes) {

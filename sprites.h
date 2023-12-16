@@ -18,6 +18,9 @@
 #define STRLEN_TIME 3
 #define TIMEBAR_COL (TIME_COL+4)
 
+// Score constant
+#define SCORE_COL 100
+
 // Lifes constants
 #define SPACE_PER_LIFE 3
 #define LIFES_COL (MAIN_COLS - SPACE_PER_LIFE * N_LIFES)
@@ -39,6 +42,7 @@
 // Function prototypes
 void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
+void print_score(int score);
 void print_lifes(int n_lifes);
 void print_frog(const Game_t* gamevar);
 void print_croccodile(Position croccodile, bool direction);

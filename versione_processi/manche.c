@@ -13,7 +13,7 @@
 #define RESIZE_TIME_THRESHOLD 100
 
 // Play a manche, return game vars with in gamevar.timer the time remaining or a manche_id
-Game_t play_manche(bool* holes_occupied, int n_lifes) {
+Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Init vars
     int i, j;
     pid_t array_pids[LIM_N_ENTITIES] = {0}; // Pids for every process
@@ -55,6 +55,7 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
     Game_t gamevar;
     gamevar.holes_occupied = holes_occupied;
     gamevar.timer = TIME_MANCHE;
+    gamevar.score = score;
     gamevar.lifes = n_lifes;
     gamevar.frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
     gamevar.stream_speed = stream_speed;
@@ -151,10 +152,9 @@ Game_t play_manche(bool* holes_occupied, int n_lifes) {
 
             // TIMER
             case TIME_ID:
+                gamevar.timer = msg.y;
                 if(gamevar.timer <= 0) {
                     manche_ended = TRUE;
-                } else {
-                    gamevar.timer = msg.y;
                 }
                 print_time(gamevar.timer);
                 break;

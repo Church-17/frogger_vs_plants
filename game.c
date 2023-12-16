@@ -44,12 +44,11 @@ bool game() {
 int play_game(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
     int i, score = 0, n_lifes = N_LIFES;
-    int manche_remained_time[N_HOLES] = {0}; // Array with the remained time of each manche
     Game_t gamevar;
 
     // Loop for play n manche saving the remained time and updating lifes
     for(i = 0; i < N_HOLES && n_lifes; i++) {
-        gamevar = play_manche(holes_occupied, n_lifes);
+        gamevar = play_manche(score, n_lifes, holes_occupied);
         switch(gamevar.timer) {
             case MANCHE_LOST:
                 gamevar.lifes--;
@@ -74,16 +73,14 @@ int play_game(void) {
                 break;
 
             default:
-                manche_remained_time[i] = gamevar.timer;
+                score += gamevar.timer;
                 break;
         }
         n_lifes = gamevar.lifes;
     }
 
-    for(i = 0; i < N_HOLES; i++) {
-        score += manche_remained_time[i];
-    }
     score *= n_lifes;
+    print_score(score);
     return gameover_menu(score, &gamevar);
 }
 
@@ -95,6 +92,9 @@ void print_game(const Game_t* gamevar) {
 
     // Print time
     print_time(gamevar->timer);
+
+    // Print score
+    print_score(gamevar->score);
 
     // Print lifes
     print_lifes(gamevar->lifes);

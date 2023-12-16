@@ -20,4 +20,4 @@
 #define FREE_CROCCODILE (-1)
 #define INCOMING_CROCCODILE (-2)
 
-Game_t play_manche(bool* holes_occupied, int n_lifes);
+Game_t play_manche(int score, int n_lifes, bool* holes_occupied);
