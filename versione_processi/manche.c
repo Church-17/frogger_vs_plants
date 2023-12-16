@@ -32,7 +32,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     forker(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
         // Randomize speed & direction of each stream
-        stream_speed[i] = rand_range(2, 7) * (rand_range(0, 2) ? 1 : -1);
+        stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED) * (rand_range(0, 2) ? 1 : -1);
         // Write croccodile params
         croccodile_params[CROCCODILE_ID_INDEX] = i*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
         croccodile_params[CROCCODILE_STREAM_INDEX] = i;
