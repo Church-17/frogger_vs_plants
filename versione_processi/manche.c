@@ -11,6 +11,7 @@
 
 // Define constant
 #define RESIZE_TIME_THRESHOLD 100
+#define REFRESH_TIME_THRESHOLD 100
 
 // Play a manche, return game vars with in gamevar.timer the time remaining or a manche_id
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
@@ -47,7 +48,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     bool manche_ended = FALSE, is_bad = FALSE; // Flag
     int croccodile_stream, croccodile_id, next_croccodile_id; // Helper vars for croccodile
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
-    time_t resize_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
+    time_t resize_time = 0, refresh_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
     Message msg; // Define msg to store pipe message
 
@@ -229,8 +230,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             // CROCCODILE
             if(msg.id >= MIN_CROCCODILE_ID && msg.id < MIN_BULLET_ID) {
                 is_bad = FALSE;
-                if(msg.y >= 1000) {
-                    msg.y -= 1000;
+                if(msg.y >= BAD_CROCCODILE_OFFSET) {
+                    msg.y -= BAD_CROCCODILE_OFFSET;
                     is_bad = TRUE;
                 }
                 croccodile_stream = ((msg.y) - LINE_RIVER) / FROG_DIM_Y;
@@ -325,7 +326,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
             break;
         }
-        wrefresh(main_scr);
+        
+        // Refresh with threshold
+        if(timestamp() - refresh_time > REFRESH_TIME_THRESHOLD) {
+            wrefresh(main_scr);
+        }
     }
     signal_all(process_pids, SIGKILL); // Killing all child processes
     // Free allocated memory
