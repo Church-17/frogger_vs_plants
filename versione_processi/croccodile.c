@@ -10,7 +10,6 @@ void croccodile_process(int pipe_write, int* other_params) {
     // Init vars
     bool do_exit = FALSE;
     int n_stream, speed_stream;
-    int bad_prob;
     Message msg;
 
     // Unpack croccodile params
@@ -21,15 +20,12 @@ void croccodile_process(int pipe_write, int* other_params) {
     // Random seed
     srand(timestamp() + msg.id);
 
-    // Random croccodile kind
-    bad_prob = rand_range(0, 10);
-
     // Determine coordinates
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
-    if(bad_prob < BAD_THRESHOLD) {
-        msg.y += BAD_CROCCODILE_OFFSET;
-    }
     msg.x = speed_stream > 0 ? -CROCCODILE_DIM_X + MOVE_CROCCODILE_X : MAIN_COLS - MOVE_CROCCODILE_X;
+
+    // Random croccodile kind
+    msg.y += rand_range(0, 10) < BAD_THRESHOLD ? BAD_CROCCODILE_OFFSET : 0;
 
     // Random spawn time
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
