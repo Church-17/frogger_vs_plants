@@ -17,12 +17,12 @@ void croccodile_process(int pipe_write, int* other_params) {
     n_stream = other_params[CROCCODILE_STREAM_INDEX];
     speed_stream = other_params[CROCCODILE_SPEED_INDEX];
 
-    // Random seed
-    srand(timestamp() + msg.id);
-
     // Determine coordinates
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
     msg.x = speed_stream > 0 ? -CROCCODILE_DIM_X + MOVE_CROCCODILE_X : MAIN_COLS - MOVE_CROCCODILE_X;
+
+    // Random seed
+    srand(timestamp() + msg.id);
 
     // Random croccodile kind
     msg.y += rand_range(0, 10) < BAD_THRESHOLD ? BAD_CROCCODILE_OFFSET : 0;
