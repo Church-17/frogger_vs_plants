@@ -13,9 +13,6 @@
 #define LIM_STR_BUFF 100 // Max len of string
 #define CAPITAL_SHIFT ('a'-'A')
 #define ENTER 10
-#define KEY_0 '0'
-#define KEY_1 '1'
-#define KEY_9 '9'
 
 // Define error codes
 #define NO_ERR 0

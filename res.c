@@ -178,7 +178,7 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines) {
                 }
                 break; // Otherwise end of line or file
             }
-            if(achar < KEY_0 || achar > KEY_9) { // Check number char
+            if(achar < '0' || achar > '9') { // Check number char
                 dict.len = CHK_FILE_ERR; // ERROR in file
                 return dict;
             }

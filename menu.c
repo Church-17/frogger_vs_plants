@@ -441,8 +441,8 @@ void mvwfattrprintw(WINDOW* win, int row, int col, attr_t attr, str fstr) {
 
 // Check if key is one of the first letters
 void check_key(int key, int* hl, const List_str set) {
-    if(key >= KEY_1 && key <= KEY_9 && key-KEY_1 < set.len) {
-        *hl = key-KEY_1;
+    if(key >= '1' && key <= '9' && key-'1' < set.len) {
+        *hl = key-'1';
         return;
     }
     for(int i = mod(*hl+1, set.len); i != *hl; i = mod(i+1, set.len)) {
