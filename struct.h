@@ -37,5 +37,5 @@ struct Game_t {
     int* stream_speed;
     Position frog;
     Position** croccodiles;
-    int** good_croccodiles;
+    bool** bad_croccodiles;
 };

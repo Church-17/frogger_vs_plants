@@ -44,4 +44,4 @@ void print_time(int time_remained);
 void print_score(int score);
 void print_lifes(int n_lifes);
 void print_frog(const Game_t* gamevar);
-void print_croccodile(Position croccodile, bool direction, int good);
+void print_croccodile(Position croccodile, bool direction, bool good);

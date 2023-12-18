@@ -99,19 +99,6 @@ void print_frog(const Game_t* gamevar) {
             pair_col[i][j] = restore_color;
         }
     }
-
-    // if(gamevar->frog.y < LINE_BANK_2) {
-    //     for (i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) {
-    //         if (gamevar->croccodiles[croccodile_stream][i].y > 0 && gamevar->frog.x < gamevar->croccodiles[croccodile_stream][i].x) {
-    //             for (j = gamevar->frog.x; j < gamevar->croccodiles[croccodile_stream][i].x; j++) {
-    //                 for (k = 0; k < FROG_DIM_Y; k++) {
-    //                     pair_col[j][k] = GREEN_BLUE;
-    //                 }
-    //             }
-    //         }
-
-    //     }
-    // }
     
     // Set fixed color
     for(i = 0; i < FROG_DIM_Y-1; i++) {
@@ -129,23 +116,9 @@ void print_frog(const Game_t* gamevar) {
     }
 }
 
-void print_croccodile(Position croccodile, bool direction, int good) {
+void print_croccodile(Position croccodile, bool direction, bool is_bad) {
     int i;
-    if (good) {
-        if(croccodile.x < 0) {
-            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
-            }
-        } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
-            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X, "");
-            }
-        } else {
-            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", MAIN_COLS - croccodile.x, "");
-            }
-        }
-    } else {
+    if(is_bad) {
         if(croccodile.x < 0) {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
                 mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_BOURDEAUX, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
@@ -157,6 +130,20 @@ void print_croccodile(Position croccodile, bool direction, int good) {
         } else {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
                 mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_BOURDEAUX, "%*s", MAIN_COLS - croccodile.x, "");
+            }
+        }
+    } else {
+        if(croccodile.x < 0) {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
+            }
+        } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X, "");
+            }
+        } else {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", MAIN_COLS - croccodile.x, "");
             }
         }
     }

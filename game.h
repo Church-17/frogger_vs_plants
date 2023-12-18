@@ -11,7 +11,7 @@
 #define N_HOLES 5
 #define N_WATER_STREAM 8
 #define MIN_STREAM_SPEED (2*DIFF_SET*DIFF_SET + 2)
-#define MAX_STREAM_SPEED (MIN_STREAM_SPEED + 5)
+#define MAX_STREAM_SPEED (MIN_STREAM_SPEED + 6)
 #define N_PLANTS 3
 
 // Define communication ID

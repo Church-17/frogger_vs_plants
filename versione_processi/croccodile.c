@@ -10,24 +10,28 @@ void croccodile_process(int pipe_write, int* other_params) {
     // Init vars
     bool do_exit = FALSE;
     int n_stream, speed_stream;
-    int kindness;
+    int is_bad;
     Message msg;
 
     // Unpack croccodile params
     msg.id = other_params[CROCCODILE_ID_INDEX];
     n_stream = other_params[CROCCODILE_STREAM_INDEX];
     speed_stream = other_params[CROCCODILE_SPEED_INDEX];
-    kindness = rand_range(0, 2);
+
+    // Random seed
+    srand(timestamp() + msg.id);
+
+    // Random croccodile kind
+    is_bad = rand_range(0, 2);
 
     // Determine coordinates
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
-    if (!kindness) {
+    if (is_bad) {
         msg.y += 1000;
     } 
     msg.x = speed_stream > 0 ? -CROCCODILE_DIM_X + MOVE_CROCCODILE_X : MAIN_COLS - MOVE_CROCCODILE_X;
 
     // Random spawn time
-    srand(timestamp() + msg.id);
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
 
     // Write initial position
