@@ -67,10 +67,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         alloc(Position, gamevar.croccodiles[i], MAX_CROCCODILE_PER_STREAM);
         alloc(bool, gamevar.bad_croccodiles[i], MAX_CROCCODILE_PER_STREAM);
         gamevar.croccodiles[i][0].y = INCOMING_CROCCODILE; // Mark as incoming the first croccodile of each stream
-        // gamevar.bad_croccodiles[i][0] = 0;
         for(j = 1; j < MAX_CROCCODILE_PER_STREAM; j++) {
             gamevar.croccodiles[i][j].y = FREE_CROCCODILE; // Mark as free the other croccodiles of each stream
-            // gamevar.bad_croccodiles[i][j] = 0;
         }
     }
 
@@ -93,7 +91,15 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 if(gamevar.frog.y < LINE_RIVER) {
                     restore_color = BANK_BG; // If frog was on bank 1 set purple
                 } else if(gamevar.frog.y < LINE_BANK_2) {
-                    restore_color = GOOD_CROCCODILE_BG; // If frog was on croccodile set dark green
+                    if(gamevar.frog_on_croccodile >= 0) {
+                        croccodile_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
+                        croccodile_id = gamevar.frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
+                        if(gamevar.bad_croccodiles[croccodile_stream][croccodile_id]) {
+                            restore_color = BAD_CROCCODILE_BG; // If frog was on bad croccodile set bordeaux
+                        } else {
+                            restore_color = GOOD_CROCCODILE_BG; // If frog was on good croccodile set dark green
+                        }
+                    }
                 } else {
                     restore_color = BANK_BG; // If frog was on bank 2 set purple
                 }

@@ -72,7 +72,7 @@ int play_game(void) {
                 break;
 
             default:
-                score += gamevar.timer;
+                score += gamevar.timer * (DIFF_SET + 1);
                 break;
         }
         n_lifes = gamevar.lifes;

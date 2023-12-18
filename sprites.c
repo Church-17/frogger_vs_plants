@@ -67,7 +67,7 @@ void print_lifes(int n_lifes) {
 }
 
 void print_frog(const Game_t* gamevar) {
-    int i, j; // k, croccodile_stream;
+    int i, j, croccodile_stream, croccodile_id;
     attr_t restore_color;
     attr_t pair_col[FROG_DIM_Y][FROG_DIM_X];
 
@@ -77,16 +77,21 @@ void print_frog(const Game_t* gamevar) {
         {" ", " ", "▄", "█", "▄", "▀", "▄", "▄", " ", " "},
         {"▀", "█", "▀", " ", " ", " ", " ", "▀", "█", "▀"},
     };
-
-    // croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
     
     // Determine frog background
     if(gamevar->frog.y < LINE_RIVER) {
         restore_color = BANK_BG;
     } else if(gamevar->frog.y < LINE_BANK_2) {
-        restore_color = GOOD_CROCCODILE_BG;
-        if (gamevar->frog_on_croccodile == FROG_NOT_ON_CROCCODILE) {
-            restore_color = GREEN_BLUE;
+        if(gamevar->frog_on_croccodile >= 0) {
+            croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
+            croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
+            if(gamevar->bad_croccodiles[croccodile_stream][croccodile_id]) {
+                restore_color = BAD_CROCCODILE_BG; // If frog was on bad croccodile set bordeaux
+            } else {
+                restore_color = GOOD_CROCCODILE_BG; // If frog was on good croccodile set dark green
+            }
+        } else {
+            restore_color = RIVER_BG;
         }
     } else {
         restore_color = BANK_BG;
@@ -118,29 +123,29 @@ void print_croccodile(Position croccodile, bool direction, bool is_bad) {
     if(is_bad) {
         if(croccodile.x < 0) {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_BOURDEAUX, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
+                mvwaprintw(main_scr, i + croccodile.y, 0, BAD_CROCCODILE_BG, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
             }
         } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_BOURDEAUX, "%*s", CROCCODILE_DIM_X, "");
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, BAD_CROCCODILE_BG, "%*s", CROCCODILE_DIM_X, "");
             }
         } else {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_BOURDEAUX, "%*s", MAIN_COLS - croccodile.x, "");
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, BAD_CROCCODILE_BG, "%*s", MAIN_COLS - croccodile.x, "");
             }
         }
     } else {
         if(croccodile.x < 0) {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
+                mvwaprintw(main_scr, i + croccodile.y, 0, GOOD_CROCCODILE_BG, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
             }
         } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X, "");
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GOOD_CROCCODILE_BG, "%*s", CROCCODILE_DIM_X, "");
             }
         } else {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", MAIN_COLS - croccodile.x, "");
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GOOD_CROCCODILE_BG, "%*s", MAIN_COLS - croccodile.x, "");
             }
         }
     }

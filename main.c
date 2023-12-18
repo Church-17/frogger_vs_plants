@@ -43,7 +43,7 @@ int main(void) {
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
     init_color(COLOR_PURPLE, 300, 0, 600);
-    init_color(COLOR_BOURDEAUX, 500, 0, 0);
+    init_color(COLOR_BORDEAUX, 500, 0, 0);
     init_color(COLOR_DARKGREEN, 0, 400, 0);
     // Set needed color pairs (text, bg)
     init_pair(WHITE_BLACK_ID, COLOR_WHITE, COLOR_BLACK);
@@ -60,9 +60,9 @@ int main(void) {
     init_pair(GREEN_PURPLE_ID, COLOR_GREEN, COLOR_PURPLE);
     init_pair(GREEN_BLUE_ID, COLOR_GREEN, COLOR_BLUE);
     init_pair(GREEN_RED_ID, COLOR_GREEN, COLOR_RED);
-    init_pair(GREEN_BOURDEAUX_ID, COLOR_GREEN, COLOR_BOURDEAUX);
+    init_pair(GREEN_BORDEAUX_ID, COLOR_GREEN, COLOR_BORDEAUX);
     init_pair(GREEN_DARKGREEN_ID, COLOR_GREEN, COLOR_DARKGREEN);
-    init_pair(BOURDEAUX_BLUE_ID, COLOR_DARKGREEN, COLOR_BLUE);
+    init_pair(BORDEAUX_BLUE_ID, COLOR_BORDEAUX, COLOR_BLUE);
     init_pair(DARKGREEN_BLUE_ID, COLOR_DARKGREEN, COLOR_BLUE);
     
     // Read settings from file
