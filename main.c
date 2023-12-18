@@ -43,7 +43,7 @@ int main(void) {
     init_color(COLOR_GREY, 600, 600, 600);
     init_color(COLOR_BROWN, 800, 600, 200);
     init_color(COLOR_PURPLE, 300, 0, 600);
-    init_color(COLOR_BORDEAUX, 500, 0, 0);
+    init_color(COLOR_BORDEAUX, 400, 100, 100);
     init_color(COLOR_DARKGREEN, 0, 400, 0);
     // Set needed color pairs (text, bg)
     init_pair(WHITE_BLACK_ID, COLOR_WHITE, COLOR_BLACK);
