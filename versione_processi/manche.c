@@ -32,7 +32,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     forker(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
         // Randomize speed & direction of each stream
-        stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED) * (rand_range(0, 2) ? 1 : -1);
+        stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED+1) * (rand_range(0, 2) ? 1 : -1);
         // Write croccodile params
         croccodile_params[CROCCODILE_ID_INDEX] = i*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
         croccodile_params[CROCCODILE_STREAM_INDEX] = i;
@@ -45,7 +45,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
     // Init control vars
     bool manche_ended = FALSE; // Flag
-    int croccodile_stream, croccodile_id, next_croccodile_id; // Helper vars for croccodile
+    int croccodile_stream, croccodile_id, next_croccodile_id, kindness = 1; // Helper vars for croccodile
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
     time_t resize_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
@@ -62,11 +62,15 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.frog.y = INIT_FROG_Y;
     gamevar.frog.x = INIT_FROG_X;
     alloc(Position*, gamevar.croccodiles, N_WATER_STREAM);
+    alloc(int*, gamevar.good_croccodiles, N_WATER_STREAM);
     for(i = 0; i < N_WATER_STREAM; i++) { // Croccodile array per stream
         alloc(Position, gamevar.croccodiles[i], MAX_CROCCODILE_PER_STREAM);
+        alloc(int, gamevar.good_croccodiles[i], MAX_CROCCODILE_PER_STREAM);
         gamevar.croccodiles[i][0].y = INCOMING_CROCCODILE; // Mark as incoming the first croccodile of each stream
+        gamevar.good_croccodiles[i][0] = 1;
         for(j = 1; j < MAX_CROCCODILE_PER_STREAM; j++) {
             gamevar.croccodiles[i][j].y = FREE_CROCCODILE; // Mark as free the other croccodiles of each stream
+            gamevar.good_croccodiles[i][j] = 1;
         }
     }
 
@@ -218,8 +222,15 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
             // CROCCODILE
             if(msg.id >= MIN_CROCCODILE_ID && msg.id < MIN_BULLET_ID) {
-                croccodile_stream = (msg.y - LINE_RIVER) / FROG_DIM_Y;
+                if (msg.y >= 1000) {
+                    kindness = 0;
+                    msg.y -= 1000;
+                }
+                croccodile_stream = ((msg.y) - LINE_RIVER) / FROG_DIM_Y;
                 croccodile_id = msg.id - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
+                if(!kindness) {
+                    gamevar.good_croccodiles[croccodile_stream][croccodile_id] = 0;
+                }
 
                 // Check if frog is on top
                 if(gamevar.frog_on_croccodile == msg.id) {
@@ -273,7 +284,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 gamevar.croccodiles[croccodile_stream][croccodile_id].y = msg.y;
 
                 // Print croccodile
-                print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0);
+                print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0, gamevar.good_croccodiles[croccodile_stream][croccodile_id]);
 
                 // Print frog is it's on croccodile
                 if(gamevar.frog_on_croccodile == msg.id) {
@@ -283,6 +294,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Free croccodile
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) { // If croccodile was out of screen...
                     gamevar.croccodiles[croccodile_stream][croccodile_id].y = FREE_CROCCODILE; // mark it as free
+                    gamevar.good_croccodiles[croccodile_stream][croccodile_id] = 1;
                 }
 
                 // Check if needs to spawn another croccodile (if last croccodile is completely in screen)
@@ -298,6 +310,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 }
 
+                kindness = 1;
                 break;
             }
 

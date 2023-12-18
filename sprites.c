@@ -4,7 +4,7 @@
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
-#include "manche.h"
+#include "manche.h" 
 
 void print_background(const bool* holes_occupied) {
     int i, j;
@@ -129,19 +129,35 @@ void print_frog(const Game_t* gamevar) {
     }
 }
 
-void print_croccodile(Position croccodile, bool direction) {
+void print_croccodile(Position croccodile, bool direction, int good) {
     int i;
-    if(croccodile.x < 0) {
-        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-            mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
-        }
-    } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
-        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-            mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X, "");
+    if (good) {
+        if(croccodile.x < 0) {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
+            }
+        } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", CROCCODILE_DIM_X, "");
+            }
+        } else {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", MAIN_COLS - croccodile.x, "");
+            }
         }
     } else {
-        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-            mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_DARKGREEN, "%*s", MAIN_COLS - croccodile.x, "");
+        if(croccodile.x < 0) {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, 0, GREEN_BOURDEAUX, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
+            }
+        } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_BOURDEAUX, "%*s", CROCCODILE_DIM_X, "");
+            }
+        } else {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                mvwaprintw(main_scr, i + croccodile.y, croccodile.x, GREEN_BOURDEAUX, "%*s", MAIN_COLS - croccodile.x, "");
+            }
         }
     }
 }
