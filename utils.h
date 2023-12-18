@@ -38,9 +38,9 @@
 
 // Print in center
 #define wctrprintw(win, row, args...) {\
-    char tmpstr[LIM_STR_BUFF];\
-    sprintf(tmpstr, args);\
-    mvwprintw(win, row, (win->_maxx - strlen(tmpstr))/2, "%s", tmpstr);\
+    char _tmpstr[LIM_STR_BUFF];\
+    sprintf(_tmpstr, args);\
+    mvwprintw(win, row, (win->_maxx - strlen(_tmpstr))/2, "%s", _tmpstr);\
 }
 
 // Function prototypes

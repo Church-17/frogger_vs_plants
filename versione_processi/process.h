@@ -1,5 +1,4 @@
 // Include libs
-#include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
 #include "../struct_proto.h"

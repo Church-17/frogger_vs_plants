@@ -2,10 +2,6 @@
 #include "struct_proto.h"
 
 // Define structs
-struct List_int {
-    int* list;
-    int len;
-};
 struct List_str {
     str* list;
     int len;
@@ -17,6 +13,10 @@ struct Dict_str_int {
 };
 struct List_attr {
     attr_t* list;
+    int len;
+};
+struct List_pid {
+    pid_t* list;
     int len;
 };
 struct Message {
