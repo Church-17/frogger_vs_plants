@@ -37,23 +37,20 @@ void print_background(const bool* holes_occupied) {
 void print_time(int time_remained) {
     // Init vars
     int new_timebar_len = time_remained * ((double) TIMEBAR_LEN / TIME_MANCHE); // Calc timebar length
-    attr_t time_color, timebar_color;
+    attr_t time_color;
 
     // Determine color
     if(time_remained <= TIME_RED) {
         time_color = RED_BLACK;
-        timebar_color = GREEN_RED;
     } else if(time_remained <= TIME_YELLOW) {
         time_color = YELLOW_BLACK;
-        timebar_color = GREEN_YELLOW;
     } else if(time_remained <= TIME_MANCHE) {
         time_color = GREEN_BLACK;
-        timebar_color = MAGENTA_GREEN;
     }
 
     // Print time & timebar
     mvwaprintw(main_scr, LINE_HEADER, TIME_COL, time_color, "%*d ", STRLEN_TIME, time_remained);
-    mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL, timebar_color, "%*s", new_timebar_len, "");
+    mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL, time_color | A_STANDOUT, "%*s", new_timebar_len, "");
     mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL+new_timebar_len, time_color, "%*s", TIMEBAR_LEN-new_timebar_len, "");
 }
 
