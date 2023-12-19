@@ -35,9 +35,6 @@ void croccodile_process(int pipe_write, int* other_params) {
 
     // Loop for write new coordinates
     while(!do_exit) {
-        // Sleep based on speed
-        msleep(MSEC_IN_SEC / (speed_stream > 0 ? speed_stream : -speed_stream));
-
         // Update X coordinate
         if(speed_stream > 0) {
             msg.x += MOVE_CROCCODILE_X;
@@ -50,6 +47,9 @@ void croccodile_process(int pipe_write, int* other_params) {
                 do_exit = TRUE;
             }
         }
+
+        // Sleep based on speed
+        msleep(MSEC_IN_SEC / (speed_stream > 0 ? speed_stream : -speed_stream));
 
         // Write on pipe
         writer(pipe_write, &msg);
