@@ -299,7 +299,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
                 // Free croccodile
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) { // If croccodile was out of screen...
-                    gamevar.croccodiles[croccodile_stream][croccodile_id].y = FREE_CROCCODILE; // mark it as free
+                    gamevar.croccodiles[croccodile_stream][croccodile_id].y = FREE_CROCCODILE; // Mark it as free
+                    waitpid(process_pids.list[msg.id], NULL, 0);
                 }
 
                 // Check if needs to spawn another croccodile (if last croccodile is completely in screen)
