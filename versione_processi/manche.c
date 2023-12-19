@@ -240,12 +240,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
                 // Check if frog is on top
                 if(gamevar.frog_on_croccodile == msg.id) {
-                    // De-print frog
-                    restore_color = GOOD_CROCCODILE_BG;
-                    for(i = gamevar.frog.y; i - gamevar.frog.y < FROG_DIM_Y; i++) {
-                        mvwaprintw(main_scr, i, gamevar.frog.x, restore_color, "%*s", FROG_DIM_X, "");
-                    }
-
                     // Update frog X position
                     if(stream_speed[croccodile_stream] > 0) {
                         gamevar.frog.x += MOVE_CROCCODILE_X; // Move frog with croccodile
