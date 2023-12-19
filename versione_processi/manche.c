@@ -238,30 +238,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 croccodile_id = msg.id - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
                 gamevar.bad_croccodiles[croccodile_stream][croccodile_id] = is_bad;
 
-                // Check if frog is on top
-                if(gamevar.frog_on_croccodile == msg.id) {
-                    // Update frog X position
-                    if(stream_speed[croccodile_stream] > 0) {
-                        gamevar.frog.x += MOVE_CROCCODILE_X; // Move frog with croccodile
-                        if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
-                            gamevar.frog.x = LIM_RIGHT; // Move to limit
-                            if(gamevar.frog.x < msg.x) { // If now frog was outside croccodile: manche lost
-                                gamevar.timer = MANCHE_LOST;
-                                manche_ended = TRUE;
-                            }
-                        }
-                    } else {
-                        gamevar.frog.x -= MOVE_CROCCODILE_X;
-                        if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
-                            gamevar.frog.x = LIM_LEFT; // Move to limit
-                            if(gamevar.frog.x > msg.x + CROCCODILE_DIM_X - FROG_DIM_X) { // If now frog was outside croccodile: manche lost
-                                gamevar.timer = MANCHE_LOST;
-                                manche_ended = TRUE;
-                            }
-                        }
-                    }
-                }
-
                 // De-print croccodile
                 if(gamevar.croccodiles[croccodile_stream][croccodile_id].y >= 0) { // If croccodile is not free or incoming...
                     if(gamevar.croccodiles[croccodile_stream][croccodile_id].x < 0) {
@@ -286,8 +262,29 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Print croccodile
                 print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0, is_bad);
 
-                // Print frog if it's on croccodile
+                // Check if frog is on top
                 if(gamevar.frog_on_croccodile == msg.id) {
+                    // Update frog X position
+                    if(stream_speed[croccodile_stream] > 0) {
+                        gamevar.frog.x += MOVE_CROCCODILE_X; // Move frog with croccodile
+                        if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
+                            gamevar.frog.x = LIM_RIGHT; // Move to limit
+                            if(gamevar.frog.x < msg.x) { // If now frog was outside croccodile: manche lost
+                                gamevar.timer = MANCHE_LOST;
+                                manche_ended = TRUE;
+                            }
+                        }
+                    } else {
+                        gamevar.frog.x -= MOVE_CROCCODILE_X;
+                        if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
+                            gamevar.frog.x = LIM_LEFT; // Move to limit
+                            if(gamevar.frog.x > msg.x + CROCCODILE_DIM_X - FROG_DIM_X) { // If now frog was outside croccodile: manche lost
+                                gamevar.timer = MANCHE_LOST;
+                                manche_ended = TRUE;
+                            }
+                        }
+                    }
+                    
                     print_frog(&gamevar);
                 }
 
