@@ -38,5 +38,7 @@ const str strContainer[][N_LANGUAGE] = {
     {"Actual", "Attuale"},
     {"Frog sprite", "Aspetto della rana"},
     {"Are you sure to quit?", "Sei sicuro di uscire?"},
-    {"Yes", "Si"}
+    {"Yes", "Si"},
+    {"Grey", "Grigio"},
+    {"Brown", "Marrone"}
 };
