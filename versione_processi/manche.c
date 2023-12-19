@@ -292,7 +292,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Print croccodile
                 print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0, is_bad);
 
-                // Print frog is it's on croccodile
+                // Print frog if it's on croccodile
                 if(gamevar.frog_on_croccodile == msg.id) {
                     print_frog(&gamevar);
                 }
