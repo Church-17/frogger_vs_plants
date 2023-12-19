@@ -46,7 +46,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
     // Init control vars
     bool manche_ended = FALSE, is_bad = FALSE; // Flag
-    int croccodile_stream, croccodile_id, next_croccodile_id; // Helper vars for croccodile
+    int croccodile_stream, croccodile_id, next_croccodile_id, restore_croccodile_x, restore_croccodile_len; // Helper vars for croccodile
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
     time_t resize_time = 0, refresh_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
@@ -269,19 +269,19 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 }
 
                 // De-print croccodile
-                if(gamevar.croccodiles[croccodile_stream][croccodile_id].y >= 0) {
+                if(gamevar.croccodiles[croccodile_stream][croccodile_id].y >= 0) { // If croccodile is not free or incoming...
                     if(gamevar.croccodiles[croccodile_stream][croccodile_id].x < 0) {
-                        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_stream][croccodile_id].y, 0, RIVER_BG, "%*s", CROCCODILE_DIM_X + gamevar.croccodiles[croccodile_stream][croccodile_id].x, "");
-                        }
+                        restore_croccodile_x = 0;
+                        restore_croccodile_len = CROCCODILE_DIM_X + gamevar.croccodiles[croccodile_stream][croccodile_id].x;
                     } else if(gamevar.croccodiles[croccodile_stream][croccodile_id].x < MAIN_COLS - CROCCODILE_DIM_X) {
-                        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_stream][croccodile_id].y, gamevar.croccodiles[croccodile_stream][croccodile_id].x, RIVER_BG, "%*s", CROCCODILE_DIM_X, "");
-                        }
+                        restore_croccodile_x = gamevar.croccodiles[croccodile_stream][croccodile_id].x;
+                        restore_croccodile_len = CROCCODILE_DIM_X;
                     } else {
-                        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                            mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_stream][croccodile_id].y, gamevar.croccodiles[croccodile_stream][croccodile_id].x, RIVER_BG, "%*s", MAIN_COLS - gamevar.croccodiles[croccodile_stream][croccodile_id].x, "");
-                        }
+                        restore_croccodile_x = gamevar.croccodiles[croccodile_stream][croccodile_id].x;
+                        restore_croccodile_len = MAIN_COLS - gamevar.croccodiles[croccodile_stream][croccodile_id].x;
+                    }
+                    for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                        mvwaprintw(main_scr, i + gamevar.croccodiles[croccodile_stream][croccodile_id].y, restore_croccodile_x, RIVER_BG, "%*s", restore_croccodile_len, "");
                     }
                 }
 
