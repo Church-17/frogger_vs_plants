@@ -29,13 +29,6 @@
 
 #define LIM_N_ENTITIES 100
 
-// Define colors
-#define HEDGE_BG (GREY_BLACK | A_STANDOUT)
-#define BANK_BG GREEN_PURPLE
-#define RIVER_BG GREEN_DARKBLUE
-#define GOOD_CROCCODILE_BG GREEN_DARKGREEN
-#define BAD_CROCCODILE_BG GREEN_BORDEAUX
-
 // Function prototypes
 void demo(void);
 bool game(void);
