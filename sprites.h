@@ -8,15 +8,21 @@
 #define LINE_BANK_1 (LINE_HOLES + FROG_DIM_Y)
 #define LINE_RIVER (LINE_BANK_1 + FROG_DIM_Y)
 #define LINE_BANK_2 (LINE_RIVER + N_WATER_STREAM*FROG_DIM_Y)
-#define LINE_FIGLET (MAIN_ROWS - 15)
 
 // Define colors
-#define FIGLET_COL GREEN_DARKBLUE
+#define FIGLET_COLOR GREEN_DARKBLUE
 #define HEDGE_BG (GREY_BLACK | A_STANDOUT)
 #define BANK_BG GREEN_PURPLE
 #define RIVER_BG GREEN_DARKBLUE
 #define GOOD_CROCCODILE_BG GREEN_DARKGREEN
 #define BAD_CROCCODILE_BG GREEN_BORDEAUX
+
+// Figlet constant
+#define LINE_FIGLET (MAIN_ROWS - 15)
+#define TITLE_FIGLET_X 7
+#define LOSE_FIGLET_X 42
+#define WIN_FIGLET_X 47
+#define BEST_FIGLET_X 22
 
 // Time constants
 #define TIME_COL 0
@@ -27,7 +33,7 @@
 #define TIMEBAR_COL (TIME_COL+4)
 
 // Score constant
-#define SCORE_COL 100
+#define SCORE_COL 75
 #define SCORE_LEN 3
 
 // Lifes constants
