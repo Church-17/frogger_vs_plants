@@ -3,6 +3,8 @@ plants
 bullets
 socket
 
+in thread: 2 sem + 1 mutex per i_leggi
+
 figlets
 time manche-by-manche
 skins
