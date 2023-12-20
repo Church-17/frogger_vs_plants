@@ -8,7 +8,7 @@
 #define CLOSE_GAME_KEY 'q'
 #define TIME_MANCHE 60
 #define N_LIFES 6
-#define N_HOLES 5
+#define N_HOLES 2
 #define N_WATER_STREAM 8
 #define N_PLANTS 3
 #define MIN_STREAM_SPEED (2*DIFF_SET*DIFF_SET + 2)

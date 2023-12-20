@@ -55,7 +55,7 @@ void print_time(int time_remained) {
 }
 
 void print_score(int score) {
-    mvwaprintw(main_scr, LINE_HEADER, SCORE_COL, WHITE_BLACK, "%s: %d", STR_SCORE, score);
+    mvwaprintw(main_scr, LINE_HEADER, SCORE_COL, WHITE_BLACK, "%s: %*d", STR_SCORE, SCORE_LEN, score);
 }
 
 void print_lifes(int n_lifes) {
@@ -64,6 +64,33 @@ void print_lifes(int n_lifes) {
         mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "❤");
     }
     mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*n_lifes, RED_BLACK, "%*s", SPACE_PER_LIFE*(N_LIFES-n_lifes), "");
+}
+
+void print_figlet(int win) {
+    wattron(main_scr, FIGLET_COL);
+    if(win == LOST_GAME) {
+        mvwprintw(main_scr, LINE_FIGLET + 0, 42, "██╗   ██╗ ██████╗ ██╗   ██╗    ██╗      ██████╗ ███████╗███████╗");
+        mvwprintw(main_scr, LINE_FIGLET + 1, 42, "╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║     ██╔═══██╗██╔════╝██╔════╝");
+        mvwprintw(main_scr, LINE_FIGLET + 2, 42, " ╚████╔╝ ██║   ██║██║   ██║    ██║     ██║   ██║███████╗█████╗  ");
+        mvwprintw(main_scr, LINE_FIGLET + 3, 42, "  ╚██╔╝  ██║   ██║██║   ██║    ██║     ██║   ██║╚════██║██╔══╝  ");
+        mvwprintw(main_scr, LINE_FIGLET + 4, 42, "   ██║   ╚██████╔╝╚██████╔╝    ███████╗╚██████╔╝███████║███████╗");
+        mvwprintw(main_scr, LINE_FIGLET + 5, 42, "   ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝╚══════╝");
+    } else if(win == WIN_GAME) {
+        mvwprintw(main_scr, LINE_FIGLET + 0, 47, "██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗██╗███╗   ██╗");
+        mvwprintw(main_scr, LINE_FIGLET + 1, 47, "╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██║████╗  ██║");
+        mvwprintw(main_scr, LINE_FIGLET + 2, 47, " ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║██╔██╗ ██║");
+        mvwprintw(main_scr, LINE_FIGLET + 3, 47, "  ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║██║╚██╗██║");
+        mvwprintw(main_scr, LINE_FIGLET + 4, 47, "   ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝██║██║ ╚████║");
+        mvwprintw(main_scr, LINE_FIGLET + 5, 47, "   ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝");
+    } else if(win == HIGH_SCORE_GAME) {
+        mvwprintw(main_scr, LINE_FIGLET + 0, 22, "███╗   ██╗███████╗██╗    ██╗    ██╗  ██╗██╗ ██████╗ ██╗  ██╗    ███████╗ ██████╗ ██████╗ ██████╗ ███████╗");
+        mvwprintw(main_scr, LINE_FIGLET + 1, 22, "████╗  ██║██╔════╝██║    ██║    ██║  ██║██║██╔════╝ ██║  ██║    ██╔════╝██╔════╝██╔═══██╗██╔══██╗██╔════╝");
+        mvwprintw(main_scr, LINE_FIGLET + 2, 22, "██╔██╗ ██║█████╗  ██║ █╗ ██║    ███████║██║██║  ███╗███████║    ███████╗██║     ██║   ██║██████╔╝█████╗  ");
+        mvwprintw(main_scr, LINE_FIGLET + 3, 22, "██║╚██╗██║██╔══╝  ██║███╗██║    ██╔══██║██║██║   ██║██╔══██║    ╚════██║██║     ██║   ██║██╔══██╗██╔══╝  ");
+        mvwprintw(main_scr, LINE_FIGLET + 4, 22, "██║ ╚████║███████╗╚███╔███╔╝    ██║  ██║██║╚██████╔╝██║  ██║    ███████║╚██████╗╚██████╔╝██║  ██║███████╗");
+        mvwprintw(main_scr, LINE_FIGLET + 5, 22, "╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝     ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═╝    ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝");
+    }
+    wattroff(main_scr, FIGLET_COL);
 }
 
 void print_frog(const Game_t* gamevar) {

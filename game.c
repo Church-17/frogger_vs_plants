@@ -14,14 +14,14 @@ void demo(void) {
     print_background(holes_occupied);
 
     // Figlet
-    wattron(main_scr, GREEN_DARKBLUE);
-    mvwprintw(main_scr, MAIN_ROWS - 15, 7, "███████╗██████╗  ██████╗  ██████╗  ██████╗ ███████╗██████╗     ██╗   ██╗███████╗    ██████╗ ██╗      █████╗ ███╗   ██╗████████╗███████╗");
-    mvwprintw(main_scr, MAIN_ROWS - 14, 7, "██╔════╝██╔══██╗██╔═══██╗██╔════╝ ██╔════╝ ██╔════╝██╔══██╗    ██║   ██║██╔════╝    ██╔══██╗██║     ██╔══██╗████╗  ██║╚══██╔══╝██╔════╝");
-    mvwprintw(main_scr, MAIN_ROWS - 13, 7, "█████╗  ██████╔╝██║   ██║██║  ███╗██║  ███╗█████╗  ██████╔╝    ██║   ██║███████╗    ██████╔╝██║     ███████║██╔██╗ ██║   ██║   ███████╗");
-    mvwprintw(main_scr, MAIN_ROWS - 12, 7, "██╔══╝  ██╔══██╗██║   ██║██║   ██║██║   ██║██╔══╝  ██╔══██╗    ╚██╗ ██╔╝╚════██║    ██╔═══╝ ██║     ██╔══██║██║╚██╗██║   ██║   ╚════██║");
-    mvwprintw(main_scr, MAIN_ROWS - 11, 7, "██║     ██║  ██║╚██████╔╝╚██████╔╝╚██████╔╝███████╗██║  ██║     ╚████╔╝ ███████║    ██║     ███████╗██║  ██║██║ ╚████║   ██║   ███████║");
-    mvwprintw(main_scr, MAIN_ROWS - 10, 7, "╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝      ╚═══╝  ╚══════╝    ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝");
-    wattroff(main_scr, GREEN_DARKBLUE);
+    wattron(main_scr, FIGLET_COL);
+    mvwprintw(main_scr, LINE_FIGLET + 0, 7, "███████╗██████╗  ██████╗  ██████╗  ██████╗ ███████╗██████╗     ██╗   ██╗███████╗    ██████╗ ██╗      █████╗ ███╗   ██╗████████╗███████╗");
+    mvwprintw(main_scr, LINE_FIGLET + 1, 7, "██╔════╝██╔══██╗██╔═══██╗██╔════╝ ██╔════╝ ██╔════╝██╔══██╗    ██║   ██║██╔════╝    ██╔══██╗██║     ██╔══██╗████╗  ██║╚══██╔══╝██╔════╝");
+    mvwprintw(main_scr, LINE_FIGLET + 2, 7, "█████╗  ██████╔╝██║   ██║██║  ███╗██║  ███╗█████╗  ██████╔╝    ██║   ██║███████╗    ██████╔╝██║     ███████║██╔██╗ ██║   ██║   ███████╗");
+    mvwprintw(main_scr, LINE_FIGLET + 3, 7, "██╔══╝  ██╔══██╗██║   ██║██║   ██║██║   ██║██╔══╝  ██╔══██╗    ╚██╗ ██╔╝╚════██║    ██╔═══╝ ██║     ██╔══██║██║╚██╗██║   ██║   ╚════██║");
+    mvwprintw(main_scr, LINE_FIGLET + 4, 7, "██║     ██║  ██║╚██████╔╝╚██████╔╝╚██████╔╝███████╗██║  ██║     ╚████╔╝ ███████║    ██║     ███████╗██║  ██║██║ ╚████║   ██║   ███████║");
+    mvwprintw(main_scr, LINE_FIGLET + 5, 7, "╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝  ╚═════╝ ╚══════╝╚═╝  ╚═╝      ╚═══╝  ╚══════╝    ╚═╝     ╚══════╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚══════╝");
+    wattroff(main_scr, FIGLET_COL);
 }
 
 // Manage more games
@@ -88,10 +88,10 @@ int play_game(void) {
         n_lifes = gamevar.lifes;
     }
 
-    score *= n_lifes;
-    print_score(score);
-    wrefresh(main_scr);
-    return gameover_menu(score, &gamevar);
+    // Update score
+    gamevar.score = score * n_lifes;
+    print_score(gamevar.score);
+    return gameover_menu(gamevar.score, &gamevar);
 }
 
 void print_game(const Game_t* gamevar) {
@@ -109,15 +109,21 @@ void print_game(const Game_t* gamevar) {
     // Print lifes
     print_lifes(gamevar->lifes);
 
-    // Print croccodiles
-    for(i = 0; i < N_WATER_STREAM; i++) {
-        for(j = 0; j < MAX_CROCCODILE_PER_STREAM; j++) {
-            if(gamevar->croccodiles[i][j].y >= 0) {
-                print_croccodile(gamevar->croccodiles[i][j], gamevar->stream_speed > 0, gamevar->bad_croccodiles[i][j]);
+    if(gamevar->croccodiles != NULL) {
+        // Print croccodiles
+        for(i = 0; i < N_WATER_STREAM; i++) {
+            for(j = 0; j < MAX_CROCCODILE_PER_STREAM; j++) {
+                if(gamevar->croccodiles[i][j].y >= 0) {
+                    print_croccodile(gamevar->croccodiles[i][j], gamevar->stream_speed > 0, gamevar->bad_croccodiles[i][j]);
+                }
             }
         }
+
+        // Print frog
+        print_frog(gamevar);
     }
     
-    // Print frog
-    print_frog(gamevar);
+
+    // Print figlet if needed
+    print_figlet(gamevar->win);
 }

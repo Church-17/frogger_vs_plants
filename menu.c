@@ -1,7 +1,7 @@
 // Include libs
 #include "main.h"
 #include "menu.h"
-#include "game.h"
+#include "manche.h"
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
@@ -380,7 +380,7 @@ int pause_menu(const Game_t* gamevar) {
 }
 
 // Game Over Menu
-int gameover_menu(int score, const Game_t* gamevar) {
+int gameover_menu(int score, Game_t* gamevar) {
     // If score was one of the best, add it to the best scores
     if(score > 0) {
         int i; // Index where write the new best score (if i == N_BEST, it isn't a new best score)
@@ -392,14 +392,22 @@ int gameover_menu(int score, const Game_t* gamevar) {
             }
         }
         if(i < N_BEST) { // If the new score is a best score, write in best scores
+            gamevar->win = HIGH_SCORE_GAME;
             best.key[i] = getenv("USER");
             best.val[i] = score;
             if(best.len < N_BEST) { // Increment best size if needed
                 best.len++;
             }
             wr_best(best);
+        } else {
+            gamevar->win = WIN_GAME;
         }
+    } else {
+        gamevar->win = LOST_GAME;
     }
+    print_background(gamevar->holes_occupied);
+    print_figlet(gamevar->win);
+    wrefresh(main_scr);
 
     char scorestr[LIM_STR_BUFF];
     sprintf(scorestr, "%s: %d", STR_SCORE, score); // Transform score int in str

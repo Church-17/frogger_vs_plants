@@ -58,6 +58,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.timer = TIME_MANCHE;
     gamevar.score = score;
     gamevar.lifes = n_lifes;
+    gamevar.win = IN_GAME;
     gamevar.frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
     gamevar.stream_speed = stream_speed;
     gamevar.frog.y = INIT_FROG_Y;
@@ -330,5 +331,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         free(gamevar.croccodiles[i]);
     }
     free(gamevar.croccodiles);
+    gamevar.croccodiles = NULL;
     return gamevar;
 }

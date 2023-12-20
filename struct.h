@@ -33,6 +33,7 @@ struct Game_t {
     int timer;
     int score;
     int lifes;
+    int win;
     int frog_on_croccodile;
     int* stream_speed;
     Position frog;

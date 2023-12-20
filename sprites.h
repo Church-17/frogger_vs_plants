@@ -8,8 +8,10 @@
 #define LINE_BANK_1 (LINE_HOLES + FROG_DIM_Y)
 #define LINE_RIVER (LINE_BANK_1 + FROG_DIM_Y)
 #define LINE_BANK_2 (LINE_RIVER + N_WATER_STREAM*FROG_DIM_Y)
+#define LINE_FIGLET (MAIN_ROWS - 15)
 
 // Define colors
+#define FIGLET_COL GREEN_DARKBLUE
 #define HEDGE_BG (GREY_BLACK | A_STANDOUT)
 #define BANK_BG GREEN_PURPLE
 #define RIVER_BG GREEN_DARKBLUE
@@ -26,6 +28,7 @@
 
 // Score constant
 #define SCORE_COL 100
+#define SCORE_LEN 3
 
 // Lifes constants
 #define SPACE_PER_LIFE 3
@@ -50,5 +53,6 @@ void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
 void print_score(int score);
 void print_lifes(int n_lifes);
+void print_figlet(int win);
 void print_frog(const Game_t* gamevar);
 void print_croccodile(Position croccodile, bool direction, bool good);
