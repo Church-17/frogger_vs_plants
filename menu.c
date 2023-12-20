@@ -82,13 +82,11 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
         }
         for(i = 0; i < set.len; i++) { // Print options *** with first letter underlined
             mvwprintw(menu_win, POSITION_Y(i, set.len, title.len), BOX_PADX, "%s", set.list[i]);
-            // mvwfattrprintw(menu_win, POSITION_Y(i, set.len, title.len), BOX_PADX, A_UNDERLINE, set.list[i]);
         }
         do_prints = FALSE;
         
         while(!(do_prints || do_return)) {
             // Update non-highlighted & highlighted option
-            // mvwfattrprintw(menu_win, POSITION_Y(old_hl, set.len, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             mvwprintw(menu_win, POSITION_Y(old_hl, set.len, title.len), BOX_PADX, "%s%*s", set.list[old_hl], HL_PADX, "");
             mvwprintw(menu_win, POSITION_Y(hl, set.len, title.len), BOX_PADX, "%*s", HL_PADX, ""); // Print hl padding
             wattroff(menu_win, COL1);
@@ -254,7 +252,6 @@ void settings_menu(void) {
         }
         for(i = 0; i < set.len; i++) { // Settings & selectables
             mvwprintw(menu_win, POSITION_Y(i, N_SETTINGS, title.len), BOX_PADX, "%s", set.list[i]);
-            // mvwfattrprintw(menu_win, POSITION_Y(i, N_SETTINGS, title.len), BOX_PADX, A_UNDERLINE, set.list[i]);
         }
         for(i = 0; i < N_SETTINGS; i++) { // Options
             mvwprintw(menu_win, POSITION_Y(i, N_SETTINGS, title.len), POSITION_X_DX(opts[i].list[newly_setted[i]], win_width), "%s", opts[i].list[newly_setted[i]]);
@@ -264,7 +261,6 @@ void settings_menu(void) {
         // Loop to print all when needed
         while(!(do_prints || do_return)) {
             // Update old_hl to become non-highlighted
-            // mvwfattrprintw(menu_win, POSITION_Y(old_hl, N_SETTINGS, title.len), BOX_PADX, A_UNDERLINE, set.list[old_hl]);
             mvwprintw(menu_win, POSITION_Y(old_hl, N_SETTINGS, title.len), BOX_PADX, "%s%*s", set.list[old_hl], HL_PADX, "");
             if(old_hl < N_SETTINGS) { // If old_hl referes to a setting...
                 mvwprintw(menu_win, POSITION_Y(old_hl, N_SETTINGS, title.len), POSITION_X_DX(opts[old_hl].list[newly_setted[old_hl]], win_width)-LR_ARROWS, "%*s%s", LR_ARROWS, "", opts[old_hl].list[newly_setted[old_hl]]);
