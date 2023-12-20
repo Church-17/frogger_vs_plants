@@ -25,7 +25,7 @@ ifeq (${VERSION}, versione_processi)
 SPEC_OBJ = process.o
 SPEC_LIB = ${process}
 else
-SPEC_OBJ = threads.o
+SPEC_OBJ = thread.o
 SPEC_LIB = ${threads}
 endif
 
