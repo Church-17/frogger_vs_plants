@@ -91,6 +91,35 @@ int play_game(void) {
     // Update score
     gamevar.score = score * n_lifes;
     print_score(gamevar.score);
+
+    // If score was one of the best, add it to the best scores
+    if(gamevar.score > 0) {
+        int i; // Index where write the new best score (if i == N_BEST, it isn't a new best score)
+        Dict_str_int best = rd_best(); // Read actual best scores
+        for(i = best.len; i > 0 && gamevar.score > best.val[i-1]; i--) { // Check if score is gtr than the least best score
+            if(i < N_BEST) { // If it is, pass the previous best score down (if it is possible)
+                best.key[i] = best.key[i-1];
+                best.val[i] = best.val[i-1];
+            }
+        }
+        if(i < N_BEST) { // If the new score is a best score, write in best scores
+            gamevar.win = HIGH_SCORE_GAME;
+            best.key[i] = getenv("USER");
+            best.val[i] = gamevar.score;
+            if(best.len < N_BEST) { // Increment best size if needed
+                best.len++;
+            }
+            wr_best(best);
+        } else {
+            gamevar.win = WIN_GAME;
+        }
+    } else {
+        gamevar.win = LOST_GAME;
+    }
+    print_background(gamevar.holes_occupied);
+    print_figlet(gamevar.win);
+    wrefresh(main_scr);
+
     return gameover_menu(gamevar.score, &gamevar);
 }
 

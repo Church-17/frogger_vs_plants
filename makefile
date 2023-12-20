@@ -50,7 +50,7 @@ croccodile.o: ${VERSION}/croccodile.c ${sprites} ${utils} ${struct} ${SPEC_LIB} 
 main.o: main.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 	${COBJ}
 
-menu.o: menu.c ${main} ${menu} ${manche} ${music} ${str} ${utils} ${struct}
+menu.o: menu.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 	${COBJ}
 
 game.o: game.c ${main} ${menu} ${manche} ${utils} ${struct}

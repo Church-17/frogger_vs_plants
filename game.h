@@ -7,8 +7,8 @@
 #define PAUSE_GAME_KEY 'p'
 #define CLOSE_GAME_KEY 'q'
 #define TIME_MANCHE 60
-#define N_LIFES 6
-#define N_HOLES 2
+#define N_LIFES 5
+#define N_HOLES 5
 #define N_WATER_STREAM 8
 #define N_PLANTS 3
 #define MIN_STREAM_SPEED (2*DIFF_SET*DIFF_SET + 2)
@@ -20,10 +20,7 @@
 #define PAUSE_ID (-1)
 #define FROG_ID 0
 #define TIME_ID 1
-#define PLANT_1_ID 2
-#define PLANT_2_ID 3
-#define PLANT_3_ID 4
-#define MIN_CROCCODILE_ID 5
+#define MIN_CROCCODILE_ID 2
 #define MAX_CROCCODILE_PER_STREAM (5 - DIFF_SET)
 #define MIN_BULLET_ID (N_WATER_STREAM*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID)
 
