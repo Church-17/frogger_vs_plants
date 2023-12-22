@@ -5,12 +5,19 @@
 #include "process.h"
 #include "croccodile.h"
 
+void frog_on(int sig);
+
+bool frog_on_me = FALSE;
+
 // params: [communication_id, n_stream, speed_stream]
 void croccodile_process(int pipe_write, int* other_params) {
     // Init vars
-    bool do_exit = FALSE;
-    int n_stream, speed_stream;
+    bool do_exit = FALSE, do_immersion = FALSE;
+    int n_stream, speed_stream, immersion_time;
+    time_t start;
     Message msg;
+
+    signal(SIGUSR1, &frog_on);
 
     // Unpack croccodile params
     msg.id = other_params[CROCCODILE_ID_INDEX];
@@ -48,6 +55,19 @@ void croccodile_process(int pipe_write, int* other_params) {
             }
         }
 
+        if(frog_on_me && msg.y >= BAD_CROCCODILE_OFFSET) {
+            if(!do_immersion) {
+                immersion_time = rand_range(2, 5) * MSEC_IN_SEC;
+                start = timestamp();
+                do_immersion = TRUE;
+            } else {
+                if(timestamp() - start >= immersion_time) {
+                    msg.x = -CROCCODILE_DIM_X;
+                    do_exit = TRUE;
+                }
+            }
+        }
+
         // Sleep based on speed
         msleep(MSEC_IN_SEC / (speed_stream > 0 ? speed_stream : -speed_stream));
 
@@ -55,4 +75,8 @@ void croccodile_process(int pipe_write, int* other_params) {
         writer(pipe_write, &msg);
     }
     return;
+}
+
+void frog_on(int sig) {
+    frog_on_me = TRUE;
 }

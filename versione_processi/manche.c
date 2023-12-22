@@ -150,6 +150,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     for(i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
                         if(gamevar.croccodiles[croccodile_stream][i].y >= 0 && gamevar.frog.x >= gamevar.croccodiles[croccodile_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[croccodile_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
                             gamevar.frog_on_croccodile = i + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
+                            kill(process_pids.list[gamevar.frog_on_croccodile], SIGUSR1);
                             break;
                         }
                     }
@@ -263,6 +264,17 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Print croccodile
                 print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0, is_bad);
 
+                // Free croccodile
+                if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) { // If croccodile was out of screen...
+                    gamevar.croccodiles[croccodile_stream][croccodile_id].y = FREE_CROCCODILE; // Mark it as free
+                    waitpid(process_pids.list[msg.id], NULL, 0); // Handle died croccodile process
+                    if(gamevar.frog_on_croccodile == msg.id) {
+                        print_frog(&gamevar);
+                        manche_ended = TRUE;
+                        gamevar.timer = MANCHE_LOST;
+                    }
+                }
+
                 // Check if frog is on top
                 if(gamevar.frog_on_croccodile == msg.id) {
                     // Update frog X position
@@ -287,12 +299,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                     
                     print_frog(&gamevar);
-                }
-
-                // Free croccodile
-                if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) { // If croccodile was out of screen...
-                    gamevar.croccodiles[croccodile_stream][croccodile_id].y = FREE_CROCCODILE; // Mark it as free
-                    waitpid(process_pids.list[msg.id], NULL, 0); // Handle died croccodile process
                 }
 
                 // Check if needs to spawn another croccodile (if last croccodile is completely in screen)
