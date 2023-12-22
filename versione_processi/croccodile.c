@@ -28,13 +28,9 @@ void croccodile_process(int pipe_write, int* other_params) {
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
     msg.x = speed_stream > 0 ? -CROCCODILE_DIM_X + MOVE_CROCCODILE_X : MAIN_COLS - MOVE_CROCCODILE_X;
 
-    // Random seed
+    // Random croccodile kind & spawn time
     srand(timestamp() + msg.id);
-
-    // Random croccodile kind
     msg.sig = rand_range(0, 10) < BAD_THRESHOLD ? BAD_CROCCODILE_SIG : GOOD_CROCCODILE_SIG;
-
-    // Random spawn time
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
 
     // Write initial position
@@ -70,11 +66,8 @@ void croccodile_process(int pipe_write, int* other_params) {
             }
         }
 
-        // Sleep based on speed
-        msleep(MSEC_IN_SEC / (speed_stream > 0 ? speed_stream : -speed_stream));
-
-        // Write on pipe
-        writer(pipe_write, &msg);
+        msleep(MSEC_IN_SEC / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
+        writer(pipe_write, &msg); // Write on pipe
     }
     return;
 }

@@ -11,8 +11,6 @@ void frog_process(int pipe_write, int* other_params) {
     // Init vars
     bool do_send_msg = FALSE;
     int key;
-
-    // Initial position
     Message msg;
     msg.id = FROG_ID;
 

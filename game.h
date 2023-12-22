@@ -1,7 +1,7 @@
 // Include libs
 #include "res.h"
 
-// Define constant
+// Define constants
 #define MAIN_ROWS 47
 #define MAIN_COLS 150
 #define PAUSE_GAME_KEY 'p'
@@ -22,7 +22,9 @@
 #define TIME_ID 1
 #define MIN_CROCCODILE_ID 2
 #define MAX_CROCCODILE_PER_STREAM (5 - DIFF_SET)
-#define MIN_BULLET_ID (N_WATER_STREAM*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID)
+#define MIN_PLANT_ID (N_WATER_STREAM*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID)
+#define MIN_BULLET_ID (N_PLANTS + MIN_PLANT_ID)
+#define MAX_BULLETS_PER_PLANT 5
 
 #define LIM_N_ENTITIES 100
 

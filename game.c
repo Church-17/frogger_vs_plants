@@ -150,6 +150,13 @@ void print_game(const Game_t* gamevar) {
 
         // Print frog
         print_frog(gamevar);
+
+        // Print plants
+        for(i = 0; i < N_PLANTS; i++) {
+            if(gamevar->plants[i].y >= 0) {
+                print_plant(gamevar->plants[i]);
+            }
+        }
     }
     
 

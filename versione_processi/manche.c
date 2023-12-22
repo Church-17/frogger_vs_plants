@@ -8,6 +8,7 @@
 #include "frog.h"
 #include "time.h"
 #include "croccodile.h"
+#include "plant.h"
 
 // Define constant
 #define RESIZE_TIME_THRESHOLD 100
@@ -16,13 +17,15 @@
 // Play a manche, return game vars with in gamevar.timer the time remaining or a manche_id
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Init vars
+    bool occupied_plant;
     int i, j;
     pid_t array_pids[LIM_N_ENTITIES] = {0}; // Pids for every process
     List_pid process_pids;
     process_pids.list = array_pids;
     process_pids.len = LIM_N_ENTITIES;
-    int croccodile_params[N_CROCCODILE_PARAMS];
+    int fork_params[N_CROCCODILE_PARAMS];
     int stream_speed[N_WATER_STREAM];
+    int plants_x[N_PLANTS];
 
     // Pipe
     int pipe_fds[PIPE_DIM];
@@ -35,11 +38,27 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         // Randomize speed & direction of each stream
         stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED) * (rand_range(0, 2) ? 1 : -1);
         // Write croccodile params
-        croccodile_params[CROCCODILE_ID_INDEX] = i*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
-        croccodile_params[CROCCODILE_STREAM_INDEX] = i;
-        croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[i];
+        fork_params[CROCCODILE_ID_INDEX] = i*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
+        fork_params[CROCCODILE_STREAM_INDEX] = i;
+        fork_params[CROCCODILE_SPEED_INDEX] = stream_speed[i];
         // Calls the fork for croccodile process handling the errors
-        forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], &croccodile_process, croccodile_params);
+        forker(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params);
+    }
+    for(i = 0; i < N_PLANTS; i++) {
+        fork_params[0] = MIN_PLANT_ID + i;
+        do {
+            occupied_plant = FALSE;
+            plants_x[i] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
+            for(j = 0; j < i; j++) {
+                if(plants_x[i] > plants_x[j] - PLANT_DIM_X && plants_x[i] < plants_x[j] + PLANT_DIM_X) {
+                    occupied_plant = TRUE;
+                    break;
+                }
+            }
+        } while(occupied_plant);
+        fork_params[1] = plants_x[i];
+        
+        forker(pipe_fds, &process_pids, fork_params[0], &plant_process, fork_params);
     }
     
     // --- PARENT PROCESS ---
@@ -63,6 +82,10 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.stream_speed = stream_speed;
     gamevar.frog.y = INIT_FROG_Y;
     gamevar.frog.x = INIT_FROG_X;
+    alloc(Position, gamevar.plants, N_PLANTS);
+    for(i = 0; i < N_PLANTS; i++) {
+        gamevar.plants[i].y = INCOMING_PLANT; // Mark as incoming each plant
+    }
     alloc(Position*, gamevar.croccodiles, N_WATER_STREAM);
     alloc(bool*, gamevar.bad_croccodiles, N_WATER_STREAM);
     for(i = 0; i < N_WATER_STREAM; i++) { // Croccodile array per stream
@@ -230,7 +253,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             default:
 
             // CROCCODILE
-            if(msg.id >= MIN_CROCCODILE_ID && msg.id < MIN_BULLET_ID) {
+            if(msg.id >= MIN_CROCCODILE_ID && msg.id < MIN_PLANT_ID) {
                 croccodile_stream = ((msg.y) - LINE_RIVER) / FROG_DIM_Y;
                 croccodile_id = msg.id - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
                 gamevar.bad_croccodiles[croccodile_stream][croccodile_id] = (bool) msg.sig;
@@ -298,10 +321,10 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     next_croccodile_id = mod(croccodile_id+1, MAX_CROCCODILE_PER_STREAM);
                     if(gamevar.croccodiles[croccodile_stream][next_croccodile_id].y == FREE_CROCCODILE) { // Check if next croccodile in same stream is free
                         gamevar.croccodiles[croccodile_stream][next_croccodile_id].y = INCOMING_CROCCODILE; // Mark the founded free croccodile as incoming
-                        croccodile_params[CROCCODILE_ID_INDEX] = next_croccodile_id + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
-                        croccodile_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
-                        croccodile_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
-                        forker(pipe_fds, &process_pids, croccodile_params[CROCCODILE_ID_INDEX], &croccodile_process, croccodile_params); // Calls the fork for croccodile process handling the errors
+                        fork_params[CROCCODILE_ID_INDEX] = next_croccodile_id + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
+                        fork_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
+                        fork_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
+                        forker(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params); // Calls the fork for croccodile process handling the errors
                         stream_last[croccodile_stream] = next_croccodile_id; // Update last croccodile of stream
                     }
                 }
@@ -309,9 +332,13 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 break;
             }
 
-            // BULLET
-            else {
-                
+            // PLANT
+            else if(msg.id >= MIN_PLANT_ID && msg.id < MIN_BULLET_ID) {
+                if(msg.sig == PLANT_SPAWN_SIG) {
+                    gamevar.plants[msg.id - MIN_PLANT_ID].y = msg.y;
+                    gamevar.plants[msg.id - MIN_PLANT_ID].x = msg.x;
+                    print_plant(gamevar.plants[msg.id - MIN_PLANT_ID]);
+                }
                 break;
             }
 
@@ -329,6 +356,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         free(gamevar.croccodiles[i]);
     }
     free(gamevar.croccodiles);
+    free(gamevar.plants);
     gamevar.croccodiles = NULL;
+    gamevar.plants = NULL;
     return gamevar;
 }

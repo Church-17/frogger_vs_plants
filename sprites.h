@@ -17,7 +17,7 @@
 #define GOOD_CROCCODILE_BG GREEN_DARKGREEN
 #define BAD_CROCCODILE_BG GREEN_BORDEAUX
 
-// Figlet constant
+// Figlet constants
 #define LINE_FIGLET (MAIN_ROWS - 15)
 #define TITLE_FIGLET_X 7
 #define LOSE_FIGLET_X 42
@@ -32,7 +32,7 @@
 #define STRLEN_TIME 3
 #define TIMEBAR_COL (TIME_COL+4)
 
-// Score constant
+// Score constants
 #define SCORE_COL 75
 #define SCORE_LEN 3
 
@@ -40,12 +40,12 @@
 #define SPACE_PER_LIFE 3
 #define LIFES_COL (MAIN_COLS - SPACE_PER_LIFE * N_LIFES)
 
-// Hole
+// Hole constants
 #define HOLE_DIM_X (FROG_DIM_X + 2)
 #define HOLE_DIM_Y FROG_DIM_Y
 #define HOLE_PAD_X ((MAIN_COLS/N_HOLES - HOLE_DIM_X)/2)
 
-// Frog constant
+// Frog constants
 #define FROG_DIM_X 10
 #define FROG_DIM_Y 4
 
@@ -53,6 +53,10 @@
 #define CROCCODILE_DIM_X 30
 #define CROCCODILE_DIM_Y 4
 #define MOVE_CROCCODILE_X 2
+
+// Plant constants
+#define PLANT_DIM_X 9
+#define PLANT_DIM_Y 4
 
 // Function prototypes
 void print_background(const bool* holes_occupied);
@@ -62,3 +66,4 @@ void print_lifes(int n_lifes);
 void print_figlet(int win);
 void print_frog(const Game_t* gamevar);
 void print_croccodile(Position croccodile, bool direction, int is_bad);
+void print_plant(Position plant);

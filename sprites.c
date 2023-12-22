@@ -177,3 +177,10 @@ void print_croccodile(Position croccodile, bool direction, int is_bad) {
         mvwaprintw(main_scr, croccodile.y + 1, croccodile.x + 1, COLOR_PAIR(BLUE_BLACK_ID) | A_STANDOUT, "%*s", 1, "");
     }
 }
+
+void print_plant(Position plant) {
+    int i;
+    for(i = 0; i < PLANT_DIM_Y; i++) {
+        mvwaprintw(main_scr, plant.y + i, plant.x, MAGENTA_GREEN, "%*s", PLANT_DIM_X, "");
+    }
+}
