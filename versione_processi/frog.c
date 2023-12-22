@@ -1,6 +1,6 @@
 // Include libs
 #include "../main.h"
-#include "../game.h"
+#include "../manche.h"
 #include "../utils.h"
 #include "../struct.h"
 #include "process.h"
@@ -13,6 +13,7 @@ void frog_process(int pipe_write, int* other_params) {
     int key;
     Message msg;
     msg.id = FROG_ID;
+    msg.sig = FROG_POSITION_SIG;
 
     // Frog loop to get pressed key
     while(TRUE) {
@@ -62,6 +63,11 @@ void frog_process(int pipe_write, int* other_params) {
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
+            case SHOT_GAME_KEY:
+                msg.sig = FROG_SHOT_SIG;
+                do_send_msg = TRUE; // Set flag to send msg
+                break;
+
             case KEY_RESIZE:
                 msg.id = RESIZE_ID;
                 do_send_msg = TRUE; // Set flag to send msg
@@ -72,6 +78,7 @@ void frog_process(int pipe_write, int* other_params) {
         if(do_send_msg) {
             writer(pipe_write, &msg);
             msg.id = FROG_ID;
+            msg.sig = FROG_POSITION_SIG;
             do_send_msg = FALSE;
         }
     }

@@ -21,6 +21,8 @@
 #define LIM_LEFT 0
 #define LIM_RIGHT (MAIN_COLS-FROG_DIM_X)
 #define FROG_NOT_ON_CROCCODILE (-1)
+#define FROG_POSITION_SIG 0
+#define FROG_SHOT_SIG 1
 
 // Croccodile constants
 #define FREE_CROCCODILE (-1)
@@ -32,5 +34,9 @@
 
 // Plant constants
 #define INCOMING_PLANT (-1)
+
+// Bullet constants
+#define FREE_BULLET (-1)
+#define INCOMING_BULLET (-2)
 
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied);

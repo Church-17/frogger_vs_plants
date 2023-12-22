@@ -184,3 +184,10 @@ void print_plant(Position plant) {
         mvwaprintw(main_scr, plant.y + i, plant.x, MAGENTA_GREEN, "%*s", PLANT_DIM_X, "");
     }
 }
+
+void print_bullet(Position bullet) {
+    int i;
+    for(i = 0; i < BULLET_DIM_Y; i++) {
+        mvwaprintw(main_scr, bullet.y + i, bullet.x, RED_BLACK | A_STANDOUT, "%*s", BULLET_DIM_X, "");
+    }
+}

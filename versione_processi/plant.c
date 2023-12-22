@@ -11,9 +11,9 @@ void plant_process(int pipe_write, int* other_params) {
     Message msg;
 
     // Unpack croccodile params
-    msg.id = other_params[0];
+    msg.id = other_params[PLANT_ID_INDEX];
     msg.y = LINE_BANK_1;
-    msg.x = other_params[1];
+    msg.x = other_params[PLANT_X_INDEX];
     msg.sig = PLANT_SPAWN_SIG;
 
     // Random spawn time & shot interval

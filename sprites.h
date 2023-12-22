@@ -58,6 +58,10 @@
 #define PLANT_DIM_X 9
 #define PLANT_DIM_Y 4
 
+// Bullet constans
+#define BULLET_DIM_X 1
+#define BULLET_DIM_Y 1
+
 // Function prototypes
 void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
@@ -67,3 +71,4 @@ void print_figlet(int win);
 void print_frog(const Game_t* gamevar);
 void print_croccodile(Position croccodile, bool direction, int is_bad);
 void print_plant(Position plant);
+void print_bullet(Position bullet);
