@@ -14,7 +14,7 @@ void croccodile_process(int pipe_write, int* other_params) {
     // Init vars
     bool do_exit = FALSE, do_immersion = FALSE;
     int n_stream, speed_stream, immersion_time;
-    time_t start;
+    time_t start, end;
     Message msg;
 
     signal(SIGUSR1, &frog_on);
@@ -60,11 +60,13 @@ void croccodile_process(int pipe_write, int* other_params) {
                 immersion_time = rand_range(2, 4) * MSEC_IN_SEC;
                 start = timestamp();
                 do_immersion = TRUE;
-            } else {
-                if(timestamp() - start >= immersion_time) {
-                    msg.sig = IMMERSION_CROCCODILE_SIG;
-                    do_exit = TRUE;
-                }
+            }
+            end = timestamp();
+            if(end - start >= immersion_time) {
+                msg.sig = IMMERSION_CROCCODILE_SIG;
+                do_exit = TRUE;
+            } else if(end - start >= immersion_time - BUBBLE_THRESHOLD) {
+                msg.sig = BUBBLE_CROCCODILE_SIG;
             }
         }
 

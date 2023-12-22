@@ -166,8 +166,14 @@ void print_croccodile(Position croccodile, bool direction, int is_bad) {
     } else if(is_bad == GOOD_CROCCODILE_SIG) {
         croccodile_color = GOOD_CROCCODILE_BG;
     }
-    
-    for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-        mvwaprintw(main_scr, i + croccodile.y, croccodile_x, croccodile_color, "%*s", croccodile_len, "");
+
+    if(is_bad != IMMERSION_CROCCODILE_SIG) {
+        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+            mvwaprintw(main_scr, i + croccodile.y, croccodile_x, croccodile_color, "%*s", croccodile_len, "");
+        }
+    }
+
+    if(is_bad == BUBBLE_CROCCODILE_SIG) {
+        mvwaprintw(main_scr, croccodile.y + 1, croccodile.x + 1, COLOR_PAIR(BLUE_BLACK_ID) | A_STANDOUT, "%*s", 1, "");
     }
 }

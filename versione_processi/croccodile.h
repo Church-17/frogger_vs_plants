@@ -10,6 +10,7 @@
 #define MIN_CROCCODILE_SPAWN_TIME 1
 #define MAX_CROCCODILE_SPAWN_TIME 4
 #define BAD_THRESHOLD DIFF_SET+2
+#define BUBBLE_THRESHOLD 1000
 
 // Function prototypes
 void croccodile_process(int pipe_write, int* other_params);
