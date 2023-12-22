@@ -57,7 +57,7 @@ void croccodile_process(int pipe_write, int* other_params) {
 
         if(frog_on_me && msg.y >= BAD_CROCCODILE_OFFSET) {
             if(!do_immersion) {
-                immersion_time = rand_range(2, 5) * MSEC_IN_SEC;
+                immersion_time = rand_range(2, 4) * MSEC_IN_SEC;
                 start = timestamp();
                 do_immersion = TRUE;
             } else {
