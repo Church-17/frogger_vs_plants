@@ -1,13 +1,12 @@
-plants
-bullets
-socket
+bullets & collision
 
 in thread: 2 sem + 1 mutex per i_leggi
 
 time manche-by-manche
-skins
 difficulties
-colors of sprites
+skins
+bg of sprites
 music
-demo
+socket
 put username
+demo
