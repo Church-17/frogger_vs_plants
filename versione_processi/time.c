@@ -10,14 +10,14 @@ void time_process(int pipe_write, int* other_params) {
     time_t start = timestamp(), end = start, elapsed;
     Message msg;
     msg.id = TIME_ID;
-    msg.y = TIME_MANCHE;
+    msg.sig = TIME_MANCHE;
 
     // Loop for beat time
     while(TRUE) {
         elapsed = end - start; // Calc elapsed milliseconds
         while(elapsed >= MSEC_IN_SEC) { // If a seconds passed...
             start = end; // Update start
-            msg.y--;
+            msg.sig--;
             writer(pipe_write, &msg); // Write in pipe
             elapsed -= MSEC_IN_SEC; // Decrese elapsed of a second
         }

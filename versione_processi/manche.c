@@ -45,7 +45,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // --- PARENT PROCESS ---
 
     // Init control vars
-    bool manche_ended = FALSE, is_bad = FALSE; // Flag
+    bool manche_ended = FALSE; // Flag
     int croccodile_stream, croccodile_id, next_croccodile_id, restore_croccodile_x, restore_croccodile_len; // Helper vars for croccodile
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
     time_t resize_time = 0, refresh_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
@@ -165,7 +165,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
             // TIMER
             case TIME_ID:
-                gamevar.timer = msg.y;
+                gamevar.timer = msg.sig;
                 if(gamevar.timer <= 0) {
                     manche_ended = TRUE;
                 }
@@ -231,14 +231,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
             // CROCCODILE
             if(msg.id >= MIN_CROCCODILE_ID && msg.id < MIN_BULLET_ID) {
-                is_bad = FALSE;
-                if(msg.y >= BAD_CROCCODILE_OFFSET) {
-                    msg.y -= BAD_CROCCODILE_OFFSET;
-                    is_bad = TRUE;
-                }
                 croccodile_stream = ((msg.y) - LINE_RIVER) / FROG_DIM_Y;
                 croccodile_id = msg.id - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
-                gamevar.bad_croccodiles[croccodile_stream][croccodile_id] = is_bad;
+                gamevar.bad_croccodiles[croccodile_stream][croccodile_id] = (bool) msg.sig;
 
                 // De-print croccodile
                 if(gamevar.croccodiles[croccodile_stream][croccodile_id].y >= 0) { // If croccodile is not free or incoming...
@@ -262,23 +257,20 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 gamevar.croccodiles[croccodile_stream][croccodile_id].y = msg.y;
 
                 // Print croccodile
-                print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0, is_bad);
+                print_croccodile(gamevar.croccodiles[croccodile_stream][croccodile_id], stream_speed > 0, msg.sig);
 
                 // Free croccodile
-                if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS) { // If croccodile was out of screen...
+                if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS || msg.sig == IMMERSION_CROCCODILE_SIG) { // If croccodile was out of screen...
                     gamevar.croccodiles[croccodile_stream][croccodile_id].y = FREE_CROCCODILE; // Mark it as free
                     waitpid(process_pids.list[msg.id], NULL, 0); // Handle died croccodile process
-                    if(gamevar.frog_on_croccodile == msg.id) {
-                        print_frog(&gamevar);
-                        manche_ended = TRUE;
-                        gamevar.timer = MANCHE_LOST;
-                    }
                 }
 
                 // Check if frog is on top
                 if(gamevar.frog_on_croccodile == msg.id) {
-                    // Update frog X position
-                    if(stream_speed[croccodile_stream] > 0) {
+                    if(msg.sig == IMMERSION_CROCCODILE_SIG) {
+                        manche_ended = TRUE;
+                        gamevar.timer = MANCHE_LOST;
+                    } else if(stream_speed[croccodile_stream] > 0) { // Update frog X position
                         gamevar.frog.x += MOVE_CROCCODILE_X; // Move frog with croccodile
                         if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
                             gamevar.frog.x = LIM_RIGHT; // Move to limit

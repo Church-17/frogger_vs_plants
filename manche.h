@@ -25,5 +25,9 @@
 // Croccodile constant
 #define FREE_CROCCODILE (-1)
 #define INCOMING_CROCCODILE (-2)
+#define GOOD_CROCCODILE_SIG 0
+#define BAD_CROCCODILE_SIG 1
+#define BUBBLE_CROCCODILE_SIG 2
+#define IMMERSION_CROCCODILE_SIG 3
 
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied);

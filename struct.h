@@ -23,6 +23,7 @@ struct Message {
     int id;
     int y;
     int x;
+    int sig;
 };
 struct Position {
     int y;

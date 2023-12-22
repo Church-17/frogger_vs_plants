@@ -1,5 +1,5 @@
 // Include libs
-#include "../sprites.h"
+#include "../manche.h"
 #include "../utils.h"
 #include "../struct.h"
 #include "process.h"
@@ -32,7 +32,7 @@ void croccodile_process(int pipe_write, int* other_params) {
     srand(timestamp() + msg.id);
 
     // Random croccodile kind
-    msg.y += rand_range(0, 10) < BAD_THRESHOLD ? BAD_CROCCODILE_OFFSET : 0;
+    msg.sig = rand_range(0, 10) < BAD_THRESHOLD ? BAD_CROCCODILE_SIG : GOOD_CROCCODILE_SIG;
 
     // Random spawn time
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
@@ -55,14 +55,14 @@ void croccodile_process(int pipe_write, int* other_params) {
             }
         }
 
-        if(frog_on_me && msg.y >= BAD_CROCCODILE_OFFSET) {
+        if(frog_on_me && msg.sig >= BAD_CROCCODILE_SIG) {
             if(!do_immersion) {
                 immersion_time = rand_range(2, 4) * MSEC_IN_SEC;
                 start = timestamp();
                 do_immersion = TRUE;
             } else {
                 if(timestamp() - start >= immersion_time) {
-                    msg.x = -CROCCODILE_DIM_X;
+                    msg.sig = IMMERSION_CROCCODILE_SIG;
                     do_exit = TRUE;
                 }
             }

@@ -4,7 +4,7 @@
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
-#include "manche.h" 
+#include "manche.h"
 
 void print_background(const bool* holes_occupied) {
     int i, j;
@@ -146,9 +146,9 @@ void print_frog(const Game_t* gamevar) {
     }
 }
 
-void print_croccodile(Position croccodile, bool direction, bool is_bad) {
+void print_croccodile(Position croccodile, bool direction, int is_bad) {
     int i;
-    if(is_bad) {
+    if(is_bad == BAD_CROCCODILE_SIG) {
         if(croccodile.x < 0) {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
                 mvwaprintw(main_scr, i + croccodile.y, 0, BAD_CROCCODILE_BG, "%*s", CROCCODILE_DIM_X + croccodile.x, "");
@@ -162,7 +162,7 @@ void print_croccodile(Position croccodile, bool direction, bool is_bad) {
                 mvwaprintw(main_scr, i + croccodile.y, croccodile.x, BAD_CROCCODILE_BG, "%*s", MAIN_COLS - croccodile.x, "");
             }
         }
-    } else {
+    } else if(is_bad == GOOD_CROCCODILE_SIG) {
         if(croccodile.x < 0) {
             for(i = 0; i < CROCCODILE_DIM_Y; i++) {
                 mvwaprintw(main_scr, i + croccodile.y, 0, GOOD_CROCCODILE_BG, "%*s", CROCCODILE_DIM_X + croccodile.x, "");

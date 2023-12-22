@@ -61,4 +61,4 @@ void print_score(int score);
 void print_lifes(int n_lifes);
 void print_figlet(int win);
 void print_frog(const Game_t* gamevar);
-void print_croccodile(Position croccodile, bool direction, bool good);
+void print_croccodile(Position croccodile, bool direction, int is_bad);
