@@ -1,7 +1,8 @@
 CC = gcc
-CARGS = -o $@ -fdiagnostics-color=always -Wall -lncursesw -lpthread -lSDL2 -lSDL2_mixer
-COBJ = ${CC} -c $*.c ${CARGS}
-COBJ_VER = ${CC} -c ./${VERSION}/$*.c ${CARGS}
+CARGS_OBJ = -o $@ -fdiagnostics-color=always -Wall
+CARGS = ${CARGS_OBJ} -lncursesw -lpthread -lSDL2 -lSDL2_mixer
+COBJ = ${CC} -c $*.c ${CARGS_OBJ}
+COBJ_VER = ${CC} -c ./${VERSION}/$*.c ${CARGS_OBJ}
 
 # Libs dependences
 struct = struct.h struct_proto.h
