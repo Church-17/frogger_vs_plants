@@ -10,6 +10,9 @@
 #define LOAD_SOUNDS (-1)
 #define FREE_SOUNDS (-2)
 
+// Function prototypes
+Mix_Chunk* load_sound(str sound_path);
+
 void init_music(void) {
     if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
         quit(ERR_INIT_MUSIC);
@@ -26,20 +29,32 @@ void init_music(void) {
     play_sound(LOAD_SOUNDS);
 }
 
+Mix_Chunk* load_sound(str sound_path) {
+    Mix_Chunk* ret;
+    if((ret = Mix_LoadWAV(sound_path)) == NULL) {
+        quit(ERR_INIT_MUSIC);
+    }
+    return ret;
+}
+
 void play_sound(int sound_id) {
     static Mix_Chunk* sounds[N_EFFECTS];
     switch(sound_id) {
         case LOAD_SOUNDS:
-            sounds[MENU_SELECTION_SOUND] = Mix_LoadWAV("./audio/select.mp3");
+            sounds[MENU_SELECTION_SOUND] = load_sound("./audio/select.mp3");
             break;
 
         case FREE_SOUNDS:
             for(int i = 0; i < N_EFFECTS; i++) {
                 Mix_FreeChunk(sounds[i]);
+                sounds[i] = NULL;
             }
             break;
 
         default:
+            if(sounds[sound_id] == NULL) {
+                quit(ERR_PLAY_MUSIC);
+            }
             Mix_PlayChannel(-1, sounds[sound_id], 0);
             break;
     }
