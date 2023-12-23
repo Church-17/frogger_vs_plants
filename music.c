@@ -28,18 +28,20 @@ void init_music(void) {
 }
 
 void play_sound(int sound_id) {
-    static Mix_Chunk* select;
+    static Mix_Chunk* sounds[N_EFFECTS];
     switch(sound_id) {
         case LOAD_SOUNDS:
-            select = Mix_LoadWAV("./audio/select.mp3");
-            break;
-
-        case MENU_SELECTION:
-            Mix_PlayChannel(FIRST_FREE_CHANNEL, select, 0);
+            sounds[MENU_SELECTION_SOUND] = Mix_LoadWAV("./audio/select.mp3");
             break;
 
         case FREE_SOUNDS:
-            Mix_FreeChunk(select);
+            for(int i = 0; i < N_EFFECTS; i++) {
+                Mix_FreeChunk(sounds[i]);
+            }
+            break;
+
+        default:
+            Mix_PlayChannel(FIRST_FREE_CHANNEL, sounds[sound_id], 0);
             break;
     }
 }
