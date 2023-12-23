@@ -7,7 +7,6 @@
 #define MUSIC_STEREO 2
 #define DIM_MUSIC_BUFFER 256
 #define N_CHANNELS 8
-#define FIRST_FREE_CHANNEL (-1)
 #define LOAD_SOUNDS (-1)
 #define FREE_SOUNDS (-2)
 
@@ -41,7 +40,7 @@ void play_sound(int sound_id) {
             break;
 
         default:
-            Mix_PlayChannel(FIRST_FREE_CHANNEL, sounds[sound_id], 0);
+            Mix_PlayChannel(-1, sounds[sound_id], 0);
             break;
     }
 }
