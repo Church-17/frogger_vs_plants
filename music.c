@@ -1,4 +1,7 @@
 // Include libs
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include "struct_proto.h"
 #include "music.h"
 #include "utils.h"
 
