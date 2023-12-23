@@ -119,7 +119,9 @@ void quit(int err_code) {
             "Error during process fork",
             "Error during pipe creation",
             "Error reading from pipe",
-            "Error writing in pipe"
+            "Error writing in pipe",
+            "Error during music initialization",
+            "Error playing music"
         };
         perror(errContainer[err_code-1]);
     }

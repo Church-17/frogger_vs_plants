@@ -65,6 +65,9 @@ int main(void) {
     init_pair(BORDEAUX_DARKBLUE_ID, COLOR_BORDEAUX, COLOR_DARKBLUE);
     init_pair(DARKGREEN_DARKBLUE_ID, COLOR_DARKGREEN, COLOR_DARKBLUE);
     
+    // Init music
+    init_music();
+
     // Read settings from file
     rd_settings();
 
@@ -110,6 +113,7 @@ int main(void) {
         demo();
         wrefresh(main_scr);
     }
+    free_music();
     quit(NO_ERR);
 }
 

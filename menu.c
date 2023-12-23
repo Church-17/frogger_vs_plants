@@ -106,16 +106,19 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
                 case KEY_DOWN:
                 case KEY_RIGHT:
                 case KEY_NPAGE:
+                    play_sound(MENU_SELECTION);
                     hl = mod(hl+inc, set.len);
                     break;
 
                 // Highlight first option
                 case KEY_HOME:
+                    play_sound(MENU_SELECTION);
                     hl = 0;
                     break;
 
                 // Highlight last option 
                 case KEY_END:
+                    play_sound(MENU_SELECTION);
                     hl = set.len-1;
                     break;
 
@@ -287,6 +290,7 @@ void settings_menu(void) {
                     inc = -1; // Decrease
                 case KEY_DOWN:
                 case KEY_NPAGE:
+                    play_sound(MENU_SELECTION);
                     hl = mod(hl+inc, set.len);
                     break;
 
@@ -302,11 +306,13 @@ void settings_menu(void) {
 
                 // Highlight first setting
                 case KEY_HOME:
+                    play_sound(MENU_SELECTION);
                     hl = 0;
                     break;
 
                 // Highlight last selectable
                 case KEY_END:
+                    play_sound(MENU_SELECTION);
                     hl = set.len-1;
                     break;
 
@@ -416,6 +422,7 @@ void check_key(int key, int* hl, const List_str set) {
     }
     for(int i = mod(*hl+1, set.len); i != *hl; i = mod(i+1, set.len)) {
         if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
+            play_sound(MENU_SELECTION);
             *hl = i;
             return;
         }
