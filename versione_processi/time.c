@@ -7,21 +7,19 @@
 
 void time_process(int pipe_write, int* other_params) {
     // Init vars
-    time_t start = timestamp(), end = start, elapsed;
+    time_t start = timestamp(), end = start;
     Message msg;
     msg.id = TIME_ID;
     msg.sig = TIME_MANCHE;
 
     // Loop for beat time
     while(TRUE) {
-        elapsed = end - start; // Calc elapsed milliseconds
-        while(elapsed >= MSEC_IN_SEC) { // If a seconds passed...
+        if(end - start >= MSEC_IN_SEC) { // If a seconds passed...
             start = end; // Update start
             msg.sig--;
             writer(pipe_write, &msg); // Write in pipe
-            elapsed -= MSEC_IN_SEC; // Decrese elapsed of a second
         }
-        msleep(MSEC_IN_SEC - elapsed); // Wait for the milliseconds left to get to a second
+        msleep(MSEC_IN_SEC); // Sleep for a second
         end = timestamp(); // Update end
     }
 }

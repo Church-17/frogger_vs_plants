@@ -120,7 +120,7 @@ int main(void) {
 // Check if term is large enough, return TRUE if it is not large enough, FALSE if it is
 bool check_term(WINDOW* win) {
     if(LINES < MAIN_ROWS + FIX_KEEP_WINDOW_INSIDE || COLS < MAIN_COLS + FIX_KEEP_WINDOW_INSIDE) { // Check if terminal size is enough
-        if(main_scr != NULL) { // If a window is passed, move it at top left
+        if(main_scr != NULL) { // If main_scr exist, move it at top left
             mvwin(main_scr, 0, 0);
         }
         if(win != NULL) { // If a window is passed, move it at top left
