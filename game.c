@@ -125,18 +125,11 @@ int play_game(void) {
 
 void print_game(const Game_t* gamevar) {
     int i, j;
-
-    // Print background
-    print_background(gamevar->holes_occupied);
-
-    // Print time
-    print_time(gamevar->timer);
-
-    // Print score
-    print_score(gamevar->score);
-
-    // Print lifes
-    print_lifes(gamevar->lifes);
+    print_background(gamevar->holes_occupied); // Print background
+    print_free_frog_bullet(gamevar->free_frog_bullet);
+    print_time(gamevar->timer); // Print time
+    print_score(gamevar->score); // Print score
+    print_lifes(gamevar->lifes); // Print lifes
 
     if(gamevar->croccodiles != NULL) {
         // Print croccodiles
@@ -147,14 +140,17 @@ void print_game(const Game_t* gamevar) {
                 }
             }
         }
-
-        // Print frog
-        print_frog(gamevar);
-
+        print_frog(gamevar); // Print frog
         // Print plants
         for(i = 0; i < N_PLANTS; i++) {
             if(gamevar->plants[i].y >= 0) {
                 print_plant(gamevar->plants[i]);
+            }
+        }
+        // Print bullets
+        for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+            if(gamevar->frog_bullets[i].y >= 0) {
+                print_bullet(gamevar->frog_bullets[i]);
             }
         }
     }

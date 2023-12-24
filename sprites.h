@@ -33,7 +33,7 @@
 #define TIMEBAR_COL (TIME_COL+4)
 
 // Score constants
-#define SCORE_COL 75
+#define SCORE_COL 100
 #define SCORE_LEN 3
 
 // Lifes constants
@@ -61,10 +61,12 @@
 // Bullet constans
 #define BULLET_DIM_X 1
 #define BULLET_DIM_Y 1
+#define PRINT_BULLET_COL 80
 
 // Function prototypes
 void print_background(const bool* holes_occupied);
 void print_time(int time_remained);
+void print_free_frog_bullet(int free_frog_bullet);
 void print_score(int score);
 void print_lifes(int n_lifes);
 void print_figlet(int win);

@@ -80,12 +80,13 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.lifes = n_lifes;
     gamevar.win = IN_GAME;
     gamevar.frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
+    gamevar.free_frog_bullet = MAX_BULLETS_PER_FROG;
     gamevar.stream_speed = stream_speed;
 
     gamevar.frog.y = INIT_FROG_Y;
     gamevar.frog.x = INIT_FROG_X;
-    alloc(Position, gamevar.frog_bullets, MAX_BULLETS_PER_PLANT);
-    for(i = 0; i < MAX_BULLETS_PER_PLANT; i++) {
+    alloc(Position, gamevar.frog_bullets, MAX_BULLETS_PER_FROG);
+    for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
         gamevar.frog_bullets[i].y = FREE_BULLET; // Mark as free each frog bullet
     }
 
@@ -131,7 +132,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         fork_params[BULLET_Y_INDEX] = gamevar.frog.y - 1;
                         fork_params[BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
                         forker(pipe_fds, &process_pids, fork_params[BULLET_ID_INDEX], &bullet_process, fork_params);
-                        next_frog_bullet = mod(next_frog_bullet + 1, MAX_BULLETS_PER_PLANT);
+                        next_frog_bullet = mod(next_frog_bullet + 1, MAX_BULLETS_PER_FROG);
+                        gamevar.free_frog_bullet--;
+                        print_free_frog_bullet(gamevar.free_frog_bullet);
                     }
                     break;
                 }
@@ -382,6 +385,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
 
                 if(msg.y < LINE_BANK_1) { // If frog bullet is out of screen...
+                    gamevar.free_frog_bullet++;
+                    print_free_frog_bullet(gamevar.free_frog_bullet);
                     gamevar.frog_bullets[entity_id].y = FREE_BULLET; // Mark it as free
                     waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
                 } else {

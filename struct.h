@@ -36,6 +36,7 @@ struct Game_t {
     int lifes;
     int win;
     int frog_on_croccodile;
+    int free_frog_bullet;
     int* stream_speed;
     Position frog;
     Position* frog_bullets;

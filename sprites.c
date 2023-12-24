@@ -54,9 +54,21 @@ void print_time(int time_remained) {
     mvwaprintw(main_scr, LINE_HEADER, TIMEBAR_COL+new_timebar_len, time_color, "%*s", TIMEBAR_LEN-new_timebar_len, "");
 }
 
+void print_free_frog_bullet(int free_frog_bullet) {
+    mvwaprintw(main_scr, LINE_HEADER, PRINT_BULLET_COL, WHITE_BLACK, "%s: %d/%d", STR_BULLETS, free_frog_bullet, MAX_BULLETS_PER_FROG);
+}
+
 void print_score(int score) {
     str diff[N_DIFFICULTY] = {STR_DIFFICULTY_0, STR_DIFFICULTY_1, STR_DIFFICULTY_2};
-    mvwaprintw(main_scr, LINE_HEADER, SCORE_COL, WHITE_BLACK, "%s: %s ( x%d ) | %s: %*d", STR_DIFFICULTY, diff[DIFF_SET], DIFF_SET+1, STR_SCORE, SCORE_LEN, score);
+    attr_t score_color;
+    if(DIFF_SET == 0) {
+        score_color = GREEN_BLACK;
+    } else if(DIFF_SET == 1) {
+        score_color = YELLOW_BLACK;
+    } else {
+        score_color = RED_BLACK;
+    }
+    mvwaprintw(main_scr, LINE_HEADER, SCORE_COL, score_color, "%s: %*d   x%d (%s)", STR_SCORE, SCORE_LEN, score, DIFF_SET+1, diff[DIFF_SET]);
 }
 
 void print_lifes(int n_lifes) {
