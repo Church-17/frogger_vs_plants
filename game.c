@@ -154,7 +154,6 @@ void print_game(const Game_t* gamevar) {
             }
         }
     }
-    
 
     // Print figlet if needed
     print_figlet(gamevar->win);
