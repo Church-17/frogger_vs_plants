@@ -1,5 +1,4 @@
 // Include libs
-#include "../main.h"
 #include "../manche.h"
 #include "../utils.h"
 #include "../struct.h"
@@ -17,7 +16,7 @@ void frog_process(int pipe_write, int* other_params) {
 
     // Frog loop to get pressed key
     while(TRUE) {
-        key = wgetch(main_scr);
+        key = getch();
         switch(key) {
             case 'w':
             case 'w' - CAPITAL_SHIFT:
