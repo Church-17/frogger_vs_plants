@@ -65,14 +65,10 @@ int main(void) {
     init_pair(BORDEAUX_DARKBLUE_ID, COLOR_BORDEAUX, COLOR_DARKBLUE);
     init_pair(DARKGREEN_DARKBLUE_ID, COLOR_DARKGREEN, COLOR_DARKBLUE);
     
-    // Init music
-    init_music();
-
-    // Read settings from file
-    rd_settings();
-
-    // Check terminal size
-    check_term(NULL);
+    // Initial procedure
+    init_music(); // Init music
+    rd_settings(); // Read settings from file
+    check_term(NULL); // Check terminal size
 
     // Init vars
     bool do_quit = FALSE;
