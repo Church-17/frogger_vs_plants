@@ -405,6 +405,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         }
     }
     signal_all(process_pids, SIGKILL); // Killing all child processes
+    while(wait(NULL) > 0); // Wait all child processes 
     // Free allocated memory
     for(i = 0; i < N_WATER_STREAM; i++) {
         free(gamevar.croccodiles[i]);
