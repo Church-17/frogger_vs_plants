@@ -399,6 +399,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Free allocated memory
     for(i = 0; i < N_WATER_STREAM; i++) {
         free(gamevar.croccodiles[i]);
+        free(gamevar.bad_croccodiles[i]);
     }
     for(i = 0; i < N_PLANTS; i++) {
         free(gamevar.plants_bullets[i]);
@@ -407,6 +408,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     free(gamevar.plants);
     free(gamevar.frog_bullets);
     free(gamevar.plants_bullets);
+    gamevar.bad_croccodiles = NULL;
     gamevar.croccodiles = gamevar.plants_bullets = NULL;
     gamevar.plants = gamevar.frog_bullets = NULL;
     return gamevar;
