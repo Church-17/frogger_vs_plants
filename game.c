@@ -82,7 +82,7 @@ int play_game(void) {
                 break;
 
             default:
-                gamevar.score += gamevar.timer * (DIFF_SET + 1);
+                gamevar.score += gamevar.timer * SCORE_MULTIPLIER;
                 break;
         }
     }

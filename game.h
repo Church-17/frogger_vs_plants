@@ -14,6 +14,7 @@
 #define N_PLANTS 3
 #define MIN_STREAM_SPEED (4*DIFF_SET*DIFF_SET + 4)
 #define MAX_STREAM_SPEED (MIN_STREAM_SPEED + 12)
+#define SCORE_MULTIPLIER (DIFF_SET + 1)
 
 // Define communication ID
 #define RESIZE_ID (-3)

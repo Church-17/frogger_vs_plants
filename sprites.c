@@ -68,7 +68,7 @@ void print_score(int score) {
     } else {
         score_color = RED_BLACK;
     }
-    mvwaprintw(main_scr, LINE_HEADER, SCORE_COL, score_color, "%s: %*d  x%d (%s)", STR_SCORE, SCORE_LEN, score, DIFF_SET+1, diff[DIFF_SET]);
+    mvwaprintw(main_scr, LINE_HEADER, SCORE_COL, score_color, "%s: %*d  x%d (%s)", STR_SCORE, SCORE_LEN, score, SCORE_MULTIPLIER, diff[DIFF_SET]);
 }
 
 void print_lifes(int n_lifes) {
