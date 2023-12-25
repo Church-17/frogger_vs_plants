@@ -52,6 +52,7 @@ bool game() {
 
 // Play a game handling more manche, return gameover_menu index
 int play_game(void) {
+    // Init vars
     bool holes_occupied[N_HOLES] = {FALSE};
     int i, j, tmp_score;
     Game_t gamevar;
@@ -84,7 +85,7 @@ int play_game(void) {
         tmp_score = gamevar.score;
         gamevar.score += gamevar.timer * SCORE_MULTIPLIER;
 
-        // Animation of time & score
+        // Animation of time & score (if usleep is interrupted, interrupt animation & pause game)
         for(j = usleep(MSEC_IN_SEC * 300); j == 0 && gamevar.timer > 0; j = usleep(MSEC_IN_SEC * 50)) {
             gamevar.timer--;
             tmp_score++;
