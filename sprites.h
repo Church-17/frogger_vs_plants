@@ -52,7 +52,6 @@
 // Croccodile constants
 #define CROCCODILE_DIM_X 30
 #define CROCCODILE_DIM_Y 4
-#define MOVE_CROCCODILE_X 2
 
 // Plant constants
 #define PLANT_DIM_X 9

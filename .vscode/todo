@@ -2,6 +2,7 @@ bullets & collision
 
 in thread: 2 sem + 1 mutex per i_leggi
 
+put in one file entities 
 time manche-by-manche
 difficulties
 skins

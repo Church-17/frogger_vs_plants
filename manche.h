@@ -27,7 +27,7 @@
 #define FROG_SHOT_SIG 1
 
 // Croccodile constants
-#define MOVE_CROCCODILE_X 2
+#define MOVE_CROCCODILE_X 1
 #define CROCCODILE_ID_INDEX 0
 #define CROCCODILE_STREAM_INDEX 1
 #define CROCCODILE_SPEED_INDEX 2
