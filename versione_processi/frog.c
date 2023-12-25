@@ -24,7 +24,7 @@ void frog_process(int pipe_write, int* other_params) {
             case 'w':
             case 'w' - CAPITAL_SHIFT:
             case KEY_UP:
-                msg.y = -MOVE_FROG_Y;
+                msg.y = -FROG_MOVE_Y;
                 msg.x = 0;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
@@ -32,7 +32,7 @@ void frog_process(int pipe_write, int* other_params) {
             case 's':
             case 's' - CAPITAL_SHIFT:
             case KEY_DOWN:
-                msg.y = MOVE_FROG_Y;
+                msg.y = FROG_MOVE_Y;
                 msg.x = 0;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
@@ -41,7 +41,7 @@ void frog_process(int pipe_write, int* other_params) {
             case 'a' - CAPITAL_SHIFT:
             case KEY_LEFT:
                 msg.y = 0;
-                msg.x = -MOVE_FROG_X;
+                msg.x = -FROG_MOVE_X;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
@@ -49,7 +49,7 @@ void frog_process(int pipe_write, int* other_params) {
             case 'd' - CAPITAL_SHIFT:
             case KEY_RIGHT:
                 msg.y = 0;
-                msg.x = MOVE_FROG_X;
+                msg.x = FROG_MOVE_X;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 

@@ -83,8 +83,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.free_frog_bullet = MAX_BULLETS_PER_FROG;
     gamevar.stream_speed = stream_speed;
 
-    gamevar.frog.y = INIT_FROG_Y;
-    gamevar.frog.x = INIT_FROG_X;
+    gamevar.frog.y = FROG_INIT_Y;
+    gamevar.frog.x = FROG_INIT_X;
     alloc(Position, gamevar.frog_bullets, MAX_BULLETS_PER_FROG);
     for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
         gamevar.frog_bullets[i].y = FREE_BULLET; // Mark as free each frog bullet
@@ -161,21 +161,21 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 }
 
                 // Update frog Y position
-                if(gamevar.frog.y >= LIM_UP && gamevar.frog.y <= LIM_DOWN) { // If frog can move...
+                if(gamevar.frog.y >= FROG_LIM_UP && gamevar.frog.y <= FROG_LIM_DOWN) { // If frog can move...
                     gamevar.frog.y += msg.y; // Update coordinate
-                    if(gamevar.frog.y < LIM_UP) { // If frog is outside limit...q
-                        gamevar.frog.y = LIM_UP; // Move to limit
-                    } else if(gamevar.frog.y > LIM_DOWN) { // If frog is outside limit...
-                        gamevar.frog.y = LIM_DOWN; // Move to limit
+                    if(gamevar.frog.y < FROG_LIM_UP) { // If frog is outside limit...q
+                        gamevar.frog.y = FROG_LIM_UP; // Move to limit
+                    } else if(gamevar.frog.y > FROG_LIM_DOWN) { // If frog is outside limit...
+                        gamevar.frog.y = FROG_LIM_DOWN; // Move to limit
                     }
                 }
                 // Update frog X position
-                if(gamevar.frog.x >= LIM_LEFT && gamevar.frog.x <= LIM_RIGHT) { // If frog can move...
+                if(gamevar.frog.x >= FROG_LIM_LEFT && gamevar.frog.x <= FROG_LIM_RIGHT) { // If frog can move...
                     gamevar.frog.x += msg.x; // Update coordinate
-                    if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
-                        gamevar.frog.x = LIM_LEFT; // Move to limit
-                    } else if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
-                        gamevar.frog.x = LIM_RIGHT; // Move to limit
+                    if(gamevar.frog.x < FROG_LIM_LEFT) { // If frog is outside limit...
+                        gamevar.frog.x = FROG_LIM_LEFT; // Move to limit
+                    } else if(gamevar.frog.x > FROG_LIM_RIGHT) { // If frog is outside limit...
+                        gamevar.frog.x = FROG_LIM_RIGHT; // Move to limit
                     }
                 }
 
@@ -322,8 +322,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         gamevar.timer = MANCHE_LOST;
                     } else if(stream_speed[croccodile_stream] > 0) { // Update frog X position
                         gamevar.frog.x += MOVE_CROCCODILE_X; // Move frog with croccodile
-                        if(gamevar.frog.x > LIM_RIGHT) { // If frog is outside limit...
-                            gamevar.frog.x = LIM_RIGHT; // Move to limit
+                        if(gamevar.frog.x > FROG_LIM_RIGHT) { // If frog is outside limit...
+                            gamevar.frog.x = FROG_LIM_RIGHT; // Move to limit
                             if(gamevar.frog.x < msg.x) { // If now frog was outside croccodile: manche lost
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
@@ -331,8 +331,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         }
                     } else {
                         gamevar.frog.x -= MOVE_CROCCODILE_X;
-                        if(gamevar.frog.x < LIM_LEFT) { // If frog is outside limit...
-                            gamevar.frog.x = LIM_LEFT; // Move to limit
+                        if(gamevar.frog.x < FROG_LIM_LEFT) { // If frog is outside limit...
+                            gamevar.frog.x = FROG_LIM_LEFT; // Move to limit
                             if(gamevar.frog.x > msg.x + CROCCODILE_DIM_X - FROG_DIM_X) { // If now frog was outside croccodile: manche lost
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;

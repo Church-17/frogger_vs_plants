@@ -18,7 +18,7 @@ manche = manche.h ${sprites}
 process = versione_processi/process.h struct_proto.h
 time = ${VERSION}/time.h struct_proto.h
 frog = ${VERSION}/frog.h struct_proto.h
-croccodile = ${VERSION}/croccodile.h ${res}
+croccodile = ${VERSION}/croccodile.h struct_proto.h
 plant = ${VERSION}/plant.h struct_proto.h
 bullet = ${VERSION}/bullet.h struct_proto.h
 
