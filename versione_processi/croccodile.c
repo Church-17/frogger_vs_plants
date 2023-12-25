@@ -5,9 +5,11 @@
 #include "process.h"
 #include "croccodile.h"
 
-void frog_on(int sig);
-
+// Global vars
 bool frog_on_me = FALSE;
+
+// Function prototypes
+void frog_stepped_on_me(int sig);
 
 // params: [communication_id, n_stream, speed_stream]
 void croccodile_process(int pipe_write, int* other_params) {
@@ -17,7 +19,8 @@ void croccodile_process(int pipe_write, int* other_params) {
     time_t start, end;
     Message msg;
 
-    signal(SIGUSR1, &frog_on);
+    // Handle signal of frog steps on this croccodile
+    signal(SIGUSR1, &frog_stepped_on_me);
 
     // Unpack croccodile params
     msg.id = other_params[CROCCODILE_ID_INDEX];
@@ -51,17 +54,17 @@ void croccodile_process(int pipe_write, int* other_params) {
             }
         }
 
-        if(frog_on_me && msg.sig >= BAD_CROCCODILE_SIG) {
-            if(!do_immersion) {
+        if(frog_on_me && msg.sig >= BAD_CROCCODILE_SIG) { // If croccodile is bad and frog stepped on...
+            if(!do_immersion) { // If immersion not started, start it
                 immersion_time = rand_range(2, 4) * MSEC_IN_SEC;
                 start = timestamp();
                 do_immersion = TRUE;
             }
             end = timestamp();
-            if(end - start >= immersion_time) {
+            if(end - start >= immersion_time) { // If the croccodile have to immerge...
                 msg.sig = IMMERSION_CROCCODILE_SIG;
                 do_exit = TRUE;
-            } else if(end - start >= immersion_time - BUBBLE_THRESHOLD) {
+            } else if(end - start >= immersion_time - BUBBLE_THRESHOLD) { // If there is BUBBLE_THRESHOLD left to immersion...
                 msg.sig = BUBBLE_CROCCODILE_SIG;
             }
         }
@@ -72,6 +75,6 @@ void croccodile_process(int pipe_write, int* other_params) {
     return;
 }
 
-void frog_on(int sig) {
+void frog_stepped_on_me(int sig) { // If frog steps on this croccodile
     frog_on_me = TRUE;
 }

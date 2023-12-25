@@ -237,7 +237,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 }
 
+                // Print frog
                 print_frog(&gamevar);
+
                 break;
 
             // TIMER
@@ -292,18 +294,15 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 }
 
-                // Update saved coordinates
-                gamevar.croccodiles[croccodile_stream][entity_id].x = msg.x;
-                gamevar.croccodiles[croccodile_stream][entity_id].y = msg.y;
-
-                // Print croccodile
-                print_croccodile(gamevar.croccodiles[croccodile_stream][entity_id], stream_speed > 0, msg.sig);
-
-                // Free croccodile
+                // Print croccodile or free it
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS || msg.sig == IMMERSION_CROCCODILE_SIG) { // If croccodile is out of screen...
                     gamevar.croccodiles[croccodile_stream][entity_id].y = FREE_CROCCODILE; // Mark it as free
                     waitpid(process_pids.list[msg.id], NULL, 0); // Handle died croccodile process
                     process_pids.list[msg.id] = 0;
+                } else {
+                    gamevar.croccodiles[croccodile_stream][entity_id].x = msg.x;
+                    gamevar.croccodiles[croccodile_stream][entity_id].y = msg.y;
+                    print_croccodile(gamevar.croccodiles[croccodile_stream][entity_id], stream_speed > 0, msg.sig);
                 }
 
                 // Check if frog is on top
@@ -364,6 +363,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             // FROG BULLET
             else if(msg.id >= MIN_FROG_BULLET_ID && msg.id < MIN_PLANT_BULLET_ID) {
                 entity_id = msg.id - MIN_FROG_BULLET_ID;
+
                 // De-print
                 if(gamevar.frog_bullets[entity_id].y >= 0) {
                     for(i = 0; i < BULLET_DIM_Y; i++) {
@@ -371,10 +371,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 }
 
-                gamevar.frog_bullets[entity_id].y = msg.y;
-                gamevar.frog_bullets[entity_id].x = msg.x;
-
-
+                // Print bullet or free it
                 if(msg.y < LINE_BANK_1) { // If frog bullet is out of screen...
                     gamevar.free_frog_bullet++;
                     print_free_frog_bullet(gamevar.free_frog_bullet);
@@ -382,6 +379,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
                     process_pids.list[msg.id] = 0;
                 } else {
+                    gamevar.frog_bullets[entity_id].y = msg.y;
+                    gamevar.frog_bullets[entity_id].x = msg.x;
                     print_bullet(gamevar.frog_bullets[entity_id]);
                 }
 
@@ -391,13 +390,14 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             break;
         }
         
-        // Refresh with threshold
+        // Refresh
         if(timestamp() - refresh_time > REFRESH_TIME_THRESHOLD) {
             wrefresh(main_scr);
         }
     }
     signal_all(process_pids, SIGKILL); // Killing all child processes
-    while(wait(NULL) > 0); // Wait all child processes 
+    while(wait(NULL) > 0); // Wait all child processes
+
     // Free allocated memory
     for(i = 0; i < N_WATER_STREAM; i++) {
         free(gamevar.croccodiles[i]);
@@ -413,5 +413,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.bad_croccodiles = NULL;
     gamevar.croccodiles = gamevar.plants_bullets = NULL;
     gamevar.plants = gamevar.frog_bullets = NULL;
+
     return gamevar;
 }
