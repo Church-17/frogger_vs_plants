@@ -61,4 +61,5 @@
 #define MOVE_BULLET_Y 1
 #define BULLET_SPEED 10
 
+// Function prototypes
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied);
