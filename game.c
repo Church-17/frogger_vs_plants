@@ -53,19 +53,19 @@ bool game() {
 // Play a game handling more manche, return gameover_menu index
 int play_game(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
-    int i, score = 0, n_lifes = N_LIFES;
+    int i;
     Game_t gamevar;
+    gamevar.score = 0;
+    gamevar.lifes = N_LIFES;
 
     // Loop for play n manche saving the remained time and updating lifes
-    for(i = 0; i < N_HOLES && n_lifes; i++) {
-        gamevar = play_manche(score, n_lifes, holes_occupied);
+    for(i = 0; i < N_HOLES && gamevar.lifes; i++) {
+        gamevar = play_manche(gamevar.score, gamevar.lifes, holes_occupied);
         switch(gamevar.timer) {
             case MANCHE_LOST:
                 gamevar.lifes--;
                 if(gamevar.lifes > 0) {
                     i--;
-                } else {
-                    print_lifes(gamevar.lifes);
                 }
                 break;
 
@@ -82,15 +82,14 @@ int play_game(void) {
                 break;
 
             default:
-                score += gamevar.timer * (DIFF_SET + 1);
+                gamevar.score += gamevar.timer * (DIFF_SET + 1);
                 break;
         }
-        n_lifes = gamevar.lifes;
     }
 
-    // Update score
-    gamevar.score = score * n_lifes;
-    print_score(gamevar.score);
+    // Update score & bullet
+    gamevar.score = gamevar.score * gamevar.lifes;
+    gamevar.free_frog_bullet = MAX_BULLETS_PER_FROG;
 
     // If score was one of the best, add it to the best scores
     if(gamevar.score > 0) {
@@ -116,8 +115,7 @@ int play_game(void) {
     } else {
         gamevar.win = LOST_GAME;
     }
-    print_background(gamevar.holes_occupied);
-    print_figlet(gamevar.win);
+    print_game(&gamevar);
     wrefresh(main_scr);
 
     return gameover_menu(gamevar.score, &gamevar);
@@ -155,6 +153,5 @@ void print_game(const Game_t* gamevar) {
         }
     }
 
-    // Print figlet if needed
-    print_figlet(gamevar->win);
+    print_figlet(gamevar->win); // Print figlet if needed
 }

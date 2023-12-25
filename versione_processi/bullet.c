@@ -17,6 +17,9 @@ void bullet_process(int pipe_write, int* other_params) {
 
     // Write initial position
     writer(pipe_write, &msg);
+    if(msg.y < LINE_BANK_1 || msg.y >= MAIN_ROWS) {
+        do_exit = TRUE;
+    }
 
     while(!do_exit) {
         // Update Y coordinate
