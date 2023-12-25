@@ -74,9 +74,9 @@ void print_score(int score) {
 void print_lifes(int n_lifes) {
     int i;
     for(i = 0; i < n_lifes; i++) {
-        mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*i, RED_BLACK, "❤");
+        mvwaprintw(main_scr, LINE_HEADER, MAIN_COLS - SPACE_PER_LIFE * (N_LIFES - i), RED_BLACK, "❤");
     }
-    mvwaprintw(main_scr, LINE_HEADER, LIFES_COL + SPACE_PER_LIFE*n_lifes, RED_BLACK, "%*s", SPACE_PER_LIFE*(N_LIFES-n_lifes), "");
+    mvwaprintw(main_scr, LINE_HEADER, MAIN_COLS - SPACE_PER_LIFE * (N_LIFES - n_lifes), RED_BLACK, "%*s", SPACE_PER_LIFE*(N_LIFES-n_lifes), "");
 }
 
 void print_figlet(int win) {
