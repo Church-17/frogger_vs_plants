@@ -1,4 +1,5 @@
 // Include prototypes of structs
+#include <sys/wait.h>
 #include "struct_proto.h"
 
 // Define structs

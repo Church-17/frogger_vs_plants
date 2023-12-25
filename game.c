@@ -53,7 +53,7 @@ bool game() {
 // Play a game handling more manche, return gameover_menu index
 int play_game(void) {
     bool holes_occupied[N_HOLES] = {FALSE};
-    int i;
+    int i, j, tmp_score;
     Game_t gamevar;
     gamevar.score = 0;
     gamevar.lifes = N_LIFES;
@@ -64,9 +64,7 @@ int play_game(void) {
         switch(gamevar.timer) {
             case MANCHE_LOST:
                 gamevar.lifes--;
-                if(gamevar.lifes > 0) {
-                    i--;
-                }
+                i--;
                 break;
 
             case MANCHE_RETR:
@@ -80,10 +78,22 @@ int play_game(void) {
             case MANCHE_QUIT:
                 return OVER_QUIT_ID;
                 break;
+        }
 
-            default:
-                gamevar.score += gamevar.timer * SCORE_MULTIPLIER;
-                break;
+        // Update score
+        tmp_score = gamevar.score;
+        gamevar.score += gamevar.timer * SCORE_MULTIPLIER;
+
+        // Animation of time & score
+        for(j = usleep(MSEC_IN_SEC * 300); j == 0 && gamevar.timer > 0; j = usleep(MSEC_IN_SEC * 50)) {
+            gamevar.timer--;
+            tmp_score++;
+            print_time(gamevar.timer);
+            print_score(tmp_score);
+            wrefresh(main_scr);
+        }
+        if(j == 0) {
+            usleep(MSEC_IN_SEC * 500);
         }
     }
 
@@ -93,7 +103,6 @@ int play_game(void) {
 
     // If score was one of the best, add it to the best scores
     if(gamevar.score > 0) {
-        int i; // Index where write the new best score (if i == N_BEST, it isn't a new best score)
         Dict_str_int best = rd_best(); // Read actual best scores
         for(i = best.len; i > 0 && gamevar.score > best.val[i-1]; i--) { // Check if score is gtr than the least best score
             if(i < N_BEST) { // If it is, pass the previous best score down (if it is possible)
