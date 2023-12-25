@@ -28,7 +28,7 @@
 #define TIME_COL 1
 #define TIME_YELLOW 30
 #define TIME_RED 10
-#define TIMEBAR_LEN 30
+#define TIMEBAR_LEN 60
 #define STRLEN_TIME 3
 #define TIMEBAR_COL (TIME_COL+4)
 

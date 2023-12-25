@@ -303,6 +303,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS || msg.sig == IMMERSION_CROCCODILE_SIG) { // If croccodile is out of screen...
                     gamevar.croccodiles[croccodile_stream][entity_id].y = FREE_CROCCODILE; // Mark it as free
                     waitpid(process_pids.list[msg.id], NULL, 0); // Handle died croccodile process
+                    process_pids.list[msg.id] = 0;
                 }
 
                 // Check if frog is on top
@@ -379,6 +380,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     print_free_frog_bullet(gamevar.free_frog_bullet);
                     gamevar.frog_bullets[entity_id].y = FREE_BULLET; // Mark it as free
                     waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
+                    process_pids.list[msg.id] = 0;
                 } else {
                     print_bullet(gamevar.frog_bullets[entity_id]);
                 }
