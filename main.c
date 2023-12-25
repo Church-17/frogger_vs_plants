@@ -75,12 +75,12 @@ int main(void) {
     int chosen;
     main_scr = new_ctrwin(MAIN_ROWS, MAIN_COLS);
 
-    // Start demo in bg
-    demo();
-    wrefresh(main_scr);
-
     // Main loop
     while(!do_quit) {
+        // Start demo in bg
+        demo();
+        wrefresh(main_scr);
+
         chosen = home_menu();
         demo();
         wrefresh(main_scr);
@@ -105,9 +105,6 @@ int main(void) {
                 do_quit = TRUE;
                 break;
         }
-        // Redraw
-        demo();
-        wrefresh(main_scr);
     }
     free_music();
     quit(NO_ERR);
