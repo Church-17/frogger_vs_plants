@@ -25,7 +25,7 @@
 #define BEST_FIGLET_X 22
 
 // Time constants
-#define TIME_COL 0
+#define TIME_COL 1
 #define TIME_YELLOW 30
 #define TIME_RED 10
 #define TIMEBAR_LEN 30

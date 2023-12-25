@@ -16,7 +16,6 @@
 #define MAX_STREAM_SPEED (MIN_STREAM_SPEED + 6)
 
 // Define communication ID
-#define RESIZE_ID (-3)
 #define CLOSE_ID (-2)
 #define PAUSE_ID (-1)
 #define FROG_ID 0

@@ -14,9 +14,12 @@ void frog_process(int pipe_write, int* other_params) {
     msg.id = FROG_ID;
     msg.sig = FROG_POSITION_SIG;
 
+    // Init window from which to take input
+    WINDOW* input_win = new_win(1, 1, 0, 0);
+
     // Frog loop to get pressed key
     while(TRUE) {
-        key = getch();
+        key = wgetch(input_win);
         switch(key) {
             case 'w':
             case 'w' - CAPITAL_SHIFT:
@@ -64,11 +67,6 @@ void frog_process(int pipe_write, int* other_params) {
 
             case SHOT_GAME_KEY:
                 msg.sig = FROG_SHOT_SIG;
-                do_send_msg = TRUE; // Set flag to send msg
-                break;
-
-            case KEY_RESIZE:
-                msg.id = RESIZE_ID;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
