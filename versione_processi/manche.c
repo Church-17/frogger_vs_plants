@@ -125,7 +125,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         if(LINES < MAIN_ROWS || COLS < MAIN_COLS || msg.id == PAUSE_ID) {
             signal_all(process_pids, SIGSTOP); // Pausing all child processes
             i = pause_menu(&gamevar);
-            switch (i) {
+            switch(i) {
                 case PAUSE_RES_ID:
                     break;
                 
@@ -253,7 +253,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             case CLOSE_ID:
                 signal_all(process_pids, SIGSTOP); // Pausing all child processes
                 i = quit_menu(&gamevar);    
-                switch (i) {
+                switch(i) {
                     case NO_ID:
                         break;
                     

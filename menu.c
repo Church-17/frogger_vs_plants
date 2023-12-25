@@ -97,7 +97,7 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
             inc = 1; // Restore inc
 
             key = wgetch(menu_win); // Get pressed key
-            switch (key) {
+            switch(key) {
                 // Change hl
                 case KEY_UP:
                 case KEY_LEFT:
@@ -283,7 +283,7 @@ void settings_menu(void) {
             inc = 1; // Restore inc
 
             key = wgetch(menu_win);
-            switch (key) {
+            switch(key) {
                 // Change hl
                 case KEY_UP:
                 case KEY_PPAGE:
