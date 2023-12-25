@@ -95,6 +95,7 @@ int play_game(void) {
         if(j == 0) {
             usleep(MSEC_IN_SEC * 500);
         }
+        flushinp(); // Ignore any user input received during animation
     }
 
     // Update score & bullet
