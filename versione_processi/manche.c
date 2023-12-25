@@ -182,7 +182,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // If the frog is in bank 1 and it isn't in front of a trap, it can't go ahead
                 if(gamevar.frog.y < LINE_BANK_1) {
                     for(i = 0; i < N_HOLES; i++) {
-                        if(gamevar.frog.x >= i*MAIN_COLS/N_HOLES + HOLE_PAD_X && gamevar.frog.x <= i*MAIN_COLS/N_HOLES + HOLE_PAD_X + HOLE_DIM_X - FROG_DIM_X && gamevar.holes_occupied[i] == FALSE) {
+                        if(gamevar.frog.x >= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 && gamevar.frog.x <= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 + HOLE_DIM_X - FROG_DIM_X && gamevar.holes_occupied[i] == FALSE) {
                             manche_ended = TRUE;
                             gamevar.holes_occupied[i] = TRUE;
                             break;

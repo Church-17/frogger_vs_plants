@@ -43,7 +43,6 @@
 // Hole constants
 #define HOLE_DIM_X (FROG_DIM_X + 2)
 #define HOLE_DIM_Y FROG_DIM_Y
-#define HOLE_PAD_X ((MAIN_COLS/N_HOLES - HOLE_DIM_X)/2)
 
 // Frog constants
 #define FROG_DIM_X 10

@@ -16,7 +16,7 @@ void print_background(const bool* holes_occupied) {
     for(i = 0; i < N_HOLES; i++) {
         if(!holes_occupied[i]) { // If a hole is occupied, it's closed (so not printed)
             for(j = LINE_HOLES; j < LINE_BANK_1; j++) {
-                mvwaprintw(main_scr, j, i*MAIN_COLS/N_HOLES + HOLE_PAD_X, GREEN_PURPLE, "%*s", HOLE_DIM_X, "");
+                mvwaprintw(main_scr, j, i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2, GREEN_PURPLE, "%*s", HOLE_DIM_X, "");
             }
         }
     }
