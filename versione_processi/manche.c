@@ -12,6 +12,7 @@
 #include "bullet.h"
 
 // Define constant
+#define RESIZE_TIME_THRESHOLD 100
 #define REFRESH_TIME_THRESHOLD 100
 
 // Play a manche, return game vars with in gamevar.timer the time remaining or a manche_id
@@ -67,7 +68,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     int croccodile_stream, entity_id, next_croccodile_id, restore_croccodile_x, restore_croccodile_len; // Helper vars for croccodile
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
     int next_frog_bullet = 0, next_plant_bullet[N_PLANTS] = {0};
-    time_t refresh_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
+    time_t resize_time = 0, refresh_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     attr_t restore_color; // Variable for save color to restore
     Message msg; // Define msg to store pipe message
 
@@ -120,34 +121,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         
         // Read from pipe
         reader(pipe_fds[PIPE_READ], &msg);
-
-        // Handle pause and resize
-        if(LINES < MAIN_ROWS || COLS < MAIN_COLS || msg.id == PAUSE_ID) {
-            signal_all(process_pids, SIGSTOP); // Pausing all child processes
-            i = pause_menu(&gamevar);
-            switch(i) {
-                case PAUSE_RES_ID:
-                    break;
-                
-                case PAUSE_RETR_ID:
-                    gamevar.timer = MANCHE_RETR;
-                    manche_ended = TRUE;
-                    break;
-
-                case PAUSE_BACK_ID:
-                    gamevar.timer = MANCHE_CLOSE;
-                    manche_ended = TRUE;
-                    break;
-
-                case PAUSE_QUIT_ID:
-                    gamevar.timer = MANCHE_QUIT;
-                    manche_ended = TRUE;
-                    break;
-            }
-            // If continue:
-            print_game(&gamevar); // Redraw game
-            signal_all(process_pids, SIGCONT); // Resume all child processes
-        }
 
         switch(msg.id) {
 
@@ -251,6 +224,42 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 print_time(gamevar.timer);
                 break;
 
+            // RESIZE AND AUTO-PAUSE
+            case RESIZE_ID:
+                // Check the current time with the last continue to prevent multiple resize message at once
+                if(timestamp() - resize_time < RESIZE_TIME_THRESHOLD) {
+                    break;
+                }
+                // Put game in pause (resize_proc will be called by menu)
+            // PAUSE
+            case PAUSE_ID:
+                signal_all(process_pids, SIGSTOP); // Pausing all child processes
+                i = pause_menu(&gamevar);
+                switch(i) {
+                    case PAUSE_RES_ID:
+                        break;
+                    
+                    case PAUSE_RETR_ID:
+                        gamevar.timer = MANCHE_RETR;
+                        manche_ended = TRUE;
+                        break;
+
+                    case PAUSE_BACK_ID:
+                        gamevar.timer = MANCHE_CLOSE;
+                        manche_ended = TRUE;
+                        break;
+
+                    case PAUSE_QUIT_ID:
+                        gamevar.timer = MANCHE_QUIT;
+                        manche_ended = TRUE;
+                        break;
+                }
+                // If continue:
+                print_game(&gamevar); // Redraw game
+                signal_all(process_pids, SIGCONT); // Resume all child processes
+                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
+                break;
+
             // CLOSE
             case CLOSE_ID:
                 signal_all(process_pids, SIGSTOP); // Pausing all child processes
@@ -267,6 +276,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // If continue:
                 print_game(&gamevar); // Redraw game
                 signal_all(process_pids, SIGCONT); // Resume all child processes
+                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                 break;
 
             default:

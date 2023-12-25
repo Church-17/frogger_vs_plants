@@ -70,6 +70,11 @@ void frog_process(int pipe_write, int* other_params) {
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
+            case KEY_RESIZE:
+                msg.id = RESIZE_ID;
+                do_send_msg = TRUE; // Set flag to send msg
+                break;
+
             default: break; 
         }
         if(do_send_msg) {
