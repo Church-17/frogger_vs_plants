@@ -60,7 +60,7 @@ int play_game(void) {
     gamevar.lifes = N_LIFES;
 
     // Loop for play n manche saving the remained time and updating lifes
-    for(i = 0; i < N_HOLES && gamevar.lifes; i++) {
+    for(i = 0; i < N_MANCHES && gamevar.lifes; i++) {
         gamevar = play_manche(gamevar.score, gamevar.lifes, holes_occupied);
         switch(gamevar.timer) {
             case MANCHE_LOST:

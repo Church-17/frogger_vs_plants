@@ -10,6 +10,7 @@
 #define TIME_MANCHE 60
 #define N_LIFES 5
 #define N_HOLES 5
+#define N_MANCHES N_HOLES
 #define N_WATER_STREAM 8
 #define N_PLANTS 3
 #define MIN_STREAM_SPEED (4*DIFF_SET*DIFF_SET + 4)
