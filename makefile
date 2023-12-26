@@ -41,19 +41,19 @@ manche.o: ${VERSION}/manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${SPE
 process.o: versione_processi/process.c ${utils} ${struct} ${process}
 	${COBJ_VER}
 
-frog.o: ${VERSION}/frog.c ${game} ${utils} ${struct} ${SPEC_LIB} ${frog}
+frog.o: ${VERSION}/frog.c ${manche} ${utils} ${struct} ${SPEC_LIB} ${frog}
 	${COBJ_VER}
 
-time.o: ${VERSION}/time.c ${game} ${utils} ${struct} ${SPEC_LIB} ${time}
+time.o: ${VERSION}/time.c ${manche} ${utils} ${struct} ${SPEC_LIB} ${time}
 	${COBJ_VER}
 
-croccodile.o: ${VERSION}/croccodile.c ${sprites} ${utils} ${struct} ${SPEC_LIB} ${croccodile}
+croccodile.o: ${VERSION}/croccodile.c ${manche} ${utils} ${struct} ${SPEC_LIB} ${croccodile}
 	${COBJ_VER}
 
-plant.o: ${VERSION}/plant.c ${sprites} ${utils} ${struct} ${SPEC_LIB} ${plant}
+plant.o: ${VERSION}/plant.c ${manche} ${utils} ${struct} ${SPEC_LIB} ${plant}
 	${COBJ_VER}
 
-bullet.o: ${VERSION}/bullet.c ${sprites} ${utils} ${struct} ${SPEC_LIB} ${bullet}
+bullet.o: ${VERSION}/bullet.c ${manche} ${utils} ${struct} ${SPEC_LIB} ${bullet}
 	${COBJ_VER}
 
 main.o: main.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}

@@ -88,7 +88,7 @@ int play_game(void) {
         // Animation of time & score (if usleep is interrupted, interrupt animation & pause game)
         for(j = usleep(MSEC_IN_SEC * 300); j == 0 && gamevar.timer > 0; j = usleep(MSEC_IN_SEC * 50)) {
             gamevar.timer--;
-            tmp_score++;
+            tmp_score += SCORE_MULTIPLIER;
             print_time(gamevar.timer);
             print_score(tmp_score);
             wrefresh(main_scr);

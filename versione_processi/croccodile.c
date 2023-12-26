@@ -69,7 +69,7 @@ void croccodile_process(int pipe_write, int* other_params) {
             }
         }
 
-        msleep(MSEC_IN_SEC / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
+        msleep(MSEC_IN_SEC * MOVE_CROCCODILE_X / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
         writer(pipe_write, &msg); // Write on pipe
     }
     return;
