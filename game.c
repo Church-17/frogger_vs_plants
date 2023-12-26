@@ -100,8 +100,13 @@ int play_game(void) {
     }
 
     // Update score & bullet
-    gamevar.score = gamevar.score * gamevar.lifes;
+    gamevar.score *= gamevar.lifes;
     gamevar.free_frog_bullet = MAX_BULLETS_PER_FROG;
+
+    // Animation of score & lifes
+    print_lifes(0);
+    wrefresh(main_scr);
+    usleep(MSEC_IN_SEC * 300);
 
     // If score was one of the best, add it to the best scores
     if(gamevar.score > 0) {
