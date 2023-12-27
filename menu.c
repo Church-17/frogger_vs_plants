@@ -169,7 +169,7 @@ void best_scores_menu(void) {
     title.list = tit;
     title.len = 1;
     str users[N_BEST], scores[N_BEST];
-    attr_t list0[N_BEST] = {YELLOW_BLACK, GREY_BLACK, BROWN_BLACK};
+    attr_t list0[N_BEST] = {YELLOW_BLACK, GREY_BLACK, ORANGE_BLACK};
     List_str sx, dx;
     List_attr cols;
     sx.list = users;
@@ -225,8 +225,8 @@ void settings_menu(void) {
     str skin[N_SKIN] = {STR_SKIN_0, STR_SKIN_1, STR_SKIN_2};
     int ind_skin[N_SKIN] = {SKIN_0_ID, SKIN_1_ID, SKIN_2_ID};
     opts[SET_SKIN_ID] = dict_to_list(skin, ind_skin, N_SKIN);
-    str color[N_COLOR] = {STR_COL_WHT, STR_COL_RED, STR_COL_GRN, STR_COL_YLW, STR_COL_BLU, STR_COL_MGT, STR_COL_CYN, STR_COL_GRY, STR_COL_BRW};
-    int ind_col[N_COLOR] = {WHITE_BLACK_ID, RED_BLACK_ID, GREEN_BLACK_ID, YELLOW_BLACK_ID, BLUE_BLACK_ID, MAGENTA_BLACK_ID, CYAN_BLACK_ID, GREY_BLACK_ID, BROWN_BLACK_ID};
+    str color[N_COLOR] = {STR_COL_WHT, STR_COL_RED, STR_COL_GRN, STR_COL_YLW, STR_COL_BLU, STR_COL_MGT, STR_COL_CYN, STR_COL_GRY, STR_COL_RNG};
+    int ind_col[N_COLOR] = {WHITE_BLACK_ID, RED_BLACK_ID, GREEN_BLACK_ID, YELLOW_BLACK_ID, BLUE_BLACK_ID, MAGENTA_BLACK_ID, CYAN_BLACK_ID, GREY_BLACK_ID, ORANGE_BLACK_ID};
     opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(color, ind_col, N_COLOR);
 
     // Sync newly setted to settings

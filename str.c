@@ -40,6 +40,6 @@ const str strContainer[][N_LANGUAGE] = {
     {"Are you sure to quit?", "Sei sicuro di uscire?"},
     {"Yes", "Si"},
     {"Grey", "Grigio"},
-    {"Brown", "Marrone"},
+    {"Orange", "Arancione"},
     {"Bullets", "Proiettili"}
 };

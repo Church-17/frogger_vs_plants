@@ -41,7 +41,7 @@ int main(void) {
     init_color(COLOR_MAGENTA, 700, 0, 700);
     init_color(COLOR_CYAN, 200, 600, 900);
     init_color(COLOR_GREY, 600, 600, 600);
-    init_color(COLOR_BROWN, 800, 600, 200);
+    init_color(COLOR_ORANGE, 900, 600, 100);
     init_color(COLOR_PURPLE, 300, 0, 600);
     init_color(COLOR_BORDEAUX, 400, 100, 100);
     init_color(COLOR_DARKGREEN, 0, 400, 0);
@@ -55,7 +55,7 @@ int main(void) {
     init_pair(MAGENTA_BLACK_ID, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(CYAN_BLACK_ID, COLOR_CYAN, COLOR_BLACK);
     init_pair(GREY_BLACK_ID, COLOR_GREY, COLOR_BLACK);
-    init_pair(BROWN_BLACK_ID, COLOR_BROWN, COLOR_BLACK);
+    init_pair(ORANGE_BLACK_ID, COLOR_ORANGE, COLOR_BLACK);
     init_pair(GREEN_YELLOW_ID, COLOR_GREEN, COLOR_YELLOW);
     init_pair(MAGENTA_GREEN_ID, COLOR_MAGENTA, COLOR_GREEN);
     init_pair(GREEN_PURPLE_ID, COLOR_GREEN, COLOR_PURPLE);
