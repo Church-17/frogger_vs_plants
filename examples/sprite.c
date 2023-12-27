@@ -13,6 +13,10 @@
 #define ORANGE_D_ORANGE COLOR_PAIR(8)
 #define ORANGE_BLACK COLOR_PAIR(9)
 #define BLUE_BLACK COLOR_PAIR(10)
+#define RED_BLACK COLOR_PAIR(11)
+#define RED_ORANGE COLOR_PAIR(12)
+#define CYAN_RED COLOR_PAIR(13)
+#define RED_YELLOW COLOR_PAIR(14)
 
 #define COLOR_D_GREEN 10
 #define COLOR_ORANGE 11
@@ -37,7 +41,7 @@ int main() {
     init_color(COLOR_MAGENTA, 600, 0, 600);
     init_color(COLOR_CYAN, 200, 600, 900);
     init_color(COLOR_D_GREEN, 124, 256, 236);
-    init_color(COLOR_ORANGE, 888, 364, 135);
+    init_color(COLOR_ORANGE, 900, 600, 100);
     init_color(COLOR_D_ORANGE, 455, 208, 100);
     // Set needed color pairs (text, bg)
     init_pair(0, COLOR_WHITE, COLOR_BLACK);
@@ -51,6 +55,10 @@ int main() {
     init_pair(8, COLOR_ORANGE, COLOR_D_ORANGE);
     init_pair(9, COLOR_ORANGE, COLOR_BLACK);
     init_pair(10, COLOR_BLUE, COLOR_BLACK);
+    init_pair(11, COLOR_RED, COLOR_BLACK);
+    init_pair(12, COLOR_RED, COLOR_ORANGE);
+    init_pair(13, COLOR_CYAN, COLOR_RED);
+    init_pair(14, COLOR_RED, COLOR_YELLOW);
 
     int y = 1, x = 1;
 
@@ -177,11 +185,27 @@ int main() {
 
 
     
+    y = 7, x = 1;
+    mvaptrintw(y, x, RED_BLACK, "▄█"); //
+    mvaptrintw(y, x+3, CYAN_RED, "▀");
+    mvaptrintw(y, x+4, RED_ORANGE, "▌▐");
+    mvaptrintw(y, x+6, CYAN_RED, "▀");
+    mvaptrintw(y, x+8, RED_BLACK, "█▄"); //
+
+    mvaptrintw(y+1, x+1, RED_BLACK, "▀▄"); //
+    mvaptrintw(y+1, x+3, RED_ORANGE, " ▄  ");
+    mvaptrintw(y+1, x+7, RED_BLACK, "▄▀"); //
+
+    mvaptrintw(y+2, x+2, RED_BLACK, "▄"); //
+    mvaptrintw(y+2, x+3, RED_ORANGE, "█▄▀▄");
+    mvaptrintw(y+2, x+7, RED_BLACK, "▄"); //
+
+    mvaptrintw(y+3, x, RED_BLACK, "▀█▀"); //
+    mvaptrintw(y+3, x+7, RED_BLACK, "▀█▀"); //
 
 
     while(getch() != 'q');
 
-    printf("%d %d ", LINES, COLS);
     endwin();
 
 }
