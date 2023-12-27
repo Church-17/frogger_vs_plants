@@ -24,12 +24,12 @@ void bullet_process(int pipe_write, int* other_params) {
     while(!do_exit) {
         // Update Y coordinate
         if(msg.id < MIN_PLANT_BULLET_ID) { // If it is a frog bullet...
-            msg.y -= MOVE_BULLET_Y;
+            msg.y -= BULLET_MOVE_Y;
             if(msg.y < LINE_BANK_1) {
                 do_exit = TRUE;
             }
         } else { // If it is a plant bullet...
-            msg.y += MOVE_BULLET_Y;
+            msg.y += BULLET_MOVE_Y;
             if(msg.y >= MAIN_ROWS) {
                 do_exit = TRUE;
             }
