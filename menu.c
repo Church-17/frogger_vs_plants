@@ -169,13 +169,13 @@ void best_scores_menu(void) {
     title.list = tit;
     title.len = 1;
     str users[N_BEST], scores[N_BEST];
-    attr_t list0[N_BEST] = {YELLOW_BLACK, GREY_BLACK, ORANGE_BLACK};
+    attr_t colors[N_BEST] = {YELLOW_BLACK, GREY_BLACK, ORANGE_BLACK};
     List_str sx, dx;
-    List_attr cols;
+    List_attr attrs;
     sx.list = users;
     dx.list = scores;
-    cols.list = list0;
-    cols.len = sx.len = dx.len = N_BEST;
+    attrs.list = colors;
+    attrs.len = sx.len = dx.len = N_BEST;
 
     // Pass best scores ignoring empty scores
     Dict_str_int best = rd_best(); // Retreive best scores
@@ -187,7 +187,7 @@ void best_scores_menu(void) {
     for(i = best.len; i < N_BEST; i++) {
         sx.list[i] = dx.list[i] = ""; // Print empty line
     }
-    view(title, sx, dx, cols, NULL); // Call view
+    view(title, sx, dx, attrs, NULL); // Call view
 
     // Free memory
     for(i = 0; i < best.len; i++) {
@@ -353,17 +353,17 @@ void credits_menu(void) {
     List_str title;
     title.list = tit;
     title.len = 2;
-    str list0[N_CREDITS] = {STR_FRANCESCO, STR_MATTEO};
-    str list1[N_CREDITS] = {"", ""};
-    attr_t list2[N_CREDITS] = {COL1, COL1};
+    str names[N_CREDITS] = {STR_FRANCESCO, STR_MATTEO};
+    str empty[N_CREDITS] = {"", ""};
+    attr_t colors[N_CREDITS] = {COL1, COL1};
     List_str sx, dx;
-    List_attr cols;
-    sx.list = list0;
-    dx.list = list1;
-    cols.list = list2;
-    cols.len = sx.len = dx.len = N_CREDITS;
+    List_attr attrs;
+    sx.list = names;
+    dx.list = empty;
+    attrs.list = colors;
+    attrs.len = sx.len = dx.len = N_CREDITS;
 
-    view(title, sx, dx, cols, NULL);
+    view(title, sx, dx, attrs, NULL);
 }
 
 // Pause Menu
