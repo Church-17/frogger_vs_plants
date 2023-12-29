@@ -422,5 +422,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.croccodiles = gamevar.plants_bullets = NULL;
     gamevar.plants = gamevar.frog_bullets = NULL;
 
+    // Close file descriptors
+    close(pipe_fds[PIPE_READ]);
+    close(pipe_fds[PIPE_WRITE]);
+
     return gamevar;
 }
