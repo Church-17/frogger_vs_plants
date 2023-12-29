@@ -5,11 +5,7 @@
 #include "../utils.h"
 #include "../struct.h"
 #include "process.h"
-#include "frog.h"
-#include "time.h"
-#include "croccodile.h"
-#include "plant.h"
-#include "bullet.h"
+#include "entity.h"
 
 // Define constant
 #define RESIZE_TIME_THRESHOLD 100
