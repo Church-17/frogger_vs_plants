@@ -418,6 +418,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         free(gamevar.plants_bullets[i]);
     }
     free(gamevar.croccodiles);
+    free(gamevar.bad_croccodiles);
     free(gamevar.plants);
     free(gamevar.frog_bullets);
     free(gamevar.plants_bullets);
