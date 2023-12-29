@@ -16,7 +16,7 @@ main = main.h struct_proto.h
 sprites = sprites.h ${game}
 manche = manche.h ${sprites}
 process = versione_processi/process.h struct_proto.h
-process = ${VERSION}/entity.h
+entity = ${VERSION}/entity.h
 
 # Define compiling version
 VERSION = versione_processi
