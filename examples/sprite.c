@@ -17,10 +17,16 @@
 #define RED_ORANGE COLOR_PAIR(12)
 #define CYAN_RED COLOR_PAIR(13)
 #define RED_YELLOW COLOR_PAIR(14)
+#define DGREEN_DBLUE COLOR_PAIR(15)
+#define WHITE_DGREEN COLOR_PAIR(16)
+#define LGREEN_DGREEN COLOR_PAIR(17)
 
 #define COLOR_D_GREEN 10
 #define COLOR_ORANGE 11
 #define COLOR_D_ORANGE 12
+#define COLOR_DARKGREEN 13
+#define COLOR_DARKBLUE 14
+#define COLOR_LIGHTGREEN 15
 
 int main() {
     setlocale(LC_ALL, ""); // Enable UTF-8 chars
@@ -43,6 +49,9 @@ int main() {
     init_color(COLOR_D_GREEN, 124, 256, 236);
     init_color(COLOR_ORANGE, 900, 600, 100);
     init_color(COLOR_D_ORANGE, 455, 208, 100);
+    init_color(COLOR_DARKGREEN, 0, 400, 0);
+    init_color(COLOR_DARKBLUE, 100, 0, 400);
+    init_color(COLOR_LIGHTGREEN, 600, 900, 600);
     // Set needed color pairs (text, bg)
     init_pair(0, COLOR_WHITE, COLOR_BLACK);
     init_pair(1, COLOR_GREEN, COLOR_BLACK);
@@ -59,6 +68,9 @@ int main() {
     init_pair(12, COLOR_RED, COLOR_ORANGE);
     init_pair(13, COLOR_CYAN, COLOR_RED);
     init_pair(14, COLOR_RED, COLOR_YELLOW);
+    init_pair(15, COLOR_DARKGREEN, COLOR_DARKBLUE);
+    init_pair(16, COLOR_WHITE, COLOR_DARKGREEN);
+    init_pair(17, COLOR_LIGHTGREEN, COLOR_DARKGREEN);
 
     int y = 1, x = 1;
 
@@ -184,7 +196,6 @@ int main() {
     mvaptrintw(y+3, x+10, ORANGE_BLACK, "▀ ▀     ▀ ▀");
 
 
-    
     y = 7, x = 1;
     mvaptrintw(y, x, RED_BLACK, "▄█"); //
     mvaptrintw(y, x+3, CYAN_RED, "▀");
@@ -202,6 +213,32 @@ int main() {
 
     mvaptrintw(y+3, x, RED_BLACK, "▀█▀"); //
     mvaptrintw(y+3, x+7, RED_BLACK, "▀█▀"); //
+
+
+    y = 7, x = 15;
+    mvaptrintw(y, x+4, DGREEN_DBLUE, "▀▀▀███▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄██▀▀▀");
+    mvaptrintw(y+1, x, DGREEN_DBLUE, "▄▄▄▄");
+    mvaptrintw(y+1, x+4, LGREEN_DGREEN, " ▄ ▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄  ");
+    mvaptrintw(y+1, x+32, WHITE_DGREEN, "▀");
+    mvaptrintw(y+1, x+33, DGREEN_DBLUE, "█▄▄▄");
+    mvaptrintw(y+2, x, DGREEN_DBLUE, "▀▀▀▀");
+    mvaptrintw(y+2, x+4, LGREEN_DGREEN, " ▀ ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀  ");
+    mvaptrintw(y+2, x+32, WHITE_DGREEN, "▄");
+    mvaptrintw(y+2, x+33, DGREEN_DBLUE, "█▀▀▀");
+    mvaptrintw(y+3, x+4, DGREEN_DBLUE, "▄▄▄███▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀██▄▄▄");
+
+
+    y = 7, x = 55;
+    mvaptrintw(y, x+4, DGREEN_DBLUE, "▀▀▀███▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄██▀▀▀");
+    mvaptrintw(y+1, x, DGREEN_DBLUE, "▄▄▄▄");
+    mvaptrintw(y+1, x+4, LGREEN_DGREEN, " ▄  █ █ █ █ █ █ █ █ █ █ █   ");
+    mvaptrintw(y+1, x+32, WHITE_DGREEN, "▀");
+    mvaptrintw(y+1, x+33, DGREEN_DBLUE, "█▄▄▄");
+    mvaptrintw(y+2, x, DGREEN_DBLUE, "▀▀▀▀");
+    mvaptrintw(y+2, x+4, LGREEN_DGREEN, " ▀  █ █ █ █ █ █ █ █ █ █ █   ");
+    mvaptrintw(y+2, x+32, WHITE_DGREEN, "▄");
+    mvaptrintw(y+2, x+33, DGREEN_DBLUE, "█▀▀▀");
+    mvaptrintw(y+3, x+4, DGREEN_DBLUE, "▄▄▄███▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀██▄▄▄");
 
 
     while(getch() != 'q');
