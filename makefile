@@ -15,30 +15,23 @@ menu = menu.h struct_proto.h
 main = main.h struct_proto.h
 sprites = sprites.h ${game}
 manche = manche.h ${sprites}
-process = versione_processi/process.h struct_proto.h
-process = ${VERSION}/entity.h
+version = version.h struct_proto.h
+entity = entity.h
 
 # Define compiling version
 VERSION = versione_processi
-ifeq (${VERSION}, versione_processi)
-SPEC_OBJ = process.o
-SPEC_LIB = ${process}
-else
-SPEC_OBJ = thread.o
-SPEC_LIB = ${threads}
-endif
 
-sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o entity.o ${SPEC_OBJ}
+sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o entity.o version.o
 	${CC} $^ ${CARGS}
 
-manche.o: ${VERSION}/manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${SPEC_LIB} ${entity}
+manche.o: manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${version} ${entity}
+	${COBJ}
+
+version.o: ${VERSION}/version.c ${utils} ${struct} ${version}
 	${COBJ_VER}
 
-process.o: versione_processi/process.c ${utils} ${struct} ${process}
-	${COBJ_VER}
-
-entity.o: ${VERSION}/entity.c ${manche} ${utils} ${struct} ${SPEC_LIB} ${entity}
-	${COBJ_VER}
+entity.o: entity.c ${manche} ${utils} ${struct} ${version} ${entity}
+	${COBJ}
 
 main.o: main.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 	${COBJ}

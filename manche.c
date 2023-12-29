@@ -1,10 +1,10 @@
 // Include libs
-#include "../main.h"
-#include "../menu.h"
-#include "../manche.h"
-#include "../utils.h"
-#include "../struct.h"
-#include "process.h"
+#include "main.h"
+#include "menu.h"
+#include "manche.h"
+#include "utils.h"
+#include "struct.h"
+#include "version.h"
 #include "entity.h"
 
 // Define constant
@@ -16,21 +16,16 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Init vars
     bool occupied_plant;
     int i, j;
-    pid_t array_pids[LIM_N_ENTITIES] = {0}; // Pids for every process
-    List_pid process_pids;
-    process_pids.list = array_pids;
-    process_pids.len = LIM_N_ENTITIES;
     int fork_params[N_CROCCODILE_PARAMS];
     int stream_speed[N_WATER_STREAM];
     int plants_x[N_PLANTS];
 
-    // Pipe
-    int pipe_fds[PIPE_DIM];
-    piper(pipe_fds); // Starts the pipe handling the errors
+    // Initialize pipe or semaphore & mutex
+    init_version(LIM_N_ENTITIES);
 
-    // Forks
-    forker(pipe_fds, &process_pids, FROG_ID, &frog_process, NULL); // Calls the fork for frog process handling the errors
-    forker(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
+    // Do forks or create threads
+    async_exec(FROG_ID, &frog_process, NULL); // Calls the fork for frog process handling the errors
+    async_exec(TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
         // Randomize speed & direction of each stream
         stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED) * (rand_range(0, 2) ? 1 : -1);
@@ -39,7 +34,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         fork_params[CROCCODILE_STREAM_INDEX] = i;
         fork_params[CROCCODILE_SPEED_INDEX] = stream_speed[i];
         // Calls the fork for croccodile process handling the errors
-        forker(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params);
+        async_exec(fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params);
     }
     for(i = 0; i < N_PLANTS; i++) {
         fork_params[PLANT_ID_INDEX] = MIN_PLANT_ID + i;
@@ -54,7 +49,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             }
         } while(occupied_plant);
         fork_params[PLANT_X_INDEX] = plants_x[i];
-        forker(pipe_fds, &process_pids, fork_params[PLANT_ID_INDEX], &plant_process, fork_params);
+        async_exec(fork_params[PLANT_ID_INDEX], &plant_process, fork_params);
     }
     
     // --- PARENT PROCESS ---
@@ -115,8 +110,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Manche loop
     while(!manche_ended) {
         
-        // Read from pipe
-        reader(pipe_fds[PIPE_READ], &msg);
+        // Read from pipe or buffer
+        read_msg(&msg);
 
         switch(msg.id) {
 
@@ -129,7 +124,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Put game in pause (resize_proc will be called by menu)
             // PAUSE
             case PAUSE_ID:
-                signal_all(process_pids, SIGSTOP); // Pausing all child processes
+                pause_manche(); // Pausing all processes / threads
                 i = pause_menu(&gamevar);
                 switch(i) {
                     case PAUSE_RES_ID:
@@ -152,13 +147,13 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 }
                 // If continue:
                 print_game(&gamevar); // Redraw game
-                signal_all(process_pids, SIGCONT); // Resume all child processes
+                resume_manche(); // Resume all processes / threads
                 resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                 break;
 
             // CLOSE
             case CLOSE_ID:
-                signal_all(process_pids, SIGSTOP); // Pausing all child processes
+                pause_manche(); // Pausing all processes / threads
                 i = quit_menu(&gamevar);    
                 switch(i) {
                     case NO_ID:
@@ -171,7 +166,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 }
                 // If continue:
                 print_game(&gamevar); // Redraw game
-                signal_all(process_pids, SIGCONT); // Resume all child processes
+                resume_manche(); // Resume all processes / threads
                 resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                 break;
             
@@ -192,7 +187,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         fork_params[BULLET_ID_INDEX] = next_frog_bullet + MIN_FROG_BULLET_ID;
                         fork_params[BULLET_Y_INDEX] = gamevar.frog.y - 1;
                         fork_params[BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
-                        forker(pipe_fds, &process_pids, fork_params[BULLET_ID_INDEX], &bullet_process, fork_params);
+                        async_exec(fork_params[BULLET_ID_INDEX], &bullet_process, fork_params);
                         next_frog_bullet = mod(next_frog_bullet + 1, MAX_BULLETS_PER_FROG);
                         gamevar.free_frog_bullet--;
                         print_free_frog_bullet(gamevar.free_frog_bullet);
@@ -261,7 +256,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     for(i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
                         if(gamevar.croccodiles[croccodile_stream][i].y >= 0 && gamevar.frog.x >= gamevar.croccodiles[croccodile_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[croccodile_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
                             gamevar.frog_on_croccodile = i + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
-                            kill(process_pids.list[gamevar.frog_on_croccodile], FROG_ON_CROCCODILE_SIG);
+                            signal_entity(gamevar.frog_on_croccodile, FROG_ON_CROCCODILE_SIG);
                             break;
                         }
                     }
@@ -304,8 +299,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Print croccodile or free it
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS || msg.sig == CROCCODILE_IMMERSION_SIG) { // If croccodile is out of screen...
                     gamevar.croccodiles[croccodile_stream][entity_id].y = FREE_CROCCODILE; // Mark it as free
-                    waitpid(process_pids.list[msg.id], NULL, 0); // Handle died croccodile process
-                    process_pids.list[msg.id] = 0;
+                    kill_entity(msg.id);
                 } else {
                     gamevar.croccodiles[croccodile_stream][entity_id].x = msg.x;
                     gamevar.croccodiles[croccodile_stream][entity_id].y = msg.y;
@@ -348,7 +342,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         fork_params[CROCCODILE_ID_INDEX] = next_croccodile_id + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
                         fork_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
                         fork_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
-                        forker(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params); // Calls the fork for croccodile process handling the errors
+                        async_exec(fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params); // Start new croccodile process / thread
                         stream_last[croccodile_stream] = next_croccodile_id; // Update last croccodile of stream
                     }
                 }
@@ -383,8 +377,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     gamevar.free_frog_bullet++;
                     print_free_frog_bullet(gamevar.free_frog_bullet);
                     gamevar.frog_bullets[entity_id].y = FREE_BULLET; // Mark it as free
-                    waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
-                    process_pids.list[msg.id] = 0;
+                    kill_entity(msg.id);
                 } else {
                     gamevar.frog_bullets[entity_id].y = msg.y;
                     gamevar.frog_bullets[entity_id].x = msg.x;
@@ -402,8 +395,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             wrefresh(main_scr);
         }
     }
-    signal_all(process_pids, SIGKILL); // Killing all child processes
-    while(wait(NULL) > 0); // Wait all child processes
+    quit_manche(); // Killing all child processes
 
     // Free allocated memory
     for(i = 0; i < N_WATER_STREAM; i++) {

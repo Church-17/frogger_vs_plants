@@ -1,17 +1,17 @@
 // Include libs
-#include "../manche.h"
-#include "../utils.h"
-#include "../struct.h"
-#include "process.h"
+#include "manche.h"
+#include "utils.h"
+#include "struct.h"
+#include "version.h"
 #include "entity.h"
 
 // Global vars
-bool frog_on_me = FALSE;
+bool frog_on_croccodile = FALSE;
 
 // Function prototypes
-void frog_stepped_on_me(int sig);
+void frog_stepped_on_croccodile(int sig);
 
-void time_process(int pipe_write, int* other_params) {
+void time_process(int* other_params) {
     // Init vars
     time_t start = timestamp(), end = start;
     Message msg;
@@ -23,14 +23,14 @@ void time_process(int pipe_write, int* other_params) {
         if(end - start >= MSEC_IN_SEC) { // If a seconds passed...
             start = end; // Update start
             msg.sig--;
-            writer(pipe_write, &msg); // Write in pipe
+            write_msg(&msg); // Write in pipe
         }
         msleep(MSEC_IN_SEC); // Sleep for a second
         end = timestamp(); // Update end
     }
 }
 
-void frog_process(int pipe_write, int* other_params) {
+void frog_process(int* other_params) {
     // Init vars
     bool do_send_msg = FALSE;
     int key;
@@ -102,7 +102,7 @@ void frog_process(int pipe_write, int* other_params) {
             default: break; 
         }
         if(do_send_msg) {
-            writer(pipe_write, &msg);
+            write_msg(&msg);
             msg.id = FROG_ID;
             msg.sig = FROG_POSITION_SIG;
             do_send_msg = FALSE;
@@ -111,7 +111,7 @@ void frog_process(int pipe_write, int* other_params) {
 }
 
 // params: [communication_id, n_stream, speed_stream]
-void croccodile_process(int pipe_write, int* other_params) {
+void croccodile_process(int* other_params) {
     // Init vars
     bool do_exit = FALSE, do_immersion = FALSE;
     int n_stream, speed_stream, immersion_time;
@@ -119,7 +119,7 @@ void croccodile_process(int pipe_write, int* other_params) {
     Message msg;
 
     // Handle signal of frog steps on this croccodile
-    signal(FROG_ON_CROCCODILE_SIG, &frog_stepped_on_me);
+    signal(FROG_ON_CROCCODILE_SIG, &frog_stepped_on_croccodile);
 
     // Unpack croccodile params
     msg.id = other_params[CROCCODILE_ID_INDEX];
@@ -136,7 +136,7 @@ void croccodile_process(int pipe_write, int* other_params) {
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
 
     // Write initial position
-    writer(pipe_write, &msg);
+    write_msg(&msg);
 
     // Loop for write new coordinates
     while(!do_exit) {
@@ -153,7 +153,7 @@ void croccodile_process(int pipe_write, int* other_params) {
             }
         }
 
-        if(frog_on_me && msg.sig >= CROCCODILE_BAD_SIG) { // If croccodile is bad and frog stepped on...
+        if(frog_on_croccodile && msg.sig >= CROCCODILE_BAD_SIG) { // If croccodile is bad and frog stepped on...
             if(!do_immersion) { // If immersion not started, start it
                 immersion_time = rand_range(2, 4) * MSEC_IN_SEC;
                 start = timestamp();
@@ -169,12 +169,12 @@ void croccodile_process(int pipe_write, int* other_params) {
         }
 
         msleep(MSEC_IN_SEC * CROCCODILE_MOVE_X / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
-        writer(pipe_write, &msg); // Write on pipe
+        write_msg(&msg);
     }
     return;
 }
 
-void plant_process(int pipe_write, int* other_params) {
+void plant_process(int* other_params) {
     // Init vars
     time_t bullet_interval;
     Message msg;
@@ -190,19 +190,19 @@ void plant_process(int pipe_write, int* other_params) {
     msleep(rand_range(1, 5) * MSEC_IN_SEC);
     bullet_interval = rand_range(1, 5) * MSEC_IN_SEC;
 
-    writer(pipe_write, &msg);
+    write_msg(&msg);
 
     msg.sig = PLANT_BULLET_SIG;
 
     // Plant loop to shot bullets
     while(TRUE) {
         msleep(bullet_interval);
-        writer(pipe_write, &msg);
+        write_msg(&msg);
     }
 }
 
 // params: [communication_id, y, x]
-void bullet_process(int pipe_write, int* other_params) {
+void bullet_process(int* other_params) {
     // Init vars
     bool do_exit = FALSE;
     Message msg;
@@ -213,7 +213,7 @@ void bullet_process(int pipe_write, int* other_params) {
     msg.x = other_params[BULLET_X_INDEX];
 
     // Write initial position
-    writer(pipe_write, &msg);
+    write_msg(&msg);
     if(msg.y < LINE_BANK_1 || msg.y >= MAIN_ROWS) {
         do_exit = TRUE;
     }
@@ -233,11 +233,11 @@ void bullet_process(int pipe_write, int* other_params) {
         }
 
         msleep(MSEC_IN_SEC / BULLET_SPEED);
-        writer(pipe_write, &msg);
+        write_msg(&msg);
     }
 
 }
 
-void frog_stepped_on_me(int sig) { // If frog steps on this croccodile
-    frog_on_me = TRUE;
+void frog_stepped_on_croccodile(int sig) { // If frog steps on this croccodile
+    frog_on_croccodile = TRUE;
 }
