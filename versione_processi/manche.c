@@ -124,6 +124,71 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
         switch(msg.id) {
 
+            // RESIZE AND AUTO-PAUSE
+            case RESIZE_ID:
+                // Check the current time with the last continue to prevent multiple resize message at once
+                if(timestamp() - resize_time < RESIZE_TIME_THRESHOLD) {
+                    break;
+                }
+                // Put game in pause (resize_proc will be called by menu)
+            // PAUSE
+            case PAUSE_ID:
+                signal_all(process_pids, SIGSTOP); // Pausing all child processes
+                i = pause_menu(&gamevar);
+                switch(i) {
+                    case PAUSE_RES_ID:
+                        break;
+                    
+                    case PAUSE_RETR_ID:
+                        gamevar.timer = MANCHE_RETR;
+                        manche_ended = TRUE;
+                        break;
+
+                    case PAUSE_BACK_ID:
+                        gamevar.timer = MANCHE_CLOSE;
+                        manche_ended = TRUE;
+                        break;
+
+                    case PAUSE_QUIT_ID:
+                        gamevar.timer = MANCHE_QUIT;
+                        manche_ended = TRUE;
+                        break;
+                }
+                // If continue:
+                print_game(&gamevar); // Redraw game
+                signal_all(process_pids, SIGCONT); // Resume all child processes
+                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
+                break;
+
+            // CLOSE
+            case CLOSE_ID:
+                signal_all(process_pids, SIGSTOP); // Pausing all child processes
+                i = quit_menu(&gamevar);    
+                switch(i) {
+                    case NO_ID:
+                        break;
+                    
+                    case YES_ID:
+                        gamevar.timer = MANCHE_CLOSE;
+                        manche_ended = TRUE;
+                        break;
+                }
+                // If continue:
+                print_game(&gamevar); // Redraw game
+                signal_all(process_pids, SIGCONT); // Resume all child processes
+                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
+                break;
+            
+            // TIMER
+            case TIME_ID:
+                gamevar.timer = msg.sig;
+                if(gamevar.timer <= 0) {
+                    manche_ended = TRUE;
+                }
+                print_time(gamevar.timer);
+                break;
+
+            
             // FROG
             case FROG_ID:
                 if(msg.sig == FROG_SHOT_SIG) {
@@ -213,70 +278,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Print frog
                 print_frog(&gamevar);
 
-                break;
-
-            // TIMER
-            case TIME_ID:
-                gamevar.timer = msg.sig;
-                if(gamevar.timer <= 0) {
-                    manche_ended = TRUE;
-                }
-                print_time(gamevar.timer);
-                break;
-
-            // RESIZE AND AUTO-PAUSE
-            case RESIZE_ID:
-                // Check the current time with the last continue to prevent multiple resize message at once
-                if(timestamp() - resize_time < RESIZE_TIME_THRESHOLD) {
-                    break;
-                }
-                // Put game in pause (resize_proc will be called by menu)
-            // PAUSE
-            case PAUSE_ID:
-                signal_all(process_pids, SIGSTOP); // Pausing all child processes
-                i = pause_menu(&gamevar);
-                switch(i) {
-                    case PAUSE_RES_ID:
-                        break;
-                    
-                    case PAUSE_RETR_ID:
-                        gamevar.timer = MANCHE_RETR;
-                        manche_ended = TRUE;
-                        break;
-
-                    case PAUSE_BACK_ID:
-                        gamevar.timer = MANCHE_CLOSE;
-                        manche_ended = TRUE;
-                        break;
-
-                    case PAUSE_QUIT_ID:
-                        gamevar.timer = MANCHE_QUIT;
-                        manche_ended = TRUE;
-                        break;
-                }
-                // If continue:
-                print_game(&gamevar); // Redraw game
-                signal_all(process_pids, SIGCONT); // Resume all child processes
-                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
-                break;
-
-            // CLOSE
-            case CLOSE_ID:
-                signal_all(process_pids, SIGSTOP); // Pausing all child processes
-                i = quit_menu(&gamevar);    
-                switch(i) {
-                    case NO_ID:
-                        break;
-                    
-                    case YES_ID:
-                        gamevar.timer = MANCHE_CLOSE;
-                        manche_ended = TRUE;
-                        break;
-                }
-                // If continue:
-                print_game(&gamevar); // Redraw game
-                signal_all(process_pids, SIGCONT); // Resume all child processes
-                resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                 break;
 
             default:
