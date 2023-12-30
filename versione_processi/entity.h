@@ -1,3 +1,6 @@
+// Include libs
+#include <signal.h>
+
 // Define constants
 #define FROG_ON_CROCCODILE_SIG SIGUSR1
 
