@@ -9,29 +9,12 @@
 // Define constants
 #define MSLEEP_INTEVAL 10
 
-// Function prototypes
-void quit_all(int err_code, const List_pid pids);
-
-// Sends a signal to all the processes
-void signal_all(const List_pid pids, int signal) {
-    for(int i = 0; i < pids.len; i++) {
-        if(pids.list[i] != 0) {  
-            kill(pids.list[i], signal);
-        }
-    }
-}
-
-// Ends the game
-void quit_all(int err_code, const List_pid pids) {
-    signal_all(pids, SIGKILL);
-    quit(err_code);
-}
-
 // Calls fork() handling the errors
 void async_exec(int* pipe_fds, List_pid* pids, int index, void (*func_process)(int, int*), int* func_params) {
     pid_t pid = fork();
     if(pid < 0) {
-        quit_all(ERR_FORK, *pids);
+        signal_all(*pids, SIGKILL);
+        quit(ERR_FORK);
     }
     if(pid == PID_CHILD) {
         close(pipe_fds[PIPE_READ]);
@@ -57,5 +40,14 @@ void write_msg(int pipe_write, Message* buf) {
 void msleep(time_t timer) {
     for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
         usleep(timer * MSEC_IN_SEC / MSLEEP_INTEVAL);
+    }
+}
+
+// Sends a signal to all the processes
+void signal_all(const List_pid pids, int signal) {
+    for(int i = 0; i < pids.len; i++) {
+        if(pids.list[i] != 0) {  
+            kill(pids.list[i], signal);
+        }
     }
 }
