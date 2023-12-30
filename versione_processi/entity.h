@@ -1,6 +1,3 @@
-// Include libs
-#include <time.h>
-
 // Define constants
 #define FROG_ON_CROCCODILE_SIG SIGUSR1
 
