@@ -1,4 +1,5 @@
 // Include libs
+#include <unistd.h>
 #include <errno.h>
 #include <signal.h>
 #include "../utils.h"

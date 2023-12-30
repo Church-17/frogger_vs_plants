@@ -1,4 +1,5 @@
 // Include libs
+#include <unistd.h>
 #include "../manche.h"
 #include "../utils.h"
 #include "../struct.h"
