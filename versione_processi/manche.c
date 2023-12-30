@@ -1,8 +1,10 @@
 // Include libs
+#include <signal.h>
 #include "../main.h"
 #include "../menu.h"
 #include "../manche.h"
 #include "../utils.h"
+#include "../music.h"
 #include "../struct.h"
 #include "process.h"
 #include "entity.h"

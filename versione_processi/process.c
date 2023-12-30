@@ -1,5 +1,6 @@
 // Include libs
 #include <errno.h>
+#include <signal.h>
 #include "../utils.h"
 #include "../struct.h"
 #include "process.h"

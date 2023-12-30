@@ -1,6 +1,3 @@
-// Include libs
-#include <ncurses.h>
-
 // Define macros to typedef structs
 #define typestructdef(datatype) struct datatype; typedef struct datatype datatype
 

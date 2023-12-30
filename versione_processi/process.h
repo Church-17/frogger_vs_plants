@@ -1,6 +1,4 @@
 // Include libs
-#include <unistd.h>
-#include <signal.h>
 #include "../struct_proto.h"
 
 // Define constant

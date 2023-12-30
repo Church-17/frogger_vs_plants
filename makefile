@@ -31,7 +31,7 @@ endif
 sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o entity.o ${SPEC_OBJ}
 	${CC} $^ ${CARGS}
 
-manche.o: ${VERSION}/manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${SPEC_LIB} ${entity}
+manche.o: ${VERSION}/manche.c ${main} ${menu} ${manche} ${music} ${utils} ${struct} ${SPEC_LIB} ${entity}
 	${COBJ_VER}
 
 process.o: versione_processi/process.c ${utils} ${struct} ${process}
@@ -46,10 +46,10 @@ main.o: main.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 menu.o: menu.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 	${COBJ}
 
-game.o: game.c ${main} ${menu} ${manche} ${utils} ${struct}
+game.o: game.c ${main} ${menu} ${manche} ${music} ${utils} ${struct}
 	${COBJ}
 
-sprites.o: sprites.c ${main} ${sprites} ${str} ${utils} ${struct} ${manche}
+sprites.o: sprites.c ${main} ${manche} ${str} ${utils} ${struct}
 	${COBJ}
 
 str.o: str.c ${str} ${utils}

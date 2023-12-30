@@ -1,6 +1,5 @@
 // Include libs
 #include "main.h"
-#include "sprites.h"
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
