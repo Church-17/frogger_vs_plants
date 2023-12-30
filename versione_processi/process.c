@@ -4,6 +4,9 @@
 #include "../struct.h"
 #include "process.h"
 
+// Function prototypes
+void quit_all(int err_code, const List_pid pids);
+
 // Sends a signal to all the processes
 void signal_all(const List_pid pids, int signal) {
     for(int i = 0; i < pids.len; i++) {
