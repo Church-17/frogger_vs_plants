@@ -1,7 +1,7 @@
 // Include libs
 #include <errno.h>
 #include <unistd.h>
-#include <time.h>
+#include <signal.h>
 #include "../utils.h"
 #include "../struct.h"
 #include "../version.h"
@@ -19,7 +19,6 @@ List_pid entities_pids;
 
 // Funtion prototypes
 void signal_all(int signal);
-void msleep(time_t timer);
 
 // Calls pipe() handling the errors & initilize pids array
 void init_version(int n_alloc) {

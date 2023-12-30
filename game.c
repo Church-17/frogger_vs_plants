@@ -2,6 +2,7 @@
 #include "main.h"
 #include "menu.h"
 #include "manche.h"
+#include "music.h"
 #include "utils.h"
 #include "struct.h"
 

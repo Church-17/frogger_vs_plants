@@ -27,7 +27,7 @@ sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche
 version.o: ${VERSION}/version.c ${utils} ${struct} ${version}
 	${COBJ_VER}
 
-manche.o: manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${version} ${entity}
+manche.o: manche.c ${main} ${menu} ${manche} ${music} ${utils} ${struct} ${version} ${entity}
 	${COBJ}
 
 entity.o: entity.c ${manche} ${utils} ${struct} ${version} ${entity}
@@ -39,7 +39,7 @@ main.o: main.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 menu.o: menu.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 	${COBJ}
 
-game.o: game.c ${main} ${menu} ${manche} ${utils} ${struct}
+game.o: game.c ${main} ${menu} ${manche} ${music} ${utils} ${struct}
 	${COBJ}
 
 sprites.o: sprites.c ${main} ${manche} ${str} ${utils} ${struct}

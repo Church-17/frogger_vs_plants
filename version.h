@@ -1,5 +1,5 @@
 // Include libs
-#include <signal.h>
+#include <time.h>
 #include "struct_proto.h"
 
 // Function prototypes
@@ -12,3 +12,4 @@ void signal_entity(int index, int signal);
 void pause_manche(void);
 void resume_manche(void);
 void quit_manche(void);
+void msleep(time_t timer);
