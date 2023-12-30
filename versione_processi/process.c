@@ -6,9 +6,6 @@
 #include "../struct.h"
 #include "process.h"
 
-// Define constants
-#define MSLEEP_INTEVAL 10
-
 // Function prototypes
 void quit_all(int err_code, const List_pid pids);
 
@@ -57,12 +54,5 @@ void reader(int pipe_read, Message* buf) {
 void writer(int pipe_write, Message* buf) {
     while(write(pipe_write, buf, sizeof(Message)) < 0) {\
         if(errno != EINTR) quit(ERR_WRITE);\
-    }
-}
-
-// Sleep for certain amount of milliseconds, handling interrupts
-void msleep(time_t timer) {
-    for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
-        usleep(timer * MSEC_IN_SEC / MSLEEP_INTEVAL);
     }
 }
