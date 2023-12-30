@@ -1,9 +1,9 @@
 // Include libs
 #include "main.h"
+#include "manche.h"
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
-#include "manche.h"
 
 void print_background(const bool* holes_occupied) {
     int i, j;

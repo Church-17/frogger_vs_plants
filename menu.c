@@ -2,10 +2,10 @@
 #include "main.h"
 #include "menu.h"
 #include "game.h"
+#include "music.h"
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
-#include "music.h"
 
 // Define constants
 #define LR_ARROWS 4 // N chars occupied by arrows in settings
