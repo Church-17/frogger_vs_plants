@@ -49,32 +49,32 @@ void frog_process(int pipe_write, int* other_params) {
     while(TRUE) {
         key = wgetch(input_win);
         switch(key) {
-            case 'w':
-            case 'w' - CAPITAL_SHIFT:
+            case MOVE_N_KEY:
+            case MOVE_N_KEY - CAPITAL_SHIFT:
             case KEY_UP:
                 msg.y = -FROG_MOVE_Y;
                 msg.x = 0;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
                 
-            case 's':
-            case 's' - CAPITAL_SHIFT:
+            case MOVE_S_KEY:
+            case MOVE_S_KEY - CAPITAL_SHIFT:
             case KEY_DOWN:
                 msg.y = FROG_MOVE_Y;
                 msg.x = 0;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
-            case 'a':
-            case 'a' - CAPITAL_SHIFT:
+            case MOVE_W_KEY:
+            case MOVE_W_KEY - CAPITAL_SHIFT:
             case KEY_LEFT:
                 msg.y = 0;
                 msg.x = -FROG_MOVE_X;
                 do_send_msg = TRUE; // Set flag to send msg
                 break;
 
-            case 'd':
-            case 'd' - CAPITAL_SHIFT:
+            case MOVE_E_KEY:
+            case MOVE_E_KEY - CAPITAL_SHIFT:
             case KEY_RIGHT:
                 msg.y = 0;
                 msg.x = FROG_MOVE_X;

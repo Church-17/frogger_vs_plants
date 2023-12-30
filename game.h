@@ -7,6 +7,10 @@
 #define PAUSE_GAME_KEY 'p'
 #define CLOSE_GAME_KEY 'q'
 #define SHOT_GAME_KEY ' '
+#define MOVE_N_KEY 'w'
+#define MOVE_W_KEY 'a'
+#define MOVE_S_KEY 's'
+#define MOVE_E_KEY 'd'
 #define TIME_MANCHE 60
 #define N_LIFES 5
 #define N_HOLES 5
