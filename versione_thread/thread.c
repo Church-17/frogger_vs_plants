@@ -11,7 +11,11 @@
 
 // Calls fork() handling the errors
 void async_exec(List_thread* tids, int index, void* (*func_process)(void*), void* func_params) {
-    pthread_create(&(tids->list[index]), NULL, &func_params, func_params);
+    if(pthread_create(&(tids->list[index]), NULL, &func_params, func_params) != 0) {
+        tids->list[index] = 0;
+        quit_manche(*tids);
+        quit(ERR_INIT_THREAD);
+    }
 }
 
 void read_msg(Message* buf) {
