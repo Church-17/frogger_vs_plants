@@ -48,6 +48,8 @@ void play_sound(int sound_id) {
             break;
 
         case FREE_SOUNDS:
+            Mix_HaltMusic();
+            Mix_HaltChannel(-1);
             for(int i = 0; i < N_EFFECTS; i++) {
                 Mix_FreeChunk(sounds[i]);
                 sounds[i] = NULL;
