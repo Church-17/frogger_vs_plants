@@ -48,8 +48,6 @@ void play_sound(int sound_id) {
             break;
 
         case FREE_SOUNDS:
-            Mix_HaltMusic();
-            Mix_HaltChannel(-1);
             for(int i = 0; i < N_EFFECTS; i++) {
                 Mix_FreeChunk(sounds[i]);
                 sounds[i] = NULL;
@@ -66,6 +64,8 @@ void play_sound(int sound_id) {
 }
 
 void free_music(void) {
+    Mix_HaltMusic();
+    Mix_HaltChannel(-1);
     play_sound(FREE_SOUNDS);
     Mix_Quit();
 	SDL_Quit();
