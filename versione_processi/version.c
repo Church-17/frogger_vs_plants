@@ -1,6 +1,7 @@
 // Include libs
 #include <errno.h>
 #include <unistd.h>
+#include <time.h>
 #include "../utils.h"
 #include "../struct.h"
 #include "../version.h"
@@ -10,6 +11,7 @@
 #define PIPE_READ 0
 #define PIPE_WRITE 1
 #define PIPE_DIM 2
+#define MSLEEP_INTEVAL 10
 
 // Define process variables
 int pipe_fds[PIPE_DIM];
@@ -17,6 +19,7 @@ List_pid entities_pids;
 
 // Funtion prototypes
 void signal_all(int signal);
+void msleep(time_t timer);
 
 // Calls pipe() handling the errors & initilize pids array
 void init_version(int n_alloc) {
@@ -91,4 +94,11 @@ void quit_manche(void) {
     close(pipe_fds[PIPE_READ]);
     close(pipe_fds[PIPE_WRITE]);
     while(wait(NULL) > 0); // Wait all child processes
+}
+
+// Sleep for certain amount of milliseconds, handling interrupts
+void msleep(time_t timer) {
+    for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
+        usleep(timer * MSEC_IN_SEC / MSLEEP_INTEVAL);
+    }
 }

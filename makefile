@@ -24,11 +24,11 @@ VERSION = versione_processi
 sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o entity.o version.o
 	${CC} $^ ${CARGS}
 
-manche.o: manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${version} ${entity}
-	${COBJ}
-
 version.o: ${VERSION}/version.c ${utils} ${struct} ${version}
 	${COBJ_VER}
+
+manche.o: manche.c ${main} ${menu} ${manche} ${utils} ${struct} ${version} ${entity}
+	${COBJ}
 
 entity.o: entity.c ${manche} ${utils} ${struct} ${version} ${entity}
 	${COBJ}
@@ -42,7 +42,7 @@ menu.o: menu.c ${main} ${menu} ${game} ${music} ${str} ${utils} ${struct}
 game.o: game.c ${main} ${menu} ${manche} ${utils} ${struct}
 	${COBJ}
 
-sprites.o: sprites.c ${main} ${sprites} ${str} ${utils} ${struct} ${manche}
+sprites.o: sprites.c ${main} ${manche} ${str} ${utils} ${struct}
 	${COBJ}
 
 str.o: str.c ${str} ${utils}

@@ -3,9 +3,6 @@
 #include "utils.h"
 #include "struct.h"
 
-// Define constant
-#define MSLEEP_INTEVAL 10
-
 // Max function
 int max(int n1, int n2) {
     return n1 > n2 ? n1 : n2;
@@ -27,13 +24,6 @@ time_t timestamp(void) {
     gettimeofday(&tv, NULL); // Get unix time in seconds and the microseconds
     time_t milliseconds = tv.tv_sec * MSEC_IN_SEC + tv.tv_usec / MSEC_IN_SEC; // Calc unix time in milliseconds
     return milliseconds;
-}
-
-// Sleep for certain amount of milliseconds, handling interrupts
-void msleep(time_t timer) {
-    for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
-        usleep(timer * MSEC_IN_SEC / MSLEEP_INTEVAL);
-    }
 }
 
 // Find max length of a strings list, starting from a min
