@@ -4,21 +4,10 @@
 #include <signal.h>
 #include "../utils.h"
 #include "../struct.h"
-#include "process.h"
+#include "thread.h"
 
-// Function prototypes
-void quit_all(int err_code, const List_thread tids);
-
-// Sends a signal to all the processes
-void signal_all(const List_thread tids, int signal) {
-    
-}
-
-// Ends the game
-void quit_all(int err_code, const List_thread tids) {
-    
-    quit(err_code);
-}
+// Define constants
+#define MSLEEP_INTEVAL 10
 
 // Calls fork() handling the errors
 void async_exec(List_thread* tids, int index, void (*func_process)(int*), int* func_params) {
@@ -31,4 +20,23 @@ void read_msg(Message* buf) {
 
 void write_msg(Message* buf) {
     
+}
+
+// Sleep for certain amount of milliseconds, handling interrupts
+void msleep(time_t timer) {
+    for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
+        usleep(timer * MSEC_IN_SEC / MSLEEP_INTEVAL);
+    }
+}
+
+void pause_manche(void) {
+
+}
+
+void resume_manche(void) {
+
+}
+
+void quit_manche(void) {
+
 }
