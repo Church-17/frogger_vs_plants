@@ -7,6 +7,7 @@ typestructdef(List_str);
 typestructdef(Dict_str_int);
 typestructdef(List_attr);
 typestructdef(List_pid);
+typestructdef(List_thread);
 typestructdef(Message);
 typestructdef(Position);
 typestructdef(List_position);

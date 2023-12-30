@@ -1,5 +1,6 @@
 // Include prototypes of structs
 #include <sys/wait.h>
+#include <pthread.h>
 #include <ncurses.h>
 #include "struct_proto.h"
 
@@ -19,6 +20,10 @@ struct List_attr {
 };
 struct List_pid {
     pid_t* list;
+    int len;
+};
+struct List_thread {
+    pthread_t* list;
     int len;
 };
 struct Message {
