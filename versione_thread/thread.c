@@ -10,8 +10,8 @@
 #define MSLEEP_INTEVAL 10
 
 // Calls fork() handling the errors
-void async_exec(List_thread* tids, int index, void (*func_process)(int*), int* func_params) {
-    
+void async_exec(List_thread* tids, int index, void* (*func_process)(void*), void* func_params) {
+    pthread_create(&(tids->list[index]), NULL, &func_params, func_params);
 }
 
 void read_msg(Message* buf) {
@@ -37,6 +37,10 @@ void resume_manche(void) {
 
 }
 
-void quit_manche(void) {
-
+void quit_manche(const List_thread tids) {
+    for(int i = 0; i < tids.len; i++) {
+        if(tids.list[i] != 0) {
+            pthread_cancel(tids.list[i]);
+        }
+    }
 }
