@@ -146,9 +146,7 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
 int home_menu(void) {
     // Init vars
     str tit[] = {STR_HOME};
-    List_str title;
-    title.list = tit;
-    title.len = 1;
+    List_str title = {tit, 1};
     str list[N_HOME] = {STR_GAME, STR_BEST, STR_SETTINGS, STR_CREDITS, STR_QUIT};
     int ind[N_HOME] = {HOME_GAME_ID, HOME_BEST_ID, HOME_SETT_ID, HOME_CRED_ID, HOME_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_HOME);
@@ -165,9 +163,7 @@ void best_scores_menu(void) {
     // Init vars
     int i;
     str tit[] = {STR_BEST};
-    List_str title;
-    title.list = tit;
-    title.len = 1;
+    List_str title = {tit, 1};
     str users[N_BEST], scores[N_BEST];
     attr_t colors[N_BEST] = {YELLOW_BLACK, GREY_BLACK, ORANGE_BLACK};
     List_str sx, dx;
@@ -207,9 +203,7 @@ void settings_menu(void) {
     int i, key, inc, hl = 0, old_hl = 0;
     // Title
     str tit[] = {STR_SETTINGS};
-    List_str title;
-    title.list = tit;
-    title.len = 1;
+    List_str title = {tit, 1};
     // Settings
     str set0[N_SET_SEL] = {STR_LANGUAGE, STR_DIFFICULTY, STR_SKIN, STR_COLOR_1, STR_COLOR_2, STR_APPLY, STR_CANCEL};
     int ind_set[N_SET_SEL] = {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID, SET_APPL_ID, SET_CANC_ID};
@@ -350,18 +344,12 @@ void settings_menu(void) {
 void credits_menu(void) {
     // Init vars
     str tit[] = {STR_CREDITS, STR_PROJECT};
-    List_str title;
-    title.list = tit;
-    title.len = 2;
+    List_str title = {tit, 2};
     str names[N_CREDITS] = {STR_FRANCESCO, STR_MATTEO};
     str empty[N_CREDITS] = {"", ""};
     attr_t colors[N_CREDITS] = {COL1, COL1};
-    List_str sx, dx;
-    List_attr attrs;
-    sx.list = names;
-    dx.list = empty;
-    attrs.list = colors;
-    attrs.len = sx.len = dx.len = N_CREDITS;
+    List_str sx = {names, N_CREDITS}, dx = {empty, N_CREDITS};
+    List_attr attrs = {colors, N_CREDITS};
 
     view(title, sx, dx, attrs, NULL);
 }
@@ -370,9 +358,7 @@ void credits_menu(void) {
 int pause_menu(const Game_t* gamevar) {
     // Init vars
     str tit[] = {STR_PAUSE};
-    List_str title;
-    title.list = tit;
-    title.len = 1;
+    List_str title = {tit, 1};
     str list[N_PAUSE] = {STR_RESUME, STR_RETRY, STR_HOME, STR_QUIT};
     int ind[N_PAUSE] = {PAUSE_RES_ID, PAUSE_RETR_ID, PAUSE_BACK_ID, PAUSE_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_PAUSE);
@@ -387,9 +373,7 @@ int gameover_menu(int score, Game_t* gamevar) {
     char scorestr[LIM_STR_BUFF];
     sprintf(scorestr, "%s: %d", STR_SCORE, score); // Transform score int in str
     str tit[] = {STR_OVER, scorestr};
-    List_str title;
-    title.list = tit;
-    title.len = 2;
+    List_str title = {tit, 2};
     str list[N_OVER] = {STR_RETRY, STR_HOME, STR_QUIT};
     int ind[N_OVER] = {OVER_RETR_ID, OVER_BACK_ID, OVER_QUIT_ID};
     List_str set = dict_to_list(list, ind, N_OVER);
@@ -402,9 +386,7 @@ int gameover_menu(int score, Game_t* gamevar) {
 // Quit Menu
 int quit_menu(const Game_t* gamevar) {
     str tit[] = {STR_QUIT_WARNING};
-    List_str title;
-    title.list = tit;
-    title.len = 1;
+    List_str title = {tit, 1};
     str list[N_YN] = {STR_YES, STR_NO};
     int ind[N_OVER] = {YES_ID, NO_ID};
     List_str set = dict_to_list(list, ind, N_YN);

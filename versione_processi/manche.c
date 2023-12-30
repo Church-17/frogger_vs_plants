@@ -20,9 +20,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     bool occupied_plant;
     int i, j;
     pid_t array_pids[LIM_N_ENTITIES] = {0}; // Pids for every process
-    List_pid process_pids;
-    process_pids.list = array_pids;
-    process_pids.len = LIM_N_ENTITIES;
+    List_pid process_pids = {array_pids, LIM_N_ENTITIES};
     int fork_params[N_CROCCODILE_PARAMS];
     int stream_speed[N_WATER_STREAM];
     int plants_x[N_PLANTS];
