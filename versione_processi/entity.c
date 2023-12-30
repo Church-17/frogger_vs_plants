@@ -5,11 +5,15 @@
 #include "process.h"
 #include "entity.h"
 
+// Define constants
+#define MSLEEP_INTEVAL 10
+
 // Global vars
 bool frog_on_me = FALSE;
 
 // Function prototypes
 void frog_stepped_on_me(int sig);
+void msleep(time_t timer);
 
 void time_process(int pipe_write, int* other_params) {
     // Init vars
@@ -240,4 +244,11 @@ void bullet_process(int pipe_write, int* other_params) {
 
 void frog_stepped_on_me(int sig) { // If frog steps on this croccodile
     frog_on_me = TRUE;
+}
+
+// Sleep for certain amount of milliseconds, handling interrupts
+void msleep(time_t timer) {
+    for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
+        usleep(timer * MSEC_IN_SEC / MSLEEP_INTEVAL);
+    }
 }
