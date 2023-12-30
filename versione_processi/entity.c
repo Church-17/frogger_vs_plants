@@ -29,7 +29,7 @@ void time_process(int pipe_write, int* other_params) {
         if(end - start >= MSEC_IN_SEC) { // If a seconds passed...
             start = end; // Update start
             msg.sig--;
-            writer(pipe_write, &msg); // Write in pipe
+            write_msg(pipe_write, &msg); // Write in pipe
         }
         msleep(MSEC_IN_SEC); // Sleep for a second
         end = timestamp(); // Update end
@@ -108,7 +108,7 @@ void frog_process(int pipe_write, int* other_params) {
             default: break; 
         }
         if(do_send_msg) {
-            writer(pipe_write, &msg);
+            write_msg(pipe_write, &msg);
             msg.id = FROG_ID;
             msg.sig = FROG_POSITION_SIG;
             do_send_msg = FALSE;
@@ -142,7 +142,7 @@ void croccodile_process(int pipe_write, int* other_params) {
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
 
     // Write initial position
-    writer(pipe_write, &msg);
+    write_msg(pipe_write, &msg);
 
     // Loop for write new coordinates
     while(!do_exit) {
@@ -175,7 +175,7 @@ void croccodile_process(int pipe_write, int* other_params) {
         }
 
         msleep(MSEC_IN_SEC * CROCCODILE_MOVE_X / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
-        writer(pipe_write, &msg); // Write on pipe
+        write_msg(pipe_write, &msg); // Write on pipe
     }
     return;
 }
@@ -196,14 +196,14 @@ void plant_process(int pipe_write, int* other_params) {
     msleep(rand_range(1, 5) * MSEC_IN_SEC);
     bullet_interval = rand_range(1, 5) * MSEC_IN_SEC;
 
-    writer(pipe_write, &msg);
+    write_msg(pipe_write, &msg);
 
     msg.sig = PLANT_BULLET_SIG;
 
     // Plant loop to shot bullets
     while(TRUE) {
         msleep(bullet_interval);
-        writer(pipe_write, &msg);
+        write_msg(pipe_write, &msg);
     }
 }
 
@@ -219,7 +219,7 @@ void bullet_process(int pipe_write, int* other_params) {
     msg.x = other_params[BULLET_X_INDEX];
 
     // Write initial position
-    writer(pipe_write, &msg);
+    write_msg(pipe_write, &msg);
     if(msg.y < LINE_BANK_1 || msg.y >= MAIN_ROWS) {
         do_exit = TRUE;
     }
@@ -239,7 +239,7 @@ void bullet_process(int pipe_write, int* other_params) {
         }
 
         msleep(MSEC_IN_SEC / BULLET_SPEED);
-        writer(pipe_write, &msg);
+        write_msg(pipe_write, &msg);
     }
 
 }

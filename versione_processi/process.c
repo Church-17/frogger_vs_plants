@@ -24,15 +24,8 @@ void quit_all(int err_code, const List_pid pids) {
     quit(err_code);
 }
 
-// Calls pipe() handling the errors
-void piper(int* pipe_fds) {
-    if(pipe(pipe_fds) < 0) {
-        quit(ERR_PIPE);
-    }
-}
-
 // Calls fork() handling the errors
-void forker(int* pipe_fds, List_pid* pids, int index, void (*func_process)(int, int*), int* func_params) {
+void async_exec(int* pipe_fds, List_pid* pids, int index, void (*func_process)(int, int*), int* func_params) {
     pid_t pid = fork();
     if(pid < 0) {
         quit_all(ERR_FORK, *pids);
@@ -45,13 +38,13 @@ void forker(int* pipe_fds, List_pid* pids, int index, void (*func_process)(int, 
     pids->list[index] = pid;
 }
 
-void reader(int pipe_read, Message* buf) {
+void read_msg(int pipe_read, Message* buf) {
     while(read(pipe_read, buf, sizeof(Message)) < 0) {\
         if(errno != EINTR) quit(ERR_READ);\
     }
 }
 
-void writer(int pipe_write, Message* buf) {
+void write_msg(int pipe_write, Message* buf) {
     while(write(pipe_write, buf, sizeof(Message)) < 0) {\
         if(errno != EINTR) quit(ERR_WRITE);\
     }

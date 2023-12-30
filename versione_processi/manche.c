@@ -27,11 +27,13 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
     // Pipe
     int pipe_fds[PIPE_DIM];
-    piper(pipe_fds); // Starts the pipe handling the errors
+    if(pipe(pipe_fds) < 0) {
+        quit(ERR_PIPE);
+    }
 
     // Forks
-    forker(pipe_fds, &process_pids, FROG_ID, &frog_process, NULL); // Calls the fork for frog process handling the errors
-    forker(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
+    async_exec(pipe_fds, &process_pids, FROG_ID, &frog_process, NULL); // Calls the fork for frog process handling the errors
+    async_exec(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
     for(i = 0; i < N_WATER_STREAM; i++) {
         // Randomize speed & direction of each stream
         stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED) * (rand_range(0, 2) ? 1 : -1);
@@ -40,7 +42,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         fork_params[CROCCODILE_STREAM_INDEX] = i;
         fork_params[CROCCODILE_SPEED_INDEX] = stream_speed[i];
         // Calls the fork for croccodile process handling the errors
-        forker(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params);
+        async_exec(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params);
     }
     for(i = 0; i < N_PLANTS; i++) {
         fork_params[PLANT_ID_INDEX] = MIN_PLANT_ID + i;
@@ -55,7 +57,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             }
         } while(occupied_plant);
         fork_params[PLANT_X_INDEX] = plants_x[i];
-        forker(pipe_fds, &process_pids, fork_params[PLANT_ID_INDEX], &plant_process, fork_params);
+        async_exec(pipe_fds, &process_pids, fork_params[PLANT_ID_INDEX], &plant_process, fork_params);
     }
     
     // --- PARENT PROCESS ---
@@ -117,7 +119,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     while(!manche_ended) {
         
         // Read from pipe
-        reader(pipe_fds[PIPE_READ], &msg);
+        read_msg(pipe_fds[PIPE_READ], &msg);
 
         switch(msg.id) {
 
@@ -193,7 +195,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         fork_params[BULLET_ID_INDEX] = next_frog_bullet + MIN_FROG_BULLET_ID;
                         fork_params[BULLET_Y_INDEX] = gamevar.frog.y - 1;
                         fork_params[BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
-                        forker(pipe_fds, &process_pids, fork_params[BULLET_ID_INDEX], &bullet_process, fork_params);
+                        async_exec(pipe_fds, &process_pids, fork_params[BULLET_ID_INDEX], &bullet_process, fork_params);
                         next_frog_bullet = mod(next_frog_bullet + 1, MAX_BULLETS_PER_FROG);
                         gamevar.free_frog_bullet--;
                         print_free_frog_bullet(gamevar.free_frog_bullet);
@@ -349,7 +351,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         fork_params[CROCCODILE_ID_INDEX] = next_croccodile_id + croccodile_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
                         fork_params[CROCCODILE_STREAM_INDEX] = croccodile_stream;
                         fork_params[CROCCODILE_SPEED_INDEX] = stream_speed[croccodile_stream];
-                        forker(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params); // Calls the fork for croccodile process handling the errors
+                        async_exec(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params); // Calls the fork for croccodile process handling the errors
                         stream_last[croccodile_stream] = next_croccodile_id; // Update last croccodile of stream
                     }
                 }
