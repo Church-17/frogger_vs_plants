@@ -206,8 +206,8 @@ void settings_menu(void) {
     str tit[] = {STR_SETTINGS};
     List_str title = {tit, 1};
     // Settings
-    str set0[N_SET_SEL] = {STR_LANGUAGE, STR_DIFFICULTY, STR_SKIN, STR_COLOR_1, STR_COLOR_2, STR_APPLY, STR_CANCEL};
-    int ind_set[N_SET_SEL] = {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID, SET_APPL_ID, SET_CANC_ID};
+    str set0[N_SET_SEL] = {STR_LANGUAGE, STR_DIFFICULTY, STR_SKIN, STR_COLOR_1, STR_COLOR_2, STR_VOL_MUSIC, STR_VOL_EFFECTS, STR_APPLY, STR_CANCEL};
+    int ind_set[N_SET_SEL] = {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID, SET_VOL_MUS_ID, SET_VOL_EFCT_ID, SET_APPL_ID, SET_CANC_ID};
     List_str set = dict_to_list(set0, ind_set, N_SET_SEL);
     // Options for each settings
     List_str opts[N_SETTINGS];
@@ -223,6 +223,8 @@ void settings_menu(void) {
     str color[N_COLOR] = {STR_COL_WHT, STR_COL_RED, STR_COL_GRN, STR_COL_YLW, STR_COL_BLU, STR_COL_MGT, STR_COL_CYN, STR_COL_GRY, STR_COL_RNG};
     int ind_col[N_COLOR] = {WHITE_BLACK_ID, RED_BLACK_ID, GREEN_BLACK_ID, YELLOW_BLACK_ID, BLUE_BLACK_ID, MAGENTA_BLACK_ID, CYAN_BLACK_ID, GREY_BLACK_ID, ORANGE_BLACK_ID};
     opts[SET_COL2_ID] = opts[SET_COL1_ID] = dict_to_list(color, ind_col, N_COLOR);
+    str volume[N_VOLUME] = {"0%", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"};
+    opts[SET_VOL_MUS_ID].list = opts[SET_VOL_EFCT_ID].list = volume, opts[SET_VOL_MUS_ID].len = opts[SET_VOL_EFCT_ID].len = N_VOLUME;
 
     // Sync newly setted to settings
     int newly_setted[N_SETTINGS];

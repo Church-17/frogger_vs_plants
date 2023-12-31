@@ -8,16 +8,16 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines);
 
 // Define constant
 #define CHK_FILE_ERR -1
-#define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2"} // Array of setting labels
-#define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID} // Index of settings
-#define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR} // N options of each settings
+#define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2", "volume_music", "volume_effects"} // Array of setting labels
+#define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID, SET_VOL_MUS_ID, SET_VOL_EFCT_ID} // Index of settings
+#define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR, N_VOLUME, N_VOLUME} // N options of each settings
 #define SETTINGS_PATH "/tmp/.game_settings.ini" // Path of settings file
 #define BEST_PATH "/tmp/.game_best.dat" // Path of best scores files
 #define FIRST_ALLOWED_CHAR (int)'!' // First allowed char in username
 #define LAST_ALLOWED_CHAR (int)'~' // Last allowed char in username
 
 // Define inter-object variables
-int game_settings[N_SETTINGS] = {1, 0, 0, 0, 0}; // Default settings
+int game_settings[N_SETTINGS] = {1, 0, 0, 0, 0, 10, 10}; // Default settings
 
 // Read settings from settings file
 void rd_settings(void) {

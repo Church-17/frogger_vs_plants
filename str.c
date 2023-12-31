@@ -41,5 +41,7 @@ const str strContainer[][N_LANGUAGE] = {
     {"Yes", "Si"},
     {"Grey", "Grigio"},
     {"Orange", "Arancione"},
-    {"Bullets", "Proiettili"}
+    {"Bullets", "Proiettili"},
+    {"Music volume", "Volume della musica"},
+    {"Effects volume", "Volume degli effetti"}
 };

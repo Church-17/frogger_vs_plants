@@ -19,6 +19,8 @@ extern const str strContainer[][N_LANGUAGE]; // Strings
 #define STR_SKIN STRINGS(32)
 #define STR_COLOR_1 STRINGS(18)
 #define STR_COLOR_2 STRINGS(19)
+#define STR_VOL_MUSIC STRINGS(38)
+#define STR_VOL_EFFECTS STRINGS(39)
 #define STR_APPLY STRINGS(26)
 #define STR_CANCEL STRINGS(7)
 #define STR_LANG_EN "English"
@@ -36,6 +38,8 @@ extern const str strContainer[][N_LANGUAGE]; // Strings
 #define STR_COL_BLU STRINGS(24)
 #define STR_COL_MGT "Magenta"
 #define STR_COL_CYN STRINGS(25)
+#define STR_COL_GRY STRINGS(35)
+#define STR_COL_RNG STRINGS(36)
 #define STR_PROJECT STRINGS(14)
 #define STR_PAUSE STRINGS(15)
 #define STR_RESUME STRINGS(16)
@@ -49,6 +53,4 @@ extern const str strContainer[][N_LANGUAGE]; // Strings
 #define STR_QUIT_WARNING STRINGS(33)
 #define STR_YES STRINGS(34)
 #define STR_NO "No"
-#define STR_COL_GRY STRINGS(35)
-#define STR_COL_RNG STRINGS(36)
 #define STR_BULLETS STRINGS(37)

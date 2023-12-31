@@ -24,7 +24,9 @@ void wr_best(Dict_str_int best);
 #define SET_SKIN_ID 2
 #define SET_COL1_ID 3
 #define SET_COL2_ID 4
-#define N_SETTINGS 5
+#define SET_VOL_MUS_ID 5
+#define SET_VOL_EFCT_ID 6
+#define N_SETTINGS 7
 #define SET_APPL_ID (N_SETTINGS+0)
 #define SET_CANC_ID (N_SETTINGS+1)
 #define N_SET_SEL (N_SETTINGS+2)
@@ -33,6 +35,8 @@ void wr_best(Dict_str_int best);
 #define SKIN_SET game_settings[SET_SKIN_ID]
 #define COL1_SET game_settings[SET_COL1_ID]
 #define COL2_SET game_settings[SET_COL2_ID]
+#define VOL_MUS_SET game_settings[SET_VOL_MUS_ID]
+#define VOL_EFCT_SET game_settings[SET_VOL_EFCT_ID]
 // - Language
 #define LANG_EN_ID 0
 #define LANG_IT_ID 1
@@ -49,6 +53,8 @@ void wr_best(Dict_str_int best);
 #define N_SKIN 3
 // - Color
 #define N_COLOR 9
+// - Volume
+#define N_VOLUME 11
 // Credits
 #define N_CREDITS 2
 // Pause
