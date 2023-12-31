@@ -66,7 +66,7 @@ void view(const List_str title, const List_str sx, const List_str dx, const List
 int menu(const List_str title, const List_str set, const Game_t* gamevar) {
     // Init vars
     bool do_prints, do_return = FALSE; // Flags
-    int i, key, inc, old_hl = 0, hl = 0;
+    int i, key, inc, hl = 0, old_hl = 0;
     int win_width = WIN_WIDTH(max_strlen(set, 0), 0, max_strlen(title, 0)) + HL_PADX; // Calc window width
     int win_height = POSITION_Y(set.len, set.len+1, title.len)+BOX_PADS; // Calc window height
 
@@ -106,19 +106,16 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
                 case KEY_DOWN:
                 case KEY_RIGHT:
                 case KEY_NPAGE:
-                    play_sound(MENU_SELECTION_SOUND);
                     hl = mod(hl+inc, set.len);
                     break;
 
                 // Highlight first option
                 case KEY_HOME:
-                    play_sound(MENU_SELECTION_SOUND);
                     hl = 0;
                     break;
 
                 // Highlight last option 
                 case KEY_END:
-                    play_sound(MENU_SELECTION_SOUND);
                     hl = set.len-1;
                     break;
 
@@ -135,6 +132,10 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
                     // Check numbers & first letter
                     check_key(key, &hl, set);
                     break;
+            }
+            // Play selection sound if hl is changed
+            if(hl != old_hl) {
+                play_sound(MENU_SELECTION_SOUND);
             }
         }
     }
@@ -284,7 +285,6 @@ void settings_menu(void) {
                     inc = -1; // Decrease
                 case KEY_DOWN:
                 case KEY_NPAGE:
-                    play_sound(MENU_SELECTION_SOUND);
                     hl = mod(hl+inc, set.len);
                     break;
 
@@ -300,13 +300,11 @@ void settings_menu(void) {
 
                 // Highlight first setting
                 case KEY_HOME:
-                    play_sound(MENU_SELECTION_SOUND);
                     hl = 0;
                     break;
 
                 // Highlight last selectable
                 case KEY_END:
-                    play_sound(MENU_SELECTION_SOUND);
                     hl = set.len-1;
                     break;
 
@@ -322,6 +320,10 @@ void settings_menu(void) {
                     // Check numbers & first letter
                     check_key(key, &hl, set);
                     break;
+            }
+            // Play selection sound if hl is changed
+            if(hl != old_hl) {
+                play_sound(MENU_SELECTION_SOUND);
             }
         }
     }
@@ -404,7 +406,6 @@ void check_key(int key, int* hl, const List_str set) {
     }
     for(int i = mod(*hl+1, set.len); i != *hl; i = mod(i+1, set.len)) {
         if(key == set.list[i][0] || key == set.list[i][0]+CAPITAL_SHIFT) {
-            play_sound(MENU_SELECTION_SOUND);
             *hl = i;
             return;
         }
