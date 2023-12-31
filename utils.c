@@ -102,10 +102,10 @@ void quit(int err_code) {
     if(err_code > 0) {
         const str errContainer[] = {
             "Current terminal doesn't support colors",
-            "Error during memory allocation",
-            "Error during window creation",
-            "Error during process fork",
-            "Error during pipe creation",
+            "Error allocating memory",
+            "Error creating window",
+            "Error creating process",
+            "Error creating pipe",
             "Error reading from pipe",
             "Error writing in pipe",
             "Error during music initialization",
