@@ -1,5 +1,4 @@
 // Include libs
-#include <signal.h>
 #include <unistd.h>
 #include "../main.h"
 #include "../menu.h"
