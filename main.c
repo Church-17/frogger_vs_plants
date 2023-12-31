@@ -127,7 +127,7 @@ bool check_term(WINDOW* win) {
             mvwprintw(err_win, 2, 0, "%s: %d x %d    ", STR_ACTUAL, LINES, COLS);
             wgetch(err_win);
         }
-        unwin(err_win);
+        un_win(err_win);
         return TRUE;
     }
     return FALSE;
@@ -146,10 +146,12 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x, const Game_t* gamevar) {
     }
 
     // Move windows
-    mv_win(main_scr, LINES/2 - MAIN_ROWS/2, COLS/2 - MAIN_COLS/2);
+    mvwin(main_scr, LINES/2 - MAIN_ROWS/2, COLS/2 - MAIN_COLS/2);
     if(win != NULL) {
-        mv_win(win, LINES/2 - dim_y/2, COLS/2 - dim_x/2);
+        mvwin(win, LINES/2 - dim_y/2, COLS/2 - dim_x/2);
     }
+    clear();
+    refresh();
 
     // Redraw main_scr
     if(do_prints) {

@@ -59,7 +59,7 @@ void view(const List_str title, const List_str sx, const List_str dx, const List
             do_prints = resize_proc(menu_win, win_height, win_width, gamevar);
         }
     }
-    unwin(menu_win);
+    un_win(menu_win);
 }
 
 // General function for a single column menu, returning index of selected option
@@ -138,7 +138,7 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
             }
         }
     }
-    unwin(menu_win);
+    un_win(menu_win);
     return hl;
 }
 
@@ -337,7 +337,7 @@ void settings_menu(void) {
     if(hl < N_SETTINGS || hl == SET_APPL_ID) {
         wr_settings(newly_setted);
     }
-    unwin(menu_win);
+    un_win(menu_win);
 }
 
 // Credits Screen

@@ -48,6 +48,7 @@ List_str dict_to_list(const str* obj, const int* ind, int len) {
     return list;
 }
 
+// Sort a dict descendent based on the value
 void sort_dict(Dict_str_int* dict) {
     str tmpstr;
     int tmpint, ind_max;
@@ -55,9 +56,10 @@ void sort_dict(Dict_str_int* dict) {
         ind_max = i;
         for(int j = i+1; j < dict->len; j++) {
             if(dict->val[j] > dict->val[ind_max]) {
-                ind_max = j;
+                ind_max = j; // Select index of the higher value
             }
         }
+        // Swap the first non-ordered element with the selected element
         tmpstr = dict->key[i];
         dict->key[i] = dict->key[ind_max];
         dict->key[ind_max] = tmpstr;
@@ -67,13 +69,13 @@ void sort_dict(Dict_str_int* dict) {
     }
 }
 
-// Create new window
+// Create new window with keypad
 WINDOW* new_win(int dim_y, int dim_x, int pos_y, int pos_x) {
     WINDOW* new = newwin(dim_y, dim_x, pos_y, pos_x);
     if(new == NULL) {
         quit(ERR_WIN);
     }
-    keypad(new, TRUE);
+    keypad(new, TRUE); // Enable keypad
     return new;
 }
 
@@ -82,15 +84,8 @@ WINDOW* new_ctrwin(int dim_y, int dim_x) {
     return new_win(dim_y, dim_x, LINES/2 - dim_y/2, COLS/2 - dim_x/2);
 }
 
-// Move window in central
-void mv_win(WINDOW* win, int new_y, int new_x) {
-    mvwin(win, new_y, new_x); // Move window
-    clear(); // Remove garbage
-    refresh();
-}
-
 // Delete a window
-void unwin(WINDOW* win) {
+void un_win(WINDOW* win) {
     wclear(win);
     wrefresh(win);
     delwin(win);
