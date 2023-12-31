@@ -7,12 +7,6 @@
 #define MANCHE_CLOSE -2
 #define MANCHE_QUIT -3
 
-// Win codes
-#define IN_GAME 0
-#define LOST_GAME 1
-#define WIN_GAME 2
-#define HIGH_SCORE_GAME 3
-
 // Frog constants
 #define FROG_MOVE_Y 4
 #define FROG_MOVE_X 2

@@ -36,6 +36,12 @@
 #define MAX_BULLETS_PER_PLANT 5
 #define LIM_N_ENTITIES (N_PLANTS*MAX_BULLETS_PER_PLANT + MIN_PLANT_BULLET_ID)
 
+// Win codes
+#define IN_GAME 0
+#define LOST_GAME 1
+#define WIN_GAME 2
+#define HIGH_SCORE_GAME 3
+
 // Function prototypes
 void demo(void);
 bool game(void);
