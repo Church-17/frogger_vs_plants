@@ -3,6 +3,7 @@
 #include <SDL2/SDL_mixer.h>
 #include "struct_proto.h"
 #include "music.h"
+#include "res.h"
 #include "utils.h"
 
 // Define constant
@@ -12,6 +13,7 @@
 #define N_CHANNELS 8
 #define LOAD_SOUNDS (-1)
 #define FREE_SOUNDS (-2)
+#define N_EFFECTS 1
 
 // Function prototypes
 Mix_Chunk* load_sound(str sound_path);
@@ -30,6 +32,7 @@ void init_music(void) {
         quit(ERR_INIT_MUSIC);
     }
     play_sound(LOAD_SOUNDS);
+    sound_volume(VOL_MUS_SET, VOL_EFCT_SET);
 }
 
 Mix_Chunk* load_sound(str sound_path) {
@@ -38,6 +41,11 @@ Mix_Chunk* load_sound(str sound_path) {
         quit(ERR_INIT_MUSIC);
     }
     return ret;
+}
+
+void sound_volume(int music_volume, int effects_volume) {
+    Mix_VolumeMusic(music_volume*MIX_MAX_VOLUME/10);
+    Mix_Volume(-1, effects_volume*MIX_MAX_VOLUME/10);
 }
 
 void play_sound(int sound_id) {

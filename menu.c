@@ -340,6 +340,7 @@ void settings_menu(void) {
     // Update game settings if applied
     if(hl < N_SETTINGS || hl == SET_APPL_ID) {
         wr_settings(newly_setted);
+        sound_volume(VOL_MUS_SET, VOL_EFCT_SET);
     }
     un_win(menu_win);
 }
