@@ -247,7 +247,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         }
                     }
                     if(!manche_ended) {
-                        gamevar.frog.y = LINE_BANK_1;
+                        gamevar.timer = MANCHE_LOST;
+                        manche_ended = TRUE;
                     }
                 }
 
