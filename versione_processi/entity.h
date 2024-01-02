@@ -3,6 +3,7 @@
 
 // Define constants
 #define FROG_ON_CROCCODILE_SIG SIGUSR1
+#define GOOD_CROCCODILE_SIG SIGUSR2
 
 // Function prototypes
 void time_process(int pipe_write, int* other_params);

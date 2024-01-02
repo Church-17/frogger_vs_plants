@@ -333,8 +333,25 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             }
                         }
                     }
-                    
+
                     print_frog(&gamevar);
+
+                }
+                
+                for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+                    if(gamevar.frog_bullets[i].x >= msg.x && gamevar.frog_bullets[i].x <= msg.x + CROCCODILE_DIM_X - BULLET_DIM_X && gamevar.frog_bullets[i].y >= msg.y && gamevar.frog_bullets[i].y <= msg.y + CROCCODILE_DIM_Y - BULLET_DIM_Y) {
+                        gamevar.free_frog_bullet++;
+                        print_free_frog_bullet(gamevar.free_frog_bullet);
+                        gamevar.frog_bullets[i].y = FREE_ENTITY; // Mark it as free
+                        kill(process_pids.list[MIN_FROG_BULLET_ID + i], SIGKILL);
+                        waitpid(process_pids.list[MIN_FROG_BULLET_ID + i], NULL, 0); // Handle died bullet process
+                        process_pids.list[MIN_FROG_BULLET_ID + i] = 0;
+
+                        if(gamevar.bad_croccodiles[croccodile_stream][entity_id] == TRUE) {
+                            kill(process_pids.list[msg.id], GOOD_CROCCODILE_SIG);
+                        }
+                        break;
+                    }
                 }
 
                 // Check if needs to spawn another croccodile (if last croccodile is completely in screen)
@@ -386,7 +403,61 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     gamevar.frog_bullets[entity_id].y = msg.y;
                     gamevar.frog_bullets[entity_id].x = msg.x;
                     print_bullet(gamevar.frog_bullets[entity_id]);
+
+                    if(msg.y >= LINE_RIVER) {
+                        croccodile_stream = ((msg.y) - LINE_RIVER) / FROG_DIM_Y;
+                        for(i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) {
+                            if(msg.x >= gamevar.croccodiles[croccodile_stream][i].x && msg.x <= gamevar.croccodiles[croccodile_stream][i].x + CROCCODILE_DIM_X - BULLET_DIM_X) {
+                                gamevar.free_frog_bullet++;
+                                print_free_frog_bullet(gamevar.free_frog_bullet);
+                                gamevar.frog_bullets[entity_id].y = FREE_ENTITY; // Mark it as free
+                                kill(process_pids.list[msg.id], SIGKILL);
+                                waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
+                                process_pids.list[msg.id] = 0;
+
+                                if(gamevar.bad_croccodiles[croccodile_stream][i] == TRUE) {
+                                    kill(process_pids.list[MIN_CROCCODILE_ID + croccodile_stream*MAX_CROCCODILE_PER_STREAM + i], GOOD_CROCCODILE_SIG);
+                                }
+                                break;
+                            }
+                        }
+                    } else {
+                        for(i = 0; i < N_PLANTS; i++) {
+                            if(msg.x >= gamevar.plants[i].x && msg.x <= gamevar.plants[i].x + PLANT_DIM_X - BULLET_DIM_X) {
+                                gamevar.free_frog_bullet++;
+                                print_free_frog_bullet(gamevar.free_frog_bullet);
+                                gamevar.frog_bullets[entity_id].y = FREE_ENTITY; // Mark it as free
+                                kill(process_pids.list[msg.id], SIGKILL);
+                                waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
+                                process_pids.list[msg.id] = 0;
+
+                                // De-print plant
+                                for(j = 0; j < PLANT_DIM_Y; j++) {
+                                    mvwaprintw(main_scr, gamevar.plants[i].y + j, gamevar.plants[i].x, BANK_BG, "%*s", PLANT_DIM_X, "");
+                                }
+                                
+                                kill(process_pids.list[MIN_PLANT_ID + i], SIGKILL);
+                                waitpid(process_pids.list[MIN_PLANT_ID + i], NULL, 0); // Handle died plant process
+                                gamevar.plants[i].y = INCOMING_ENTITY;
+                                fork_params[PLANT_ID_INDEX] = MIN_PLANT_ID + i;
+                                do {
+                                    occupied_plant = FALSE;
+                                    fork_params[PLANT_X_INDEX] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
+                                    for(j = 0; j < N_PLANTS; j++) {
+                                        if(fork_params[PLANT_X_INDEX] > gamevar.plants[j].x - PLANT_DIM_X && fork_params[PLANT_X_INDEX] < gamevar.plants[j].x + PLANT_DIM_X && j != i) {
+                                            occupied_plant = TRUE;
+                                            break;
+                                        }
+                                    }
+                                } while(occupied_plant);
+                                async_exec(pipe_fds, &process_pids, fork_params[PLANT_ID_INDEX], &plant_process, fork_params);
+
+                                break;
+                            }
+                        }
+                    }
                 }
+
 
                 break;
             }

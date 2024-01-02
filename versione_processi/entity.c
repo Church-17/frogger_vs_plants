@@ -7,10 +7,12 @@
 #include "entity.h"
 
 // Global vars
-bool frog_on_me = FALSE;
+bool frog_on_croccodile = FALSE;
+bool change_kindness = FALSE;
 
 // Function prototypes
-void frog_stepped_on_me(int sig);
+void frog_stepped_on_croccodile(int sig);
+void become_good_croccodile(int sig);
 
 void time_process(int pipe_write, int* other_params) {
     // Init vars
@@ -120,7 +122,8 @@ void croccodile_process(int pipe_write, int* other_params) {
     Message msg;
 
     // Handle signal of frog steps on this croccodile
-    signal(FROG_ON_CROCCODILE_SIG, &frog_stepped_on_me);
+    signal(FROG_ON_CROCCODILE_SIG, &frog_stepped_on_croccodile);
+    signal(GOOD_CROCCODILE_SIG, &become_good_croccodile);
 
     // Unpack croccodile params
     msg.id = other_params[CROCCODILE_ID_INDEX];
@@ -154,7 +157,12 @@ void croccodile_process(int pipe_write, int* other_params) {
             }
         }
 
-        if(frog_on_me && msg.sig >= CROCCODILE_BAD_SIG) { // If croccodile is bad and frog stepped on...
+        if(change_kindness == TRUE) {
+            msg.sig = CROCCODILE_GOOD_SIG;
+            change_kindness = FALSE;
+        }
+
+        if(frog_on_croccodile && msg.sig >= CROCCODILE_BAD_SIG) { // If croccodile is bad and frog stepped on...
             if(!do_immersion) { // If immersion not started, start it
                 immersion_time = rand_range(2, 4) * MSEC_IN_SEC;
                 start = timestamp();
@@ -239,6 +247,10 @@ void bullet_process(int pipe_write, int* other_params) {
 
 }
 
-void frog_stepped_on_me(int sig) { // If frog steps on this croccodile
-    frog_on_me = TRUE;
+void frog_stepped_on_croccodile(int sig) { // If frog steps on this croccodile
+    frog_on_croccodile = TRUE;
+}
+
+void become_good_croccodile(int sig) {
+    change_kindness = TRUE;
 }
