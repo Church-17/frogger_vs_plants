@@ -185,7 +185,6 @@ void croccodile_process(int pipe_write, int* other_params) {
 
 void plant_process(int pipe_write, int* other_params) {
     // Init vars
-    time_t bullet_interval;
     Message msg;
 
     // Unpack croccodile params
@@ -197,15 +196,14 @@ void plant_process(int pipe_write, int* other_params) {
     // Random spawn time & shot interval
     srand(timestamp() + msg.id);
     msleep(rand_range(1, 5) * MSEC_IN_SEC);
-    bullet_interval = rand_range(1, 5) * MSEC_IN_SEC;
 
     write_msg(pipe_write, &msg);
 
-    msg.sig = PLANT_BULLET_SIG;
+    msg.sig = PLANT_SHOT_SIG;
 
     // Plant loop to shot bullets
     while(TRUE) {
-        msleep(bullet_interval);
+        msleep(MSEC_IN_SEC*(PLANT_SHOT_INTERVAL + rand_range(0, 3)));
         write_msg(pipe_write, &msg);
     }
 }
@@ -223,7 +221,7 @@ void bullet_process(int pipe_write, int* other_params) {
 
     // Write initial position
     write_msg(pipe_write, &msg);
-    if(msg.y < LINE_BANK_1 || msg.y >= MAIN_ROWS) {
+    if(msg.y < LINE_BANK_1) {
         do_exit = TRUE;
     }
 
@@ -244,7 +242,6 @@ void bullet_process(int pipe_write, int* other_params) {
         msleep(MSEC_IN_SEC / BULLET_SPEED);
         write_msg(pipe_write, &msg);
     }
-
 }
 
 void frog_stepped_on_croccodile(int sig) { // If frog steps on this croccodile
