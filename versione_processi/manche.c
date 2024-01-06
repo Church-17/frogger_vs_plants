@@ -89,6 +89,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         gamevar.frog_bullets[i].y = FREE_ENTITY; // Mark as free each frog bullet
     }
 
+    // ALLOCATING PLANTS AND BULLETS FOR THE START
     alloc(Position, gamevar.plants, N_PLANTS);
     alloc(Position*, gamevar.plants_bullets, N_PLANTS);
     for(i = 0; i < N_PLANTS; i++) {
@@ -99,6 +100,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         }
     }
 
+    // ALLOCATING CROCCODILES FOR THE START
     alloc(Position*, gamevar.croccodiles, N_WATER_STREAM);
     alloc(bool*, gamevar.bad_croccodiles, N_WATER_STREAM);
     for(i = 0; i < N_WATER_STREAM; i++) { // Croccodile array per stream
@@ -275,7 +277,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         }
                     }
 
-                    // Frog collision with plants bullets
+                    // Frog collision with plant bullets
                     for(i = 0; i < N_PLANTS; i++) {
                         for(j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
                             if(gamevar.plants_bullets[i][j].y + BULLET_DIM_Y > gamevar.frog.y && gamevar.plants_bullets[i][j].y < gamevar.frog.y + FROG_DIM_Y && gamevar.plants_bullets[i][j].x + BULLET_DIM_X > gamevar.frog.x && gamevar.plants_bullets[i][j].x < gamevar.frog.x + FROG_DIM_X) {
