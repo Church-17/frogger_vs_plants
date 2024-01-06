@@ -167,12 +167,8 @@ void best_scores_menu(void) {
     List_str title = {tit, 1};
     str users[N_BEST], scores[N_BEST];
     attr_t colors[N_BEST] = {YELLOW_BLACK, GREY_BLACK, ORANGE_BLACK};
-    List_str sx, dx;
-    List_attr attrs;
-    sx.list = users;
-    dx.list = scores;
-    attrs.list = colors;
-    attrs.len = sx.len = dx.len = N_BEST;
+    List_str sx = {users, N_BEST}, dx = {scores, N_BEST};
+    List_attr attrs = {colors, N_BEST};
 
     // Pass best scores ignoring empty scores
     Dict_str_int best = rd_best(); // Retreive best scores
