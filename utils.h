@@ -29,10 +29,14 @@
 #define ERR_INIT_THREAD 10
 
 // Define macros
-#define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC) // malloc with error-handle
-#define dalloc(type, var, n) \
+
+// Error-handling memory allocation
+#define alloc(type, var, n) if((var = (type*) malloc((n)*sizeof(type))) == NULL) quit(ERR_ALLOC)
+
+// Define and alloc
+#define dalloc(type, var, n)\
     type* var;\
-    alloc(type, var, n) // Define and alloc
+    alloc(type, var, n)
 
 // Print in window with attribute
 #define mvwaprintw(win, y, x, attr, fstr...)\
