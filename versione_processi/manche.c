@@ -250,10 +250,14 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         }
                     }
 
+                    // Print frog
+                    print_frog(&gamevar);
+
                     // Frog collision with plant bullets
                     for(int i = 0; i < N_PLANTS; i++) {
                         for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
                             if(gamevar.plants_bullets[i][j].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.plants_bullets[i][j].y && gamevar.frog.y < gamevar.plants_bullets[i][j].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.plants_bullets[i][j].x && gamevar.frog.x < gamevar.plants_bullets[i][j].x + BULLET_DIM_X) {
+                                print_bullet(gamevar.plants_bullets[i][j]);
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
                                 break;
@@ -269,8 +273,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             break;
                         }
                     }
+
+                    // Print frog
+                    print_frog(&gamevar);
                 } else {
-                    // If the frog is in bank 1 and it isn't in front of a trap, manche is lost
+                    // If the frog is in hedge, manche is lost, otherwise manche is won
                     for(int i = 0; i < N_HOLES; i++) {
                         if(gamevar.frog.x >= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 && gamevar.frog.x <= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 + HOLE_DIM_X - FROG_DIM_X && gamevar.holes_occupied[i] == FALSE) {
                             manche_ended = TRUE;
@@ -282,18 +289,18 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         gamevar.timer = MANCHE_LOST;
                         manche_ended = TRUE;
                     }
+                    print_frog(&gamevar); // Print frog
                 }
 
                 // Frog collision with frog bullets
                 for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
                     if(gamevar.frog_bullets[i].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.frog_bullets[i].y && gamevar.frog.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.frog_bullets[i].x && gamevar.frog.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
+                        print_bullet(gamevar.frog_bullets[i]);
                         gamevar.timer = MANCHE_LOST;
                         manche_ended = TRUE;
                         break;
                     }
                 }
-                
-                print_frog(&gamevar); // Print frog
 
                 break;
 
