@@ -442,8 +442,14 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
                 // De-print
                 if(gamevar.frog_bullets[entity_id].y >= 0) {
-                    for(i = 0; i < BULLET_DIM_Y; i++) {
-                        mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");
+                    if(gamevar.frog_bullets[entity_id].y >= LINE_RIVER) {
+                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                            mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, RIVER_BG, "%*s", BULLET_DIM_X, "");
+                        }
+                    } else {
+                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                            mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, BANK_BG, "%*s", BULLET_DIM_X, "");
+                        }
                     }
                 }
 
@@ -558,8 +564,14 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
                 // De-print
                 if(gamevar.plants_bullets[plant_id][entity_id].y >= 0) {
-                    for(i = 0; i < BULLET_DIM_Y; i++) {
-                        mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");
+                    if(gamevar.plants_bullets[plant_id][entity_id].y < LINE_BANK_2) {
+                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                            mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, RIVER_BG, "%*s", BULLET_DIM_X, "");
+                        }
+                    } else {
+                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                            mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, BANK_BG, "%*s", BULLET_DIM_X, "");
+                        }
                     }
                 }
 
