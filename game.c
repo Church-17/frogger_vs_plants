@@ -56,13 +56,13 @@ bool game() {
 int play_game(void) {
     // Init vars
     bool holes_occupied[N_HOLES] = {FALSE};
-    int i, j, tmp_score;
+    int tmp_score, usleep_ret;
     Game_t gamevar;
     gamevar.score = 0;
     gamevar.lifes = N_LIFES;
 
     // Loop for play n manche saving the remained time and updating lifes
-    for(i = 0; i < N_MANCHES && gamevar.lifes; i++) {
+    for(int i = 0; i < N_MANCHES && gamevar.lifes; i++) {
         gamevar = play_manche(gamevar.score, gamevar.lifes, holes_occupied);
         switch(gamevar.timer) {
             case MANCHE_LOST:
@@ -88,14 +88,14 @@ int play_game(void) {
         gamevar.score += gamevar.timer * SCORE_MULTIPLIER;
 
         // Animation of time & score (if usleep is interrupted, interrupt animation & pause game)
-        for(j = usleep(MSEC_IN_SEC * 300); j == 0 && gamevar.timer > 0; j = usleep(MSEC_IN_SEC * 50)) {
+        for(usleep_ret = usleep(MSEC_IN_SEC * 300); usleep_ret == 0 && gamevar.timer > 0; usleep_ret = usleep(MSEC_IN_SEC * 50)) {
             gamevar.timer--;
             tmp_score += SCORE_MULTIPLIER;
             print_time(gamevar.timer);
             print_score(tmp_score);
             wrefresh(main_scr);
         }
-        if(j == 0) {
+        if(usleep_ret == 0) {
             usleep(MSEC_IN_SEC * 500);
         }
         flushinp(); // Ignore any user input received during animation
@@ -113,17 +113,18 @@ int play_game(void) {
 
     // If score was one of the best, add it to the best scores
     if(gamevar.score > 0) {
+        int index_new_score;
         Dict_str_int best = rd_best(); // Read actual best scores
-        for(i = best.len; i > 0 && gamevar.score > best.val[i-1]; i--) { // Check if score is gtr than the least best score
-            if(i < N_BEST) { // If it is, pass the previous best score down (if it is possible)
-                best.key[i] = best.key[i-1];
-                best.val[i] = best.val[i-1];
+        for(index_new_score = best.len; index_new_score > 0 && gamevar.score > best.val[index_new_score-1]; index_new_score--) { // Check if score is gtr than the least best score
+            if(index_new_score < N_BEST) { // If it is, pass the previous best score down (if it is possible)
+                best.key[index_new_score] = best.key[index_new_score-1];
+                best.val[index_new_score] = best.val[index_new_score-1];
             }
         }
-        if(i < N_BEST) { // If the new score is a best score, write in best scores
+        if(index_new_score < N_BEST) { // If the new score is a best score, write in best scores
             gamevar.win = HIGH_SCORE_GAME;
-            best.key[i] = getenv("USER");
-            best.val[i] = gamevar.score;
+            best.key[index_new_score] = getenv("USER");
+            best.val[index_new_score] = gamevar.score;
             if(best.len < N_BEST) { // Increment best size if needed
                 best.len++;
             }
@@ -141,7 +142,6 @@ int play_game(void) {
 }
 
 void print_game(const Game_t* gamevar) {
-    int i, j;
     print_background(gamevar->holes_occupied); // Print background
     print_free_frog_bullet(gamevar->free_frog_bullet);
     print_time(gamevar->timer); // Print time
@@ -150,8 +150,8 @@ void print_game(const Game_t* gamevar) {
 
     if(gamevar->croccodiles != NULL) {
         // Print croccodiles
-        for(i = 0; i < N_WATER_STREAM; i++) {
-            for(j = 0; j < MAX_CROCCODILE_PER_STREAM; j++) {
+        for(int i = 0; i < N_WATER_STREAM; i++) {
+            for(int j = 0; j < MAX_CROCCODILE_PER_STREAM; j++) {
                 if(gamevar->croccodiles[i][j].y >= 0) {
                     print_croccodile(gamevar->croccodiles[i][j], gamevar->stream_speed > 0, gamevar->croccodiles_kind[i][j]);
                 }
@@ -159,13 +159,13 @@ void print_game(const Game_t* gamevar) {
         }
         print_frog(gamevar); // Print frog
         // Print plants
-        for(i = 0; i < N_PLANTS; i++) {
+        for(int i = 0; i < N_PLANTS; i++) {
             if(gamevar->plants[i].y >= 0) {
                 print_plant(gamevar->plants[i]);
             }
         }
         // Print bullets
-        for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+        for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
             if(gamevar->frog_bullets[i].y >= 0) {
                 print_bullet(gamevar->frog_bullets[i]);
             }

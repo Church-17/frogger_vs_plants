@@ -17,7 +17,6 @@
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Init vars
     bool occupied_plant;
-    int i, j;
     pid_t array_pids[LIM_N_ENTITIES] = {0}; // Pids for every process
     List_pid process_pids = {array_pids, LIM_N_ENTITIES};
     int fork_params[N_ENTITY_PARAMS];
@@ -33,7 +32,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Forks
     async_exec(pipe_fds, &process_pids, FROG_ID, &frog_process, NULL); // Calls the fork for frog process handling the errors
     async_exec(pipe_fds, &process_pids, TIME_ID, &time_process, NULL); // Calls the fork for time process handling the errors
-    for(i = 0; i < N_WATER_STREAM; i++) {
+    for(int i = 0; i < N_WATER_STREAM; i++) {
         // Randomize speed & direction of each stream
         stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED) * (rand_range(0, 2) ? 1 : -1);
         // Write croccodile params
@@ -43,12 +42,12 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         // Calls the fork for croccodile process handling the errors
         async_exec(pipe_fds, &process_pids, fork_params[CROCCODILE_ID_INDEX], &croccodile_process, fork_params);
     }
-    for(i = 0; i < N_PLANTS; i++) {
+    for(int i = 0; i < N_PLANTS; i++) {
         fork_params[PLANT_ID_INDEX] = MIN_PLANT_ID + i;
         do { // Randomize X coordinates of plant
             occupied_plant = FALSE;
             plants_x[i] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
-            for(j = 0; j < i; j++) {
+            for(int j = 0; j < i; j++) {
                 // Check if any plants if anyready in that space
                 if(plants_x[i] + PLANT_DIM_X > plants_x[j] && plants_x[i] < plants_x[j] + PLANT_DIM_X) {
                     occupied_plant = TRUE;
@@ -84,17 +83,17 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.frog.y = FROG_INIT_Y;
     gamevar.frog.x = FROG_INIT_X;
     alloc(Position, gamevar.frog_bullets, MAX_BULLETS_PER_FROG);
-    for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+    for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
         gamevar.frog_bullets[i].y = FREE_ENTITY; // Mark as free each frog bullet
     }
 
     // Allocating plants and bullets for the start
     alloc(Position, gamevar.plants, N_PLANTS);
     alloc(Position*, gamevar.plants_bullets, N_PLANTS);
-    for(i = 0; i < N_PLANTS; i++) {
+    for(int i = 0; i < N_PLANTS; i++) {
         gamevar.plants[i].y = INCOMING_ENTITY; // Mark as incoming each plant
         alloc(Position, gamevar.plants_bullets[i], MAX_BULLETS_PER_PLANT);
-        for(j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
+        for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
             gamevar.plants_bullets[i][j].y = FREE_ENTITY; // Mark as free the bullets of each plant
         }
     }
@@ -102,11 +101,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Allocating croccodiles for the start
     alloc(Position*, gamevar.croccodiles, N_WATER_STREAM);
     alloc(int*, gamevar.croccodiles_kind, N_WATER_STREAM);
-    for(i = 0; i < N_WATER_STREAM; i++) { // Croccodile array per stream
+    for(int i = 0; i < N_WATER_STREAM; i++) { // Croccodile array per stream
         alloc(Position, gamevar.croccodiles[i], MAX_CROCCODILE_PER_STREAM);
         alloc(int, gamevar.croccodiles_kind[i], MAX_CROCCODILE_PER_STREAM);
         gamevar.croccodiles[i][0].y = INCOMING_ENTITY; // Mark as incoming the first croccodile of each stream
-        for(j = 1; j < MAX_CROCCODILE_PER_STREAM; j++) {
+        for(int j = 1; j < MAX_CROCCODILE_PER_STREAM; j++) {
             gamevar.croccodiles[i][j].y = FREE_ENTITY; // Mark as free the other croccodiles of each stream
         }
     }
@@ -136,8 +135,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             case CLOSE_ID:
                 signal_all(process_pids, SIGSTOP); // Pausing all child processes
                 if(msg.id == CLOSE_ID) {
-                    i = quit_menu(&gamevar);    
-                    switch(i) {
+                    entity_id = quit_menu(&gamevar);    
+                    switch(entity_id) {
                         case NO_ID:
                             break;
                         
@@ -147,8 +146,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             break;
                     }
                 } else {
-                    i = pause_menu(&gamevar);
-                    switch(i) {
+                    entity_id = pause_menu(&gamevar);
+                    switch(entity_id) {
                         case PAUSE_RES_ID:
                             break;
                         
@@ -204,7 +203,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
                 // De-print frog
                 if(gamevar.frog.y < LINE_RIVER || gamevar.frog.y >= LINE_BANK_2) {
-                    for(i = 0; i < FROG_DIM_Y; i++) {
+                    for(int i = 0; i < FROG_DIM_Y; i++) {
                         mvwaprintw(main_scr, i + gamevar.frog.y, gamevar.frog.x, BANK_BG, "%*s", FROG_DIM_X, "");
                     }
                 } else { // If frog was on a croccodile...
@@ -237,7 +236,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     // Frog collision with river
                     if(gamevar.frog.y < LINE_BANK_2) { // If frog is in river zone...
                         entity_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
-                        for(i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
+                        for(int i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
                             if(gamevar.croccodiles[entity_stream][i].y >= 0 && gamevar.frog.x >= gamevar.croccodiles[entity_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[entity_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
                                 gamevar.frog_on_croccodile = MIN_CROCCODILE_ID + entity_stream*MAX_CROCCODILE_PER_STREAM + i;
                                 kill(process_pids.list[gamevar.frog_on_croccodile], FROG_ON_CROCCODILE_SIG);
@@ -251,8 +250,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
 
                     // Frog collision with plant bullets
-                    for(i = 0; i < N_PLANTS; i++) {
-                        for(j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
+                    for(int i = 0; i < N_PLANTS; i++) {
+                        for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
                             if(gamevar.plants_bullets[i][j].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.plants_bullets[i][j].y && gamevar.frog.y < gamevar.plants_bullets[i][j].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.plants_bullets[i][j].x && gamevar.frog.x < gamevar.plants_bullets[i][j].x + BULLET_DIM_X) {
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
@@ -262,7 +261,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 } else if(gamevar.frog.y >= LINE_BANK_1) {
                     // Frog collision with plants
-                    for(i = 0; i < N_PLANTS; i++) {
+                    for(int i = 0; i < N_PLANTS; i++) {
                         if(gamevar.plants[i].y >= 0 && gamevar.frog.x + FROG_DIM_X > gamevar.plants[i].x && gamevar.frog.x < gamevar.plants[i].x + PLANT_DIM_X) {
                             gamevar.timer = MANCHE_LOST;
                             manche_ended = TRUE;
@@ -271,7 +270,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 } else {
                     // If the frog is in bank 1 and it isn't in front of a trap, manche is lost
-                    for(i = 0; i < N_HOLES; i++) {
+                    for(int i = 0; i < N_HOLES; i++) {
                         if(gamevar.frog.x >= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 && gamevar.frog.x <= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 + HOLE_DIM_X - FROG_DIM_X && gamevar.holes_occupied[i] == FALSE) {
                             manche_ended = TRUE;
                             gamevar.holes_occupied[i] = TRUE;
@@ -285,7 +284,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 }
 
                 // Frog collision with frog bullets
-                for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+                for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
                     if(gamevar.frog_bullets[i].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.frog_bullets[i].y && gamevar.frog.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.frog_bullets[i].x && gamevar.frog.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
                         gamevar.timer = MANCHE_LOST;
                         manche_ended = TRUE;
@@ -316,7 +315,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         restore_croccodile_x = gamevar.croccodiles[entity_stream][entity_id].x;
                         restore_croccodile_len = MAIN_COLS - gamevar.croccodiles[entity_stream][entity_id].x;
                     }
-                    for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                    for(int i = 0; i < CROCCODILE_DIM_Y; i++) {
                         mvwaprintw(main_scr, i + gamevar.croccodiles[entity_stream][entity_id].y, restore_croccodile_x, RIVER_BG, "%*s", restore_croccodile_len, "");
                     }
                 }
@@ -362,8 +361,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
 
                     // Frog collision with plants bullets
-                    for(i = 0; i < N_PLANTS; i++) {
-                        for(j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
+                    for(int i = 0; i < N_PLANTS; i++) {
+                        for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
                             if(gamevar.plants_bullets[i][j].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.plants_bullets[i][j].y && gamevar.frog.y < gamevar.plants_bullets[i][j].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.plants_bullets[i][j].x && gamevar.frog.x < gamevar.plants_bullets[i][j].x + BULLET_DIM_X) {
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
@@ -373,7 +372,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
 
                     // Frog collision with frog bullets
-                    for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+                    for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
                         if(gamevar.frog_bullets[i].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.frog_bullets[i].y && gamevar.frog.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.frog_bullets[i].x && gamevar.frog.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
                             gamevar.timer = MANCHE_LOST;
                             manche_ended = TRUE;
@@ -386,7 +385,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
                 }
                 // Croccodile collision with frog bullets
-                for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+                for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
                     if(gamevar.frog_bullets[i].y >= 0 && msg.y + CROCCODILE_DIM_Y > gamevar.frog_bullets[i].y && msg.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && msg.x + CROCCODILE_DIM_X > gamevar.frog_bullets[i].x && msg.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
                         // Update counter
                         gamevar.free_frog_bullet++;
@@ -443,11 +442,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // De-print bullet
                 if(gamevar.frog_bullets[entity_id].y >= 0) {
                     if(gamevar.frog_bullets[entity_id].y >= LINE_RIVER) {
-                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                        for(int i = 0; i < BULLET_DIM_Y; i++) {
                             mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, RIVER_BG, "%*s", BULLET_DIM_X, "");
                         }
                     } else {
-                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                        for(int i = 0; i < BULLET_DIM_Y; i++) {
                             mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, BANK_BG, "%*s", BULLET_DIM_X, "");
                         }
                     }
@@ -471,7 +470,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 if(msg.y >= LINE_RIVER) {
                     entity_stream = (msg.y - LINE_RIVER) / FROG_DIM_Y;
                     // Frog bullet collision with croccodile
-                    for(i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) {
+                    for(int i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) {
                         if(gamevar.croccodiles[entity_stream][i].y >= 0 && msg.x + BULLET_DIM_X > gamevar.croccodiles[entity_stream][i].x && msg.x < gamevar.croccodiles[entity_stream][i].x + CROCCODILE_DIM_X) {
                             // Update counter
                             gamevar.free_frog_bullet++;
@@ -488,8 +487,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
 
                     // Frog bullet collision with plant bullet
-                    for(i = 0; i < N_PLANTS; i++) {
-                        for(j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
+                    for(int i = 0; i < N_PLANTS; i++) {
+                        for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
                             if(gamevar.plants_bullets[i][j].y >= 0 && msg.y + BULLET_DIM_Y > gamevar.plants_bullets[i][j].y && msg.y < gamevar.plants_bullets[i][j].y + BULLET_DIM_Y && msg.x + BULLET_DIM_X > gamevar.plants_bullets[i][j].x && msg.x < gamevar.plants_bullets[i][j].x + BULLET_DIM_X) {
                                 // Update counter
                                 gamevar.free_frog_bullet++;
@@ -514,7 +513,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 } else {
                     // Frog bullet collision with plant
-                    for(i = 0; i < N_PLANTS; i++) {
+                    for(int i = 0; i < N_PLANTS; i++) {
                         if(gamevar.plants[i].x >= 0 && msg.x + BULLET_DIM_X > gamevar.plants[i].x && msg.x < gamevar.plants[i].x + PLANT_DIM_X) {
                             // Update counter
                             gamevar.free_frog_bullet++;
@@ -525,7 +524,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
                             process_pids.list[msg.id] = 0;
                             // De-print plant
-                            for(j = 0; j < PLANT_DIM_Y; j++) {
+                            for(int j = 0; j < PLANT_DIM_Y; j++) {
                                 mvwaprintw(main_scr, gamevar.plants[i].y + j, gamevar.plants[i].x, BANK_BG, "%*s", PLANT_DIM_X, "");
                             }
                             // Kill plant & spawn another
@@ -536,7 +535,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             do {
                                 occupied_plant = FALSE;
                                 fork_params[PLANT_X_INDEX] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
-                                for(j = 0; j < N_PLANTS; j++) {
+                                for(int j = 0; j < N_PLANTS; j++) {
                                     if(fork_params[PLANT_X_INDEX] > gamevar.plants[j].x - PLANT_DIM_X && fork_params[PLANT_X_INDEX] < gamevar.plants[j].x + PLANT_DIM_X && j != i) {
                                         occupied_plant = TRUE;
                                         break;
@@ -565,11 +564,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // De-print bullet
                 if(gamevar.plants_bullets[plant_id][entity_id].y >= 0) {
                     if(gamevar.plants_bullets[plant_id][entity_id].y < LINE_BANK_2) {
-                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                        for(int i = 0; i < BULLET_DIM_Y; i++) {
                             mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, RIVER_BG, "%*s", BULLET_DIM_X, "");
                         }
                     } else {
-                        for(i = 0; i < BULLET_DIM_Y; i++) {
+                        for(int i = 0; i < BULLET_DIM_Y; i++) {
                             mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, BANK_BG, "%*s", BULLET_DIM_X, "");
                         }
                     }
@@ -596,7 +595,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 }
 
                 // Plant bullet collision with frog bullet
-                for(i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+                for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
                     if(gamevar.frog_bullets[i].y >= 0 && msg.y + BULLET_DIM_Y > gamevar.frog_bullets[i].y && msg.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && msg.x + BULLET_DIM_X > gamevar.frog_bullets[i].x && msg.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
                         gamevar.free_frog_bullet++;
                         print_free_frog_bullet(gamevar.free_frog_bullet);
@@ -609,8 +608,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
                         process_pids.list[msg.id] = 0;
                         // De-print
-                        for(i = 0; i < BULLET_DIM_Y; i++) {
-                            mvwaprintw(main_scr, msg.y, msg.x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");
+                        for(int j = 0; j < BULLET_DIM_Y; j++) {
+                            mvwaprintw(main_scr, msg.y + j, msg.x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");
                         }
                         break;
                     }
@@ -630,11 +629,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     while(wait(NULL) > 0); // Wait all child processes
 
     // Free allocated memory
-    for(i = 0; i < N_WATER_STREAM; i++) {
+    for(int i = 0; i < N_WATER_STREAM; i++) {
         free(gamevar.croccodiles[i]);
         free(gamevar.croccodiles_kind[i]);
     }
-    for(i = 0; i < N_PLANTS; i++) {
+    for(int i = 0; i < N_PLANTS; i++) {
         free(gamevar.plants_bullets[i]);
     }
     free(gamevar.croccodiles);

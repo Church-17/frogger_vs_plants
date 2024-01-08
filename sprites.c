@@ -6,29 +6,28 @@
 #include "struct.h"
 
 void print_background(const bool* holes_occupied) {
-    int i, j;
     // Print hedge
-    for(i = LINE_HEDGE; i < LINE_BANK_1; i++) {
+    for(int i = LINE_HEDGE; i < LINE_BANK_1; i++) {
         mvwaprintw(main_scr, i, 0, HEDGE_BG, "%*s", MAIN_COLS, "");
     }
     // Print holes
-    for(i = 0; i < N_HOLES; i++) {
+    for(int i = 0; i < N_HOLES; i++) {
         if(!holes_occupied[i]) { // If a hole is occupied, it's closed (so not printed)
-            for(j = LINE_HOLES; j < LINE_BANK_1; j++) {
+            for(int j = LINE_HOLES; j < LINE_BANK_1; j++) {
                 mvwaprintw(main_scr, j, i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2, GREEN_PURPLE, "%*s", HOLE_DIM_X, "");
             }
         }
     }
     // Print upper bank
-    for(i = LINE_BANK_1; i < LINE_RIVER; i++) {
+    for(int i = LINE_BANK_1; i < LINE_RIVER; i++) {
         mvwaprintw(main_scr, i, 0, BANK_BG, "%*s", MAIN_COLS, "");
     }
     // Print river
-    for(i = LINE_RIVER; i < LINE_BANK_2; i++) {
+    for(int i = LINE_RIVER; i < LINE_BANK_2; i++) {
         mvwaprintw(main_scr, i, 0, RIVER_BG, "%*s", MAIN_COLS, "");
     }
     // Print lower bank
-    for(i = LINE_BANK_2; i < MAIN_ROWS; i++) {
+    for(int i = LINE_BANK_2; i < MAIN_ROWS; i++) {
         mvwaprintw(main_scr, i, 0, BANK_BG, "%*s", MAIN_COLS, "");
     }
 }
@@ -71,8 +70,7 @@ void print_score(int score) {
 }
 
 void print_lifes(int n_lifes) {
-    int i;
-    for(i = 0; i < n_lifes; i++) {
+    for(int i = 0; i < n_lifes; i++) {
         mvwaprintw(main_scr, LINE_HEADER, MAIN_COLS - SPACE_PER_LIFE * (N_LIFES - i), RED_BLACK, "❤");
     }
     mvwaprintw(main_scr, LINE_HEADER, MAIN_COLS - SPACE_PER_LIFE * (N_LIFES - n_lifes), RED_BLACK, "%*s", SPACE_PER_LIFE*(N_LIFES-n_lifes), "");
@@ -107,7 +105,7 @@ void print_figlet(int win) {
 
 void print_frog(const Game_t* gamevar) {
     // Init vars
-    int i, j, croccodile_stream, croccodile_id;
+    int croccodile_stream, croccodile_id;
     attr_t restore_color_1, restore_color_2;
     attr_t pair_col[FROG_DIM_Y][FROG_DIM_X];
     static const str sprite_matrix[FROG_DIM_Y][FROG_DIM_X] = {
@@ -133,12 +131,12 @@ void print_frog(const Game_t* gamevar) {
             restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKBLUE : RED_DARKBLUE;
         }
     }
-    for(i = 0; i < FROG_DIM_Y; i++) {
-        for(j = 0; j < 3; j++) {
+    for(int i = 0; i < FROG_DIM_Y; i++) {
+        for(int j = 0; j < 3; j++) {
             pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
         }
     }
-    for(i = 3; i < 7; i++) {
+    for(int i = 3; i < 7; i++) {
         pair_col[3][i] = restore_color_1;
     }
     
@@ -152,15 +150,15 @@ void print_frog(const Game_t* gamevar) {
     }
     pair_col[0][3] = pair_col[0][6] = restore_color_2;
     pair_col[0][4] = pair_col[0][5] = restore_color_1;
-    for(i = 1; i < 3; i++) {
-        for(j = 3; j < 7; j++) {
+    for(int i = 1; i < 3; i++) {
+        for(int j = 3; j < 7; j++) {
             pair_col[i][j] = restore_color_1;
         }
     }
 
     // Print frog
-    for(i = 0; i < FROG_DIM_Y; i++) {
-        for(j = 0; j < FROG_DIM_X; j++) {
+    for(int i = 0; i < FROG_DIM_Y; i++) {
+        for(int j = 0; j < FROG_DIM_X; j++) {
             mvwaprintw(main_scr, gamevar->frog.y + i, gamevar->frog.x + j, pair_col[i][j], "%s", sprite_matrix[i][j]);
         }
     }
@@ -168,7 +166,7 @@ void print_frog(const Game_t* gamevar) {
 
 void print_croccodile(Position croccodile, int speed, int sig) {
     // Init vars
-    int i, j, croccodile_beg, croccodile_len;
+    int croccodile_beg, croccodile_len;
     attr_t croccodile_color_1, croccodile_color_2, croccodile_color_eye;
     attr_t pair_col[CROCCODILE_DIM_Y][CROCCODILE_DIM_X];
     static const str sprite_matrix[CROCCODILE_DIM_Y][CROCCODILE_DIM_X] = {
@@ -200,13 +198,13 @@ void print_croccodile(Position croccodile, int speed, int sig) {
         croccodile_color_2 = LIGHTGREEN_DARKGREEN;
         croccodile_color_eye = WHITE_DARKGREEN;
     }
-    for(i = 0; i < CROCCODILE_DIM_X; i++) {
+    for(int i = 0; i < CROCCODILE_DIM_X; i++) {
         pair_col[0][i] = pair_col[3][i] = croccodile_color_1;
     }
-    for(i = 0; i < 4; i++) {
+    for(int i = 0; i < 4; i++) {
         pair_col[1][i] = pair_col[1][CROCCODILE_DIM_X-1-i] = pair_col[2][i] = pair_col[2][CROCCODILE_DIM_X-1-i] = croccodile_color_1;
     }
-    for(i = 4; i < CROCCODILE_DIM_X-5; i++) {
+    for(int i = 4; i < CROCCODILE_DIM_X-5; i++) {
         pair_col[1][i] = pair_col[2][i] = croccodile_color_2;
     }
     pair_col[1][CROCCODILE_DIM_X-5] = pair_col[2][CROCCODILE_DIM_X-5] = croccodile_color_eye;
@@ -214,14 +212,14 @@ void print_croccodile(Position croccodile, int speed, int sig) {
     // Print croccodile if it isn't immersed
     if(sig != CROCCODILE_IMMERSION_SIG) { //
         if(speed > 0) {
-            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                for(j = 0; j < croccodile_len; j++) {
+            for(int i = 0; i < CROCCODILE_DIM_Y; i++) {
+                for(int j = 0; j < croccodile_len; j++) {
                     mvwaprintw(main_scr, croccodile.y + i, j + croccodile_beg, pair_col[i][croccodile_beg-croccodile.x+j], "%s", sprite_matrix[i][croccodile_beg-croccodile.x+j]);
                 }
             }
         } else {
-            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-                for(j = 0; j < croccodile_len; j++) {
+            for(int i = 0; i < CROCCODILE_DIM_Y; i++) {
+                for(int j = 0; j < croccodile_len; j++) {
                     mvwaprintw(main_scr, croccodile.y + i, j + croccodile_beg, pair_col[i][CROCCODILE_DIM_X-(croccodile_beg-croccodile.x+j)-1], "%s", sprite_matrix[i][CROCCODILE_DIM_X-(croccodile_beg-croccodile.x+j)-1]);
                 }
             }
@@ -236,15 +234,13 @@ void print_croccodile(Position croccodile, int speed, int sig) {
 }
 
 void print_plant(Position plant) {
-    int i;
-    for(i = 0; i < PLANT_DIM_Y; i++) {
+    for(int i = 0; i < PLANT_DIM_Y; i++) {
         mvwaprintw(main_scr, plant.y + i, plant.x, MAGENTA_GREEN, "%*s", PLANT_DIM_X, "");
     }
 }
 
 void print_bullet(Position bullet) {
-    int i;
-    for(i = 0; i < BULLET_DIM_Y; i++) {
+    for(int i = 0; i < BULLET_DIM_Y; i++) {
         mvwaprintw(main_scr, bullet.y + i, bullet.x, RED_BLACK | A_STANDOUT, "%*s", BULLET_DIM_X, "");
     }
 }

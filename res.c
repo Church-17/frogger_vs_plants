@@ -22,7 +22,6 @@ int game_settings[N_SETTINGS] = {1, 0, 0, 0, 0, 10, 10}; // Default settings
 // Read settings from settings file
 void rd_settings(void) {
     // Init vars & open settings file
-    int i, j;
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
     int ind_set[N_SETTINGS] = LIST_SET_ID;
     int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
@@ -38,8 +37,8 @@ void rd_settings(void) {
         return;
     }
     // Overwrite game_settings
-    for(i = 0; i < dict.len; i++) {
-        for(j = 0; j < N_SETTINGS; j++) {
+    for(int i = 0; i < dict.len; i++) {
+        for(int j = 0; j < N_SETTINGS; j++) {
             if(!strcmp(dict.key[i], str_settings[j])) { // Check which settings is
                 if(dict.val[i] >= len_opts[j]) { // If is already used or the value is too high...
                     for(; i < dict.len; i++) { // Free Dict
@@ -64,19 +63,18 @@ void rd_settings(void) {
 // Write updated settings in settings file
 void wr_settings(int* set) {
     // Init vars & open settings file
-    int i;
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
     int ind_set[N_SETTINGS] = LIST_SET_ID;
     FILE* fptr = fopen(SETTINGS_PATH, WRITE);
     // Write new settings in game_settings
-    for(i = 0; i < N_SETTINGS; i++) {
+    for(int i = 0; i < N_SETTINGS; i++) {
         game_settings[i] = set[i];
     }
     if(fptr == NULL) { // If settings file cannot be writed...
         return; // Use previous settings
     }
     // Write settings file
-    for(i = 0; i < N_SETTINGS; i++) {
+    for(int i = 0; i < N_SETTINGS; i++) {
         fprintf(fptr, "%s = %d\n", str_settings[i], game_settings[ind_set[i]]);
     }
     fclose(fptr); // Close settings file
