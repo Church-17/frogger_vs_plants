@@ -50,5 +50,5 @@ struct Game_t {
     Position* plants;
     Position** plants_bullets;
     Position** croccodiles;
-    bool** bad_croccodiles;
+    int** croccodiles_kind;
 };

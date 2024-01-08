@@ -120,14 +120,14 @@ void print_frog(const Game_t* gamevar) {
     // Determine frog background
     if(gamevar->frog.y < LINE_RIVER || gamevar->frog.y >= LINE_BANK_2) {
         restore_color_1 = (SKIN_SET == 0) ? GREEN_PURPLE : RED_PURPLE;
-    } else if(gamevar->frog.y < LINE_BANK_2) {
+    } else {
         if(gamevar->frog_on_croccodile >= 0) {
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
             croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
-            if(gamevar->bad_croccodiles[croccodile_stream][croccodile_id]) {
-                restore_color_1 = (SKIN_SET == 0) ? GREEN_BORDEAUX : RED_BORDEAUX; // If frog was on bad croccodile set bordeaux
-            } else {
+            if(gamevar->croccodiles_kind[croccodile_stream][croccodile_id] == CROCCODILE_GOOD_SIG) {
                 restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKGREEN : RED_DARKGREEN; // If frog was on good croccodile set dark green
+            } else {
+                restore_color_1 = (SKIN_SET == 0) ? GREEN_BORDEAUX : RED_BORDEAUX; // If frog was on bad croccodile set bordeaux
             }
         } else {
             restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKBLUE : RED_DARKBLUE;
@@ -167,7 +167,7 @@ void print_frog(const Game_t* gamevar) {
 }
 
 void print_croccodile(Position croccodile, int speed, int sig) {
-    // init vars
+    // Init vars
     int i, j, croccodile_beg, croccodile_len;
     attr_t croccodile_color_1, croccodile_color_2, croccodile_color_eye;
     attr_t pair_col[CROCCODILE_DIM_Y][CROCCODILE_DIM_X];
