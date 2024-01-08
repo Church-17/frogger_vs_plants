@@ -123,7 +123,7 @@ void croccodile_process(int pipe_write, int* other_params) {
 
     // Handle signal of frog steps on this croccodile
     signal(FROG_ON_CROCCODILE_SIG, &frog_stepped_on_croccodile);
-    signal(GOOD_CROCCODILE_SIG, &become_good_croccodile);
+    signal(CROCCODILE_SHOTTED_SIG, &become_good_croccodile);
 
     // Unpack croccodile params
     msg.id = other_params[CROCCODILE_ID_INDEX];

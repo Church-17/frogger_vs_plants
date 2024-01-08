@@ -396,7 +396,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             process_pids.list[MIN_FROG_BULLET_ID + i] = 0;
                             // Change kindness of croccodile if it is bad
                             if(msg.sig != CROCCODILE_GOOD_SIG) {
-                                kill(process_pids.list[msg.id], GOOD_CROCCODILE_SIG);
+                                kill(process_pids.list[msg.id], CROCCODILE_SHOTTED_SIG);
                             }
                             break;
                         }
@@ -473,7 +473,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                                 process_pids.list[msg.id] = 0;
                                 // Change kindness of croccodile if it is bad
                                 if(gamevar.croccodiles_kind[entity_stream][i] != CROCCODILE_GOOD_SIG) {
-                                    kill(process_pids.list[MIN_CROCCODILE_ID + entity_stream*MAX_CROCCODILE_PER_STREAM + i], GOOD_CROCCODILE_SIG);
+                                    kill(process_pids.list[MIN_CROCCODILE_ID + entity_stream*MAX_CROCCODILE_PER_STREAM + i], CROCCODILE_SHOTTED_SIG);
                                 }
                                 break;
                             }
@@ -569,7 +569,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     print_bullet(gamevar.plants_bullets[plant_id][entity_id]);
                     
                     // Plant bullet collision with frog
-                    if(msg.x + BULLET_DIM_X > gamevar.frog.x && msg.x < gamevar.frog.x + FROG_DIM_X && msg.y + BULLET_DIM_Y >= gamevar.frog.y && msg.y <= gamevar.frog.y + FROG_DIM_Y) {
+                    if(msg.x + BULLET_DIM_X > gamevar.frog.x && msg.x < gamevar.frog.x + FROG_DIM_X && msg.y + BULLET_DIM_Y > gamevar.frog.y && msg.y < gamevar.frog.y + FROG_DIM_Y) {
                         gamevar.timer = MANCHE_LOST;
                         manche_ended = TRUE;
                     }
