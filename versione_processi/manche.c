@@ -368,10 +368,14 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         }
                     }
 
+                    // Print frog
+                    print_frog(&gamevar);
+
                     // Frog collision with plants bullets
                     for(int i = 0; i < N_PLANTS; i++) {
                         for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
                             if(gamevar.plants_bullets[i][j].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.plants_bullets[i][j].y && gamevar.frog.y < gamevar.plants_bullets[i][j].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.plants_bullets[i][j].x && gamevar.frog.x < gamevar.plants_bullets[i][j].x + BULLET_DIM_X) {
+                                print_bullet(gamevar.plants_bullets[i][j]);
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
                                 break;
@@ -382,16 +386,14 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     // Frog collision with frog bullets
                     for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
                         if(gamevar.frog_bullets[i].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.frog_bullets[i].y && gamevar.frog.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.frog_bullets[i].x && gamevar.frog.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
+                            print_bullet(gamevar.frog_bullets[i]);
                             gamevar.timer = MANCHE_LOST;
                             manche_ended = TRUE;
                             break;
                         }
                     }
-
-                    // Print frog
-                    print_frog(&gamevar);
-
                 }
+
                 // Croccodile collision with frog bullets
                 for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
                     if(gamevar.frog_bullets[i].y >= 0 && msg.y + CROCCODILE_DIM_Y > gamevar.frog_bullets[i].y && msg.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && msg.x + CROCCODILE_DIM_X > gamevar.frog_bullets[i].x && msg.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
