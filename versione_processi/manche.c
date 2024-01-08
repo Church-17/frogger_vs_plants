@@ -475,7 +475,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         entity_stream = (msg.y - LINE_RIVER) / FROG_DIM_Y;
                         // Frog bullet collision with croccodile
                         for(i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) {
-                            if(msg.x + BULLET_DIM_X > gamevar.croccodiles[entity_stream][i].x && msg.x < gamevar.croccodiles[entity_stream][i].x + CROCCODILE_DIM_X) {
+                            if(msg.x + BULLET_DIM_X > gamevar.croccodiles[entity_stream][i].x && msg.x < gamevar.croccodiles[entity_stream][i].x + CROCCODILE_DIM_X && gamevar.croccodiles[entity_stream][i].y >= 0) {
                                 // Update counter
                                 gamevar.free_frog_bullet++;
                                 print_free_frog_bullet(gamevar.free_frog_bullet);
