@@ -108,7 +108,7 @@ void print_figlet(int win) {
 void print_frog(const Game_t* gamevar) {
     // Init vars
     int i, j, croccodile_stream, croccodile_id;
-    attr_t restore_color;
+    attr_t restore_color_1, restore_color_2;
     attr_t pair_col[FROG_DIM_Y][FROG_DIM_X];
     static const str sprite_matrix[FROG_DIM_Y][FROG_DIM_X] = {
         {"▄", "█", " ", "▀", "▌", "▐", "▀", " ", "█", "▄"},
@@ -118,35 +118,43 @@ void print_frog(const Game_t* gamevar) {
     };
     
     // Determine frog background
-    if(gamevar->frog.y < LINE_RIVER) {
-        restore_color = GREEN_PURPLE;
+    if(gamevar->frog.y < LINE_RIVER || gamevar->frog.y >= LINE_BANK_2) {
+        restore_color_1 = (SKIN_SET == 0) ? GREEN_PURPLE : RED_PURPLE;
     } else if(gamevar->frog.y < LINE_BANK_2) {
         if(gamevar->frog_on_croccodile >= 0) {
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
             croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
             if(gamevar->bad_croccodiles[croccodile_stream][croccodile_id]) {
-                restore_color = GREEN_BORDEAUX; // If frog was on bad croccodile set bordeaux
+                restore_color_1 = (SKIN_SET == 0) ? GREEN_BORDEAUX : RED_BORDEAUX; // If frog was on bad croccodile set bordeaux
             } else {
-                restore_color = GREEN_DARKGREEN; // If frog was on good croccodile set dark green
+                restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKGREEN : RED_DARKGREEN; // If frog was on good croccodile set dark green
             }
         } else {
-            restore_color = GREEN_DARKBLUE;
+            restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKBLUE : RED_DARKBLUE;
         }
-    } else {
-        restore_color = GREEN_PURPLE;
     }
     for(i = 0; i < FROG_DIM_Y; i++) {
-        for(j = 0; j < FROG_DIM_X; j++) {
-            pair_col[i][j] = restore_color;
+        for(j = 0; j < 3; j++) {
+            pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
         }
+    }
+    for(i = 3; i < 7; i++) {
+        pair_col[3][i] = restore_color_1;
     }
     
     // Set fixed color
-    pair_col[0][3] = pair_col[0][6] = MAGENTA_GREEN;
-    pair_col[0][4] = pair_col[0][5] = GREEN_YELLOW;
+    if(SKIN_SET == 0) {
+        restore_color_1 = GREEN_YELLOW;
+        restore_color_2 = MAGENTA_GREEN;
+    } else {
+        restore_color_1 = RED_ORANGE;
+        restore_color_2 = CYAN_RED;
+    }
+    pair_col[0][3] = pair_col[0][6] = restore_color_2;
+    pair_col[0][4] = pair_col[0][5] = restore_color_1;
     for(i = 1; i < 3; i++) {
         for(j = 3; j < 7; j++) {
-            pair_col[i][j] = GREEN_YELLOW;
+            pair_col[i][j] = restore_color_1;
         }
     }
 

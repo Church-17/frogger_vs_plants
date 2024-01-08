@@ -20,7 +20,7 @@ extern const str strContainer[][N_LANGUAGE]; // Strings
 #define STR_COLOR_1 STRINGS(18)
 #define STR_COLOR_2 STRINGS(19)
 #define STR_VOL_MUSIC STRINGS(38)
-#define STR_VOL_EFFECTS STRINGS(39)
+#define STR_VOL_EFFECTS STRINGS(13)
 #define STR_APPLY STRINGS(26)
 #define STR_CANCEL STRINGS(7)
 #define STR_LANG_EN "English"
@@ -30,7 +30,6 @@ extern const str strContainer[][N_LANGUAGE]; // Strings
 #define STR_DIFFICULTY_2 STRINGS(10)
 #define STR_SKIN_0 STRINGS(11)
 #define STR_SKIN_1 STRINGS(12)
-#define STR_SKIN_2 STRINGS(13)
 #define STR_COL_WHT STRINGS(20)
 #define STR_COL_RED STRINGS(21)
 #define STR_COL_GRN STRINGS(22)

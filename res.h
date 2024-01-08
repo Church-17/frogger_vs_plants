@@ -49,8 +49,7 @@ void wr_best(Dict_str_int best);
 // - Skin
 #define SKIN_0_ID 0
 #define SKIN_1_ID 1
-#define SKIN_2_ID 2
-#define N_SKIN 3
+#define N_SKIN 2
 // - Color
 #define N_COLOR 9
 // - Volume
@@ -109,6 +108,12 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define CYAN_DARKBLUE_ID 19
 #define WHITE_BORDEAUX_ID 20
 #define PINK_BORDEAUX_ID 21
+#define RED_PURPLE_ID 22
+#define RED_DARKBLUE_ID 23
+#define RED_DARKGREEN_ID 24
+#define RED_BORDEAUX_ID 25
+#define RED_ORANGE_ID 26
+#define CYAN_RED_ID 27
 // Color pair
 #define WHITE_BLACK COLOR_PAIR(WHITE_BLACK_ID)
 #define RED_BLACK COLOR_PAIR(RED_BLACK_ID)
@@ -129,6 +134,12 @@ extern int game_settings[N_SETTINGS]; // Game settings
 #define CYAN_DARKBLUE COLOR_PAIR(CYAN_DARKBLUE_ID)
 #define WHITE_BORDEAUX COLOR_PAIR(WHITE_BORDEAUX_ID)
 #define PINK_BORDEAUX COLOR_PAIR(PINK_BORDEAUX_ID)
+#define RED_PURPLE COLOR_PAIR(RED_PURPLE_ID)
+#define RED_DARKBLUE COLOR_PAIR(RED_DARKBLUE_ID)
+#define RED_DARKGREEN COLOR_PAIR(RED_DARKGREEN_ID)
+#define RED_BORDEAUX COLOR_PAIR(RED_BORDEAUX_ID)
+#define RED_ORANGE COLOR_PAIR(RED_ORANGE_ID)
+#define CYAN_RED COLOR_PAIR(CYAN_RED_ID)
 // Color pair setted in settings
 #define COL1 COLOR_PAIR(COL1_SET)
 #define COL2 COLOR_PAIR(COL2_SET)

@@ -15,9 +15,9 @@ const str strContainer[][N_LANGUAGE] = {
     {"Easy", "Facile"},
     {"Medium", "Medio"},
     {"Hard", "Difficile"},
-    {"Common", "Comune"},
-    {"Rare", "Rara"},
-    {"Epic", "Epica"},
+    {"Land", "Terra"},
+    {"Fire", "Fuoco"},
+    {"Effects volume", "Volume degli effetti"},
     {"SOPR Project 23-24", "Progetto SOPR 23-24"},
     {"Pause", "Pausa"},
     {"Resume", "Continua"},
@@ -42,6 +42,5 @@ const str strContainer[][N_LANGUAGE] = {
     {"Grey", "Grigio"},
     {"Orange", "Arancione"},
     {"Bullets", "Proiettili"},
-    {"Music volume", "Volume della musica"},
-    {"Effects volume", "Volume degli effetti"}
+    {"Music volume", "Volume della musica"}
 };

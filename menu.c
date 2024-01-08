@@ -213,8 +213,8 @@ void settings_menu(void) {
     str difficulty[N_DIFFICULTY] = {STR_DIFFICULTY_0, STR_DIFFICULTY_1, STR_DIFFICULTY_2};
     int ind_diff[N_DIFFICULTY] = {DIFF_0_ID, DIFF_1_ID, DIFF_2_ID};
     opts[SET_DIFF_ID] = dict_to_list(difficulty, ind_diff, N_DIFFICULTY);
-    str skin[N_SKIN] = {STR_SKIN_0, STR_SKIN_1, STR_SKIN_2};
-    int ind_skin[N_SKIN] = {SKIN_0_ID, SKIN_1_ID, SKIN_2_ID};
+    str skin[N_SKIN] = {STR_SKIN_0, STR_SKIN_1};
+    int ind_skin[N_SKIN] = {SKIN_0_ID, SKIN_1_ID};
     opts[SET_SKIN_ID] = dict_to_list(skin, ind_skin, N_SKIN);
     str color[N_COLOR] = {STR_COL_WHT, STR_COL_RED, STR_COL_GRN, STR_COL_YLW, STR_COL_BLU, STR_COL_MGT, STR_COL_CYN, STR_COL_GRY, STR_COL_RNG};
     int ind_col[N_COLOR] = {WHITE_BLACK_ID, RED_BLACK_ID, GREEN_BLACK_ID, YELLOW_BLACK_ID, BLUE_BLACK_ID, MAGENTA_BLACK_ID, CYAN_BLACK_ID, GREY_BLACK_ID, ORANGE_BLACK_ID};
