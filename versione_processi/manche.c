@@ -88,7 +88,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         gamevar.frog_bullets[i].y = FREE_ENTITY; // Mark as free each frog bullet
     }
 
-    // ALLOCATING PLANTS AND BULLETS FOR THE START
+    // Allocating plants and bullets for the start
     alloc(Position, gamevar.plants, N_PLANTS);
     alloc(Position*, gamevar.plants_bullets, N_PLANTS);
     for(i = 0; i < N_PLANTS; i++) {
@@ -99,7 +99,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         }
     }
 
-    // ALLOCATING CROCCODILES FOR THE START
+    // Allocating croccodiles for the start
     alloc(Position*, gamevar.croccodiles, N_WATER_STREAM);
     alloc(int*, gamevar.croccodiles_kind, N_WATER_STREAM);
     for(i = 0; i < N_WATER_STREAM; i++) { // Croccodile array per stream
@@ -440,7 +440,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             else if(msg.id >= MIN_FROG_BULLET_ID && msg.id < MIN_PLANT_BULLET_ID) {
                 entity_id = msg.id - MIN_FROG_BULLET_ID;
 
-                // De-print
+                // De-print bullet
                 if(gamevar.frog_bullets[entity_id].y >= 0) {
                     if(gamevar.frog_bullets[entity_id].y >= LINE_RIVER) {
                         for(i = 0; i < BULLET_DIM_Y; i++) {
@@ -562,7 +562,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 plant_id = (msg.id - MIN_PLANT_BULLET_ID) / MAX_BULLETS_PER_PLANT;
                 entity_id = msg.id - MIN_PLANT_BULLET_ID - plant_id*MAX_BULLETS_PER_PLANT;
 
-                // De-print
+                // De-print bullet
                 if(gamevar.plants_bullets[plant_id][entity_id].y >= 0) {
                     if(gamevar.plants_bullets[plant_id][entity_id].y < LINE_BANK_2) {
                         for(i = 0; i < BULLET_DIM_Y; i++) {
