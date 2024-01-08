@@ -275,7 +275,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             }
                         }
                     }
-                } else {
+                } else if(gamevar.frog.y >= LINE_BANK_1) {
                     // Frog collision with plants
                     for(i = 0; i < N_PLANTS; i++) {
                         if(gamevar.frog.x + FROG_DIM_X > gamevar.plants[i].x && gamevar.frog.x < gamevar.plants[i].x + PLANT_DIM_X) {
@@ -395,7 +395,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             waitpid(process_pids.list[MIN_FROG_BULLET_ID + i], NULL, 0); // Handle died bullet process
                             process_pids.list[MIN_FROG_BULLET_ID + i] = 0;
                             // Change kindness of croccodile if it is bad
-                            if(gamevar.croccodiles_kind[entity_stream][entity_id] != CROCCODILE_GOOD_SIG) {
+                            if(msg.sig != CROCCODILE_GOOD_SIG) {
                                 kill(process_pids.list[msg.id], GOOD_CROCCODILE_SIG);
                             }
                             break;
@@ -472,7 +472,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                                 waitpid(process_pids.list[msg.id], NULL, 0); // Handle died bullet process
                                 process_pids.list[msg.id] = 0;
                                 // Change kindness of croccodile if it is bad
-                                if(gamevar.croccodiles_kind[entity_stream][i] == CROCCODILE_GOOD_SIG) {
+                                if(gamevar.croccodiles_kind[entity_stream][i] != CROCCODILE_GOOD_SIG) {
                                     kill(process_pids.list[MIN_CROCCODILE_ID + entity_stream*MAX_CROCCODILE_PER_STREAM + i], GOOD_CROCCODILE_SIG);
                                 }
                                 break;
