@@ -211,9 +211,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         entity_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
                         entity_id = gamevar.frog_on_croccodile - MIN_CROCCODILE_ID - entity_stream*MAX_CROCCODILE_PER_STREAM;
                         if(gamevar.bad_croccodiles[entity_stream][entity_id]) {
-                            restore_color = BAD_CROCCODILE_BG; // If frog was on bad croccodile set bordeaux
+                            restore_color = GREEN_BORDEAUX; // If frog was on bad croccodile set bordeaux
                         } else {
-                            restore_color = GOOD_CROCCODILE_BG; // If frog was on good croccodile set dark green
+                            restore_color = GREEN_DARKGREEN; // If frog was on good croccodile set dark green
                         }
                     }
                 } else {
@@ -345,7 +345,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 } else {
                     gamevar.croccodiles[entity_stream][entity_id].x = msg.x;
                     gamevar.croccodiles[entity_stream][entity_id].y = msg.y;
-                    print_croccodile(gamevar.croccodiles[entity_stream][entity_id], stream_speed > 0, msg.sig);
+                    print_croccodile(gamevar.croccodiles[entity_stream][entity_id], stream_speed[entity_stream], msg.sig);
 
                     // Check if frog is on top
                     if(gamevar.frog_on_croccodile == msg.id) {

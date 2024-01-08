@@ -46,6 +46,8 @@ int main(void) {
     init_color(COLOR_BORDEAUX, 400, 100, 100);
     init_color(COLOR_DARKGREEN, 0, 400, 0);
     init_color(COLOR_DARKBLUE, 100, 0, 400);
+    init_color(COLOR_LIGHTGREEN, 600, 900, 600);
+    init_color(COLOR_PINK, 800, 500, 600);
     // Set needed color pairs (text, bg)
     init_pair(WHITE_BLACK_ID, COLOR_WHITE, COLOR_BLACK);
     init_pair(RED_BLACK_ID, COLOR_RED, COLOR_BLACK);
@@ -64,6 +66,11 @@ int main(void) {
     init_pair(GREEN_DARKGREEN_ID, COLOR_GREEN, COLOR_DARKGREEN);
     init_pair(BORDEAUX_DARKBLUE_ID, COLOR_BORDEAUX, COLOR_DARKBLUE);
     init_pair(DARKGREEN_DARKBLUE_ID, COLOR_DARKGREEN, COLOR_DARKBLUE);
+    init_pair(LIGHTGREEN_DARKGREEN_ID, COLOR_LIGHTGREEN, COLOR_DARKGREEN);
+    init_pair(WHITE_DARKGREEN_ID, COLOR_WHITE, COLOR_DARKGREEN);
+    init_pair(CYAN_DARKBLUE_ID, COLOR_CYAN, COLOR_DARKBLUE);
+    init_pair(WHITE_BORDEAUX_ID, COLOR_WHITE, COLOR_BORDEAUX);
+    init_pair(PINK_BORDEAUX_ID, COLOR_PINK, COLOR_BORDEAUX);
     
     // Initial procedure
     init_music(); // Init music

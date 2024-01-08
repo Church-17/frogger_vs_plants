@@ -106,10 +106,10 @@ void print_figlet(int win) {
 }
 
 void print_frog(const Game_t* gamevar) {
+    // Init vars
     int i, j, croccodile_stream, croccodile_id;
     attr_t restore_color;
     attr_t pair_col[FROG_DIM_Y][FROG_DIM_X];
-
     static const str sprite_matrix[FROG_DIM_Y][FROG_DIM_X] = {
         {"▄", "█", " ", "▀", "▌", "▐", "▀", " ", "█", "▄"},
         {" ", "▀", "▄", " ", "▄", " ", " ", "▄", "▀", " "},
@@ -125,9 +125,9 @@ void print_frog(const Game_t* gamevar) {
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
             croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
             if(gamevar->bad_croccodiles[croccodile_stream][croccodile_id]) {
-                restore_color = BAD_CROCCODILE_BG; // If frog was on bad croccodile set bordeaux
+                restore_color = GREEN_BORDEAUX; // If frog was on bad croccodile set bordeaux
             } else {
-                restore_color = GOOD_CROCCODILE_BG; // If frog was on good croccodile set dark green
+                restore_color = GREEN_DARKGREEN; // If frog was on good croccodile set dark green
             }
         } else {
             restore_color = RIVER_BG;
@@ -142,12 +142,13 @@ void print_frog(const Game_t* gamevar) {
     }
     
     // Set fixed color
-    for(i = 0; i < FROG_DIM_Y-1; i++) {
+    pair_col[0][3] = pair_col[0][6] = MAGENTA_GREEN;
+    pair_col[0][4] = pair_col[0][5] = GREEN_YELLOW;
+    for(i = 1; i < 3; i++) {
         for(j = 3; j < 7; j++) {
             pair_col[i][j] = GREEN_YELLOW;
         }
     }
-    pair_col[0][3] = pair_col[0][6] = MAGENTA_GREEN;
 
     // Print frog
     for(i = 0; i < FROG_DIM_Y; i++) {
@@ -157,35 +158,72 @@ void print_frog(const Game_t* gamevar) {
     }
 }
 
-void print_croccodile(Position croccodile, bool direction, int is_bad) {
-    int i, croccodile_x, croccodile_len;
-    attr_t croccodile_color;
+void print_croccodile(Position croccodile, int speed, int sig) {
+    // init vars
+    int i, j, croccodile_beg, croccodile_len;
+    attr_t croccodile_color_1, croccodile_color_2, croccodile_color_eye;
+    attr_t pair_col[CROCCODILE_DIM_Y][CROCCODILE_DIM_X];
+    static const str sprite_matrix[CROCCODILE_DIM_Y][CROCCODILE_DIM_X] = {
+        {" ", " ", " ", " ", "▀", "▀", "▀", "█", "█", "█", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "█", "█", "▀", "▀", "▀", " ", " ", " "},
+        {"▄", "▄", "▄", "▄", " ", "▄", " ", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", " ", "▀", "█", "▄", "▄", "▄"},
+        {"▀", "▀", "▀", "▀", " ", "▀", " ", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", " ", "▄", "█", "▀", "▀", "▀"},
+        {" ", " ", " ", " ", "▄", "▄", "▄", "█", "█", "█", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "█", "█", "▄", "▄", "▄", " ", " ", " "},
+    };
 
+    // Determine how much croccodile print
     if(croccodile.x < 0) {
-        croccodile_x = 0;
+        croccodile_beg = 0;
         croccodile_len = CROCCODILE_DIM_X + croccodile.x;
     } else if(croccodile.x < MAIN_COLS - CROCCODILE_DIM_X) {
-        croccodile_x = croccodile.x;
+        croccodile_beg = croccodile.x;
         croccodile_len = CROCCODILE_DIM_X;
     } else {
-        croccodile_x = croccodile.x;
+        croccodile_beg = croccodile.x;
         croccodile_len = MAIN_COLS - croccodile.x;
     }
 
-    if(is_bad == CROCCODILE_BAD_SIG || is_bad == CROCCODILE_BUBBLE_SIG) {
-        croccodile_color = BAD_CROCCODILE_BG;
-    } else if(is_bad == CROCCODILE_GOOD_SIG) {
-        croccodile_color = GOOD_CROCCODILE_BG;
+    // Determine croccodile color
+    if(sig == CROCCODILE_BAD_SIG || sig == CROCCODILE_BUBBLE_SIG) {
+        croccodile_color_1 = BORDEAUX_DARKBLUE;
+        croccodile_color_2 = PINK_BORDEAUX;
+        croccodile_color_eye = WHITE_BORDEAUX;
+    } else if(sig == CROCCODILE_GOOD_SIG) {
+        croccodile_color_1 = DARKGREEN_DARKBLUE;
+        croccodile_color_2 = LIGHTGREEN_DARKGREEN;
+        croccodile_color_eye = WHITE_DARKGREEN;
     }
+    for(i = 0; i < CROCCODILE_DIM_X; i++) {
+        pair_col[0][i] = pair_col[3][i] = croccodile_color_1;
+    }
+    for(i = 0; i < 4; i++) {
+        pair_col[1][i] = pair_col[1][CROCCODILE_DIM_X-1-i] = pair_col[2][i] = pair_col[2][CROCCODILE_DIM_X-1-i] = croccodile_color_1;
+    }
+    for(i = 4; i < CROCCODILE_DIM_X-5; i++) {
+        pair_col[1][i] = pair_col[2][i] = croccodile_color_2;
+    }
+    pair_col[1][CROCCODILE_DIM_X-5] = pair_col[2][CROCCODILE_DIM_X-5] = croccodile_color_eye;
 
-    if(is_bad != CROCCODILE_IMMERSION_SIG) {
-        for(i = 0; i < CROCCODILE_DIM_Y; i++) {
-            mvwaprintw(main_scr, i + croccodile.y, croccodile_x, croccodile_color, "%*s", croccodile_len, "");
+    // Print croccodile if it isn't immersed
+    if(sig != CROCCODILE_IMMERSION_SIG) { //
+        if(speed > 0) {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                for(j = 0; j < croccodile_len; j++) {
+                    mvwaprintw(main_scr, croccodile.y + i, j + croccodile_beg, pair_col[i][croccodile_beg-croccodile.x+j], "%s", sprite_matrix[i][croccodile_beg-croccodile.x+j]);
+                }
+            }
+        } else {
+            for(i = 0; i < CROCCODILE_DIM_Y; i++) {
+                for(j = 0; j < croccodile_len; j++) {
+                    mvwaprintw(main_scr, croccodile.y + i, j + croccodile_beg, pair_col[i][CROCCODILE_DIM_X-(croccodile_beg-croccodile.x+j)-1], "%s", sprite_matrix[i][CROCCODILE_DIM_X-(croccodile_beg-croccodile.x+j)-1]);
+                }
+            }
         }
     }
 
-    if(is_bad == CROCCODILE_BUBBLE_SIG) {
-        mvwaprintw(main_scr, croccodile.y + 1, croccodile.x + 1, COLOR_PAIR(BLUE_BLACK_ID) | A_STANDOUT, "%*s", 1, "");
+    // Print bubble
+    if(sig == CROCCODILE_BUBBLE_SIG) {
+        mvwaprintw(main_scr, croccodile.y, croccodile.x + 1, CYAN_DARKBLUE, "%s", "⬤");
+        mvwaprintw(main_scr, croccodile.y, croccodile.x + CROCCODILE_DIM_X - 1, CYAN_DARKBLUE, "%s", "⬤");
     }
 }
 

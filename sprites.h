@@ -14,8 +14,6 @@
 #define HEDGE_BG (GREY_BLACK | A_STANDOUT)
 #define BANK_BG GREEN_PURPLE
 #define RIVER_BG GREEN_DARKBLUE
-#define GOOD_CROCCODILE_BG GREEN_DARKGREEN
-#define BAD_CROCCODILE_BG GREEN_BORDEAUX
 
 // Figlet constants
 #define LINE_FIGLET (MAIN_ROWS - 15)
@@ -68,6 +66,6 @@ void print_score(int score);
 void print_lifes(int n_lifes);
 void print_figlet(int win);
 void print_frog(const Game_t* gamevar);
-void print_croccodile(Position croccodile, bool direction, int is_bad);
+void print_croccodile(Position croccodile, int speed, int sig);
 void print_plant(Position plant);
 void print_bullet(Position bullet);
