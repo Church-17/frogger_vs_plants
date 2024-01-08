@@ -119,7 +119,7 @@ void print_frog(const Game_t* gamevar) {
     
     // Determine frog background
     if(gamevar->frog.y < LINE_RIVER) {
-        restore_color = BANK_BG;
+        restore_color = GREEN_PURPLE;
     } else if(gamevar->frog.y < LINE_BANK_2) {
         if(gamevar->frog_on_croccodile >= 0) {
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
@@ -130,10 +130,10 @@ void print_frog(const Game_t* gamevar) {
                 restore_color = GREEN_DARKGREEN; // If frog was on good croccodile set dark green
             }
         } else {
-            restore_color = RIVER_BG;
+            restore_color = GREEN_DARKBLUE;
         }
     } else {
-        restore_color = BANK_BG;
+        restore_color = GREEN_PURPLE;
     }
     for(i = 0; i < FROG_DIM_Y; i++) {
         for(j = 0; j < FROG_DIM_X; j++) {
