@@ -187,6 +187,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             case FROG_ID:
                 if(msg.sig == FROG_SHOT_SIG) { // If frog shot a bullet
                     if(gamevar.frog_bullets[next_frog_bullet].y == FREE_ENTITY) { // If a frog bullet is free...
+                        gamevar.frog_bullets[next_frog_bullet].y = INCOMING_ENTITY;
                         // Calc bullet params
                         fork_params[BULLET_ID_INDEX] = next_frog_bullet + MIN_FROG_BULLET_ID;
                         fork_params[BULLET_Y_INDEX] = gamevar.frog.y - 1;
@@ -425,6 +426,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     print_plant(gamevar.plants[entity_id]);
                 } else if(msg.sig == PLANT_SHOT_SIG) { // Shot
                     if(gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y == FREE_ENTITY) {
+                        gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y = INCOMING_ENTITY;
                         // Calc bullet params
                         fork_params[BULLET_ID_INDEX] = next_plant_bullet[entity_id] + MAX_BULLETS_PER_PLANT*entity_id + MIN_PLANT_BULLET_ID;
                         fork_params[BULLET_Y_INDEX] = gamevar.plants[entity_id].y + PLANT_DIM_Y;
@@ -438,6 +440,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             // FROG BULLET
             else if(msg.id >= MIN_FROG_BULLET_ID && msg.id < MIN_PLANT_BULLET_ID) {
                 entity_id = msg.id - MIN_FROG_BULLET_ID;
+
+                // Ignore message from inexistent bullet
+                if(gamevar.frog_bullets[entity_id].y == FREE_ENTITY) {
+                    break;
+                }
 
                 // De-print bullet
                 if(gamevar.frog_bullets[entity_id].y >= 0) {
@@ -560,6 +567,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             else if(msg.id >= MIN_PLANT_BULLET_ID && msg.id < LIM_N_ENTITIES) {
                 plant_id = (msg.id - MIN_PLANT_BULLET_ID) / MAX_BULLETS_PER_PLANT;
                 entity_id = msg.id - MIN_PLANT_BULLET_ID - plant_id*MAX_BULLETS_PER_PLANT;
+                
+                // Ignore message from inexistent bullet
+                if(gamevar.plants_bullets[plant_id][entity_id].y == FREE_ENTITY) {
+                    break;
+                }
 
                 // De-print bullet
                 if(gamevar.plants_bullets[plant_id][entity_id].y >= 0) {
