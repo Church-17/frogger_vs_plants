@@ -25,7 +25,7 @@ void* time_thread(void* params) {
         if(end - start >= MSEC_IN_SEC) { // If a seconds passed...
             start = end; // Update start
             msg.sig--;
-            write_msg(&msg); // Write in pipe
+            write_msg(msg); // Write in pipe
         }
         msleep(MSEC_IN_SEC); // Sleep for a second
         end = timestamp(); // Update end
@@ -106,7 +106,7 @@ void* frog_thread(void* params) {
             default: break; 
         }
         if(do_send_msg) {
-            write_msg(&msg);
+            write_msg(msg);
             msg.id = FROG_ID;
             msg.sig = FROG_POSITION_SIG;
             do_send_msg = FALSE;
@@ -137,7 +137,7 @@ void* croccodile_thread(void* params) {
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
 
     // Write initial position
-    write_msg(&msg);
+    write_msg(msg);
 
     // Loop for write new coordinates
     while(!do_exit) {
@@ -175,7 +175,7 @@ void* croccodile_thread(void* params) {
         }
 
         msleep(MSEC_IN_SEC * CROCCODILE_MOVE_X / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
-        write_msg(&msg); // Write on pipe
+        write_msg(msg); // Write on pipe
     }
     return NULL;
 }
@@ -194,14 +194,14 @@ void* plant_thread(void* params) {
     srand(timestamp() + msg.id);
     msleep(rand_range(1, 5) * MSEC_IN_SEC);
 
-    write_msg(&msg);
+    write_msg(msg);
 
     msg.sig = PLANT_SHOT_SIG;
 
     // Plant loop to shot bullets
     while(TRUE) {
         msleep(MSEC_IN_SEC*(PLANT_SHOT_INTERVAL + rand_range(0, 3)));
-        write_msg(&msg);
+        write_msg(msg);
     }
 }
 
@@ -217,7 +217,7 @@ void* bullet_thread(void* params) {
     msg.x = ((int*) params)[BULLET_X_INDEX];
 
     // Write initial position
-    write_msg(&msg);
+    write_msg(msg);
     if(msg.y < LINE_BANK_1) {
         do_exit = TRUE;
     }
@@ -237,7 +237,7 @@ void* bullet_thread(void* params) {
         }
 
         msleep(MSEC_IN_SEC / BULLET_SPEED);
-        write_msg(&msg);
+        write_msg(msg);
     }
     return NULL;
 }

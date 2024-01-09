@@ -26,6 +26,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
     // Semaphores
     init_semaphore();
+    frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
 
     // Forks
     async_exec(&thread_tids, FROG_ID, &frog_thread, NULL); // Create thread for frog handling the errors
@@ -63,6 +64,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
     // Init control vars
     bool manche_ended = FALSE; // Flag
+    int rd_index = 0;
     int entity_stream, entity_id, next_croccodile_id, restore_croccodile_x, restore_croccodile_len; // Helper vars for croccodile
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
     int next_frog_bullet = 0, next_plant_bullet[N_PLANTS] = {0}, plant_id;
@@ -119,7 +121,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     while(!manche_ended) {
         
         // Read from pipe
-        read_msg(&msg);
+        msg = read_msg(&rd_index);
 
         switch(msg.id) {
 

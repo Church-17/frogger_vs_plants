@@ -12,12 +12,14 @@
 
 // Global variables
 bool in_pause = FALSE;
+int wr_index = 0;
 Message buffer[DIM_BUFFER];
 pthread_mutex_t buf_mutex = PTHREAD_MUTEX_INITIALIZER, pause_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t pause_cond = PTHREAD_COND_INITIALIZER;
 sem_t sem_free, sem_occupied;
 
 void init_semaphore(void) {
+    wr_index = 0;
     if(sem_init(&sem_free, 0, DIM_BUFFER) != 0) {
         quit(ERR_SEM_INIT);
     }
@@ -44,33 +46,27 @@ void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* 
     }
 }
 
-void read_msg(Message* msg) {
-    static int rd_index = 0;
+Message read_msg(int* rd_index) {
+    Message msg;
     while(sem_wait(&sem_occupied) != 0) { // Handle sem wait error, passing signal interrupt
         if(errno != EINTR) quit(ERR_SEM_WAIT);
     }
-    if(pthread_mutex_lock(&buf_mutex) != 0) { // Handle mutex lock error
-        quit(ERR_MUTEX_LOCK);
-    }
-    *msg = buffer[rd_index];
-    rd_index = mod(rd_index + 1, DIM_BUFFER);
-    if(pthread_mutex_unlock(&buf_mutex) != 0) { // Handle mutex unlock error
-        quit(ERR_MUTEX_UNLOCK);
-    }
+    msg = buffer[*rd_index];
+    *rd_index = mod(*rd_index + 1, DIM_BUFFER);
     while(sem_post(&sem_free) != 0) { // Handle sem wait error, passing signal interrupt
         if(errno != EINTR) quit(ERR_SEM_POST);
     }
+    return msg;
 }
 
-void write_msg(Message* msg) {
-    static int wr_index = 0;
+void write_msg(Message msg) {
     while(sem_wait(&sem_free) != 0) { // Handle sem wait error, passing signal interrupt
         if(errno != EINTR) quit(ERR_SEM_WAIT);
     }
     if(pthread_mutex_lock(&buf_mutex) != 0) { // Handle mutex lock error
         quit(ERR_MUTEX_LOCK);
     }
-    buffer[wr_index] = *msg; // Write message in buffer
+    buffer[wr_index] = msg; // Write message in buffer
     wr_index = mod(wr_index + 1, DIM_BUFFER); // Increment wr index
     if(pthread_mutex_unlock(&buf_mutex) != 0) { // Handle mutex unlock error
         quit(ERR_MUTEX_UNLOCK);

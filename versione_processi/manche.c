@@ -119,7 +119,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     while(!manche_ended) {
         
         // Read from pipe
-        read_msg(pipe_fds[PIPE_READ], &msg);
+        msg = read_msg(pipe_fds[PIPE_READ]);
 
         switch(msg.id) {
 
