@@ -162,7 +162,7 @@ void croccodile_process(int pipe_write, int* other_params) {
             change_kindness = FALSE;
         }
 
-        if(frog_on_croccodile && msg.sig >= CROCCODILE_BAD_SIG) { // If croccodile is bad and frog stepped on...
+        if(frog_on_croccodile && msg.sig != CROCCODILE_GOOD_SIG) { // If croccodile is bad and frog stepped on...
             if(!do_immersion) { // If immersion not started, start it
                 immersion_time = rand_range(2, 4) * MSEC_IN_SEC;
                 start = timestamp();
