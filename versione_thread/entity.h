@@ -1,5 +1,5 @@
 // Inter-object variables
-extern int frog_on_croccodile, croccodile_shotted;
+extern int frog_on_croccodile;
 
 // Function prototypes
 void* time_thread(void* params);
