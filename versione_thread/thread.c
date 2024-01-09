@@ -1,7 +1,7 @@
 // Include libs
 #include <unistd.h>
+#include <semaphore.h>
 #include <errno.h>
-#include <signal.h>
 #include "../utils.h"
 #include "../struct.h"
 #include "thread.h"
@@ -17,6 +17,15 @@ Message buffer[DIM_BUFFER];
 pthread_mutex_t buf_mutex = PTHREAD_MUTEX_INITIALIZER, pause_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t pause_cond = PTHREAD_COND_INITIALIZER;
 sem_t sem_free, sem_occupied;
+
+// Calls fork() handling the errors
+void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* func_params) {
+    if(pthread_create(&(tids->list[index]), NULL, func_thread, (void*) func_params) != 0) {
+        tids->list[index] = 0;
+        quit_manche(*tids);
+        quit(ERR_INIT_THREAD);
+    }
+}
 
 void init_semaphore(void) {
     wr_index = 0;
@@ -35,15 +44,6 @@ void destroy_semaphore(void) {
     if(sem_destroy(&sem_occupied) != 0) {
         quit(ERR_SEM_DESTROY);
     };
-}
-
-// Calls fork() handling the errors
-void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* func_params) {
-    if(pthread_create(&(tids->list[index]), NULL, func_thread, (void*) func_params) != 0) {
-        tids->list[index] = 0;
-        quit_manche(*tids);
-        quit(ERR_INIT_THREAD);
-    }
 }
 
 Message read_msg(int* rd_index) {

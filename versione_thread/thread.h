@@ -1,9 +1,6 @@
 // Include libs
 #include <time.h>
-#include <semaphore.h>
 #include "../struct_proto.h"
-
-// Define constants
 
 // Function prototypes
 void init_semaphore(void);

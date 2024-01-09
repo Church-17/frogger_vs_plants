@@ -11,7 +11,7 @@
 
 // Global vars
 int frog_on_croccodile = FROG_NOT_ON_CROCCODILE, croccodile_shotted = CROCCODILE_NOT_SHOTTED;
-pthread_mutex_t var_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t shotted_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void* time_thread(void* params) {
     // Init vars
@@ -25,7 +25,7 @@ void* time_thread(void* params) {
         if(end - start >= MSEC_IN_SEC) { // If a seconds passed...
             start = end; // Update start
             msg.sig--;
-            write_msg(msg); // Write in pipe
+            write_msg(msg);
         }
         msleep(MSEC_IN_SEC); // Sleep for a second
         end = timestamp(); // Update end
@@ -42,7 +42,7 @@ void* frog_thread(void* params) {
 
     // Init window from which to take input
     WINDOW* input_win = new_win(1, 1, 0, 0);
-    wtimeout(input_win, 100);
+    wtimeout(input_win, 100); // Chech pause every 0.1 second
 
     // Frog loop to get pressed key
     while(TRUE) {
@@ -175,7 +175,7 @@ void* croccodile_thread(void* params) {
         }
 
         msleep(MSEC_IN_SEC * CROCCODILE_MOVE_X / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
-        write_msg(msg); // Write on pipe
+        write_msg(msg);
     }
     return NULL;
 }
@@ -243,11 +243,11 @@ void* bullet_thread(void* params) {
 }
 
 void change_croccodile_shotted(int id) {
-    if(pthread_mutex_lock(&var_mutex) != 0) { // Handle mutex lock error
+    if(pthread_mutex_lock(&shotted_mutex) != 0) { // Handle mutex lock error
         quit(ERR_MUTEX_LOCK);
     }
     croccodile_shotted = id;
-    if(pthread_mutex_unlock(&var_mutex) != 0) { // Handle mutex unlock error
+    if(pthread_mutex_unlock(&shotted_mutex) != 0) { // Handle mutex unlock error
         quit(ERR_MUTEX_UNLOCK);
     }
 }
