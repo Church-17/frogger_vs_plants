@@ -240,7 +240,5 @@ void print_plant(Position plant) {
 }
 
 void print_bullet(Position bullet) {
-    for(int i = 0; i < BULLET_DIM_Y; i++) {
-        mvwaprintw(main_scr, bullet.y + i, bullet.x, RED_BLACK | A_STANDOUT, "%*s", BULLET_DIM_X, "");
-    }
+    mvwaprintw(main_scr, bullet.y, bullet.x, RED_BLACK | A_STANDOUT, "%*s", BULLET_DIM_X, "");
 }

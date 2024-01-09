@@ -25,13 +25,13 @@ void async_exec(int* pipe_fds, List_pid* pids, int index, void (*func_process)(i
 }
 
 void read_msg(int pipe_read, Message* msg) {
-    while(read(pipe_read, msg, sizeof(Message)) != 0) {
+    while(read(pipe_read, msg, sizeof(Message)) < 0) {
         if(errno != EINTR) quit(ERR_READ);
     }
 }
 
 void write_msg(int pipe_write, Message* msg) {
-    while(write(pipe_write, msg, sizeof(Message)) != 0) {
+    while(write(pipe_write, msg, sizeof(Message)) < 0) {
         if(errno != EINTR) quit(ERR_WRITE);
     }
 }
