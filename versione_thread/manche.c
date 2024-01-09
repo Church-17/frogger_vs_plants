@@ -19,16 +19,15 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     bool occupied_plant;
     pthread_t array_tids[LIM_N_ENTITIES] = {0}; // ID for every thread
     List_thread thread_tids = {array_tids, LIM_N_ENTITIES};
-    int thread_params[LIM_N_ENTITIES][N_ENTITY_PARAMS];
+    int thread_params[LIM_N_ENTITIES][N_ENTITY_PARAMS]; // Matrix to store params for each entity; each line will be passed to thread as params
     int stream_speed[N_WATER_STREAM];
     int plants_x[N_PLANTS];
     int id;
 
-    // Semaphores
-    init_semaphore();
-    frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
+    init_semaphore(); // Semaphores
+    frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Reset var
 
-    // Forks
+    // Thread
     async_exec(&thread_tids, FROG_ID, &frog_thread, NULL); // Create thread for frog handling the errors
     async_exec(&thread_tids, TIME_ID, &time_thread, NULL); // Create thread for time handling the errors
     for(int i = 0; i < N_WATER_STREAM; i++) {
@@ -69,7 +68,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
     int next_frog_bullet = 0, next_plant_bullet[N_PLANTS] = {0}, plant_id;
     time_t resize_time = 0, refresh_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
-    Message msg; // Define msg to store pipe message
+    Message msg; // Define msg to store buffer message
 
     // Init game vars
     Game_t gamevar;
@@ -120,7 +119,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Manche loop
     while(!manche_ended) {
         
-        // Read from pipe
+        // Read from buffer
         msg = read_msg(&rd_index);
 
         switch(msg.id) {
@@ -131,7 +130,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 if(timestamp() - resize_time < RESIZE_TIME_THRESHOLD) {
                     break;
                 }
-                // Put game in pause (resize_proc will be called by menu)
+                ungetch(KEY_RESIZE); // Push KEY_RESIZE in all getch() buffer
+                // Put game in pause (resize_proc will be called by menu caused by KEY_RESIZE pushed)
             // PAUSE || CLOSE
             case PAUSE_ID:
             case CLOSE_ID:
@@ -195,7 +195,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         thread_params[id][BULLET_ID_INDEX] = next_frog_bullet + MIN_FROG_BULLET_ID;
                         thread_params[id][BULLET_Y_INDEX] = gamevar.frog.y - 1;
                         thread_params[id][BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
-                        // Fork
+                        // Thread
                         async_exec(&thread_tids, id, &bullet_thread, thread_params[id]);
                         // Update next bullet & counter
                         next_frog_bullet = mod(next_frog_bullet + 1, MAX_BULLETS_PER_FROG);
@@ -419,7 +419,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         thread_params[id][CROCCODILE_ID_INDEX] = id;
                         thread_params[id][CROCCODILE_STREAM_INDEX] = entity_stream;
                         thread_params[id][CROCCODILE_SPEED_INDEX] = stream_speed[entity_stream];
-                        async_exec(&thread_tids, id, &croccodile_thread, thread_params[id]); // Calls the fork for croccodile process handling the errors
+                        async_exec(&thread_tids, id, &croccodile_thread, thread_params[id]); // Create thread for croccodile handling the errors
                         stream_last[entity_stream] = next_croccodile_id; // Update last croccodile of stream
                     }
                 }
@@ -460,7 +460,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         thread_params[id][BULLET_ID_INDEX] = id;
                         thread_params[id][BULLET_Y_INDEX] = gamevar.plants[entity_id].y + PLANT_DIM_Y;
                         thread_params[id][BULLET_X_INDEX] = gamevar.plants[entity_id].x + PLANT_DIM_X/2;
-                        async_exec(&thread_tids, id, &bullet_thread, thread_params[id]); // Fork
+                        async_exec(&thread_tids, id, &bullet_thread, thread_params[id]); // Create thread
                         next_plant_bullet[entity_id] = mod(next_plant_bullet[entity_id] + 1, MAX_BULLETS_PER_PLANT); // Update next
                     }
                 }
@@ -679,8 +679,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     gamevar.croccodiles = gamevar.plants_bullets = NULL;
     gamevar.plants = gamevar.frog_bullets = NULL;
 
-    // Close file descriptors
-    destroy_semaphore();
+    destroy_semaphore(); // Destroy semaphore
 
     return gamevar;
 }
