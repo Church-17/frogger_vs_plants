@@ -31,6 +31,9 @@
 #define ERR_SEM_POST 12
 #define ERR_MUTEX_LOCK 13
 #define ERR_MUTEX_UNLOCK 14
+#define ERR_MUTEX_COND 15
+#define ERR_SEM_INIT 16
+#define ERR_SEM_DESTROY 17
 
 // Define macros
 

@@ -16,6 +16,7 @@ main = main.h struct_proto.h
 sprites = sprites.h ${game}
 manche = manche.h ${sprites}
 process = versione_processi/process.h struct_proto.h
+thread = versione_thread/thread.h struct_proto.h
 entity = ${VERSION}/entity.h
 
 # Define compiling version
@@ -28,6 +29,8 @@ SPEC_OBJ = thread.o
 SPEC_LIB = ${threads}
 endif
 
+out: clear_all sopr_proj.out
+
 sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o entity.o ${SPEC_OBJ}
 	${CC} $^ ${CARGS}
 
@@ -35,6 +38,9 @@ manche.o: ${VERSION}/manche.c ${main} ${menu} ${manche} ${music} ${utils} ${stru
 	${COBJ_VER}
 
 process.o: versione_processi/process.c ${utils} ${struct} ${process}
+	${COBJ_VER}
+
+thread.o: versione_thread/thread.c ${utils} ${struct} ${thread}
 	${COBJ_VER}
 
 entity.o: ${VERSION}/entity.c ${manche} ${utils} ${struct} ${SPEC_LIB} ${entity}
