@@ -25,7 +25,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
     // Pipe
     int pipe_fds[PIPE_DIM];
-    if(pipe(pipe_fds) < 0) {
+    if(pipe(pipe_fds) != 0) {
         quit(ERR_PIPE);
     }
 

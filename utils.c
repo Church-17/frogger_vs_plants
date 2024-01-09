@@ -105,7 +105,9 @@ void quit(int err_code) {
             "Error writing in pipe",
             "Error during music initialization",
             "Error playing music",
-            "Error creating thread"
+            "Error creating thread",
+            "Error reading from buffer",
+            "Error writing in buffer",
         };
         perror(errContainer[err_code-1]);
     }

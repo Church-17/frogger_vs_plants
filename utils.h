@@ -27,6 +27,10 @@
 #define ERR_INIT_MUSIC 8
 #define ERR_PLAY_MUSIC 9
 #define ERR_INIT_THREAD 10
+#define ERR_SEM_WAIT 11
+#define ERR_SEM_POST 12
+#define ERR_MUTEX_LOCK 13
+#define ERR_MUTEX_UNLOCK 14
 
 // Define macros
 
