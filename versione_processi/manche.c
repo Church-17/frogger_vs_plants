@@ -129,7 +129,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 if(timestamp() - resize_time < RESIZE_TIME_THRESHOLD) {
                     break;
                 }
-                // Put game in pause (resize_proc will be called by menu)
+                ungetch(KEY_RESIZE); // Push KEY_RESIZE in all getch() buffer
+                // Put game in pause (resize_proc will be called by menu caused by KEY_RESIZE pushed)
             // PAUSE || CLOSE
             case PAUSE_ID:
             case CLOSE_ID:
