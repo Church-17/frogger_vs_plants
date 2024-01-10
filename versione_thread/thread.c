@@ -11,14 +11,14 @@
 #define DIM_BUFFER 16
 
 // Global variables
-bool in_pause = FALSE;
+bool game_in_pause = FALSE;
 int wr_index = 0;
 Message buffer[DIM_BUFFER];
 pthread_mutex_t buf_mutex = PTHREAD_MUTEX_INITIALIZER, pause_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t pause_cond = PTHREAD_COND_INITIALIZER;
 sem_t sem_free, sem_occupied;
 
-// Calls fork() handling the errors
+// Create thread handling errors
 void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* func_params) {
     if(pthread_create(&(tids->list[index]), NULL, func_thread, (void*) func_params) != 0) {
         tids->list[index] = 0;
@@ -27,6 +27,7 @@ void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* 
     }
 }
 
+// Init semaphores handling errors & reset wr_index needed
 void init_semaphore(void) {
     wr_index = 0;
     if(sem_init(&sem_free, 0, DIM_BUFFER) != 0) {
@@ -37,6 +38,7 @@ void init_semaphore(void) {
     };
 }
 
+// Free semaphores handling errors
 void destroy_semaphore(void) {
     if(sem_destroy(&sem_free) != 0) {
         quit(ERR_SEM_DESTROY);
@@ -46,6 +48,7 @@ void destroy_semaphore(void) {
     };
 }
 
+// Read message from buffer (only 1 consumer intended)
 Message read_msg(int* rd_index) {
     Message msg;
     while(sem_wait(&sem_occupied) != 0) { // Handle sem wait error, passing signal interrupt
@@ -59,6 +62,7 @@ Message read_msg(int* rd_index) {
     return msg;
 }
 
+// Write message in buffer
 void write_msg(Message msg) {
     while(sem_wait(&sem_free) != 0) { // Handle sem wait error, passing signal interrupt
         if(errno != EINTR) quit(ERR_SEM_WAIT);
@@ -76,7 +80,7 @@ void write_msg(Message msg) {
     }
 }
 
-// Sleep for certain amount of milliseconds, handling interrupts
+// Sleep for certain amount of milliseconds, handling interrupts & checking pause
 void msleep(time_t timer) {
     for(int dec = 0; dec < MSLEEP_INTEVAL; dec++) {
         check_pause();
@@ -84,12 +88,13 @@ void msleep(time_t timer) {
     }
 }
 
+// Check if game is in pause
 void check_pause(void) {
-    if(in_pause) {
+    if(game_in_pause) {
         if(pthread_mutex_lock(&pause_mutex) != 0) { // Handle mutex lock error
             quit(ERR_MUTEX_LOCK);
         }
-        if(pthread_cond_wait(&pause_cond, &pause_mutex) != 0) {
+        if(pthread_cond_wait(&pause_cond, &pause_mutex) != 0) { // Wait until game resume
             quit(ERR_MUTEX_COND);
         }
         if(pthread_mutex_unlock(&pause_mutex) != 0) { // Handle mutex unlock error
@@ -98,15 +103,18 @@ void check_pause(void) {
     }
 }
 
+// Pause game
 void pause_manche(void) {
-    in_pause = TRUE;
+    game_in_pause = TRUE;
 }
 
+// Resume game
 void resume_manche(void) {
-    in_pause = FALSE;
+    game_in_pause = FALSE;
     pthread_cond_broadcast(&pause_cond);
 }
 
+// Quit game canceling all threads
 void quit_manche(const List_thread tids) {
     for(int i = 0; i < tids.len; i++) {
         if(tids.list[i] != 0) {
