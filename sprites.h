@@ -50,7 +50,7 @@
 #define CROCCODILE_DIM_Y 4
 
 // Plant constants
-#define PLANT_DIM_X 9
+#define PLANT_DIM_X 7
 #define PLANT_DIM_Y 4
 
 // Bullet constans
