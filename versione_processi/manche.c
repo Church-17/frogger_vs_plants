@@ -251,6 +251,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             manche_ended = TRUE;
                         }
                     }
+
                     print_frog(&gamevar); // Print frog
 
                     // Frog collision with plant bullets
@@ -272,7 +273,17 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             break;
                         }
                     }
+
                     print_frog(&gamevar); // Print frog
+
+                    // Frog collision with frog bullets
+                    for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+                        if(gamevar.frog_bullets[i].y >= 0 && gamevar.frog_bullets[i].y < LINE_RIVER && gamevar.frog.x + FROG_DIM_X > gamevar.frog_bullets[i].x && gamevar.frog.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
+                            print_bullet(gamevar.frog_bullets[i]);
+                            gamevar.timer = MANCHE_LOST;
+                            manche_ended = TRUE;
+                        }
+                    }
                 } else {
                     // If the frog is in hedge, manche is lost, otherwise manche is won
                     for(int i = 0; i < N_HOLES; i++) {
@@ -286,16 +297,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         gamevar.timer = MANCHE_LOST;
                         manche_ended = TRUE;
                     }
-                    print_frog(&gamevar); // Print frog
-                }
 
-                // Frog collision with frog bullets
-                for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
-                    if(gamevar.frog_bullets[i].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.frog_bullets[i].y && gamevar.frog.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.frog_bullets[i].x && gamevar.frog.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
-                        print_bullet(gamevar.frog_bullets[i]);
-                        gamevar.timer = MANCHE_LOST;
-                        manche_ended = TRUE;
-                    }
+                    print_frog(&gamevar); // Print frog
                 }
 
                 break;
@@ -374,15 +377,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                                 gamevar.timer = MANCHE_LOST;
                                 manche_ended = TRUE;
                             }
-                        }
-                    }
-
-                    // Frog on croccodile collision with frog bullets
-                    for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
-                        if(gamevar.frog_bullets[i].y >= 0 && gamevar.frog.y + FROG_DIM_Y > gamevar.frog_bullets[i].y && gamevar.frog.y < gamevar.frog_bullets[i].y + BULLET_DIM_Y && gamevar.frog.x + FROG_DIM_X > gamevar.frog_bullets[i].x && gamevar.frog.x < gamevar.frog_bullets[i].x + BULLET_DIM_X) {
-                            print_bullet(gamevar.frog_bullets[i]);
-                            gamevar.timer = MANCHE_LOST;
-                            manche_ended = TRUE;
                         }
                     }
                 }
@@ -581,13 +575,13 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             break;
                         }
                     }
-                }
 
-                // Frog bullet collision with frog
-                if(msg.y + BULLET_DIM_Y > gamevar.frog.y && msg.y < gamevar.frog.y + FROG_DIM_Y && msg.x + BULLET_DIM_X > gamevar.frog.x && msg.x < gamevar.frog.x + FROG_DIM_X) {
-                    gamevar.timer = MANCHE_LOST;
-                    manche_ended = TRUE;
-                    break;
+                    // Frog bullet collision with frog
+                    if(gamevar.frog.y < LINE_RIVER && msg.x + BULLET_DIM_X > gamevar.frog.x && msg.x < gamevar.frog.x + FROG_DIM_X) {
+                        gamevar.timer = MANCHE_LOST;
+                        manche_ended = TRUE;
+                        break;
+                    }
                 }
             }
 
