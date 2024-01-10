@@ -396,7 +396,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         pthread_cancel(thread_tids.list[MIN_FROG_BULLET_ID + i]); // Kill bullet thread
                         thread_tids.list[MIN_FROG_BULLET_ID + i] = 0;
                         if(msg.sig != CROCCODILE_GOOD_SIG) { // Change kindness of croccodile if it is bad
-                            change_croccodile_shotted(msg.id);
+                            change_croccodile_shotted(msg.id, TRUE);
                         }
                     }
                 }
@@ -511,7 +511,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             pthread_cancel(thread_tids.list[msg.id]);
                             thread_tids.list[msg.id] = 0;
                             if(gamevar.croccodiles_kind[entity_stream][i] != CROCCODILE_GOOD_SIG) { // Change kindness of croccodile if it is bad
-                                change_croccodile_shotted(MIN_CROCCODILE_ID + MAX_CROCCODILE_PER_STREAM*entity_stream + i);
+                                change_croccodile_shotted(MIN_CROCCODILE_ID + MAX_CROCCODILE_PER_STREAM*entity_stream + i, TRUE);
                             }
                             break;
                         }

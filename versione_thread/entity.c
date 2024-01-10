@@ -10,7 +10,8 @@
 #define CROCCODILE_NOT_SHOTTED (-1)
 
 // Global vars
-int frog_on_croccodile = FROG_NOT_ON_CROCCODILE, croccodile_shotted = CROCCODILE_NOT_SHOTTED;
+int frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
+bool croccodile_shotted[MIN_PLANT_ID - MIN_CROCCODILE_ID] = {FALSE};
 pthread_mutex_t shotted_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void* time_thread(void* params) {
@@ -147,9 +148,9 @@ void* croccodile_thread(void* params) {
         }
 
         // Check if this croccodile thread has been shotted
-        if(croccodile_shotted == msg.id) {
+        if(croccodile_shotted[msg.id - MIN_CROCCODILE_ID] == TRUE) {
             msg.sig = CROCCODILE_GOOD_SIG;
-            change_croccodile_shotted(CROCCODILE_NOT_SHOTTED); // Reset croccodile shotted var
+            change_croccodile_shotted(msg.id, FALSE); // Reset croccodile shotted var
         }
 
         // Check if frog is on this croccodile thread
@@ -237,11 +238,11 @@ void* bullet_thread(void* params) {
 }
 
 // Change ID of croccodile shotted
-void change_croccodile_shotted(int id) {
+void change_croccodile_shotted(int id_croccodile, bool value) {
     if(pthread_mutex_lock(&shotted_mutex) != 0) { // Handle mutex lock error
         quit(ERR_MUTEX_LOCK);
     }
-    croccodile_shotted = id;
+    croccodile_shotted[id_croccodile - MIN_CROCCODILE_ID] = value;
     if(pthread_mutex_unlock(&shotted_mutex) != 0) { // Handle mutex unlock error
         quit(ERR_MUTEX_UNLOCK);
     }
