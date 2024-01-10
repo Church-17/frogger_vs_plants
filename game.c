@@ -161,7 +161,7 @@ void print_game(const Game_t* gamevar) {
         // Print plants
         for(int i = 0; i < N_PLANTS; i++) {
             if(gamevar->plants[i].y >= 0) {
-                print_plant(gamevar->plants[i]);
+                print_plant(gamevar->plants[i], gamevar->plants_sig[i]);
             }
             // Print plants bullets
             for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {

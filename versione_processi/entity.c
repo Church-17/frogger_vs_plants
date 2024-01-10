@@ -6,6 +6,9 @@
 #include "process.h"
 #include "entity.h"
 
+// Define constants
+#define PLANT_OPEN_INTERVAL 200
+
 // Global vars
 bool frog_on_croccodile = FALSE;
 bool change_kindness = FALSE;
@@ -194,11 +197,16 @@ void plant_process(int pipe_write, int* params) {
 
     write_msg(pipe_write, msg); // Write initial position
 
-    msg.sig = PLANT_SHOT_SIG; // After spawn the plant only shot
-
     // Plant loop to shot bullets
     while(TRUE) {
         msleep(MSEC_IN_SEC*(PLANT_SHOT_INTERVAL + rand_range(0, 3)));
+        msg.sig = PLANT_OPEN_SIG;
+        write_msg(pipe_write, msg);
+        msleep(PLANT_OPEN_INTERVAL);
+        msg.sig = PLANT_SHOT_SIG;
+        write_msg(pipe_write, msg);
+        msleep(PLANT_OPEN_INTERVAL);
+        msg.sig = PLANT_CLOSE_SIG;
         write_msg(pipe_write, msg);
     }
 }

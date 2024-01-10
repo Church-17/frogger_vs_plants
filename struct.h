@@ -48,6 +48,7 @@ struct Game_t {
     Position frog;
     Position* frog_bullets;
     Position* plants;
+    int* plants_sig;
     Position** plants_bullets;
     Position** croccodiles;
     int** croccodiles_kind;

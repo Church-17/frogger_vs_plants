@@ -67,5 +67,5 @@ void print_lifes(int n_lifes);
 void print_figlet(int win);
 void print_frog(const Game_t* gamevar);
 void print_croccodile(Position croccodile, int speed, int sig);
-void print_plant(Position plant);
+void print_plant(Position plant, int sig);
 void print_bullet(Position bullet);

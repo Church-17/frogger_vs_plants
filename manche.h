@@ -43,7 +43,9 @@
 #define PLANT_ID_INDEX 0
 #define PLANT_X_INDEX 1
 #define PLANT_SPAWN_SIG 0
-#define PLANT_SHOT_SIG 1
+#define PLANT_OPEN_SIG 1
+#define PLANT_SHOT_SIG 2
+#define PLANT_CLOSE_SIG 3
 #define PLANT_SHOT_INTERVAL (N_DIFFICULTY - DIFF_SET)
 
 // Bullet constants

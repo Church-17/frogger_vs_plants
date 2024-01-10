@@ -89,6 +89,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
     // Allocating plants and bullets for the start
     alloc(Position, gamevar.plants, N_PLANTS);
+    alloc(int, gamevar.plants_sig, N_PLANTS);
     alloc(Position*, gamevar.plants_bullets, N_PLANTS);
     for(int i = 0; i < N_PLANTS; i++) {
         gamevar.plants[i].y = INCOMING_ENTITY; // Mark as incoming each plant
@@ -428,6 +429,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             // PLANT
             else if(msg.id >= MIN_PLANT_ID && msg.id < MIN_FROG_BULLET_ID) {
                 entity_id = msg.id - MIN_PLANT_ID;
+                gamevar.plants_sig[entity_id] = msg.sig;
 
                 if(msg.sig == PLANT_SPAWN_SIG) { // Spawn
                     // If plant spawn on frog, kill plant & spawn another
@@ -452,7 +454,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     // Update coordinates & print
                     gamevar.plants[entity_id].y = msg.y;
                     gamevar.plants[entity_id].x = msg.x;
-                    print_plant(gamevar.plants[entity_id]);
+                    print_plant(gamevar.plants[entity_id], msg.sig);
                 } else if(msg.sig == PLANT_SHOT_SIG) { // Shot
                     if(gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y == FREE_ENTITY) {
                         gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y = INCOMING_ENTITY;
@@ -463,6 +465,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         async_exec(pipe_fds, &process_pids, fork_params[BULLET_ID_INDEX], &bullet_process, fork_params); // Fork
                         next_plant_bullet[entity_id] = mod(next_plant_bullet[entity_id] + 1, MAX_BULLETS_PER_PLANT); // Update next
                     }
+                } else {
+                    print_plant(gamevar.plants[entity_id], msg.sig);
                 }
             }
 
@@ -682,11 +686,13 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     free(gamevar.croccodiles);
     free(gamevar.croccodiles_kind);
     free(gamevar.plants);
+    free(gamevar.plants_sig);
     free(gamevar.frog_bullets);
     free(gamevar.plants_bullets);
     gamevar.croccodiles_kind = NULL;
     gamevar.croccodiles = gamevar.plants_bullets = NULL;
     gamevar.plants = gamevar.frog_bullets = NULL;
+    gamevar.plants_sig = NULL;
 
     // Close file descriptors
     close(pipe_fds[PIPE_READ]);

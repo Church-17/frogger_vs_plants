@@ -7,7 +7,7 @@
 #include "entity.h"
 
 // Define contants
-#define CROCCODILE_NOT_SHOTTED (-1)
+#define PLANT_OPEN_INTERVAL 200
 
 // Global vars
 int frog_on_croccodile = FROG_NOT_ON_CROCCODILE;
@@ -191,11 +191,16 @@ void* plant_thread(void* params) {
 
     write_msg(msg); // Write initial position
 
-    msg.sig = PLANT_SHOT_SIG; // After spawn the plant only shot
-
     // Plant loop to shot bullets
     while(TRUE) {
         msleep(MSEC_IN_SEC*(PLANT_SHOT_INTERVAL + rand_range(0, 3)));
+        msg.sig = PLANT_OPEN_SIG;
+        write_msg(msg);
+        msleep(PLANT_OPEN_INTERVAL);
+        msg.sig = PLANT_SHOT_SIG;
+        write_msg(msg);
+        msleep(PLANT_OPEN_INTERVAL);
+        msg.sig = PLANT_CLOSE_SIG;
         write_msg(msg);
     }
 }

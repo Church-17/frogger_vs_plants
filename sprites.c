@@ -233,15 +233,24 @@ void print_croccodile(Position croccodile, int speed, int sig) {
     }
 }
 
-void print_plant(Position plant) {
+void print_plant(Position plant, int sig) {
     mvwaprintw(main_scr, plant.y, plant.x, PURPLE_DARKGREEN, "▀     ▀");
     mvwaprintw(main_scr, plant.y + 1, plant.x + 3, MAGENTA_GREEN, " ");
-    mvwaprintw(main_scr, plant.y + 2, plant.x + 1, PURPLE_RED, "▀ ");
-    mvwaprintw(main_scr, plant.y + 2, plant.x + 3, WHITE_RED, "▄");
-    mvwaprintw(main_scr, plant.y + 2, plant.x + 4, PURPLE_RED, " ▀");
-    mvwaprintw(main_scr, plant.y + 3, plant.x, WHITE_RED, " ▄");
-    mvwaprintw(main_scr, plant.y + 3, plant.x + 2, WHITE_PURPLE, "▀ ▀");
-    mvwaprintw(main_scr, plant.y + 3, plant.x + 5, WHITE_RED, "▄ ");
+    if(sig == PLANT_SPAWN_SIG || sig == PLANT_CLOSE_SIG) {
+        mvwaprintw(main_scr, plant.y + 2, plant.x + 1, PURPLE_RED, "▀   ▀");
+        mvwaprintw(main_scr, plant.y + 3, plant.x, WHITE_PURPLE, " ");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 1, PURPLE_RED, "▄ ");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 3, WHITE_PURPLE | A_STANDOUT, " ");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 4, PURPLE_RED, " ▄");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 6, WHITE_PURPLE, " ");
+    } else {
+        mvwaprintw(main_scr, plant.y + 2, plant.x + 1, PURPLE_RED, "▀ ");
+        mvwaprintw(main_scr, plant.y + 2, plant.x + 3, WHITE_RED, "▄");
+        mvwaprintw(main_scr, plant.y + 2, plant.x + 4, PURPLE_RED, " ▀");
+        mvwaprintw(main_scr, plant.y + 3, plant.x, WHITE_RED, " ▄");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 2, WHITE_PURPLE, "▀ ▀");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 5, WHITE_RED, "▄ ");
+    }
 }
 
 void print_bullet(Position bullet) {
