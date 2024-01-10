@@ -132,7 +132,6 @@ void* croccodile_thread(void* params) {
     msg.x = speed_stream > 0 ? -CROCCODILE_DIM_X + CROCCODILE_MOVE_X : MAIN_COLS - CROCCODILE_MOVE_X;
 
     // Random croccodile kind & spawn time
-    srand(timestamp() + msg.id);
     msg.sig = rand_range(0, 10) < BAD_THRESHOLD ? CROCCODILE_BAD_SIG : CROCCODILE_GOOD_SIG;
     msleep(rand_range(MIN_CROCCODILE_SPAWN_TIME, MAX_CROCCODILE_SPAWN_TIME) * MSEC_IN_SEC);
 
@@ -191,7 +190,6 @@ void* plant_thread(void* params) {
     msg.sig = PLANT_SPAWN_SIG;
 
     // Random spawn time & shot interval
-    srand(timestamp() + msg.id);
     msleep(rand_range(1, 5) * MSEC_IN_SEC);
 
     write_msg(msg);
