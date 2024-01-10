@@ -431,7 +431,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
 
                 if(msg.sig == PLANT_SPAWN_SIG) { // Spawn
                     // If plant spawn on frog, kill plant & spawn another
-                    if(msg.y + PLANT_DIM_Y > gamevar.frog.y && msg.y < gamevar.frog.y + FROG_DIM_Y && msg.x + PLANT_DIM_X > gamevar.frog.x && msg.x < gamevar.frog.x + FROG_DIM_X) {
+                    if(gamevar.frog.y == LINE_BANK_1 && msg.x + PLANT_DIM_X > gamevar.frog.x && msg.x < gamevar.frog.x + FROG_DIM_X) {
                         pthread_cancel(thread_tids.list[msg.id]);
                         gamevar.plants[entity_id].y = INCOMING_ENTITY;
                         thread_params[msg.id][PLANT_ID_INDEX] = msg.id;
