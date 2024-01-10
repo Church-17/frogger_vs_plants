@@ -109,16 +109,60 @@ void print_frog(const Game_t* gamevar) {
     attr_t restore_color_1, restore_color_2;
     attr_t pair_col[FROG_DIM_Y][FROG_DIM_X];
     static const str sprite_matrix[FROG_DIM_Y][FROG_DIM_X] = {
-        {"▄", "█", " ", "▀", "▌", "▐", "▀", " ", "█", "▄"},
-        {" ", "▀", "▄", " ", "▄", " ", " ", "▄", "▀", " "},
-        {" ", " ", "▄", "█", "▄", "▀", "▄", "▄", " ", " "},
-        {"▀", "█", "▀", " ", " ", " ", " ", "▀", "█", "▀"},
+        {"▄", "█", "", "▀", "▌", "▐", "▀", "", "█", "▄"},
+        {"", "▀", "▄", " ", "▄", " ", " ", "▄", "▀", ""},
+        {"", "", "▄", "█", "▄", "▀", "▄", "▄", "", ""},
+        {"▀", "█", "▀", "", "", "", "", "▀", "█", "▀"},
     };
     
     // Determine frog background
-    if(gamevar->frog.y < LINE_RIVER || gamevar->frog.y >= LINE_BANK_2) {
+    if(gamevar->frog.y < LINE_BANK_1) {
+        // Hedge
+        int hole_x;
+        if(SKIN_SET == 0) {
+            restore_color_1 = GREEN_GREY;
+            restore_color_2 = GREEN_PURPLE;
+        } else {
+            restore_color_1 = RED_GREY;
+            restore_color_2 = RED_PURPLE;
+        }
+        for(int i = 0; i < N_HOLES; i++) {
+            hole_x = i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2;
+            if(gamevar->frog.x + FROG_DIM_X > hole_x && gamevar->frog.x < hole_x + HOLE_DIM_X) {
+                if(gamevar->frog.x < hole_x) {
+                    for(int j = 0; j < FROG_DIM_Y; j++) {
+                        for(int k = 0; k < hole_x - gamevar->frog.x; k++) {
+                            pair_col[j][k] = restore_color_1;
+                        }
+                        for(int k = hole_x - gamevar->frog.x; k < FROG_DIM_X; k++) {
+                            pair_col[j][k] = restore_color_2;
+                        }
+                    }
+                } else {
+                    for(int j = 0; j < FROG_DIM_Y; j++) {
+                        for(int k = 0; k < hole_x + HOLE_DIM_X - gamevar->frog.x && k < FROG_DIM_X; k++) {
+                            pair_col[j][k] = restore_color_2;
+                        }
+                        for(int k = hole_x + HOLE_DIM_X - gamevar->frog.x; k < FROG_DIM_X; k++) {
+                            pair_col[j][k] = restore_color_1;
+                        }
+                    }
+                }
+                break;
+            }
+        }
+    } else if(gamevar->frog.y < LINE_RIVER) {
+        // Plants
         restore_color_1 = (SKIN_SET == 0) ? GREEN_PURPLE : RED_PURPLE;
-    } else {
+        for(int i = 0; i < FROG_DIM_Y; i++) {
+            for(int j = 0; j < 3; j++) {
+                pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
+            }
+        }
+        for(int i = 3; i < 7; i++) {
+            pair_col[3][i] = restore_color_1;
+        }
+    } else if(gamevar->frog.y < LINE_BANK_2) {
         if(gamevar->frog_on_croccodile >= 0) {
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
             croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
@@ -130,14 +174,24 @@ void print_frog(const Game_t* gamevar) {
         } else {
             restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKBLUE : RED_DARKBLUE;
         }
-    }
-    for(int i = 0; i < FROG_DIM_Y; i++) {
-        for(int j = 0; j < 3; j++) {
-            pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
+        for(int i = 0; i < FROG_DIM_Y; i++) {
+            for(int j = 0; j < 3; j++) {
+                pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
+            }
         }
-    }
-    for(int i = 3; i < 7; i++) {
-        pair_col[3][i] = restore_color_1;
+        for(int i = 3; i < 7; i++) {
+            pair_col[3][i] = restore_color_1;
+        }
+    } else {
+        restore_color_1 = (SKIN_SET == 0) ? GREEN_PURPLE : RED_PURPLE;
+        for(int i = 0; i < FROG_DIM_Y; i++) {
+            for(int j = 0; j < 3; j++) {
+                pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
+            }
+        }
+        for(int i = 3; i < 7; i++) {
+            pair_col[3][i] = restore_color_1;
+        }
     }
     
     // Set fixed color
@@ -170,10 +224,10 @@ void print_croccodile(Position croccodile, int speed, int sig) {
     attr_t croccodile_color_1, croccodile_color_2, croccodile_color_eye;
     attr_t pair_col[CROCCODILE_DIM_Y][CROCCODILE_DIM_X];
     static const str sprite_matrix[CROCCODILE_DIM_Y][CROCCODILE_DIM_X] = {
-        {" ", " ", " ", " ", "▀", "▀", "▀", "█", "█", "█", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "█", "█", "▀", "▀", "▀", " ", " ", " "},
+        {"", "", "", "", "▀", "▀", "▀", "█", "█", "█", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "▄", "█", "█", "▀", "▀", "▀", "", "", ""},
         {"▄", "▄", "▄", "▄", " ", "▄", " ", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", " ", "▀", "█", "▄", "▄", "▄"},
         {"▀", "▀", "▀", "▀", " ", "▀", " ", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", "▄", "▀", " ", "▄", "█", "▀", "▀", "▀"},
-        {" ", " ", " ", " ", "▄", "▄", "▄", "█", "█", "█", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "█", "█", "▄", "▄", "▄", " ", " ", " "},
+        {"", "", "", "", "▄", "▄", "▄", "█", "█", "█", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "▀", "█", "█", "▄", "▄", "▄", "", "", ""},
     };
 
     // Determine how much croccodile print
@@ -202,12 +256,12 @@ void print_croccodile(Position croccodile, int speed, int sig) {
         pair_col[0][i] = pair_col[3][i] = croccodile_color_1;
     }
     for(int i = 0; i < 4; i++) {
-        pair_col[1][i] = pair_col[1][CROCCODILE_DIM_X-1-i] = pair_col[2][i] = pair_col[2][CROCCODILE_DIM_X-1-i] = croccodile_color_1;
+        pair_col[1][i] = pair_col[1][29-i] = pair_col[2][i] = pair_col[2][29-i] = croccodile_color_1;
     }
-    for(int i = 4; i < CROCCODILE_DIM_X-5; i++) {
+    for(int i = 4; i < 25; i++) {
         pair_col[1][i] = pair_col[2][i] = croccodile_color_2;
     }
-    pair_col[1][CROCCODILE_DIM_X-5] = pair_col[2][CROCCODILE_DIM_X-5] = croccodile_color_eye;
+    pair_col[1][25] = pair_col[2][25] = croccodile_color_eye;
 
     // Print croccodile if it isn't immersed
     if(sig != CROCCODILE_IMMERSION_SIG) { //
@@ -229,24 +283,24 @@ void print_croccodile(Position croccodile, int speed, int sig) {
     // Print bubble
     if(sig == CROCCODILE_BUBBLE_SIG) {
         mvwaprintw(main_scr, croccodile.y, croccodile.x + 1, CYAN_DARKBLUE, "%s", "⬤");
-        mvwaprintw(main_scr, croccodile.y, croccodile.x + CROCCODILE_DIM_X - 1, CYAN_DARKBLUE, "%s", "⬤");
+        mvwaprintw(main_scr, croccodile.y, croccodile.x + 29, CYAN_DARKBLUE, "%s", "⬤");
     }
 }
 
 void print_plant(Position plant, int sig) {
-    mvwaprintw(main_scr, plant.y, plant.x, PURPLE_DARKGREEN, "▀     ▀");
-    mvwaprintw(main_scr, plant.y + 1, plant.x + 3, MAGENTA_GREEN, " ");
+    mvwaprintw(main_scr, plant.y, plant.x, DARKGREEN_PURPLE, "▄█████▄");
+    mvwaprintw(main_scr, plant.y + 1, plant.x + 3, GREEN_PURPLE, "█");
     if(sig == PLANT_SPAWN_SIG || sig == PLANT_CLOSE_SIG) {
-        mvwaprintw(main_scr, plant.y + 2, plant.x + 1, PURPLE_RED, "▀   ▀");
+        mvwaprintw(main_scr, plant.y + 2, plant.x + 1, RED_PURPLE, "▄███▄");
         mvwaprintw(main_scr, plant.y + 3, plant.x, WHITE_PURPLE, " ");
-        mvwaprintw(main_scr, plant.y + 3, plant.x + 1, PURPLE_RED, "▄ ");
-        mvwaprintw(main_scr, plant.y + 3, plant.x + 3, WHITE_PURPLE | A_STANDOUT, " ");
-        mvwaprintw(main_scr, plant.y + 3, plant.x + 4, PURPLE_RED, " ▄");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 1, RED_PURPLE, "▀█");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 3, WHITE_PURPLE, "█");
+        mvwaprintw(main_scr, plant.y + 3, plant.x + 4, RED_PURPLE, "█▀");
         mvwaprintw(main_scr, plant.y + 3, plant.x + 6, WHITE_PURPLE, " ");
     } else {
-        mvwaprintw(main_scr, plant.y + 2, plant.x + 1, PURPLE_RED, "▀ ");
+        mvwaprintw(main_scr, plant.y + 2, plant.x + 1, RED_PURPLE, "▄█");
         mvwaprintw(main_scr, plant.y + 2, plant.x + 3, WHITE_RED, "▄");
-        mvwaprintw(main_scr, plant.y + 2, plant.x + 4, PURPLE_RED, " ▀");
+        mvwaprintw(main_scr, plant.y + 2, plant.x + 4, RED_PURPLE, "█▄");
         mvwaprintw(main_scr, plant.y + 3, plant.x, WHITE_RED, " ▄");
         mvwaprintw(main_scr, plant.y + 3, plant.x + 2, WHITE_PURPLE, "▀ ▀");
         mvwaprintw(main_scr, plant.y + 3, plant.x + 5, WHITE_RED, "▄ ");
@@ -254,5 +308,5 @@ void print_plant(Position plant, int sig) {
 }
 
 void print_bullet(Position bullet) {
-    mvwaprintw(main_scr, bullet.y, bullet.x, RED_BLACK | A_STANDOUT, "%*s", BULLET_DIM_X, "");
+    mvwaprintw(main_scr, bullet.y, bullet.x, RED_BLACK, "%*s", BULLET_DIM_X, "█");
 }

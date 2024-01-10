@@ -77,10 +77,11 @@ int main(void) {
     init_pair(RED_BORDEAUX_ID, COLOR_RED, COLOR_BORDEAUX);
     init_pair(RED_ORANGE_ID, COLOR_RED, COLOR_ORANGE);
     init_pair(CYAN_RED_ID, COLOR_CYAN, COLOR_RED);
-    init_pair(PURPLE_DARKGREEN_ID, COLOR_PURPLE, COLOR_DARKGREEN);
-    init_pair(PURPLE_RED_ID, COLOR_PURPLE, COLOR_RED);
+    init_pair(DARKGREEN_PURPLE_ID, COLOR_DARKGREEN, COLOR_PURPLE);
     init_pair(WHITE_RED_ID, COLOR_WHITE, COLOR_RED);
     init_pair(WHITE_PURPLE_ID, COLOR_WHITE, COLOR_PURPLE);
+    init_pair(GREEN_GREY_ID, COLOR_GREEN, COLOR_GREY);
+    init_pair(RED_GREY_ID, COLOR_RED, COLOR_GREY);
     
     // Initial procedure
     init_music(); // Init music
