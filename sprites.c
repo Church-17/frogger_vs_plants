@@ -8,7 +8,7 @@
 void print_background(const bool* holes_occupied) {
     // Print hedge
     for(int i = LINE_HEDGE; i < LINE_BANK_1; i++) {
-        mvwaprintw(main_scr, i, 0, HEDGE_BG, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, GREY_BLACK | A_STANDOUT, "%*s", MAIN_COLS, "");
     }
     // Print holes
     for(int i = 0; i < N_HOLES; i++) {
@@ -20,15 +20,15 @@ void print_background(const bool* holes_occupied) {
     }
     // Print upper bank
     for(int i = LINE_BANK_1; i < LINE_RIVER; i++) {
-        mvwaprintw(main_scr, i, 0, BANK_BG, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
     }
     // Print river
     for(int i = LINE_RIVER; i < LINE_BANK_2; i++) {
-        mvwaprintw(main_scr, i, 0, RIVER_BG, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, GREEN_DARKBLUE, "%*s", MAIN_COLS, "");
     }
     // Print lower bank
     for(int i = LINE_BANK_2; i < MAIN_ROWS; i++) {
-        mvwaprintw(main_scr, i, 0, BANK_BG, "%*s", MAIN_COLS, "");
+        mvwaprintw(main_scr, i, 0, GREEN_PURPLE, "%*s", MAIN_COLS, "");
     }
 }
 

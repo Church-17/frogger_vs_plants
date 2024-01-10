@@ -209,7 +209,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // De-print frog
                 if(gamevar.frog.y < LINE_RIVER || gamevar.frog.y >= LINE_BANK_2) {
                     for(int i = 0; i < FROG_DIM_Y; i++) {
-                        mvwaprintw(main_scr, i + gamevar.frog.y, gamevar.frog.x, BANK_BG, "%*s", FROG_DIM_X, "");
+                        mvwaprintw(main_scr, i + gamevar.frog.y, gamevar.frog.x, GREEN_PURPLE, "%*s", FROG_DIM_X, "");
                     }
                 } else { // If frog was on a croccodile...
                     entity_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
@@ -324,7 +324,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         restore_croccodile_len = MAIN_COLS - gamevar.croccodiles[entity_stream][entity_id].x;
                     }
                     for(int i = 0; i < CROCCODILE_DIM_Y; i++) {
-                        mvwaprintw(main_scr, i + gamevar.croccodiles[entity_stream][entity_id].y, restore_croccodile_x, RIVER_BG, "%*s", restore_croccodile_len, "");
+                        mvwaprintw(main_scr, i + gamevar.croccodiles[entity_stream][entity_id].y, restore_croccodile_x, GREEN_DARKBLUE, "%*s", restore_croccodile_len, "");
                     }
                 }
 
@@ -476,9 +476,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // De-print bullet
                 if(gamevar.frog_bullets[entity_id].y >= 0) {
                     if(gamevar.frog_bullets[entity_id].y >= LINE_RIVER) {
-                        mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, RIVER_BG, "%*s", BULLET_DIM_X, "");
+                        mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");
                     } else {
-                        mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, BANK_BG, "%*s", BULLET_DIM_X, "");
+                        mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, GREEN_PURPLE, "%*s", BULLET_DIM_X, "");
                     }
                 }
 
@@ -549,7 +549,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             thread_tids.list[msg.id] = 0;
                             // De-print
                             for(int j = 0; j < PLANT_DIM_Y; j++) {
-                                mvwaprintw(main_scr, gamevar.plants[i].y + j, gamevar.plants[i].x, BANK_BG, "%*s", PLANT_DIM_X, "");
+                                mvwaprintw(main_scr, gamevar.plants[i].y + j, gamevar.plants[i].x, GREEN_PURPLE, "%*s", PLANT_DIM_X, "");
                             }
                             // Kill plant & spawn another
                             id = MIN_PLANT_ID + i;
@@ -593,7 +593,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // De-print bullet
                 if(gamevar.plants_bullets[plant_id][entity_id].y >= 0) {
                     if(gamevar.plants_bullets[plant_id][entity_id].y < LINE_BANK_2) {
-                        mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, RIVER_BG, "%*s", BULLET_DIM_X, "");
+                        mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");
                         entity_stream = (gamevar.plants_bullets[plant_id][entity_id].y - LINE_RIVER) / FROG_DIM_Y;
                         for(int i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) {
                             if(gamevar.croccodiles[entity_stream][i].y >= 0 && gamevar.plants_bullets[plant_id][entity_id].x + BULLET_DIM_X > gamevar.croccodiles[entity_stream][i].x && gamevar.plants_bullets[plant_id][entity_id].x < gamevar.croccodiles[entity_stream][i].x + CROCCODILE_DIM_X) {
@@ -605,7 +605,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             }
                         }
                     } else {
-                        mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, BANK_BG, "%*s", BULLET_DIM_X, "");
+                        mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, GREEN_PURPLE, "%*s", BULLET_DIM_X, "");
                     }
                 }
 
