@@ -1,5 +1,5 @@
 MUST:
-- in thread: 2 sem + 1 mutex per i_leggi
+- croccodile shotted concorrency
 
 OPTIONAL:
 - skin plant
