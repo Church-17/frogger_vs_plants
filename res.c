@@ -86,6 +86,8 @@ Dict_str_int rd_best(void) {
     Dict_str_int best;
     FILE* fptr = fopen(BEST_PATH, READ);
     if(fptr == NULL) { // If best scores file cannot be opened...
+        best.key = NULL;
+        best.val = NULL;
         best.len = 0;
         wr_best(best); // Write new empty best scores file
         return best;
