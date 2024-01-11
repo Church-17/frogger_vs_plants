@@ -91,6 +91,7 @@ int main(void) {
     // Initial procedure
     rd_settings(); // Read settings from file
     check_term(NULL); // Check terminal size
+    play_music(MUSIC_MENU);
 
     // Init vars
     bool do_quit = FALSE;
@@ -104,22 +105,32 @@ int main(void) {
         wrefresh(main_scr);
 
         chosen = home_menu();
-        demo();
-        wrefresh(main_scr);
         switch(chosen) {
             case HOME_GAME_ID: // Game
+                play_music(STOP_MUSIC);
+                play_sound(SOUND_START_GAME);
+                //
                 do_quit = game();
                 break;
 
             case HOME_BEST_ID: // Best scores
+                play_sound(SOUND_MENU_SELECTION);
+                demo();
+                wrefresh(main_scr);
                 best_scores_menu();
                 break;
 
             case HOME_SETT_ID: // Settings
+                play_sound(SOUND_MENU_SELECTION);
+                demo();
+                wrefresh(main_scr);
                 settings_menu();
                 break;
 
             case HOME_CRED_ID: // Credits
+                play_sound(SOUND_MENU_SELECTION);
+                demo();
+                wrefresh(main_scr);
                 credits_menu();
                 break;
 
@@ -128,6 +139,7 @@ int main(void) {
                 break;
         }
     }
+    play_music(STOP_MUSIC);
     quit(NO_ERR);
 }
 

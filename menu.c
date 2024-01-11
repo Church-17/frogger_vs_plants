@@ -134,7 +134,7 @@ int menu(const List_str title, const List_str set, const Game_t* gamevar) {
             }
             // Play selection sound if hl is changed
             if(hl != old_hl) {
-                play_sound(MENU_SELECTION_SOUND);
+                play_sound(SOUND_MENU_SELECTION);
             }
         }
     }
@@ -319,7 +319,7 @@ void settings_menu(void) {
             }
             // Play selection sound if hl is changed
             if(hl != old_hl) {
-                play_sound(MENU_SELECTION_SOUND);
+                play_sound(SOUND_MENU_SELECTION);
             }
         }
     }
@@ -333,7 +333,13 @@ void settings_menu(void) {
     
     // Update game settings if applied
     if(hl < N_SETTINGS || hl == SET_APPL_ID) {
-        wr_settings(newly_setted);
+        if(newly_setted[SET_VOL_MUS_ID] != VOL_MUS_SET) {
+            play_music(STOP_MUSIC);
+            wr_settings(newly_setted);
+            play_music(MUSIC_MENU);
+        } else {
+            wr_settings(newly_setted);
+        }
     }
     un_win(menu_win);
 }
