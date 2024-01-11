@@ -1,5 +1,6 @@
 // Include libs
 #include <locale.h>
+#include <unistd.h>
 #include "main.h"
 #include "menu.h"
 #include "game.h"
@@ -7,6 +8,9 @@
 #include "str.h"
 #include "utils.h"
 #include "struct.h"
+
+// Define constants
+#define NEW_GAME_SLEEP 500
 
 // Inter-object vars
 WINDOW* main_scr = NULL;
@@ -109,7 +113,9 @@ int main(void) {
             case HOME_GAME_ID: // Game
                 play_music(STOP_MUSIC);
                 play_sound(SOUND_START_GAME);
-                //
+                demo();
+                wrefresh(main_scr);
+                usleep(MSEC_IN_SEC * NEW_GAME_SLEEP);
                 do_quit = game();
                 break;
 
