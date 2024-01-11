@@ -117,7 +117,7 @@ void print_frog(const Game_t* gamevar) {
     
     // Determine frog background
     if(gamevar->frog.y < LINE_BANK_1) {
-        // Hedge
+        // Restore frog background when in holes
         int hole_x;
         if(SKIN_SET == SKIN_0_ID) {
             restore_color_1 = GREEN_GREY;
@@ -150,7 +150,7 @@ void print_frog(const Game_t* gamevar) {
             }
         }
     } else if(gamevar->frog.y < LINE_RIVER) {
-        // Plants
+        // Restore frog background when near plants
         for(int j = 0; j < FROG_DIM_Y; j++) {
             for(int k = 0; k < FROG_DIM_X; k++) {
                 pair_col[j][k] = (SKIN_SET == SKIN_0_ID) ? GREEN_PURPLE : RED_PURPLE;
@@ -158,10 +158,11 @@ void print_frog(const Game_t* gamevar) {
         }
     } else if(gamevar->frog.y < LINE_BANK_2) {
         if(gamevar->frog_on_croccodile >= 0) {
-            // Croccodile
+            // Restore frog background when over croccodile
             attr_t restore_color_3, restore_color_eye;
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
             croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
+            // Set restore colors
             if(SKIN_SET == SKIN_0_ID) {
                 if(gamevar->croccodiles_kind[croccodile_stream][croccodile_id] == CROCCODILE_GOOD_SIG) {
                     restore_color_1 = GREEN_DARKGREEN;
@@ -183,7 +184,7 @@ void print_frog(const Game_t* gamevar) {
                 restore_color_3 = RED_DARKBLUE;
                 restore_color_eye = WHITE_RED | A_STANDOUT;
             }
-            // First char to restore
+            // Restore each character
             int frog_x, croccodile_x, direction;
             if(gamevar->stream_speed[croccodile_stream] > 0) {
                 direction = 1;
@@ -259,7 +260,7 @@ void print_frog(const Game_t* gamevar) {
                 pair_col[2][7] = restore_color_1;
             }
         } else {
-            // River
+            // Restore frog when in river
             for(int j = 0; j < FROG_DIM_Y; j++) {
                 for(int k = 0; k < FROG_DIM_X; k++) {
                     pair_col[j][k] = (SKIN_SET == SKIN_0_ID) ? GREEN_DARKBLUE : RED_DARKBLUE;
@@ -267,6 +268,7 @@ void print_frog(const Game_t* gamevar) {
             }
         }
     } else {
+        // Restore frog when in bank 2
         for(int j = 0; j < FROG_DIM_Y; j++) {
             for(int k = 0; k < FROG_DIM_X; k++) {
                 pair_col[j][k] = (SKIN_SET == SKIN_0_ID) ? GREEN_PURPLE : RED_PURPLE;
