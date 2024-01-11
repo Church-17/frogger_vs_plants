@@ -119,7 +119,7 @@ void print_frog(const Game_t* gamevar) {
     if(gamevar->frog.y < LINE_BANK_1) {
         // Hedge
         int hole_x;
-        if(SKIN_SET == 0) {
+        if(SKIN_SET == SKIN_0_ID) {
             restore_color_1 = GREEN_GREY;
             restore_color_2 = GREEN_PURPLE;
         } else {
@@ -151,49 +151,131 @@ void print_frog(const Game_t* gamevar) {
         }
     } else if(gamevar->frog.y < LINE_RIVER) {
         // Plants
-        restore_color_1 = (SKIN_SET == 0) ? GREEN_PURPLE : RED_PURPLE;
-        for(int i = 0; i < FROG_DIM_Y; i++) {
-            for(int j = 0; j < 3; j++) {
-                pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
+        for(int j = 0; j < FROG_DIM_Y; j++) {
+            for(int k = 0; k < FROG_DIM_X; k++) {
+                pair_col[j][k] = (SKIN_SET == SKIN_0_ID) ? GREEN_PURPLE : RED_PURPLE;
             }
-        }
-        for(int i = 3; i < 7; i++) {
-            pair_col[3][i] = restore_color_1;
         }
     } else if(gamevar->frog.y < LINE_BANK_2) {
         if(gamevar->frog_on_croccodile >= 0) {
+            // Croccodile
+            attr_t restore_color_3, restore_color_eye;
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
             croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
-            if(gamevar->croccodiles_kind[croccodile_stream][croccodile_id] == CROCCODILE_GOOD_SIG) {
-                restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKGREEN : RED_DARKGREEN; // If frog was on good croccodile set dark green
+            if(SKIN_SET == SKIN_0_ID) {
+                if(gamevar->croccodiles_kind[croccodile_stream][croccodile_id] == CROCCODILE_GOOD_SIG) {
+                    restore_color_1 = GREEN_DARKGREEN;
+                    restore_color_2 = GREEN_LIGHTGREEN;
+                } else {
+                    restore_color_1 = GREEN_BORDEAUX;
+                    restore_color_2 = GREEN_PINK;
+                }
+                restore_color_3 = GREEN_DARKBLUE;
+                restore_color_eye = WHITE_GREEN | A_STANDOUT;
             } else {
-                restore_color_1 = (SKIN_SET == 0) ? GREEN_BORDEAUX : RED_BORDEAUX; // If frog was on bad croccodile set bordeaux
+                if(gamevar->croccodiles_kind[croccodile_stream][croccodile_id] == CROCCODILE_GOOD_SIG) {
+                    restore_color_1 = RED_DARKGREEN;
+                    restore_color_2 = RED_LIGHTGREEN;
+                } else {
+                    restore_color_1 = RED_BORDEAUX;
+                    restore_color_2 = RED_PINK;
+                }
+                restore_color_3 = RED_DARKBLUE;
+                restore_color_eye = WHITE_RED | A_STANDOUT;
+            }
+            // First char to restore
+            int frog_x, croccodile_x, direction;
+            if(gamevar->stream_speed[croccodile_stream] > 0) {
+                direction = 1;
+                croccodile_x = gamevar->croccodiles[croccodile_stream][croccodile_id].x;
+            } else {
+                direction = -1;
+                croccodile_x = (-gamevar->croccodiles[croccodile_stream][croccodile_id].x - CROCCODILE_DIM_X + 1);
+            }
+            frog_x = gamevar->frog.x * direction;
+            if((frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 10) || (frog_x >= croccodile_x + 22 && frog_x < croccodile_x + 27)) {
+                pair_col[0][0] = pair_col[3][0] = restore_color_1;
+            } else {
+                pair_col[0][0] = pair_col[3][0] = restore_color_3;
+            }
+            frog_x = (gamevar->frog.x + 9) * direction;
+            if((frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 10) || (frog_x >= croccodile_x + 22 && frog_x < croccodile_x + 27)) {
+                pair_col[0][9] = pair_col[3][9] = restore_color_1;
+            } else {
+                pair_col[0][9] = pair_col[3][9] = restore_color_3;
+            }
+            frog_x = (gamevar->frog.x + 2) * direction;
+            if((frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 10) || (frog_x >= croccodile_x + 22 && frog_x < croccodile_x + 27)) {
+                pair_col[3][2] = restore_color_1;
+            } else {
+                pair_col[3][2] = restore_color_3;
+            }
+            frog_x = (gamevar->frog.x + 7) * direction;
+            if((frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 10) || (frog_x >= croccodile_x + 22 && frog_x < croccodile_x + 27)) {
+                pair_col[3][7] = restore_color_1;
+            } else {
+                pair_col[3][7] = restore_color_3;
+            }
+            frog_x = (gamevar->frog.x + 1) * direction;
+            if(frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 25 && mod(frog_x - croccodile_x + 4, 2) == 1) {
+                pair_col[1][1] = restore_color_2;
+            } else {
+                pair_col[1][1] = restore_color_1;
+            }
+            frog_x = (gamevar->frog.x + 8) * direction;
+            if(frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 25 && mod(frog_x - croccodile_x + 4, 2) == 1) {
+                pair_col[1][8] = restore_color_2;
+            } else {
+                pair_col[1][8] = restore_color_1;
+            }
+            frog_x = (gamevar->frog.x + 2) * direction;
+            if(frog_x == croccodile_x + 25) {
+                pair_col[1][2] = restore_color_eye;
+            } else if(frog_x < croccodile_x + 4 || frog_x > croccodile_x + 26) {
+                pair_col[1][2] = restore_color_3;
+            } else if(frog_x >= croccodile_x + 7 && frog_x < croccodile_x + 24 && mod(frog_x - croccodile_x + 7, 2) == 1) {
+                pair_col[1][2] = restore_color_2;
+            } else {
+                pair_col[1][2] = restore_color_1;
+            }
+            if(frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 25 && mod(frog_x - croccodile_x + 4, 2) == 1) {
+                pair_col[2][2] = restore_color_2;
+            } else {
+                pair_col[2][2] = restore_color_1;
+            }
+            frog_x = (gamevar->frog.x + 7) * direction;
+            if(frog_x == croccodile_x + 25) {
+                pair_col[1][7] = restore_color_eye;
+            } else if(frog_x < croccodile_x + 4 || frog_x > croccodile_x + 26) {
+                pair_col[1][7] = restore_color_3;
+            } else if(frog_x >= croccodile_x + 7 && frog_x < croccodile_x + 24 && mod(frog_x - croccodile_x + 7, 2) == 1) {
+                pair_col[1][7] = restore_color_2;
+            } else {
+                pair_col[1][7] = restore_color_1;
+            }
+            if(frog_x >= croccodile_x + 4 && frog_x < croccodile_x + 25 && mod(frog_x - croccodile_x + 4, 2) == 1) {
+                pair_col[2][7] = restore_color_2;
+            } else {
+                pair_col[2][7] = restore_color_1;
             }
         } else {
-            restore_color_1 = (SKIN_SET == 0) ? GREEN_DARKBLUE : RED_DARKBLUE;
-        }
-        for(int i = 0; i < FROG_DIM_Y; i++) {
-            for(int j = 0; j < 3; j++) {
-                pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
+            // River
+            for(int j = 0; j < FROG_DIM_Y; j++) {
+                for(int k = 0; k < FROG_DIM_X; k++) {
+                    pair_col[j][k] = (SKIN_SET == SKIN_0_ID) ? GREEN_DARKBLUE : RED_DARKBLUE;
+                }
             }
-        }
-        for(int i = 3; i < 7; i++) {
-            pair_col[3][i] = restore_color_1;
         }
     } else {
-        restore_color_1 = (SKIN_SET == 0) ? GREEN_PURPLE : RED_PURPLE;
-        for(int i = 0; i < FROG_DIM_Y; i++) {
-            for(int j = 0; j < 3; j++) {
-                pair_col[i][j] = pair_col[i][FROG_DIM_X-1-j] = restore_color_1;
+        for(int j = 0; j < FROG_DIM_Y; j++) {
+            for(int k = 0; k < FROG_DIM_X; k++) {
+                pair_col[j][k] = (SKIN_SET == SKIN_0_ID) ? GREEN_PURPLE : RED_PURPLE;
             }
-        }
-        for(int i = 3; i < 7; i++) {
-            pair_col[3][i] = restore_color_1;
         }
     }
     
     // Set fixed color
-    if(SKIN_SET == 0) {
+    if(SKIN_SET == SKIN_0_ID) {
         restore_color_1 = GREEN_YELLOW;
         restore_color_2 = MAGENTA_GREEN;
     } else {
@@ -201,7 +283,7 @@ void print_frog(const Game_t* gamevar) {
         restore_color_2 = CYAN_RED;
     }
     pair_col[0][3] = pair_col[0][6] = restore_color_2;
-    pair_col[0][4] = pair_col[0][5] = restore_color_1;
+    pair_col[0][1] = pair_col[0][4] = pair_col[0][5] = pair_col[0][8] = pair_col[3][1] = pair_col[3][8] = restore_color_1;
     for(int i = 1; i < 3; i++) {
         for(int j = 3; j < 7; j++) {
             pair_col[i][j] = restore_color_1;
