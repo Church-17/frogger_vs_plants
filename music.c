@@ -13,7 +13,7 @@
 void play_sound(int sound_id) {
     static const str sound[N_SOUND_EFFECTS] = {"dead_plant", "fire", "l_manche", "select", "spawn_plant", "start_game", "w_manche"};
     char cmd[LIM_STR_BUFF];
-    sprintf(cmd, "nice mpg123 -f%d ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_EFCT_SET*MAX_VOLUME/10, sound[sound_id]);
+    sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_EFCT_SET*MAX_VOLUME/10, sound[sound_id]);
     system(cmd);
 }
 
