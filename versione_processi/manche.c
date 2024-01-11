@@ -212,6 +212,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 } else { // If frog was on a croccodile...
                     entity_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
                     entity_id = gamevar.frog_on_croccodile - MIN_CROCCODILE_ID - entity_stream*MAX_CROCCODILE_PER_STREAM; // Croccodile id on stream
+                    for(int i = 0; i < FROG_DIM_Y; i++) {
+                        mvwaprintw(main_scr, i + gamevar.frog.y, gamevar.frog.x, GREEN_DARKBLUE, "%*s", FROG_DIM_X, "");
+                    }
                     print_croccodile(gamevar.croccodiles[entity_stream][entity_id], stream_speed[entity_stream], gamevar.croccodiles_kind[entity_stream][entity_id]);
                 }
 
