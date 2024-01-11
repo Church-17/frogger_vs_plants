@@ -114,8 +114,7 @@ void frog_process(int pipe_write, int* params) {
 void croccodile_process(int pipe_write, int* params) {
     // Init vars
     bool do_exit = FALSE, do_immersion = FALSE;
-    int n_stream, speed_stream, immersion_time;
-    time_t start, end;
+    int n_stream, speed_stream, immersion_countdown, abs_speed;
     Message msg;
 
     // Handle signal of frog steps on this croccodile
@@ -129,7 +128,8 @@ void croccodile_process(int pipe_write, int* params) {
 
     // Determine coordinates
     msg.y = LINE_RIVER + FROG_DIM_Y * n_stream;
-    msg.x = speed_stream > 0 ? -CROCCODILE_DIM_X + CROCCODILE_MOVE_X : MAIN_COLS - CROCCODILE_MOVE_X;
+    msg.x = (speed_stream > 0) ? -CROCCODILE_DIM_X + CROCCODILE_MOVE_X : MAIN_COLS - CROCCODILE_MOVE_X;
+    abs_speed = ((speed_stream > 0) ? speed_stream : -speed_stream);
 
     // Random croccodile kind & spawn time
     srand(timestamp() + msg.id); // Random seed to not have the same as the other process
@@ -161,20 +161,19 @@ void croccodile_process(int pipe_write, int* params) {
 
         if(frog_on_croccodile && msg.sig != CROCCODILE_GOOD_SIG) { // If croccodile is bad and frog stepped on...
             if(!do_immersion) { // If immersion not started, start it
-                immersion_time = rand_range(2, 4) * MSEC_IN_SEC; // Calc random immersion time
-                start = timestamp();
+                immersion_countdown = rand_range(2, 4) * abs_speed; // Calc random immersion time
                 do_immersion = TRUE;
             }
-            end = timestamp();
-            if(end - start >= immersion_time) { // If the croccodile have to immerge...
+            immersion_countdown--;
+            if(immersion_countdown <= 0) { // If the croccodile have to immerge...
                 msg.sig = CROCCODILE_IMMERSION_SIG;
                 do_exit = TRUE;
-            } else if(end - start >= immersion_time - BUBBLE_THRESHOLD) { // If there is BUBBLE_THRESHOLD left to immersion...
+            } else if(immersion_countdown <= BUBBLE_THRESHOLD * abs_speed) { // If there is BUBBLE_THRESHOLD left to immersion...
                 msg.sig = CROCCODILE_BUBBLE_SIG;
             }
         }
 
-        msleep(MSEC_IN_SEC * CROCCODILE_MOVE_X / (speed_stream > 0 ? speed_stream : -speed_stream)); // Sleep based on speed
+        msleep(MSEC_IN_SEC * CROCCODILE_MOVE_X / abs_speed); // Sleep based on speed
         write_msg(pipe_write, msg); // Write on pipe
     }
     return;

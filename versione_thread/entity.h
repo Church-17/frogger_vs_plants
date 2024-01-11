@@ -1,5 +1,5 @@
 // Inter-object variables
-extern int frog_on_croccodile;
+extern bool frog_on_croccodile[MIN_PLANT_ID - MIN_CROCCODILE_ID], croccodile_shotted[MIN_PLANT_ID - MIN_CROCCODILE_ID];
 
 // Function prototypes
 void* time_thread(void* params);

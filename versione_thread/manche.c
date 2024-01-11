@@ -25,7 +25,10 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     int id;
 
     init_semaphore(); // Semaphores
-    frog_on_croccodile = FROG_NOT_ON_CROCCODILE; // Reset var
+    // Reset var
+    for(int i = 0; i < MIN_PLANT_ID - MIN_CROCCODILE_ID; i++) {
+        frog_on_croccodile[i] = croccodile_shotted[i] = FALSE;
+    }
 
     // Thread
     async_exec(&thread_tids, FROG_ID, &frog_thread, NULL); // Create thread for frog handling the errors
@@ -243,7 +246,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         entity_stream = (gamevar.frog.y - LINE_RIVER) / FROG_DIM_Y;
                         for(int i = 0; i < MAX_CROCCODILE_PER_STREAM; i++) { // Check if frog is on a existing croccodile
                             if(gamevar.croccodiles[entity_stream][i].y >= 0 && gamevar.frog.x >= gamevar.croccodiles[entity_stream][i].x && gamevar.frog.x <= gamevar.croccodiles[entity_stream][i].x + CROCCODILE_DIM_X - FROG_DIM_X) {
-                                frog_on_croccodile = gamevar.frog_on_croccodile = MIN_CROCCODILE_ID + entity_stream*MAX_CROCCODILE_PER_STREAM + i;
+                                gamevar.frog_on_croccodile = MIN_CROCCODILE_ID + entity_stream*MAX_CROCCODILE_PER_STREAM + i;
+                                frog_on_croccodile[entity_stream*MAX_CROCCODILE_PER_STREAM + i] = TRUE;
                                 break;
                             }
                         }
@@ -332,6 +336,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS || msg.sig == CROCCODILE_IMMERSION_SIG) { // If croccodile is out of screen...
                     gamevar.croccodiles[entity_stream][entity_id].y = FREE_ENTITY; // Mark it as free
                     thread_tids.list[msg.id] = 0;
+                    frog_on_croccodile[entity_stream*MAX_CROCCODILE_PER_STREAM + entity_id] = FALSE;
                     if(gamevar.frog_on_croccodile == msg.id) {
                         manche_ended = TRUE;
                         gamevar.timer = MANCHE_LOST;
