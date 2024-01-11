@@ -19,7 +19,6 @@ void play_sound(int sound_id) {
 
 void play_music(int music_id) {
     static const str music[N_MUSICS] = {"best", "easy", "hard", "l_game", "medium", "menu", "score", "w_game"};
-    static const bool loop[N_MUSICS] = {FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, FALSE};
     if(VOL_MUS_SET == 0) {
         return;
     }
@@ -28,10 +27,6 @@ void play_music(int music_id) {
         return;
     }
     char cmd[LIM_STR_BUFF];
-    if(loop[music_id]) {
-        sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
-    } else {
-        sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
-    }
+    sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
     system(cmd);
 }
