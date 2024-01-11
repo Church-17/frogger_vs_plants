@@ -126,14 +126,16 @@ void print_frog(const Game_t* gamevar) {
             restore_color_1 = RED_GREY;
             restore_color_2 = RED_PURPLE;
         }
+        for(int j = 0; j < FROG_DIM_Y; j++) {
+            for(int k = 0; k < FROG_DIM_X; k++) {
+                pair_col[j][k] = restore_color_1;
+            }
+        }
         for(int i = 0; i < N_HOLES; i++) {
             hole_x = i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2;
-            if(gamevar->frog.x + FROG_DIM_X > hole_x && gamevar->frog.x < hole_x + HOLE_DIM_X) {
+            if(!gamevar->holes_occupied[i] && gamevar->frog.x + FROG_DIM_X > hole_x && gamevar->frog.x < hole_x + HOLE_DIM_X) {
                 if(gamevar->frog.x < hole_x) {
                     for(int j = 0; j < FROG_DIM_Y; j++) {
-                        for(int k = 0; k < hole_x - gamevar->frog.x; k++) {
-                            pair_col[j][k] = restore_color_1;
-                        }
                         for(int k = hole_x - gamevar->frog.x; k < FROG_DIM_X; k++) {
                             pair_col[j][k] = restore_color_2;
                         }
@@ -143,12 +145,8 @@ void print_frog(const Game_t* gamevar) {
                         for(int k = 0; k < hole_x + HOLE_DIM_X - gamevar->frog.x && k < FROG_DIM_X; k++) {
                             pair_col[j][k] = restore_color_2;
                         }
-                        for(int k = hole_x + HOLE_DIM_X - gamevar->frog.x; k < FROG_DIM_X; k++) {
-                            pair_col[j][k] = restore_color_1;
-                        }
                     }
                 }
-                break;
             }
         }
     } else if(gamevar->frog.y < LINE_RIVER) {
