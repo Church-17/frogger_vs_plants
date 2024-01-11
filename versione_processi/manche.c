@@ -62,6 +62,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // --- PARENT PROCESS ---
 
     // Init control vars
+    int occupied_hole;
     bool manche_ended = FALSE; // Flag
     int entity_stream, entity_id, next_croccodile_id, restore_croccodile_x, restore_croccodile_len; // Helper vars for croccodile
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
@@ -291,8 +292,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     // If the frog is in hedge, manche is lost, otherwise manche is won
                     for(int i = 0; i < N_HOLES; i++) {
                         if(gamevar.frog.x >= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 && gamevar.frog.x <= i*MAIN_COLS/N_HOLES + (MAIN_COLS/N_HOLES - HOLE_DIM_X)/2 + HOLE_DIM_X - FROG_DIM_X && gamevar.holes_occupied[i] == FALSE) {
+                            occupied_hole = i;
                             manche_ended = TRUE;
-                            gamevar.holes_occupied[i] = TRUE;
                             break;
                         }
                     }
@@ -302,6 +303,10 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
 
                     print_frog(&gamevar); // Print frog
+
+                    if (gamevar.timer != MANCHE_LOST) {
+                        gamevar.holes_occupied[occupied_hole] = TRUE;
+                    }
                 }
 
                 break;
