@@ -117,6 +117,9 @@ int main(void) {
                 wrefresh(main_scr);
                 usleep(MSEC_IN_SEC * NEW_GAME_SLEEP);
                 do_quit = game();
+                if(!do_quit) {
+                    play_music(MUSIC_MENU);
+                }
                 break;
 
             case HOME_BEST_ID: // Best scores
