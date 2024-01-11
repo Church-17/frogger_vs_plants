@@ -1,54 +1,80 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <vlc/vlc.h>
-#include <vlc/libvlc.h>
-#include <unistd.h>
+// Include libs
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include "struct_proto.h"
+#include "music.h"
+#include "res.h"
+#include "utils.h"
 
-#include "../utils.h"
-#include "../struct_proto.h"
+// Define constant
+#define MUSIC_FREQUENCY 48000
+#define MUSIC_STEREO 2
+#define DIM_MUSIC_BUFFER 256
+#define N_CHANNELS 8
+#define LOAD_SOUNDS (-1)
+#define FREE_SOUNDS (-2)
+#define N_EFFECTS 1
 
-void play_sound(str path, int duration);
+// Function prototypes
+Mix_Chunk* load_sound(str sound_path);
 
-int main(int argc, char **argv)
-{
-    char str[10];
-    while (str[0] != 'q') {
-        printf("ready\n");
-        scanf("%s", str);
-        getchar();
-        play_sound("../audio/select.mp3", 100000);
+void init_music(void) {
+    if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) {
+        quit(ERR_INIT_MUSIC);
     }
-
-    return 0;
+    if(Mix_Init(MIX_INIT_MP3) == 0) {
+        quit(ERR_INIT_MUSIC);
+    }
+    if(Mix_OpenAudio(MUSIC_FREQUENCY, MIX_DEFAULT_FORMAT, MUSIC_STEREO, DIM_MUSIC_BUFFER) < 0) {
+        quit(ERR_INIT_MUSIC);
+    }
+    if(Mix_AllocateChannels(N_CHANNELS) != N_CHANNELS) {
+        quit(ERR_INIT_MUSIC);
+    }
+    play_sound(LOAD_SOUNDS);
+    sound_volume(VOL_MUS_SET, VOL_EFCT_SET);
 }
 
-void play_sound(str path, int duration) {
-    libvlc_instance_t *inst;
-    libvlc_media_player_t *mp;
-    libvlc_media_t *m;
+Mix_Chunk* load_sound(str sound_path) {
+    Mix_Chunk* ret;
+    if((ret = Mix_LoadWAV(sound_path)) == NULL) {
+        quit(ERR_INIT_MUSIC);
+    }
+    return ret;
+}
 
-    // load the vlc engine
-    inst = libvlc_new(0, NULL);
+void sound_volume(int music_volume, int effects_volume) {
+    Mix_VolumeMusic(music_volume*MIX_MAX_VOLUME/10);
+    Mix_Volume(-1, effects_volume*MIX_MAX_VOLUME/10);
+}
 
-    // create a new item
-    m = libvlc_media_new_path(inst, path);
+void play_sound(int sound_id) {
+    static Mix_Chunk* sounds[N_EFFECTS];
+    switch(sound_id) {
+        case LOAD_SOUNDS:
+            sounds[MENU_SELECTION_SOUND] = load_sound("./audio/select.mp3");
+            break;
 
-    // create a media play playing environment
-    mp = libvlc_media_player_new_from_media(m);
+        case FREE_SOUNDS:
+            for(int i = 0; i < N_EFFECTS; i++) {
+                Mix_FreeChunk(sounds[i]);
+                sounds[i] = NULL;
+            }
+            break;
 
-    // no need to keep the media now
-    libvlc_media_release(m);
+        default:
+            if(sounds[sound_id] == NULL) {
+                quit(ERR_PLAY_MUSIC);
+            }
+            Mix_PlayChannel(-1, sounds[sound_id], 0);
+            break;
+    }
+}
 
-    // play the media_player
-    libvlc_media_player_play(mp);
-
-    usleep(duration);//play the audio 100s
-
-    // stop playing
-    // libvlc_media_player_stop(mp);
-
-    // free the media_player
-    libvlc_media_player_release(mp);
-
-    libvlc_release(inst);
+void free_music(void) {
+    Mix_HaltMusic();
+    Mix_HaltChannel(-1);
+    play_sound(FREE_SOUNDS);
+    Mix_Quit();
+	SDL_Quit();
 }

@@ -89,7 +89,6 @@ int main(void) {
     init_pair(WHITE_GREEN_ID, COLOR_WHITE, COLOR_GREEN);
     
     // Initial procedure
-    init_music(); // Init music
     rd_settings(); // Read settings from file
     check_term(NULL); // Check terminal size
 
@@ -129,7 +128,6 @@ int main(void) {
                 break;
         }
     }
-    free_music();
     quit(NO_ERR);
 }
 
