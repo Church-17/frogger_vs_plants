@@ -681,7 +681,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     }
     wrefresh(main_scr);
     signal_all(process_pids, SIGKILL); // Killing all child processes
-    while(wait(NULL) > 0); // Wait all child processes
+    for(int i = 0; i < LIM_N_ENTITIES; i++) {
+        if(process_pids.list[i] != 0) {
+            waitpid(process_pids.list[i], NULL, 0);
+        }
+    }
 
     // Free allocated memory
     for(int i = 0; i < N_WATER_STREAM; i++) {
