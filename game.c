@@ -96,7 +96,7 @@ int play_game(void) {
                 play_sound(SOUND_MANCHE_WON);
                 usleep_ret = usleep(MSEC_IN_SEC * 700);
                 play_sound(SOUND_SCORE);
-                usec_per_point = MUSIC_SCORE_DURATION * MSEC_IN_SEC / gamevar.timer;
+                usec_per_point = SOUND_SCORE_DURATION * MSEC_IN_SEC / gamevar.timer;
                 break;
         }
 

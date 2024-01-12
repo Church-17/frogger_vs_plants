@@ -1,6 +1,3 @@
-// Include libs
-#include "stdbool.h"
-
 // Define sounds effects
 #define SOUND_DEAD_PLANT 0
 #define SOUND_BULLET 1
@@ -22,7 +19,8 @@
 #define MUSIC_GAME_WON 6
 #define N_MUSICS 7
 
-#define MUSIC_SCORE_DURATION 1100
+// Sound duration
+#define SOUND_SCORE_DURATION 1100
 
 // Function prototypes
 void play_sound(int sound_id);

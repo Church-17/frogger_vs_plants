@@ -24,7 +24,7 @@ void play_music(int music_id) {
     stop_music();
     char cmd[LIM_STR_BUFF];
     if(loop[music_id]) {
-        sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 --loop -1 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
+        sprintf(cmd, "mpg123 -f%d --loop -1 ./audio/%s.mp3 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
     } else {
         sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
     }
