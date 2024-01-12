@@ -13,6 +13,8 @@
 #define N_SOUND_EFFECTS 8
 
 // Define musics
+#define RESUME_MUSIC -3
+#define PAUSE_MUSIC -2
 #define STOP_MUSIC -1
 #define MUSIC_BEST_SCORE 0
 #define MUSIC_EASY 1

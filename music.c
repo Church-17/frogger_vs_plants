@@ -22,6 +22,14 @@ void play_music(int music_id) {
     if(VOL_MUS_SET == 0) {
         return;
     }
+    if(music_id == PAUSE_MUSIC) {
+        system("skill -SIGSTOP -c mpg123");
+        return;
+    }
+    if(music_id == RESUME_MUSIC) {
+        system("skill -SIGCONT -c mpg123");
+        return;
+    }
     system("skill -SIGKILL -c mpg123");
     if(music_id == STOP_MUSIC) {
         return;
