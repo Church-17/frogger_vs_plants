@@ -140,6 +140,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             // PAUSE || CLOSE
             case PAUSE_ID:
             case CLOSE_ID:
+                pause_music();
+                play_sound(SOUND_MANCHE_WON);
                 pause_manche(); // Pausing all threads
                 if(msg.id == CLOSE_ID) {
                     entity_id = quit_menu(&gamevar);    
@@ -175,6 +177,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 }
                 // If continue:
+                resume_music();
                 print_game(&gamevar); // Redraw game
                 resume_manche(); // Resume all threads
                 resize_time = timestamp(); // Save the current time to prevent multiple resize message at once

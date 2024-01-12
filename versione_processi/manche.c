@@ -136,6 +136,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             // PAUSE || CLOSE
             case PAUSE_ID:
             case CLOSE_ID:
+                pause_music();
+                play_sound(SOUND_MANCHE_WON);
                 signal_all(process_pids, SIGSTOP); // Pausing all child processes
                 if(msg.id == CLOSE_ID) {
                     entity_id = quit_menu(&gamevar);    
@@ -171,6 +173,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     }
                 }
                 // If continue:
+                resume_music();
                 print_game(&gamevar); // Redraw game
                 signal_all(process_pids, SIGCONT); // Resume all child processes
                 resize_time = timestamp(); // Save the current time to prevent multiple resize message at once

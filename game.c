@@ -56,27 +56,27 @@ bool game() {
 int play_game(void) {
     // Init vars
     bool holes_occupied[N_HOLES] = {FALSE};
-    int tmp_score, usleep_ret, music_id, usec_per_point;
+    int tmp_score, usleep_ret, usec_per_point;
     Game_t gamevar;
     gamevar.score = 0;
     gamevar.lifes = N_LIFES;
 
     // Play music based on difficulty
     if(DIFF_SET == DIFF_0_ID) {
-        music_id = MUSIC_EASY;
+        play_music(MUSIC_EASY);
     } else if(DIFF_SET == DIFF_1_ID) {
-        music_id = MUSIC_MEDIUM;
+        play_music(MUSIC_MEDIUM);
     } else if(DIFF_SET == DIFF_2_ID) {
-        music_id = MUSIC_HARD;
+        play_music(MUSIC_HARD);
     }
 
     // Loop for play n manche saving the remained time and updating lifes
     for(int i = 0; i < N_MANCHES && gamevar.lifes; i++) {
-        play_music(music_id);
         gamevar = play_manche(gamevar.score, gamevar.lifes, holes_occupied);
         switch(gamevar.timer) {
             case MANCHE_LOST:
-                stop_music();
+                usleep_ret = 0;
+                pause_music();
                 play_sound(SOUND_MANCHE_LOST);
                 gamevar.lifes--;
                 i--;
@@ -92,10 +92,10 @@ int play_game(void) {
                 return OVER_QUIT_ID;
 
             default:
-                stop_music();
+                pause_music();
                 play_sound(SOUND_MANCHE_WON);
                 usleep_ret = usleep(MSEC_IN_SEC * 700);
-                play_music(MUSIC_SCORE);
+                play_sound(SOUND_SCORE);
                 usec_per_point = MUSIC_SCORE_DURATION * MSEC_IN_SEC / gamevar.timer;
                 break;
         }
@@ -115,6 +115,7 @@ int play_game(void) {
         if(usleep_ret == 0) {
             usleep(MSEC_IN_SEC * 500);
         }
+        resume_music();
         flushinp(); // Ignore any user input received during animation
     }
 
