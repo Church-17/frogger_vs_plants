@@ -156,10 +156,145 @@ void print_frog(const Game_t* gamevar) {
                 pair_col[j][k] = (SKIN_SET == SKIN_0_ID) ? GREEN_PURPLE : RED_PURPLE;
             }
         }
+        int frog_x;
+        attr_t restore_color_3, restore_color_4, restore_color_5;
+        for(int i = 0; i < N_PLANTS; i++) {
+            if(gamevar->plants[i].y >= 0 && gamevar->frog.x + FROG_DIM_X > gamevar->plants[i].x && gamevar->frog.x < gamevar->plants[i].x + PLANT_DIM_X) {
+                // Set restore colors
+                if(SKIN_SET == SKIN_0_ID) {
+                    restore_color_1 = GREEN_RED;
+                    restore_color_2 = WHITE_GREEN | A_STANDOUT;
+                    restore_color_3 = GREEN_GREEN;
+                    restore_color_4 = GREEN_DARKGREEN;
+                    restore_color_5 = GREEN_PURPLE;
+                } else {
+                    restore_color_1 = RED_RED;
+                    restore_color_2 = WHITE_RED | A_STANDOUT;
+                    restore_color_3 = GREEN_RED | A_STANDOUT;
+                    restore_color_4 = RED_DARKGREEN;
+                    restore_color_5 = RED_PURPLE;
+                }
+                frog_x = gamevar->frog.x;
+                if(frog_x >= gamevar->plants[i].x + 1 && frog_x < gamevar->plants[i].x + 6) {
+                    pair_col[0][0] = restore_color_4;
+                } else {
+                    pair_col[0][0] = restore_color_5;
+                }
+                frog_x = gamevar->frog.x + 9;
+                if(frog_x >= gamevar->plants[i].x + 1 && frog_x < gamevar->plants[i].x + 6) {
+                    pair_col[0][9] = restore_color_4;
+                } else {
+                    pair_col[0][9] = restore_color_5;
+                }
+                frog_x = gamevar->frog.x + 1;
+                if(frog_x == gamevar->plants[i].x + 3) {
+                    pair_col[1][1] = restore_color_3;
+                } else {
+                    pair_col[1][1] = restore_color_5;
+                }
+                frog_x = gamevar->frog.x + 2;
+                if(frog_x == gamevar->plants[i].x + 3) {
+                    pair_col[1][2] = restore_color_3;
+                } else {
+                    pair_col[1][2] = restore_color_5;
+                }
+                frog_x = gamevar->frog.x + 7;
+                if(frog_x == gamevar->plants[i].x + 3) {
+                    pair_col[1][7] = restore_color_3;
+                } else {
+                    pair_col[1][7] = restore_color_5;
+                }
+                frog_x = gamevar->frog.x + 8;
+                if(frog_x == gamevar->plants[i].x + 3) {
+                    pair_col[1][8] = restore_color_3;
+                } else {
+                    pair_col[1][8] = restore_color_5;
+                }
+                frog_x = gamevar->frog.x + 2;
+                if(frog_x >= gamevar->plants[i].x + 2 && frog_x < gamevar->plants[i].x + 5) {
+                    pair_col[2][2] = restore_color_1;
+                } else {
+                    pair_col[2][2] = restore_color_5;
+                }
+                frog_x = gamevar->frog.x + 7;
+                if(frog_x >= gamevar->plants[i].x + 2 && frog_x < gamevar->plants[i].x + 5) {
+                    pair_col[2][7] = restore_color_1;
+                } else {
+                    pair_col[2][7] = restore_color_5;
+                }
+                if(gamevar->plants_sig[i] == PLANT_OPEN_SIG || gamevar->plants_sig[i] == PLANT_SHOT_SIG) {
+                    frog_x = gamevar->frog.x;
+                    if(frog_x == gamevar->plants[i].x + 0 || frog_x == gamevar->plants[i].x + 6) {
+                        pair_col[3][0] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 1 || frog_x == gamevar->plants[i].x + 5) {
+                        pair_col[3][0] = restore_color_2;
+                    } else {
+                        pair_col[3][0] = restore_color_5;
+                    }
+                    frog_x = gamevar->frog.x + 2;
+                    if(frog_x == gamevar->plants[i].x + 0 || frog_x == gamevar->plants[i].x + 6) {
+                        pair_col[3][2] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 1 || frog_x == gamevar->plants[i].x + 5) {
+                        pair_col[3][2] = restore_color_2;
+                    } else {
+                        pair_col[3][2] = restore_color_5;
+                    }
+                    frog_x = gamevar->frog.x + 7;
+                    if(frog_x == gamevar->plants[i].x + 0 || frog_x == gamevar->plants[i].x + 6) {
+                        pair_col[3][7] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 1 || frog_x == gamevar->plants[i].x + 5) {
+                        pair_col[3][7] = restore_color_2;
+                    } else {
+                        pair_col[3][7] = restore_color_5;
+                    }
+                    frog_x = gamevar->frog.x + 9;
+                    if(frog_x == gamevar->plants[i].x + 0 || frog_x == gamevar->plants[i].x + 6) {
+                        pair_col[3][9] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 1 || frog_x == gamevar->plants[i].x + 5) {
+                        pair_col[3][9] = restore_color_2;
+                    } else {
+                        pair_col[3][9] = restore_color_5;
+                    }
+                } else {
+                    frog_x = gamevar->frog.x;
+                    if(frog_x == gamevar->plants[i].x + 2 || frog_x == gamevar->plants[i].x + 4) {
+                        pair_col[3][0] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 3) {
+                        pair_col[3][0] = restore_color_2;
+                    } else {
+                        pair_col[3][0] = restore_color_5;
+                    }
+                    frog_x = gamevar->frog.x + 2;
+                    if(frog_x == gamevar->plants[i].x + 2 || frog_x == gamevar->plants[i].x + 4) {
+                        pair_col[3][2] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 3) {
+                        pair_col[3][2] = restore_color_2;
+                    } else {
+                        pair_col[3][2] = restore_color_5;
+                    }
+                    frog_x = gamevar->frog.x + 7;
+                    if(frog_x == gamevar->plants[i].x + 2 || frog_x == gamevar->plants[i].x + 4) {
+                        pair_col[3][7] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 3) {
+                        pair_col[3][7] = restore_color_2;
+                    } else {
+                        pair_col[3][7] = restore_color_5;
+                    }
+                    frog_x = gamevar->frog.x + 9;
+                    if(frog_x == gamevar->plants[i].x + 2 || frog_x == gamevar->plants[i].x + 4) {
+                        pair_col[3][9] = restore_color_1;
+                    } else if(frog_x == gamevar->plants[i].x + 3) {
+                        pair_col[3][9] = restore_color_2;
+                    } else {
+                        pair_col[3][9] = restore_color_5;
+                    }
+                }
+            }
+        }
     } else if(gamevar->frog.y < LINE_BANK_2) {
         if(gamevar->frog_on_croccodile >= 0) {
             // Restore frog background when over croccodile
-            attr_t restore_color_3, restore_color_eye;
+            attr_t restore_color_3, restore_color_4;
             croccodile_stream = (gamevar->frog.y - LINE_RIVER) / FROG_DIM_Y;
             croccodile_id = gamevar->frog_on_croccodile - MIN_CROCCODILE_ID - croccodile_stream*MAX_CROCCODILE_PER_STREAM;
             // Set restore colors
@@ -172,7 +307,7 @@ void print_frog(const Game_t* gamevar) {
                     restore_color_2 = GREEN_PINK;
                 }
                 restore_color_3 = GREEN_DARKBLUE;
-                restore_color_eye = WHITE_GREEN | A_STANDOUT;
+                restore_color_4 = WHITE_GREEN | A_STANDOUT;
             } else {
                 if(gamevar->croccodiles_kind[croccodile_stream][croccodile_id] == CROCCODILE_GOOD_SIG) {
                     restore_color_1 = RED_DARKGREEN;
@@ -182,7 +317,7 @@ void print_frog(const Game_t* gamevar) {
                     restore_color_2 = RED_PINK;
                 }
                 restore_color_3 = RED_DARKBLUE;
-                restore_color_eye = WHITE_RED | A_STANDOUT;
+                restore_color_4 = WHITE_RED | A_STANDOUT;
             }
             // Restore each character
             int frog_x, croccodile_x, direction;
@@ -231,7 +366,7 @@ void print_frog(const Game_t* gamevar) {
             }
             frog_x = (gamevar->frog.x + 2) * direction;
             if(frog_x == croccodile_x + 25) {
-                pair_col[1][2] = restore_color_eye;
+                pair_col[1][2] = restore_color_4;
             } else if(frog_x < croccodile_x + 4 || frog_x > croccodile_x + 26) {
                 pair_col[1][2] = restore_color_3;
             } else if(frog_x >= croccodile_x + 7 && frog_x < croccodile_x + 24 && mod(frog_x - croccodile_x + 7, 2) == 1) {
@@ -246,7 +381,7 @@ void print_frog(const Game_t* gamevar) {
             }
             frog_x = (gamevar->frog.x + 7) * direction;
             if(frog_x == croccodile_x + 25) {
-                pair_col[1][7] = restore_color_eye;
+                pair_col[1][7] = restore_color_4;
             } else if(frog_x < croccodile_x + 4 || frog_x > croccodile_x + 26) {
                 pair_col[1][7] = restore_color_3;
             } else if(frog_x >= croccodile_x + 7 && frog_x < croccodile_x + 24 && mod(frog_x - croccodile_x + 7, 2) == 1) {

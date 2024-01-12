@@ -91,6 +91,9 @@ int main(void) {
     init_pair(GREEN_PINK_ID, COLOR_GREEN, COLOR_PINK);
     init_pair(RED_PINK_ID, COLOR_RED, COLOR_PINK);
     init_pair(WHITE_GREEN_ID, COLOR_WHITE, COLOR_GREEN);
+    init_pair(GREEN_GREEN_ID, COLOR_GREEN, COLOR_GREEN);
+    init_pair(GREEN_RED_ID, COLOR_GREEN, COLOR_RED);
+    init_pair(RED_RED_ID, COLOR_RED, COLOR_RED);
     
     // Initial procedure
     rd_settings(); // Read settings from file
