@@ -2,8 +2,8 @@
 #include <unistd.h>
 #include <semaphore.h>
 #include <errno.h>
-#include "../utils.h"
-#include "../struct.h"
+#include "utils.h"
+#include "struct.h"
 #include "thread.h"
 
 // Define constants

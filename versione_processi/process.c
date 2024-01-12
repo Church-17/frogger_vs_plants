@@ -2,8 +2,8 @@
 #include <unistd.h>
 #include <errno.h>
 #include <signal.h>
-#include "../utils.h"
-#include "../struct.h"
+#include "utils.h"
+#include "struct.h"
 #include "process.h"
 
 // Define constants

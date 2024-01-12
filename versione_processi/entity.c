@@ -1,8 +1,8 @@
 // Include libs
 #include <unistd.h>
-#include "../manche.h"
-#include "../utils.h"
-#include "../struct.h"
+#include "manche.h"
+#include "utils.h"
+#include "struct.h"
 #include "process.h"
 #include "entity.h"
 

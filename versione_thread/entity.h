@@ -1,3 +1,7 @@
+// Include libs
+#include <stdbool.h>
+#include "game.h"
+
 // Inter-object variables
 extern bool frog_on_croccodile[MIN_PLANT_ID - MIN_CROCCODILE_ID], croccodile_shotted[MIN_PLANT_ID - MIN_CROCCODILE_ID];
 

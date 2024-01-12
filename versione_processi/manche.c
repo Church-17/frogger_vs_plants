@@ -1,13 +1,13 @@
 // Include libs
 #include <unistd.h>
-#include "../main.h"
-#include "../menu.h"
-#include "../manche.h"
-#include "../music.h"
-#include "../utils.h"
-#include "../struct.h"
-#include "process.h"
+#include "main.h"
+#include "menu.h"
+#include "manche.h"
+#include "music.h"
+#include "utils.h"
+#include "struct.h"
 #include "entity.h"
+#include "process.h"
 
 // Define constant
 #define RESIZE_TIME_THRESHOLD 100

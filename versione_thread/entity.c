@@ -1,10 +1,10 @@
 // Include libs
 #include <unistd.h>
-#include "../manche.h"
-#include "../utils.h"
-#include "../struct.h"
-#include "thread.h"
+#include "manche.h"
+#include "utils.h"
+#include "struct.h"
 #include "entity.h"
+#include "thread.h"
 
 // Define contants
 #define PLANT_OPEN_INTERVAL 200
