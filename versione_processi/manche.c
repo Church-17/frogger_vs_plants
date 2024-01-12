@@ -93,6 +93,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     alloc(Position*, gamevar.plants_bullets, N_PLANTS);
     for(int i = 0; i < N_PLANTS; i++) {
         gamevar.plants[i].y = INCOMING_ENTITY; // Mark as incoming each plant
+        gamevar.plants[i].x = plants_x[i]; // Write plant x coordinate
         alloc(Position, gamevar.plants_bullets[i], MAX_BULLETS_PER_PLANT);
         for(int j = 0; j < MAX_BULLETS_PER_PLANT; j++) {
             gamevar.plants_bullets[i][j].y = FREE_ENTITY; // Mark as free the bullets of each plant
@@ -446,12 +447,13 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                                 }
                             }
                         } while(occupied_plant);
+                        gamevar.plants[entity_id].x = fork_params[PLANT_X_INDEX];
                         async_exec(pipe_fds, &process_pids, fork_params[PLANT_ID_INDEX], &plant_process, fork_params);
                         break;
                     }
                     // Update coordinates & print
+                    play_sound(SOUND_SPAWN_PLANT);
                     gamevar.plants[entity_id].y = msg.y;
-                    gamevar.plants[entity_id].x = msg.x;
                     print_plant(gamevar.plants[entity_id], msg.sig);
                 } else if(msg.sig == PLANT_SHOT_SIG) { // Shot
                     if(gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y == FREE_ENTITY) {
@@ -576,6 +578,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                                     }
                                 }
                             } while(occupied_plant);
+                            gamevar.plants[i].x = fork_params[PLANT_X_INDEX];
                             async_exec(pipe_fds, &process_pids, fork_params[PLANT_ID_INDEX], &plant_process, fork_params);
                             break;
                         }

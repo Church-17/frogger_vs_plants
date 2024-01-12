@@ -196,7 +196,6 @@ void plant_process(int pipe_write, int* params) {
     msleep(rand_range(1, 5) * MSEC_IN_SEC);
 
     write_msg(pipe_write, msg); // Write initial position
-    play_sound(SOUND_SPAWN_PLANT);
 
     // Plant loop to shot bullets
     while(TRUE) {
