@@ -334,7 +334,7 @@ void settings_menu(void) {
     // Update game settings if applied
     if(hl < N_SETTINGS || hl == SET_APPL_ID) {
         if(newly_setted[SET_VOL_MUS_ID] != VOL_MUS_SET) {
-            play_music(STOP_MUSIC);
+            stop_music();
             wr_settings(newly_setted);
             play_music(MUSIC_MENU);
         } else {

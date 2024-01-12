@@ -61,6 +61,15 @@ int play_game(void) {
     gamevar.score = 0;
     gamevar.lifes = N_LIFES;
 
+    // Play music based on difficulty
+    if(DIFF_SET == DIFF_0_ID) {
+        play_music(MUSIC_EASY);
+    } else if(DIFF_SET == DIFF_1_ID) {
+        play_music(MUSIC_MEDIUM);
+    } else if(DIFF_SET == DIFF_2_ID) {
+        play_music(MUSIC_HARD);
+    }
+
     // Loop for play n manche saving the remained time and updating lifes
     for(int i = 0; i < N_MANCHES && gamevar.lifes; i++) {
         gamevar = play_manche(gamevar.score, gamevar.lifes, holes_occupied);

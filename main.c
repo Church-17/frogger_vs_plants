@@ -10,7 +10,7 @@
 #include "struct.h"
 
 // Define constants
-#define NEW_GAME_SLEEP 500
+#define NEW_GAME_SLEEP 1000
 
 // Inter-object vars
 WINDOW* main_scr = NULL;
@@ -111,7 +111,7 @@ int main(void) {
         chosen = home_menu();
         switch(chosen) {
             case HOME_GAME_ID: // Game
-                play_music(STOP_MUSIC);
+                stop_music();
                 play_sound(SOUND_START_GAME);
                 demo();
                 wrefresh(main_scr);
@@ -148,7 +148,7 @@ int main(void) {
                 break;
         }
     }
-    play_music(STOP_MUSIC);
+    stop_music();
     quit(NO_ERR);
 }
 

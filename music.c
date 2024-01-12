@@ -19,22 +19,28 @@ void play_sound(int sound_id) {
 
 void play_music(int music_id) {
     static const str music[N_MUSICS] = {"best", "easy", "hard", "l_game", "medium", "menu", "w_game"};
+    static const bool loop[N_MUSICS] = {FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE};
     if(VOL_MUS_SET == 0) {
         return;
     }
-    if(music_id == PAUSE_MUSIC) {
-        system("skill -SIGSTOP -c mpg123");
-        return;
-    }
-    if(music_id == RESUME_MUSIC) {
-        system("skill -SIGCONT -c mpg123");
-        return;
-    }
-    system("skill -SIGKILL -c mpg123");
-    if(music_id == STOP_MUSIC) {
-        return;
-    }
+    stop_music();
     char cmd[LIM_STR_BUFF];
-    sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
+    if(loop[music_id]) {
+        sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 --loop -1 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
+    } else {
+        sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
+    }
     system(cmd);
+}
+
+void stop_music(void) {
+    system("skill -SIGKILL -c mpg123");
+}
+
+void pause_music(void) {
+    system("skill -SIGSTOP -c mpg123");
+}
+
+void resume_music(void) {
+    system("skill -SIGCONT -c mpg123");
 }
