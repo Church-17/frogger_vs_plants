@@ -174,6 +174,7 @@ void print_frog(const Game_t* gamevar) {
                     restore_color_4 = RED_DARKGREEN;
                     restore_color_5 = RED_PURPLE;
                 }
+                // Restore each character
                 frog_x = gamevar->frog.x;
                 if(frog_x >= gamevar->plants[i].x + 1 && frog_x < gamevar->plants[i].x + 6) {
                     pair_col[0][0] = restore_color_4;
@@ -222,7 +223,7 @@ void print_frog(const Game_t* gamevar) {
                 } else {
                     pair_col[2][7] = restore_color_5;
                 }
-                if(gamevar->plants_sig[i] == PLANT_OPEN_SIG || gamevar->plants_sig[i] == PLANT_SHOT_SIG) {
+                if(gamevar->plants_sig[i] == PLANT_OPEN_SIG || gamevar->plants_sig[i] == PLANT_SHOT_SIG) { // Difference of open/close plant
                     frog_x = gamevar->frog.x;
                     if(frog_x == gamevar->plants[i].x + 0 || frog_x == gamevar->plants[i].x + 6) {
                         pair_col[3][0] = restore_color_1;
