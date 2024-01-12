@@ -1,7 +1,6 @@
 // Include libs
 #include <unistd.h>
 #include "../manche.h"
-#include "../music.h"
 #include "../utils.h"
 #include "../struct.h"
 #include "thread.h"
@@ -218,7 +217,6 @@ void* bullet_thread(void* params) {
 
     // Write initial position
     write_msg(msg);
-    play_sound(SOUND_BULLET);
     if(msg.y < LINE_BANK_1) {
         do_exit = TRUE;
     }

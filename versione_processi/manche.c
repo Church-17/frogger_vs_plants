@@ -489,6 +489,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     } else {
                         mvwaprintw(main_scr, gamevar.frog_bullets[entity_id].y, gamevar.frog_bullets[entity_id].x, GREEN_PURPLE, "%*s", BULLET_DIM_X, "");
                     }
+                } else { // If it's just spwaned play sound
+                    play_sound(SOUND_BULLET);
                 }
 
                 // If frog bullet is out of limit free it
@@ -623,6 +625,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     } else {
                         mvwaprintw(main_scr, gamevar.plants_bullets[plant_id][entity_id].y, gamevar.plants_bullets[plant_id][entity_id].x, GREEN_PURPLE, "%*s", BULLET_DIM_X, "");
                     }
+                } else { // If it's just spwaned play sound
+                    play_sound(SOUND_BULLET);
                 }
 
                 // If frog bullet is out of screen free it

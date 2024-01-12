@@ -1,7 +1,6 @@
 // Include libs
 #include <unistd.h>
 #include "../manche.h"
-#include "../music.h"
 #include "../utils.h"
 #include "../struct.h"
 #include "process.h"
@@ -224,7 +223,6 @@ void bullet_process(int pipe_write, int* params) {
 
     // Write initial position
     write_msg(pipe_write, msg);
-    play_sound(SOUND_BULLET);
     if(msg.y < LINE_BANK_1) {
         do_exit = TRUE;
     }
