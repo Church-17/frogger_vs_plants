@@ -56,39 +56,47 @@ bool game() {
 int play_game(void) {
     // Init vars
     bool holes_occupied[N_HOLES] = {FALSE};
-    int tmp_score, usleep_ret;
+    int tmp_score, usleep_ret, music_id, usec_per_point;
     Game_t gamevar;
     gamevar.score = 0;
     gamevar.lifes = N_LIFES;
 
     // Play music based on difficulty
     if(DIFF_SET == DIFF_0_ID) {
-        play_music(MUSIC_EASY);
+        music_id = MUSIC_EASY;
     } else if(DIFF_SET == DIFF_1_ID) {
-        play_music(MUSIC_MEDIUM);
+        music_id = MUSIC_MEDIUM;
     } else if(DIFF_SET == DIFF_2_ID) {
-        play_music(MUSIC_HARD);
+        music_id = MUSIC_HARD;
     }
 
     // Loop for play n manche saving the remained time and updating lifes
     for(int i = 0; i < N_MANCHES && gamevar.lifes; i++) {
+        play_music(music_id);
         gamevar = play_manche(gamevar.score, gamevar.lifes, holes_occupied);
         switch(gamevar.timer) {
             case MANCHE_LOST:
+                stop_music();
+                play_sound(SOUND_MANCHE_LOST);
                 gamevar.lifes--;
                 i--;
                 break;
 
             case MANCHE_RETR:
                 return OVER_RETR_ID;
-                break;
 
             case MANCHE_CLOSE:
                 return OVER_BACK_ID;
-                break;
 
             case MANCHE_QUIT:
                 return OVER_QUIT_ID;
+
+            default:
+                stop_music();
+                play_sound(SOUND_MANCHE_WON);
+                usleep_ret = usleep(MSEC_IN_SEC * 700);
+                play_music(MUSIC_SCORE);
+                usec_per_point = MUSIC_SCORE_DURATION * MSEC_IN_SEC / gamevar.timer;
                 break;
         }
 
@@ -97,7 +105,7 @@ int play_game(void) {
         gamevar.score += gamevar.timer * SCORE_MULTIPLIER;
 
         // Animation of time & score (if usleep is interrupted, interrupt animation & pause game)
-        for(usleep_ret = usleep(MSEC_IN_SEC * 300); usleep_ret == 0 && gamevar.timer > 0; usleep_ret = usleep(MSEC_IN_SEC * 50)) {
+        for(; usleep_ret == 0 && gamevar.timer > 0; usleep_ret = usleep(usec_per_point)) {
             gamevar.timer--;
             tmp_score += SCORE_MULTIPLIER;
             print_time(gamevar.timer);
@@ -114,12 +122,6 @@ int play_game(void) {
     gamevar.score *= gamevar.lifes;
     gamevar.free_frog_bullet = MAX_BULLETS_PER_FROG;
 
-    // Animation of score & lifes
-    print_lifes(0);
-    wrefresh(main_scr);
-    usleep(MSEC_IN_SEC * 300);
-    flushinp(); // Ignore any user input received during animation
-
     // If score was one of the best, add it to the best scores
     if(gamevar.score > 0) {
         int index_new_score;
@@ -132,6 +134,7 @@ int play_game(void) {
         }
         if(index_new_score < N_BEST) { // If the new score is a best score, write in best scores
             gamevar.win = HIGH_SCORE_GAME;
+            play_music(MUSIC_BEST_SCORE);
             best.key[index_new_score] = getenv("USER");
             best.val[index_new_score] = gamevar.score;
             if(best.len < N_BEST) { // Increment best size if needed
@@ -140,10 +143,13 @@ int play_game(void) {
             wr_best(best);
         } else {
             gamevar.win = WIN_GAME;
+            play_music(MUSIC_GAME_WON);
         }
     } else {
         gamevar.win = LOST_GAME;
+        play_music(MUSIC_GAME_LOST);
     }
+
     print_game(&gamevar);
     wrefresh(main_scr);
 

@@ -548,6 +548,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     // Frog bullet collision with plant
                     for(int i = 0; i < N_PLANTS; i++) {
                         if(gamevar.plants[i].y >= 0 && msg.x + BULLET_DIM_X > gamevar.plants[i].x && msg.x < gamevar.plants[i].x + PLANT_DIM_X) {
+                            play_sound(SOUND_DEAD_PLANT);
                             // Update counter
                             gamevar.free_frog_bullet++;
                             print_free_frog_bullet(gamevar.free_frog_bullet);

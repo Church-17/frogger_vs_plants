@@ -1,6 +1,7 @@
 // Include libs
 #include <unistd.h>
 #include "../manche.h"
+#include "../music.h"
 #include "../utils.h"
 #include "../struct.h"
 #include "process.h"
@@ -195,6 +196,7 @@ void plant_process(int pipe_write, int* params) {
     msleep(rand_range(1, 5) * MSEC_IN_SEC);
 
     write_msg(pipe_write, msg); // Write initial position
+    play_sound(SOUND_SPAWN_PLANT);
 
     // Plant loop to shot bullets
     while(TRUE) {
@@ -223,6 +225,7 @@ void bullet_process(int pipe_write, int* params) {
 
     // Write initial position
     write_msg(pipe_write, msg);
+    play_sound(SOUND_BULLET);
     if(msg.y < LINE_BANK_1) {
         do_exit = TRUE;
     }
