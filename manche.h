@@ -13,7 +13,7 @@
 #define INCOMING_ENTITY (-1)
 
 // Frog constants
-#define FROG_MOVE_Y 4
+#define FROG_MOVE_Y FROG_DIM_Y
 #define FROG_MOVE_X 2
 #define FROG_INIT_Y LINE_BANK_2
 #define FROG_INIT_X (MAIN_COLS/2-FROG_DIM_X/2)
