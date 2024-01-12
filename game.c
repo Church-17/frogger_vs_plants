@@ -120,6 +120,7 @@ int play_game(void) {
     }
 
     // Update score & bullet
+    gamevar.timer = 0;
     gamevar.score *= gamevar.lifes;
     gamevar.free_frog_bullet = MAX_BULLETS_PER_FROG;
 
