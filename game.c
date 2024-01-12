@@ -128,16 +128,19 @@ int play_game(void) {
         int index_new_score;
         str best_key_cpy[N_BEST];
         Dict_str_int best = rd_best(); // Read actual best scores
+        // Copy ptr to free all them
         for(int i = 0; i < N_BEST; i++) {
             best_key_cpy[i] = best.key[i];
         }
-        for(index_new_score = best.len; index_new_score > 0 && gamevar.score > best.val[index_new_score-1]; index_new_score--) { // Check if score is gtr than the least best score
+        // Check if score is gtr than the least best score
+        for(index_new_score = best.len; index_new_score > 0 && gamevar.score > best.val[index_new_score-1]; index_new_score--) {
             if(index_new_score < N_BEST) { // If it is, pass the previous best score down (if it is possible)
                 best.key[index_new_score] = best.key[index_new_score-1];
                 best.val[index_new_score] = best.val[index_new_score-1];
             }
         }
-        if(index_new_score < N_BEST) { // If the new score is a best score, write in best scores
+        // If the new score is a best score, write in best scores
+        if(index_new_score < N_BEST) {
             gamevar.win = HIGH_SCORE_GAME;
             play_music(MUSIC_BEST_SCORE);
             best.key[index_new_score] = getenv("USER");
@@ -145,14 +148,14 @@ int play_game(void) {
             if(best.len < N_BEST) { // Increment best size if needed
                 best.len++;
             }
-            wr_best(best);
+            wr_best(best); // Write new best scores
         } else {
             gamevar.win = WIN_GAME;
             play_music(MUSIC_GAME_WON);
         }
         // Free memory
         for(int i = 0; i < N_BEST; i++) {
-            free(best_key_cpy[i]);
+            free(best_key_cpy[i]); // Free only allocated memory
         }
         free(best.key);
         free(best.val);
