@@ -126,7 +126,11 @@ int play_game(void) {
     // If score was one of the best, add it to the best scores
     if(gamevar.score > 0) {
         int index_new_score;
+        str best_key_cpy[N_BEST];
         Dict_str_int best = rd_best(); // Read actual best scores
+        for(int i = 0; i < N_BEST; i++) {
+            best_key_cpy[i] = best.key[i];
+        }
         for(index_new_score = best.len; index_new_score > 0 && gamevar.score > best.val[index_new_score-1]; index_new_score--) { // Check if score is gtr than the least best score
             if(index_new_score < N_BEST) { // If it is, pass the previous best score down (if it is possible)
                 best.key[index_new_score] = best.key[index_new_score-1];
@@ -146,6 +150,12 @@ int play_game(void) {
             gamevar.win = WIN_GAME;
             play_music(MUSIC_GAME_WON);
         }
+        // Free memory
+        for(int i = 0; i < N_BEST; i++) {
+            free(best_key_cpy[i]);
+        }
+        free(best.key);
+        free(best.val);
     } else {
         gamevar.win = LOST_GAME;
         play_music(MUSIC_GAME_LOST);

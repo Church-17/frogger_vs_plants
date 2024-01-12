@@ -7,14 +7,14 @@
 Dict_str_int check_conf_file(FILE* fptr, int lim_lines);
 
 // Define constant
-#define CHK_FILE_ERR -1
+#define CHK_FILE_ERR (-1)
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2", "volume_music", "volume_effects"} // Array of setting labels
 #define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID, SET_VOL_MUS_ID, SET_VOL_EFCT_ID} // Index of settings
 #define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR, N_VOLUME, N_VOLUME} // N options of each settings
 #define SETTINGS_PATH "/tmp/frogger_settings" // Path of settings file
 #define BEST_PATH "/tmp/frogger_records" // Path of best scores files
-#define FIRST_ALLOWED_CHAR (int)'!' // First allowed char in username
-#define LAST_ALLOWED_CHAR (int)'~' // Last allowed char in username
+#define FIRST_ALLOWED_CHAR '!' // First allowed char in username
+#define LAST_ALLOWED_CHAR '~' // Last allowed char in username
 
 // Define inter-object variables
 int game_settings[N_SETTINGS] = {1, 0, 0, 0, 0, 10, 10}; // Default settings
@@ -86,8 +86,11 @@ Dict_str_int rd_best(void) {
     Dict_str_int best;
     FILE* fptr = fopen(BEST_PATH, READ);
     if(fptr == NULL) { // If best scores file cannot be opened...
-        best.key = NULL;
-        best.val = NULL;
+        alloc(str, best.key, N_BEST);
+        for(int i = 0; i < N_BEST; i++) {
+            alloc(char, best.key[i], LIM_STR_BUFF);
+        }
+        alloc(int, best.val, N_BEST);
         best.len = 0;
         wr_best(best); // Write new empty best scores file
         return best;
@@ -98,12 +101,6 @@ Dict_str_int rd_best(void) {
         best.len = 0;
         wr_best(best); // Write new empty best scores file
     }
-
-    // Free unused memory
-    for(int i = best.len; i < N_BEST; i++) {
-        free(best.key[i]);
-    }
-
     sort_dict(&best); // Sort dict
     return best;
 }

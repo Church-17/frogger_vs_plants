@@ -183,12 +183,12 @@ void best_scores_menu(void) {
     // Free memory
     for(int i = 0; i < best.len; i++) {
         free(dx.list[i]);
+    }
+    for(int i = 0; i < N_BEST; i++) {
         free(best.key[i]);
     }
-    if(best.len >= 0) {
-        free(best.key);
-        free(best.val);
-    }
+    free(best.key);
+    free(best.val);
 }
 
 // Settings Menu
