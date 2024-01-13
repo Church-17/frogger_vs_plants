@@ -19,7 +19,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     bool occupied_plant;
     pid_t array_pids[LIM_N_ENTITIES] = {0}; // Pids for every process
     List_pid process_pids = {array_pids, LIM_N_ENTITIES};
-    int fork_params[LIM_N_ENTITIES][N_ENTITY_PARAMS];
+    int process_params[LIM_N_ENTITIES][N_ENTITY_PARAMS];
     int stream_speed[N_WATER_STREAM];
     int plants_x[N_PLANTS];
     int id;
@@ -38,15 +38,15 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         stream_speed[i] = rand_range(MIN_STREAM_SPEED, MAX_STREAM_SPEED) * (rand_range(0, 2) ? 1 : -1);
         // Write croccodile params
         id = i*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
-        fork_params[id][CROCCODILE_ID_INDEX] = id;
-        fork_params[id][CROCCODILE_STREAM_INDEX] = i;
-        fork_params[id][CROCCODILE_SPEED_INDEX] = stream_speed[i];
+        process_params[id][CROCCODILE_ID_INDEX] = id;
+        process_params[id][CROCCODILE_STREAM_INDEX] = i;
+        process_params[id][CROCCODILE_SPEED_INDEX] = stream_speed[i];
         // Calls the fork for croccodile process handling the errors
-        async_exec(pipe_fds, &process_pids, id, &croccodile_process, fork_params[id]);
+        async_exec(pipe_fds, &process_pids, id, &croccodile_process, process_params[id]);
     }
     for(int i = 0; i < N_PLANTS; i++) {
         id = MIN_PLANT_ID + i;
-        fork_params[id][PLANT_ID_INDEX] = id;
+        process_params[id][PLANT_ID_INDEX] = id;
         do { // Randomize X coordinates of plant
             occupied_plant = FALSE;
             plants_x[i] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
@@ -58,8 +58,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 }
             }
         } while(occupied_plant);
-        fork_params[id][PLANT_X_INDEX] = plants_x[i];
-        async_exec(pipe_fds, &process_pids, id, &plant_process, fork_params[id]);
+        process_params[id][PLANT_X_INDEX] = plants_x[i];
+        async_exec(pipe_fds, &process_pids, id, &plant_process, process_params[id]);
     }
     
     // --- PARENT PROCESS ---
@@ -198,11 +198,11 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         gamevar.frog_bullets[next_frog_bullet].y = INCOMING_ENTITY;
                         // Calc bullet params
                         id = next_frog_bullet + MIN_FROG_BULLET_ID;
-                        fork_params[id][BULLET_ID_INDEX] = id;
-                        fork_params[id][BULLET_Y_INDEX] = gamevar.frog.y - 1;
-                        fork_params[id][BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
+                        process_params[id][BULLET_ID_INDEX] = id;
+                        process_params[id][BULLET_Y_INDEX] = gamevar.frog.y - 1;
+                        process_params[id][BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
                         // Fork
-                        async_exec(pipe_fds, &process_pids, id, &bullet_process, fork_params[id]);
+                        async_exec(pipe_fds, &process_pids, id, &bullet_process, process_params[id]);
                         // Update next bullet & counter
                         next_frog_bullet = mod(next_frog_bullet + 1, MAX_BULLETS_PER_FROG);
                         gamevar.free_frog_bullet--;
@@ -423,10 +423,10 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     if(gamevar.croccodiles[entity_stream][next_croccodile_id].y == FREE_ENTITY) { // Check if next croccodile in same stream is free
                         gamevar.croccodiles[entity_stream][next_croccodile_id].y = INCOMING_ENTITY; // Mark the founded free croccodile as incoming
                         id = next_croccodile_id + entity_stream*MAX_CROCCODILE_PER_STREAM + MIN_CROCCODILE_ID;
-                        fork_params[id][CROCCODILE_ID_INDEX] = id;
-                        fork_params[id][CROCCODILE_STREAM_INDEX] = entity_stream;
-                        fork_params[id][CROCCODILE_SPEED_INDEX] = stream_speed[entity_stream];
-                        async_exec(pipe_fds, &process_pids, id, &croccodile_process, fork_params[id]); // Calls the fork for croccodile process handling the errors
+                        process_params[id][CROCCODILE_ID_INDEX] = id;
+                        process_params[id][CROCCODILE_STREAM_INDEX] = entity_stream;
+                        process_params[id][CROCCODILE_SPEED_INDEX] = stream_speed[entity_stream];
+                        async_exec(pipe_fds, &process_pids, id, &croccodile_process, process_params[id]); // Calls the fork for croccodile process handling the errors
                         stream_last[entity_stream] = next_croccodile_id; // Update last croccodile of stream
                     }
                 }
@@ -443,19 +443,19 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         kill(process_pids.list[msg.id], SIGKILL);
                         waitpid(process_pids.list[msg.id], NULL, 0); // Handle died plant process
                         gamevar.plants[entity_id].y = INCOMING_ENTITY;
-                        fork_params[msg.id][PLANT_ID_INDEX] = msg.id;
+                        process_params[msg.id][PLANT_ID_INDEX] = msg.id;
                         do {
                             occupied_plant = FALSE;
-                            fork_params[msg.id][PLANT_X_INDEX] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
+                            process_params[msg.id][PLANT_X_INDEX] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
                             for(int j = 0; j < N_PLANTS; j++) {
-                                if(j != entity_id && fork_params[msg.id][PLANT_X_INDEX] + PLANT_DIM_X > gamevar.plants[j].x && fork_params[msg.id][PLANT_X_INDEX] < gamevar.plants[j].x + PLANT_DIM_X) {
+                                if(j != entity_id && process_params[msg.id][PLANT_X_INDEX] + PLANT_DIM_X > gamevar.plants[j].x && process_params[msg.id][PLANT_X_INDEX] < gamevar.plants[j].x + PLANT_DIM_X) {
                                     occupied_plant = TRUE;
                                     break;
                                 }
                             }
                         } while(occupied_plant);
-                        gamevar.plants[entity_id].x = fork_params[msg.id][PLANT_X_INDEX];
-                        async_exec(pipe_fds, &process_pids, msg.id, &plant_process, fork_params[msg.id]);
+                        gamevar.plants[entity_id].x = process_params[msg.id][PLANT_X_INDEX];
+                        async_exec(pipe_fds, &process_pids, msg.id, &plant_process, process_params[msg.id]);
                         break;
                     }
                     // Update coordinates & print
@@ -467,10 +467,10 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y = INCOMING_ENTITY;
                         // Calc bullet params
                         id = next_plant_bullet[entity_id] + MAX_BULLETS_PER_PLANT*entity_id + MIN_PLANT_BULLET_ID;
-                        fork_params[id][BULLET_ID_INDEX] = id;
-                        fork_params[id][BULLET_Y_INDEX] = gamevar.plants[entity_id].y + PLANT_DIM_Y;
-                        fork_params[id][BULLET_X_INDEX] = gamevar.plants[entity_id].x + PLANT_DIM_X/2;
-                        async_exec(pipe_fds, &process_pids, id, &bullet_process, fork_params[id]); // Fork
+                        process_params[id][BULLET_ID_INDEX] = id;
+                        process_params[id][BULLET_Y_INDEX] = gamevar.plants[entity_id].y + PLANT_DIM_Y;
+                        process_params[id][BULLET_X_INDEX] = gamevar.plants[entity_id].x + PLANT_DIM_X/2;
+                        async_exec(pipe_fds, &process_pids, id, &bullet_process, process_params[id]); // Fork
                         next_plant_bullet[entity_id] = mod(next_plant_bullet[entity_id] + 1, MAX_BULLETS_PER_PLANT); // Update next
                     }
                 } else {
@@ -578,19 +578,19 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             kill(process_pids.list[id], SIGKILL);
                             waitpid(process_pids.list[id], NULL, 0); // Handle died plant process
                             gamevar.plants[i].y = INCOMING_ENTITY;
-                            fork_params[id][PLANT_ID_INDEX] = id;
+                            process_params[id][PLANT_ID_INDEX] = id;
                             do {
                                 occupied_plant = FALSE;
-                                fork_params[id][PLANT_X_INDEX] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
+                                process_params[id][PLANT_X_INDEX] = rand_range(0, MAIN_COLS - PLANT_DIM_X);
                                 for(int j = 0; j < N_PLANTS; j++) {
-                                    if(j != i && fork_params[id][PLANT_X_INDEX] + PLANT_DIM_X > gamevar.plants[j].x && fork_params[id][PLANT_X_INDEX] < gamevar.plants[j].x + PLANT_DIM_X) {
+                                    if(j != i && process_params[id][PLANT_X_INDEX] + PLANT_DIM_X > gamevar.plants[j].x && process_params[id][PLANT_X_INDEX] < gamevar.plants[j].x + PLANT_DIM_X) {
                                         occupied_plant = TRUE;
                                         break;
                                     }
                                 }
                             } while(occupied_plant);
-                            gamevar.plants[i].x = fork_params[id][PLANT_X_INDEX];
-                            async_exec(pipe_fds, &process_pids, id, &plant_process, fork_params[id]);
+                            gamevar.plants[i].x = process_params[id][PLANT_X_INDEX];
+                            async_exec(pipe_fds, &process_pids, id, &plant_process, process_params[id]);
                             break;
                         }
                     }
