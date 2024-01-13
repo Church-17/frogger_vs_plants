@@ -14,9 +14,25 @@
 bool game_in_pause = FALSE;
 int wr_index = 0;
 Message buffer[DIM_BUFFER];
-pthread_mutex_t buf_mutex = PTHREAD_MUTEX_INITIALIZER, pause_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t wr_buf_mutex = PTHREAD_MUTEX_INITIALIZER, pause_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t pause_cond = PTHREAD_COND_INITIALIZER;
 sem_t sem_free, sem_occupied;
+
+// Lock mutex
+void mutex_lock(pthread_mutex_t* mutex) {
+    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
+    if(pthread_mutex_lock(mutex) != 0) { // Handle mutex lock error
+        quit(ERR_MUTEX_LOCK);
+    }
+}
+
+// Unlock mutex
+void mutex_unlock(pthread_mutex_t* mutex) {
+    if(pthread_mutex_unlock(mutex) != 0) { // Handle mutex lock error
+        quit(ERR_MUTEX_UNLOCK);
+    }
+    pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+}
 
 // Create thread handling errors
 void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* func_params) {
@@ -67,14 +83,10 @@ void write_msg(Message msg) {
     while(sem_wait(&sem_free) != 0) { // Handle sem wait error, passing signal interrupt
         if(errno != EINTR) quit(ERR_SEM_WAIT);
     }
-    if(pthread_mutex_lock(&buf_mutex) != 0) { // Handle mutex lock error
-        quit(ERR_MUTEX_LOCK);
-    }
+    mutex_lock(&wr_buf_mutex);
     buffer[wr_index] = msg; // Write message in buffer
     wr_index = mod(wr_index + 1, DIM_BUFFER); // Increment wr index
-    if(pthread_mutex_unlock(&buf_mutex) != 0) { // Handle mutex unlock error
-        quit(ERR_MUTEX_UNLOCK);
-    }
+    mutex_unlock(&wr_buf_mutex);
     while(sem_post(&sem_occupied) != 0) { // Handle sem wait error, passing signal interrupt
         if(errno != EINTR) quit(ERR_SEM_POST);
     }
@@ -91,15 +103,11 @@ void msleep(time_t timer) {
 // Check if game is in pause
 void check_pause(void) {
     if(game_in_pause) {
-        if(pthread_mutex_lock(&pause_mutex) != 0) { // Handle mutex lock error
-            quit(ERR_MUTEX_LOCK);
-        }
+        mutex_lock(&pause_mutex);
         if(pthread_cond_wait(&pause_cond, &pause_mutex) != 0) { // Wait until game resume
             quit(ERR_MUTEX_COND);
         }
-        if(pthread_mutex_unlock(&pause_mutex) != 0) { // Handle mutex unlock error
-            quit(ERR_MUTEX_UNLOCK);
-        }
+        mutex_unlock(&pause_mutex);
     }
 }
 
