@@ -54,6 +54,10 @@ utils.o: utils.c ${utils} ${struct}
 music.o: music.c ${music} ${res} ${utils} ${struct_proto}
 	${COBJ}
 
+# Install dependencies
+install:
+	sudo apt install mpg123
+
 # Clear routine
 clear:
 	rm -f *.o
