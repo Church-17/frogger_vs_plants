@@ -160,6 +160,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         case PAUSE_RES_ID:
                             resume_music(); // Resume music
                             print_game(&gamevar); // Redraw game
+                            resume_manche(); // Resume all threads
                             resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                             break;
                         
@@ -179,7 +180,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             break;
                     }
                 }
-                resume_manche(); // Resume all threads
                 break;
             
             // TIMER

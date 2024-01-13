@@ -46,6 +46,7 @@ void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* 
 // Init semaphores handling errors & reset wr_index needed
 void init_semaphore(void) {
     wr_index = 0;
+    game_in_pause = FALSE;
     if(sem_init(&sem_free, 0, DIM_BUFFER) != 0) {
         quit(ERR_SEM_INIT);
     }
