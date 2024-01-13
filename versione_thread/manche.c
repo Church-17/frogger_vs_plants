@@ -17,13 +17,10 @@
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Init vars
     bool occupied_plant;
+    int id, thread_params[LIM_N_ENTITIES][N_ENTITY_PARAMS], stream_speed[N_WATER_STREAM], plants_x[N_PLANTS]; // Matrix to store params for each entity; each line will be passed to thread as params
     pthread_t array_tids[LIM_N_ENTITIES] = {0}; // ID for every thread
     List_thread thread_tids = {array_tids, LIM_N_ENTITIES};
-    int thread_params[LIM_N_ENTITIES][N_ENTITY_PARAMS]; // Matrix to store params for each entity; each line will be passed to thread as params
-    int stream_speed[N_WATER_STREAM];
-    int plants_x[N_PLANTS];
-    int id;
-
+    
     init_semaphore(); // Semaphores
     // Reset var
     for(int i = 0; i < MIN_PLANT_ID - MIN_CROCCODILE_ID; i++) {
@@ -67,9 +64,8 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
     // Init control vars
     bool manche_ended = FALSE; // Flag
     int rd_index = 0;
-    int entity_stream, entity_id, next_croccodile_id, restore_croccodile_x, restore_croccodile_len; // Helper vars for croccodile
+    int entity_stream, entity_id, next_croccodile_id, restore_croccodile_x, restore_croccodile_len, plant_id; // Helper vars
     int stream_last[N_WATER_STREAM] = {0}; // Track which croccodile was the last of each stream
-    int next_frog_bullet = 0, next_plant_bullet[N_PLANTS] = {0}, plant_id;
     time_t resize_time = 0, refresh_time = 0; // Var to store time of the last continue to prevent multiple resize message at once
     Message msg; // Define msg to store buffer message
 
@@ -195,19 +191,21 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
             // FROG
             case FROG_ID:
                 if(msg.sig == FROG_SHOT_SIG) { // If frog shot a bullet
-                    if(gamevar.frog_bullets[next_frog_bullet].y == FREE_ENTITY) { // If a frog bullet is free...
-                        gamevar.frog_bullets[next_frog_bullet].y = INCOMING_ENTITY;
-                        // Calc bullet params
-                        id = next_frog_bullet + MIN_FROG_BULLET_ID;
-                        thread_params[id][BULLET_ID_INDEX] = id;
-                        thread_params[id][BULLET_Y_INDEX] = gamevar.frog.y - 1;
-                        thread_params[id][BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
-                        // Thread
-                        async_exec(&thread_tids, id, &bullet_thread, thread_params[id]);
-                        // Update next bullet & counter
-                        next_frog_bullet = mod(next_frog_bullet + 1, MAX_BULLETS_PER_FROG);
-                        gamevar.free_frog_bullet--;
-                        print_free_frog_bullet(gamevar.free_frog_bullet);
+                    for(int i = 0; i < MAX_BULLETS_PER_FROG; i++) {
+                        if(gamevar.frog_bullets[i].y == FREE_ENTITY) { // If a frog bullet is free...
+                            gamevar.frog_bullets[i].y = INCOMING_ENTITY;
+                            // Calc bullet params
+                            id = i + MIN_FROG_BULLET_ID;
+                            thread_params[id][BULLET_ID_INDEX] = id;
+                            thread_params[id][BULLET_Y_INDEX] = gamevar.frog.y - 1;
+                            thread_params[id][BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
+                            // Thread
+                            async_exec(&thread_tids, id, &bullet_thread, thread_params[id]);
+                            // Update next bullet & counter
+                            gamevar.free_frog_bullet--;
+                            print_free_frog_bullet(gamevar.free_frog_bullet);
+                            break;
+                        }
                     }
                     break;
                 }
@@ -465,15 +463,17 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     gamevar.plants[entity_id].y = msg.y;
                     print_plant(gamevar.plants[entity_id], msg.sig);
                 } else if(msg.sig == PLANT_SHOT_SIG) { // Shot
-                    if(gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y == FREE_ENTITY) {
-                        gamevar.plants_bullets[entity_id][next_plant_bullet[entity_id]].y = INCOMING_ENTITY;
-                        // Calc bullet params
-                        id = next_plant_bullet[entity_id] + MAX_BULLETS_PER_PLANT*entity_id + MIN_PLANT_BULLET_ID;
-                        thread_params[id][BULLET_ID_INDEX] = id;
-                        thread_params[id][BULLET_Y_INDEX] = gamevar.plants[entity_id].y + PLANT_DIM_Y;
-                        thread_params[id][BULLET_X_INDEX] = gamevar.plants[entity_id].x + PLANT_DIM_X/2;
-                        async_exec(&thread_tids, id, &bullet_thread, thread_params[id]); // Create thread
-                        next_plant_bullet[entity_id] = mod(next_plant_bullet[entity_id] + 1, MAX_BULLETS_PER_PLANT); // Update next
+                    for(int i = 0; i < MAX_BULLETS_PER_PLANT; i++) {
+                        if(gamevar.plants_bullets[entity_id][i].y == FREE_ENTITY) {
+                            gamevar.plants_bullets[entity_id][i].y = INCOMING_ENTITY;
+                            // Calc bullet params
+                            id = i + MAX_BULLETS_PER_PLANT*entity_id + MIN_PLANT_BULLET_ID;
+                            thread_params[id][BULLET_ID_INDEX] = id;
+                            thread_params[id][BULLET_Y_INDEX] = gamevar.plants[entity_id].y + PLANT_DIM_Y;
+                            thread_params[id][BULLET_X_INDEX] = gamevar.plants[entity_id].x + PLANT_DIM_X/2;
+                            async_exec(&thread_tids, id, &bullet_thread, thread_params[id]); // Create thread
+                            break;
+                        }
                     }
                 } else {
                     print_plant(gamevar.plants[entity_id], msg.sig);
