@@ -343,7 +343,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS || msg.sig == CROCCODILE_IMMERSION_SIG) { // If croccodile is out of screen...
                     gamevar.croccodiles[entity_stream][entity_id].y = FREE_ENTITY; // Mark it as free
                     thread_tids.list[msg.id] = 0;
-                    frog_on_croccodile[entity_stream*MAX_CROCCODILE_PER_STREAM + entity_id] = FALSE;
+                    frog_on_croccodile[entity_stream*MAX_CROCCODILE_PER_STREAM + entity_id] = croccodile_shotted[entity_stream*MAX_CROCCODILE_PER_STREAM + entity_id] = FALSE;
                     if(gamevar.frog_on_croccodile == msg.id) {
                         manche_ended = TRUE;
                         gamevar.timer = MANCHE_LOST;
@@ -403,7 +403,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         pthread_cancel(thread_tids.list[MIN_FROG_BULLET_ID + i]); // Kill bullet thread
                         thread_tids.list[MIN_FROG_BULLET_ID + i] = 0;
                         if(msg.sig != CROCCODILE_GOOD_SIG) { // Change kindness of croccodile if it is bad
-                            change_croccodile_shotted(msg.id, TRUE);
+                            croccodile_shotted[msg.id - MIN_CROCCODILE_ID] = TRUE;
                         }
                     }
                 }
@@ -524,7 +524,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             pthread_cancel(thread_tids.list[msg.id]);
                             thread_tids.list[msg.id] = 0;
                             if(gamevar.croccodiles_kind[entity_stream][i] != CROCCODILE_GOOD_SIG) { // Change kindness of croccodile if it is bad
-                                change_croccodile_shotted(MIN_CROCCODILE_ID + MAX_CROCCODILE_PER_STREAM*entity_stream + i, TRUE);
+                                croccodile_shotted[MAX_CROCCODILE_PER_STREAM*entity_stream + i] = TRUE;
                             }
                             break;
                         }

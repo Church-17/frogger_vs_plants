@@ -1,5 +1,4 @@
 // Include libs
-#include <stdbool.h>
 #include "game.h"
 
 // Inter-object variables
@@ -11,4 +10,3 @@ void* frog_thread(void* params);
 void* croccodile_thread(void* params);
 void* plant_thread(void* params);
 void* bullet_thread(void* params);
-void change_croccodile_shotted(int id_croccodile, bool value);
