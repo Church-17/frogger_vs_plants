@@ -36,7 +36,10 @@ void play_music(int music_id) {
     } else {
         sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
     }
-    system(cmd); // Run
+    
+    if (system(cmd) != 0) {
+        quit(ERR_PLAY_MUSIC);
+    }
 }
 
 // Stop all sounds

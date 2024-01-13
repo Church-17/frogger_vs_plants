@@ -99,7 +99,6 @@ void quit(int err_code) {
             "Error allocating memory",
             "Current terminal doesn't support colors",
             "Error creating window",
-            "Error during music initialization",
             "Error playing music",
             "Error creating thread",
             "Error in semaphore wait",

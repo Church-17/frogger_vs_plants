@@ -24,8 +24,7 @@
 #define ERR_PIPE 5
 #define ERR_READ 6
 #define ERR_WRITE 7
-#define ERR_INIT_MUSIC 8
-#define ERR_PLAY_MUSIC 9
+#define ERR_PLAY_MUSIC 8
 
 // Define macros
 

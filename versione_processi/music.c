@@ -18,7 +18,10 @@ void play_sound(int sound_id) {
 
     // Run mp3 player with scaled volume
     sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 2>/dev/null &", VOL_EFCT_SET*MAX_VOLUME/10, sound[sound_id]);
-    system(cmd);
+    
+    if (system(cmd) != 0) {
+        quit(ERR_PLAY_MUSIC);
+    }
 }
 
 void play_music(int music_id) {

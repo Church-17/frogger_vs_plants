@@ -20,16 +20,15 @@
 #define ERR_ALLOC 1
 #define ERR_COLOR 2
 #define ERR_WIN 3
-#define ERR_INIT_MUSIC 4
-#define ERR_PLAY_MUSIC 5
-#define ERR_INIT_THREAD 6
-#define ERR_SEM_WAIT 7
-#define ERR_SEM_POST 8
-#define ERR_MUTEX_LOCK 9
-#define ERR_MUTEX_UNLOCK 10
-#define ERR_MUTEX_COND 11
-#define ERR_SEM_INIT 12
-#define ERR_SEM_DESTROY 13
+#define ERR_PLAY_MUSIC 4
+#define ERR_INIT_THREAD 5
+#define ERR_SEM_WAIT 6
+#define ERR_SEM_POST 7
+#define ERR_MUTEX_LOCK 8
+#define ERR_MUTEX_UNLOCK 9
+#define ERR_MUTEX_COND 10
+#define ERR_SEM_INIT 11
+#define ERR_SEM_DESTROY 12
 
 // Define macros
 

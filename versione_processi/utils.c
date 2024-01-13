@@ -103,7 +103,6 @@ void quit(int err_code) {
             "Error creating pipe",
             "Error reading from pipe",
             "Error writing in pipe",
-            "Error during music initialization",
             "Error playing music",
         };
         perror(errContainer[err_code-1]);
