@@ -160,7 +160,6 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         case PAUSE_RES_ID:
                             resume_music(); // Resume music
                             print_game(&gamevar); // Redraw game
-                            resume_manche(); // Resume all threads
                             resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                             break;
                         
@@ -180,6 +179,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             break;
                     }
                 }
+                resume_manche(); // Resume all threads
                 break;
             
             // TIMER
@@ -342,6 +342,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // Free croccodile if it is disappeared
                 if(msg.x <= -CROCCODILE_DIM_X || msg.x >= MAIN_COLS || msg.sig == CROCCODILE_IMMERSION_SIG) { // If croccodile is out of screen...
                     gamevar.croccodiles[entity_stream][entity_id].y = FREE_ENTITY; // Mark it as free
+                    pthread_join(thread_tids.list[msg.id], NULL);
                     thread_tids.list[msg.id] = 0;
                     frog_on_croccodile[entity_stream*MAX_CROCCODILE_PER_STREAM + entity_id] = croccodile_shotted[entity_stream*MAX_CROCCODILE_PER_STREAM + entity_id] = FALSE;
                     if(gamevar.frog_on_croccodile == msg.id) {
@@ -401,6 +402,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         print_free_frog_bullet(gamevar.free_frog_bullet);
                         gamevar.frog_bullets[i].y = FREE_ENTITY; // Mark it as free
                         pthread_cancel(thread_tids.list[MIN_FROG_BULLET_ID + i]); // Kill bullet thread
+                        pthread_join(thread_tids.list[MIN_FROG_BULLET_ID + i], NULL);
                         thread_tids.list[MIN_FROG_BULLET_ID + i] = 0;
                         if(msg.sig != CROCCODILE_GOOD_SIG) { // Change kindness of croccodile if it is bad
                             croccodile_shotted[msg.id - MIN_CROCCODILE_ID] = TRUE;
@@ -441,6 +443,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     // If plant spawn on frog, kill plant & spawn another
                     if(gamevar.frog.y == LINE_BANK_1 && msg.x + PLANT_DIM_X > gamevar.frog.x && msg.x < gamevar.frog.x + FROG_DIM_X) {
                         pthread_cancel(thread_tids.list[msg.id]);
+                        pthread_join(thread_tids.list[msg.id], NULL);
                         gamevar.plants[entity_id].y = INCOMING_ENTITY;
                         thread_params[msg.id][PLANT_ID_INDEX] = msg.id;
                         do {
@@ -502,6 +505,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     gamevar.free_frog_bullet++;
                     print_free_frog_bullet(gamevar.free_frog_bullet);
                     gamevar.frog_bullets[entity_id].y = FREE_ENTITY; // Mark it as free
+                    pthread_join(thread_tids.list[msg.id], NULL);
                     thread_tids.list[msg.id] = 0;
                     break;
                 }
@@ -522,6 +526,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             print_free_frog_bullet(gamevar.free_frog_bullet);
                             gamevar.frog_bullets[entity_id].y = FREE_ENTITY; // Mark it as free
                             pthread_cancel(thread_tids.list[msg.id]);
+                            pthread_join(thread_tids.list[msg.id], NULL);
                             thread_tids.list[msg.id] = 0;
                             if(gamevar.croccodiles_kind[entity_stream][i] != CROCCODILE_GOOD_SIG) { // Change kindness of croccodile if it is bad
                                 croccodile_shotted[MAX_CROCCODILE_PER_STREAM*entity_stream + i] = TRUE;
@@ -540,10 +545,12 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                                 // Free frog bullet
                                 gamevar.frog_bullets[entity_id].y = FREE_ENTITY; // Mark it as free
                                 pthread_cancel(thread_tids.list[msg.id]);
+                                pthread_join(thread_tids.list[msg.id], NULL);
                                 thread_tids.list[msg.id] = 0;
                                 // Free plant bullet
                                 gamevar.plants_bullets[i][j].y = FREE_ENTITY; // Mark it as free
                                 pthread_cancel(thread_tids.list[MIN_PLANT_BULLET_ID + MAX_BULLETS_PER_PLANT*i + j]);
+                                pthread_join(thread_tids.list[MIN_PLANT_BULLET_ID + MAX_BULLETS_PER_PLANT*i + j], NULL);
                                 thread_tids.list[MIN_PLANT_BULLET_ID + MAX_BULLETS_PER_PLANT*i + j] = 0;
                                 // De-print
                                 mvwaprintw(main_scr, msg.y, msg.x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");
@@ -562,6 +569,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             // Free frog bullet
                             gamevar.frog_bullets[entity_id].y = FREE_ENTITY; // Mark it as free
                             pthread_cancel(thread_tids.list[msg.id]);
+                            pthread_join(thread_tids.list[msg.id], NULL);
                             thread_tids.list[msg.id] = 0;
                             // De-print
                             for(int j = 0; j < PLANT_DIM_Y; j++) {
@@ -570,6 +578,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             // Kill plant & spawn another
                             id = MIN_PLANT_ID + i;
                             pthread_cancel(thread_tids.list[id]);
+                            pthread_join(thread_tids.list[id], NULL);
                             gamevar.plants[i].y = INCOMING_ENTITY;
                             thread_params[id][PLANT_ID_INDEX] = id;
                             do {
@@ -631,6 +640,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                 // If frog bullet is out of screen free it
                 if(msg.y >= MAIN_ROWS) {
                     gamevar.plants_bullets[plant_id][entity_id].y = FREE_ENTITY; // Mark it as free
+                    pthread_join(thread_tids.list[msg.id], NULL);
                     thread_tids.list[msg.id] = 0;
                     break;
                 }
@@ -656,10 +666,12 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         // Free frog bullet
                         gamevar.frog_bullets[i].y = FREE_ENTITY; // Mark it as free
                         pthread_cancel(thread_tids.list[MIN_FROG_BULLET_ID + i]);
+                        pthread_join(thread_tids.list[MIN_FROG_BULLET_ID + i], NULL);
                         thread_tids.list[MIN_FROG_BULLET_ID + i] = 0;
                         // Free plant bullet
                         gamevar.plants_bullets[plant_id][entity_id].y = FREE_ENTITY; // Mark it as free
                         pthread_cancel(thread_tids.list[msg.id]);
+                        pthread_join(thread_tids.list[msg.id], NULL);
                         thread_tids.list[msg.id] = 0;
                         // De-print
                         mvwaprintw(main_scr, msg.y, msg.x, GREEN_DARKBLUE, "%*s", BULLET_DIM_X, "");

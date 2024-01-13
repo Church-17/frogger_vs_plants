@@ -46,7 +46,6 @@ void async_exec(List_thread* tids, int index, void* (*func_thread)(void*), int* 
 // Init semaphores handling errors & reset wr_index needed
 void init_semaphore(void) {
     wr_index = 0;
-    game_in_pause = FALSE;
     if(sem_init(&sem_free, 0, DIM_BUFFER) != 0) {
         quit(ERR_SEM_INIT);
     }
@@ -128,6 +127,7 @@ void quit_manche(const List_thread tids) {
     for(int i = 0; i < tids.len; i++) {
         if(tids.list[i] != 0) {
             pthread_cancel(tids.list[i]);
+            pthread_join(tids.list[i], NULL);
         }
     }
 }
