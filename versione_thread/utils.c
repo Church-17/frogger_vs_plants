@@ -96,18 +96,19 @@ void quit(int err_code) {
     endwin();
     if(err_code > 0) {
         const str errContainer[] = {
-            "Current terminal doesn't support colors",
             "Error allocating memory",
+            "Current terminal doesn't support colors",
             "Error creating window",
-            "Error creating process",
-            "Error creating pipe",
-            "Error reading from pipe",
-            "Error writing in pipe",
             "Error during music initialization",
             "Error playing music",
             "Error creating thread",
-            "Error reading from buffer",
-            "Error writing in buffer",
+            "Error in semaphore wait",
+            "Error in semaphore signal",
+            "Error in mutex lock",
+            "Error in mutex unlock",
+            "Error in mutex condition",
+            "Error in semaphore initialization",
+            "Error in semaphore destroy",
         };
         perror(errContainer[err_code-1]);
     }

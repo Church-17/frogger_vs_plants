@@ -96,8 +96,8 @@ void quit(int err_code) {
     endwin();
     if(err_code > 0) {
         const str errContainer[] = {
-            "Current terminal doesn't support colors",
             "Error allocating memory",
+            "Current terminal doesn't support colors",
             "Error creating window",
             "Error creating process",
             "Error creating pipe",
@@ -105,9 +105,6 @@ void quit(int err_code) {
             "Error writing in pipe",
             "Error during music initialization",
             "Error playing music",
-            "Error creating thread",
-            "Error reading from buffer",
-            "Error writing in buffer",
         };
         perror(errContainer[err_code-1]);
     }
