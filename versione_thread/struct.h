@@ -18,10 +18,6 @@ struct List_attr {
     attr_t* list;
     int len;
 };
-struct List_pid {
-    pid_t* list;
-    int len;
-};
 struct List_thread {
     pthread_t* list;
     int len;
