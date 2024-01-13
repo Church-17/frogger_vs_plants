@@ -6,7 +6,7 @@ Per poter utilizzare la musica e gli effetti sonori occorre installare il media 
 Il progetto non ha bisogno di ulteriori librerie o framework per il suo funzionamento.
 
 CARATTERISTICHE IMPLEMETATE
------------------------------
+----------------------------
 RESIZE: Il gioco rimarrà al centro del terminale, anche in caso di ridimensionamento della finestra.
     Se il terminale non sarà abbastanza grande per contenere la schermata di gioco, comparirà un avviso che ne richiederà l'espansione.
 
@@ -25,16 +25,15 @@ IMPOSTAZIONI: Il gioco comprende un menù impostazioni dal quale l'utente può c
 
 PAUSA: È possibile mettere in pausa una partita premendo 'p', ed uscire dalla partita con 'q'.
 
-
 DETTAGLI IMPLEMENTATIVI
------------------------------
+----------------------------
 CONTROLLO DEI FILE: Ogni volta che si accede in lettura ai file contenenti impostazioni e migliori punteggi, se ne  
         controlla la correttezza di formato.
         In questo modo si evitano irregolarità di codifica e incongruenze nei valori (ad esempio, saranno gestiti i casi in cui nei file sono presenti valori di un'impostazione non corrispondenti ad alcun settaggio possibile nel gioco).
 
         La gestione dei dati salvati è dinamica, ne consegue che l'ordine di comparsa di questi dati (impostazioni e migliori punteggi) all'interno dei file, è irrilevante.
 
-TEMPO DURANTE LA PAUSA: La funzione usleep viene interrotta quando il processo riceve un SIGSTOP,
+TEMPO DURANTE LA PAUSA: La funzione usleep ritorna immediatamente quando il processo riceve un SIGSTOP,
         perciò quando si metteva in pausa il gioco, il timer non scandiva un secondo, ma di meno. 
         Per evitare questo si implementa una funzione che divide il tempo di attesa in intervalli, 
         in modo che il SIGSTOP possa interrompere il processo tra uno e l'altro.
