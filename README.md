@@ -1,7 +1,8 @@
 DIPENDENZE
 ----------------------------
-Per poter utilizzare la musica e gli effetti sonori occorre installare il media player "mpg123" con il seguente comando da shell:
-- sudo apt install mpg123
+Per poter utilizzare la musica e gli effetti sonori occorre installare il media player "mpg123" eseguendo il comando:
+
+- make install
 
 Il progetto non ha bisogno di ulteriori librerie o framework per il suo funzionamento.
 
