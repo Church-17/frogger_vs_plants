@@ -199,7 +199,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                         gamevar.frog_bullets[next_frog_bullet].y = INCOMING_ENTITY;
                         // Calc bullet params
                         id = next_frog_bullet + MIN_FROG_BULLET_ID;
-                        thread_params[id][BULLET_ID_INDEX] = next_frog_bullet + MIN_FROG_BULLET_ID;
+                        thread_params[id][BULLET_ID_INDEX] = id;
                         thread_params[id][BULLET_Y_INDEX] = gamevar.frog.y - 1;
                         thread_params[id][BULLET_X_INDEX] = gamevar.frog.x + FROG_DIM_X/2;
                         // Thread
