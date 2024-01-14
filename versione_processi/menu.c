@@ -289,6 +289,7 @@ void settings_menu(void) {
                     inc = -1; // Decrease
                 case KEY_RIGHT:
                     if(hl < N_SETTINGS) { // If hl is a settings...
+                        play_sound(SOUND_MENU_SELECTION);
                         mvwprintw(menu_win, POSITION_Y(hl, N_SETTINGS, title.len), POSITION_X_DX(opts[hl].list[newly_setted[hl]], win_width)-LR_ARROWS, "%*s", (int)strlen(opts[hl].list[newly_setted[hl]])+LR_ARROWS, ""); // Delete old corrispondent option
                         newly_setted[hl] = mod(newly_setted[hl]+inc, opts[hl].len);
                     }

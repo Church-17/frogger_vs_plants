@@ -130,6 +130,7 @@ int main(void) {
                 demo();
                 wrefresh(main_scr);
                 best_scores_menu();
+                play_sound(SOUND_MENU_SELECTION);
                 break;
 
             case HOME_SETT_ID: // Settings
@@ -137,6 +138,7 @@ int main(void) {
                 demo();
                 wrefresh(main_scr);
                 settings_menu();
+                play_sound(SOUND_MENU_SELECTION);
                 break;
 
             case HOME_CRED_ID: // Credits
@@ -144,6 +146,7 @@ int main(void) {
                 demo();
                 wrefresh(main_scr);
                 credits_menu();
+                play_sound(SOUND_MENU_SELECTION);
                 break;
 
             case HOME_QUIT_ID:
