@@ -18,6 +18,10 @@ pthread_mutex_t wr_buf_mutex = PTHREAD_MUTEX_INITIALIZER, pause_mutex = PTHREAD_
 pthread_cond_t pause_cond = PTHREAD_COND_INITIALIZER;
 sem_t sem_free, sem_occupied;
 
+// Function prototypes
+void mutex_lock(pthread_mutex_t* mutex);
+void mutex_unlock(pthread_mutex_t* mutex);
+
 // Lock mutex
 void mutex_lock(pthread_mutex_t* mutex) {
     pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
