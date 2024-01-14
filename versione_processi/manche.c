@@ -532,6 +532,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                             break;
                         }
                     }
+                    if(process_pids.list[msg.id] == 0) {
+                        break;
+                    }
 
                     // Frog bullet collision with plant bullet
                     for(int i = 0; i < N_PLANTS; i++) {
