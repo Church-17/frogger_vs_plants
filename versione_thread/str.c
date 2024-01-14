@@ -5,7 +5,7 @@
 // Container of all strings
 const str strContainer[][N_LANGUAGE] = {
     {"New game", "Nuova partita"},
-    {"Best scores", "Migliori punteggi"},
+    {"High scores", "Migliori punteggi"},
     {"Settings", "Impostazioni"},
     {"Credits", "Crediti"},
     {"Quit", "Esci"},
