@@ -11,7 +11,7 @@
 
 // Define constant
 #define RESIZE_TIME_THRESHOLD 100
-#define REFRESH_TIME_THRESHOLD 100
+#define REFRESH_TIME_THRESHOLD 10
 
 // Play a manche, return game vars with in gamevar.timer the time remaining or a manche_id
 Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
@@ -689,6 +689,7 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
         // Refresh
         if(timestamp() - refresh_time > REFRESH_TIME_THRESHOLD) {
             wrefresh(main_scr);
+            refresh_time = timestamp();
         }
     }
     wrefresh(main_scr);
