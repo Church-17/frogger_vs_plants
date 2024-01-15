@@ -351,7 +351,7 @@ void credits_menu(void) {
     List_str title = {tit, 2};
     str names[N_CREDITS] = {STR_FRANCESCO, STR_MATTEO};
     str empty[N_CREDITS] = {"", ""};
-    attr_t colors[N_CREDITS] = {COL1, COL1};
+    attr_t colors[N_CREDITS] = {COLOR_PAIR(CYAN_BLACK_ID), RED_BLACK};
     List_str sx = {names, N_CREDITS}, dx = {empty, N_CREDITS};
     List_attr attrs = {colors, N_CREDITS};
 
