@@ -37,10 +37,10 @@ Le impostazioni correnti vengono mantenute anche ai successivi riavvii del gioco
 
 ## Dettagli implementativi
 ### Controllo integrità dei file:
-Ogni volta che si accede in lettura ai file contenenti impostazioni o migliori punteggi, se ne controlla la correttezza di formato. In questo modo si evitano irregolarità di codifica e incongruenze nei valori (ad esempio, saranno gestiti i casi in cui nei file sono presenti valori di un'impostazione non corrispondenti ad alcun settaggio possibile nel gioco). La gestione dei dati salvati è dinamica, ne consegue che l'ordine di comparsa di questi dati (impostazioni e migliori punteggi) all'interno dei file, è irrilevante.
+Ogni volta che si accede in lettura ai file contenenti impostazioni o migliori punteggi, se ne controlla la correttezza di formato. In questo modo si evitano irregolarità di codifica e incongruenze nei valori (ad esempio, saranno gestiti i casi in cui nei file sono presenti valori di un'impostazione non corrispondenti ad alcun settaggio possibile nel gioco). La gestione dei dati salvati è dinamica, ne consegue che l'ordine di comparsa di questi dati (impostazioni e migliori punteggi) all'interno dei file è irrilevante.
 
 ### Tempo durante la pausa:
-La funzione `usleep` ritorna immediatamente quando il processo riceve il segnale `SIGSTOP`, perciò quando si metteva in pausa il gioco, il timer non scandiva un secondo, ma di meno. Per evitare questo si implementa una funzione che divide il tempo di attesa in intervalli, in modo che il segnale `SIGSTOP` possa interrompere il processo tra uno e l'altro.
+La funzione `usleep` ritorna immediatamente quando il processo riceve il segnale `SIGSTOP`, perciò quando si metteva in pausa il gioco, il timer non scandiva un secondo, ma generalmente meno tempo. Per evitare questo si implementa una funzione che divide il tempo di attesa in intervalli, in modo che il segnale `SIGSTOP` possa interrompere il processo tra uno e l'altro.
 
 ### Segnalazione errori:
 Nel caso in cui si verifichi un errore (ad esempio nelle chiamate di sistema o nelle funzioni della libreria ncurses) viene eseguita l'uscita dal programma e visualizzato uno specifico messaggio di errore nello standard error.
