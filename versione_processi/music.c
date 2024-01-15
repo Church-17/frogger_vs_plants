@@ -17,7 +17,7 @@ void play_sound(int sound_id) {
     }
 
     // Run mp3 player with scaled volume
-    sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 2>/dev/null &", VOL_EFCT_SET*MAX_VOLUME/10, sound[sound_id]);
+    sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_EFCT_SET*MAX_VOLUME/10, sound[sound_id]);
     if(system(cmd) != 0) {
         quit(ERR_PLAY_MUSIC);
     }
@@ -35,9 +35,9 @@ void play_music(int music_id) {
     }
 
     if(loop[music_id]) { // If the music wanted need to be played in loop...
-        sprintf(cmd, "mpg123 -f%d --loop -1 ./audio/%s.mp3 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
+        sprintf(cmd, "mpg123 -f%d --loop -1 ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
     } else {
-        sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 2>/dev/null &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
+        sprintf(cmd, "mpg123 -f%d ./audio/%s.mp3 >/dev/null 2>&1 &", VOL_MUS_SET*MAX_VOLUME/10, music[music_id]);
     }
     if(system(cmd) != 0) { // Run
         quit(ERR_PLAY_MUSIC);
