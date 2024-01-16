@@ -69,7 +69,7 @@ void wr_settings(int* set) {
     int ind_set[N_SETTINGS] = LIST_SET_ID;
     char settings_path[LIM_STR_BUFF];
     sprintf(settings_path, "/home/%s/%s", getenv("USER"), SETTINGS_FILE);
-    FILE* fptr = fopen(settings_path, READ); // Open settings file
+    FILE* fptr = fopen(settings_path, WRITE); // Open settings file
     // Write new settings in game_settings
     for(int i = 0; i < N_SETTINGS; i++) {
         game_settings[i] = set[i];
@@ -116,7 +116,7 @@ void wr_best(Dict_str_int best) {
     // Open best scores file
     char best_path[LIM_STR_BUFF];
     sprintf(best_path, "/home/%s/%s", getenv("USER"), BEST_FILE);
-    FILE* fptr = fopen(best_path, READ);
+    FILE* fptr = fopen(best_path, WRITE);
     if(fptr == NULL) { // If best scores file cannot be created
         return;
     }
