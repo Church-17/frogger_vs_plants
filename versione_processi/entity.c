@@ -19,20 +19,15 @@ void become_good_croccodile(int sig);
 
 void time_process(int pipe_write, int* params) {
     // Init vars
-    time_t start = timestamp(), end = start;
     Message msg;
     msg.id = TIME_ID;
     msg.sig = TIME_MANCHE;
 
     // Loop for beat time
     while(TRUE) {
-        if(end - start >= MSEC_IN_SEC) { // If a seconds passed...
-            start = end; // Update start
-            msg.sig--; // Decrease game timer
-            write_msg(pipe_write, msg);
-        }
         msleep(MSEC_IN_SEC); // Sleep for a second
-        end = timestamp(); // Update end
+        msg.sig--; // Decrease game timer
+        write_msg(pipe_write, msg);
     }
 }
 

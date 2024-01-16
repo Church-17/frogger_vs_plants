@@ -15,20 +15,15 @@ bool croccodile_shotted[MIN_PLANT_ID - MIN_CROCCODILE_ID] = {FALSE};
 
 void* time_thread(void* params) {
     // Init vars
-    time_t start = timestamp(), end = start;
     Message msg;
     msg.id = TIME_ID;
     msg.sig = TIME_MANCHE;
 
     // Loop for beat time
     while(TRUE) {
-        if(end - start >= MSEC_IN_SEC) { // If a seconds passed...
-            start = end; // Update start
-            msg.sig--; // Decrease game timer
-            write_msg(msg);
-        }
         msleep(MSEC_IN_SEC); // Sleep for a second
-        end = timestamp(); // Update end
+        msg.sig--; // Decrease game timer
+        write_msg(msg);
     }
 }
 
