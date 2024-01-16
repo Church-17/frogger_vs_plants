@@ -18,7 +18,7 @@ manche = manche.h ${sprites}
 thread = thread.h ${struct_proto}
 entity = entity.h ${game}
 
-sopr_proj.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o entity.o thread.o
+frogger_vs_plants.out: main.o menu.o sprites.o music.o str.o res.o utils.o game.o manche.o entity.o thread.o
 	${CC} $^ ${CARGS}
 
 manche.o: manche.c ${main} ${menu} ${manche} ${music} ${utils} ${struct} ${entity} ${thread}
