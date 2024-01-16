@@ -143,6 +143,9 @@ Game_t play_manche(int score, int n_lifes, bool* holes_occupied) {
                     entity_id = quit_menu(&gamevar);    
                     switch(entity_id) {
                         case NO_ID:
+                            resume_music(); // Resume music
+                            print_game(&gamevar); // Redraw game
+                            resize_time = timestamp(); // Save the current time to prevent multiple resize message at once
                             break;
                         
                         case YES_ID:
