@@ -2,6 +2,10 @@
 #include <ncurses.h>
 #include "struct_proto.h"
 
+// Define constants
+#define FIRST_ALLOWED_CHAR '!' // First allowed char in username
+#define LAST_ALLOWED_CHAR '~' // Last allowed char in username
+
 // Function prototypes
 void rd_settings(void);
 void wr_settings(int* set);

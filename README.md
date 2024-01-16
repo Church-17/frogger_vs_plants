@@ -19,7 +19,7 @@ Il gioco rimarrà al centro del terminale, anche in caso di ridimensionamento de
 ### Musica & effetti:
 La navigazione nei menu e le partite sono accompagnate da colonne sonore ed effetti audio.
 ### Migliori punteggi:
-Il gioco tiene traccia dei migliori punteggi ottenuti nelle partite giocate; l'utente a cui viene attribuito un punteggio è il proprietario della sessione corrente.
+Il gioco tiene traccia dei migliori punteggi ottenuti nelle partite giocate; quando un giocatore otterrà uno dei migliori punteggi potrà inserire il proprio nome.
 ### Impostazioni:
 Il gioco comprende un menù impostazioni dal quale l'utente può cambiare alcuni aspetti del gioco, tra cui:
 - Lingua: è possibile scegliere la lingua di gioco;

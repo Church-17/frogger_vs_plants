@@ -400,6 +400,61 @@ int quit_menu(const Game_t* gamevar) {
     return chosen;
 }
 
+str insert_name(const Game_t* gamevar) {
+    // Init vars
+    bool do_prints, do_return = FALSE;
+    int win_width = WIN_WIDTH(LIM_HIGH_SCORE_NAME, 0, strlen(STR_INSERT));
+    int win_height = POSITION_Y(1, 2, 1)+BOX_PADS;
+    int key, char_index = 0;
+    dalloc(char, name, LIM_HIGH_SCORE_NAME+1);
+    name[0] = '\0';
+
+    // Setup window
+    curs_set(CURSOR);
+    WINDOW* menu_win = new_ctrwin(win_height, win_width); // Centered window
+    wattron(menu_win, COL1); // Enable chosen color
+
+    while(!do_return) {
+        // Prints
+        box(menu_win, ACS_VLINE, ACS_HLINE); // Box window
+        wctrprintw(menu_win, TITLE_ROW, " %s: ", STR_INSERT);
+        do_prints = FALSE;
+
+        while(!(do_prints || do_return)) {
+            mvwprintw(menu_win, POSITION_Y(0, 1, 1), BOX_PADX, "%s%*s", name, LIM_HIGH_SCORE_NAME-char_index, ""); // Print elements of sx column
+            wmove(menu_win, POSITION_Y(0, 1, 1), BOX_PADX+char_index);
+            key = wgetch(menu_win);
+            switch(key) {
+                case ENTER:
+                    if(char_index > 0) {
+                        do_return = TRUE;
+                    }
+                    break;
+                
+                case KEY_BACKSPACE:
+                    if(char_index > 0) {
+                        name[--char_index] = '\0';
+                    }
+                    break;
+
+                case KEY_RESIZE:
+                    do_prints = resize_proc(menu_win, win_height, win_width, gamevar);
+                    break;
+                
+                default:
+                    if(char_index < LIM_HIGH_SCORE_NAME && key >= FIRST_ALLOWED_CHAR && key <= LAST_ALLOWED_CHAR) {
+                        name[char_index++] = key;
+                        name[char_index] = '\0';
+                    }
+                    break;
+            }
+        }
+    }
+    un_win(menu_win);
+    curs_set(NO_CURSOR);
+    return name;
+}
+
 // Check if key is one of the first letters
 void check_key(int key, int* hl, const List_str set) {
     if(key >= '1' && key <= '9' && key-'1' < set.len) {

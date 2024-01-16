@@ -9,3 +9,4 @@ void credits_menu(void);
 int pause_menu(const Game_t* gamevar);
 int gameover_menu(int score, Game_t* gamevar);
 int quit_menu(const Game_t* gamevar);
+str insert_name(const Game_t* gamevar);

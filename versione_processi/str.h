@@ -53,3 +53,4 @@ extern const str strContainer[][N_LANGUAGE]; // Strings
 #define STR_YES STRINGS(34)
 #define STR_NO "No"
 #define STR_BULLETS STRINGS(37)
+#define STR_INSERT STRINGS(39)

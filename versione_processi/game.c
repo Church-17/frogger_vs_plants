@@ -144,12 +144,15 @@ int play_game(void) {
         if(index_new_score < N_BEST) {
             gamevar.win = HIGH_SCORE_GAME;
             play_music(MUSIC_BEST_SCORE);
-            best.key[index_new_score] = getenv("USER");
+            print_game(&gamevar);
+            wrefresh(main_scr);
+            best.key[index_new_score] = insert_name(&gamevar); // Insert name
             best.val[index_new_score] = gamevar.score;
             if(best.len < N_BEST) { // Increment best size if needed
                 best.len++;
             }
             wr_best(best); // Write new best scores
+            free(best.key[index_new_score]);
         } else {
             gamevar.win = WIN_GAME;
             play_music(MUSIC_GAME_WON);

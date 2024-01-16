@@ -26,7 +26,7 @@ int main(void) {
     setlocale(LC_ALL, ""); // Enable UTF-8 chars
     initscr(); // Initialize window
     noecho(); // Hide character typed
-    curs_set(NO_CURS); // Remove cursor
+    curs_set(NO_CURSOR); // Remove cursor
     cbreak(); // Don't wait ENTER in getch()
     keypad(stdscr, TRUE); // Enable function keys listener
     

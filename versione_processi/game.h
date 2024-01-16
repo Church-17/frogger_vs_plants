@@ -13,13 +13,14 @@
 #define MOVE_E_KEY 'd'
 #define TIME_MANCHE 60
 #define N_LIFES 5
-#define N_HOLES 5
+#define N_HOLES 1
 #define N_MANCHES N_HOLES
-#define N_WATER_STREAM 8
+#define N_WATER_STREAM 1
 #define N_PLANTS 3
 #define MIN_STREAM_SPEED (4*DIFF_SET*DIFF_SET + 4)
 #define MAX_STREAM_SPEED (MIN_STREAM_SPEED + 10)
 #define SCORE_MULTIPLIER (DIFF_SET + 1)
+#define LIM_HIGH_SCORE_NAME 20
 
 // Define communication ID
 #define RESIZE_ID (-3)

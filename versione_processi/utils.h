@@ -9,7 +9,8 @@
 #define READ "r"
 #define WRITE "w"
 #define MSEC_IN_SEC 1000
-#define NO_CURS 0
+#define NO_CURSOR 0
+#define CURSOR 1
 #define LEN_STR_INT 12
 #define LIM_STR_BUFF 100 // Max len of string
 #define CAPITAL_SHIFT ('a'-'A')
