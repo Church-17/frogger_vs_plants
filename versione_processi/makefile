@@ -61,4 +61,3 @@ install:
 # Clear routine
 clean:
 	rm -f *.o
-	rm -f *.out
