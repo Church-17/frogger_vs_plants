@@ -11,8 +11,8 @@ Dict_str_int check_conf_file(FILE* fptr, int lim_lines);
 #define LIST_SETTINGS {"language", "difficulty", "skin", "color_1", "color_2", "volume_music", "volume_effects"} // Array of setting labels
 #define LIST_SET_ID {SET_LANG_ID, SET_DIFF_ID, SET_SKIN_ID, SET_COL1_ID, SET_COL2_ID, SET_VOL_MUS_ID, SET_VOL_EFCT_ID} // Index of settings
 #define LIST_N_OPTIONS {N_LANGUAGE, N_DIFFICULTY, N_SKIN, N_COLOR, N_COLOR, N_VOLUME, N_VOLUME} // N options of each settings
-#define SETTINGS_PATH "/tmp/frogger_settings" // Path of settings file
-#define BEST_PATH "/tmp/frogger_records" // Path of best scores files
+#define SETTINGS_FILE ".frogger_settings" // Path of settings file
+#define BEST_FILE ".frogger_records" // Path of high scores files
 #define FIRST_ALLOWED_CHAR '!' // First allowed char in username
 #define LAST_ALLOWED_CHAR '~' // Last allowed char in username
 
@@ -25,7 +25,9 @@ void rd_settings(void) {
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
     int ind_set[N_SETTINGS] = LIST_SET_ID;
     int len_opts[N_SETTINGS] = LIST_N_OPTIONS;
-    FILE* fptr = fopen(SETTINGS_PATH, READ); // Open settings file
+    char settings_path[LIM_STR_BUFF];
+    sprintf(settings_path, "/home/%s/%s", getenv("USER"), SETTINGS_FILE);
+    FILE* fptr = fopen(settings_path, READ); // Open settings file
     if(fptr == NULL) { // If settings file cannot be opened...
         wr_settings(game_settings); // Write default settings file
         return;
@@ -65,7 +67,9 @@ void wr_settings(int* set) {
     // Init vars & open settings file
     str str_settings[N_SETTINGS] = LIST_SETTINGS;
     int ind_set[N_SETTINGS] = LIST_SET_ID;
-    FILE* fptr = fopen(SETTINGS_PATH, WRITE);
+    char settings_path[LIM_STR_BUFF];
+    sprintf(settings_path, "/home/%s/%s", getenv("USER"), SETTINGS_FILE);
+    FILE* fptr = fopen(settings_path, WRITE);
     // Write new settings in game_settings
     for(int i = 0; i < N_SETTINGS; i++) {
         game_settings[i] = set[i];
@@ -84,7 +88,9 @@ void wr_settings(int* set) {
 Dict_str_int rd_best(void) {
     // Init vars & open best scores file
     Dict_str_int best;
-    FILE* fptr = fopen(BEST_PATH, READ);
+    char best_path[LIM_STR_BUFF];
+    sprintf(best_path, "/home/%s/%s", getenv("USER"), BEST_FILE);
+    FILE* fptr = fopen(best_path, READ);
     if(fptr == NULL) { // If best scores file cannot be opened...
         alloc(str, best.key, N_BEST);
         for(int i = 0; i < N_BEST; i++) {
@@ -108,7 +114,9 @@ Dict_str_int rd_best(void) {
 // Write updated best scores file
 void wr_best(Dict_str_int best) {
     // Open best scores file
-    FILE* fptr = fopen(BEST_PATH, WRITE);
+    char best_path[LIM_STR_BUFF];
+    sprintf(best_path, "/home/%s/%s", getenv("USER"), BEST_FILE);
+    FILE* fptr = fopen(best_path, WRITE);
     if(fptr == NULL) { // If best scores file cannot be created
         return;
     }
