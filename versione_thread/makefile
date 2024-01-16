@@ -59,6 +59,6 @@ install:
 	sudo apt install mpg123
 
 # Clear routine
-clear:
+clean:
 	rm -f *.o
 	rm -f *.out
