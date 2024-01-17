@@ -46,15 +46,15 @@ void play_music(int music_id) {
 
 // Stop all sounds
 void stop_music(void) {
-    system("skill -SIGKILL -c mpg123");
+    system("killall mpg123");
 }
 
 // Pause all sounds
 void pause_music(void) {
-    system("skill -SIGSTOP -c mpg123");
+    system("killall -STOP mpg123");
 }
 
 // Resume all paused sounds
 void resume_music(void) {
-    system("skill -SIGCONT -c mpg123");
+    system("killall -CONT mpg123");
 }

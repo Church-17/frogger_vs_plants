@@ -1,5 +1,6 @@
 // Include libs
 #include <sys/time.h>
+#include "music.h"
 #include "utils.h"
 #include "struct.h"
 
@@ -93,6 +94,7 @@ void un_win(WINDOW* win) {
 
 // Error handler, exit ending window with error message
 void quit(int err_code) {
+    stop_music();
     endwin();
     if(err_code > 0) {
         const str errContainer[] = {

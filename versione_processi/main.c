@@ -1,6 +1,7 @@
 // Include libs
 #include <locale.h>
 #include <unistd.h>
+#include <signal.h>
 #include "main.h"
 #include "menu.h"
 #include "game.h"
@@ -17,10 +18,12 @@ WINDOW* main_scr = NULL;
 
 // Function prototypes
 bool check_term(WINDOW* win);
+void terminate(int sig);
 
 // Main
 int main(void) {
     srand(timestamp()); // Random seed
+    signal(SIGINT, &terminate);
 
     // Setup screen
     setlocale(LC_ALL, ""); // Enable UTF-8 chars
@@ -154,7 +157,6 @@ int main(void) {
                 break;
         }
     }
-    stop_music();
     quit(NO_ERR);
 }
 
@@ -211,4 +213,8 @@ bool resize_proc(WINDOW* win, int dim_y, int dim_x, const Game_t* gamevar) {
     }
     wrefresh(main_scr);
     return do_prints;
+}
+
+void terminate(int sig) {
+    quit(NO_ERR);
 }

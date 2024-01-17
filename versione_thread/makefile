@@ -48,7 +48,7 @@ str.o: str.c ${res} ${utils}
 res.o: res.c ${res} ${utils} ${struct}
 	${COBJ}
 
-utils.o: utils.c ${utils} ${struct}
+utils.o: utils.c ${music} ${utils} ${struct}
 	${COBJ}
 
 music.o: music.c ${music} ${res} ${utils} ${struct_proto}
