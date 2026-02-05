@@ -183,6 +183,7 @@ bool check_term(WINDOW* win) {
     return FALSE;
 }
 
+
 // Procedure to call after any resize, return TRUE if term is not large enough, FALSE if it is
 bool resize_proc(WINDOW* win, int dim_y, int dim_x, const Game_t* gamevar) {
     bool do_prints = check_term(win); // Check terminal size

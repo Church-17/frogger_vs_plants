@@ -1,5 +1,5 @@
 CC = gcc
-CARGS_OBJ = -o $@ -fdiagnostics-color=always -Wall
+CARGS_OBJ = -o $@ -fdiagnostics-color=always -Wall -DNCURSES_INTERNALS
 CARGS = ${CARGS_OBJ} -lncursesw -lpthread
 COBJ = ${CC} -c $*.c ${CARGS_OBJ}
 
